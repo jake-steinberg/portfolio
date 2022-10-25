@@ -1,0 +1,21 @@
+.about-intro{
+    position: relative;
+    font-size: 19px;
+    line-height: 28px;
+    font-weight: 300;
+    text-align: left;
+    padding: 0px;
+    float: left;
+    margin: 16px 20px 0px 0px;
+    width: 65%;
+    margin-right: 3%;
+}
+
+#headshot{
+    width: 32%;
+    position: relative;
+    height: auto;
+    float: left;
+    padding: 0px;
+    margin: 0px;
+}
