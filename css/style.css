@@ -1,21 +1,187 @@
-.about-intro{
-    position: relative;
-    font-size: 19px;
-    line-height: 28px;
-    font-weight: 300;
-    text-align: left;
-    padding: 0px;
-    float: left;
-    margin: 16px 20px 0px 0px;
-    width: 65%;
-    margin-right: 3%;
+.body {
+    background-color: #001219;
+    color: white;
+    padding-bottom: 100px;
 }
 
-#headshot{
-    width: 32%;
-    position: relative;
+.body a {
+    color: #EE9B00;
+}
+
+@font-face {
+    font-family: Inknut Antiqua;
+    src: url("/lib/InknutAntiqua-Regular.ttf");
+    font-style:normal;
+  }
+
+@font-face {
+        font-family: OpenSans;
+        src: url("/lib/OpenSans-VariableFont_wdth\,wght.ttf");
+        font-style:normal;
+    }
+
+@font-face {
+        font-family: OpenSans;
+        src: url("/lib/OpenSans-Italic-VariableFont_wdth\,wght.ttf");
+        font-style:italic;
+    }
+
+/*index.html, navbar*/
+
+.nav-link {
+    color: white !important;
+    font-size: 16pt !important;
+}
+#nav-container{
+    width:auto;
+}
+/*index.html, top*/
+
+#top-anchor {
+    top: -40px;
+    position: absolute;
+}
+
+.container #top {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.me-box {
+    width: 100%;
     height: auto;
     float: left;
-    padding: 0px;
-    margin: 0px;
+    clear: both;
+    }
+
+#me-box img {
+    width: 100%
+}
+
+#me-text {
+	position: relative;
+	height: auto;
+	float: left;
+    color: white;
+    font-family: Inknut Antiqua;
+    padding: 1em;
+    padding-bottom: 2em;
+}
+
+.about-intro {
+    position: relative;
+	font-size: 19px;
+	line-height: 28px;
+	font-weight: 300;
+	text-align: left;
+	float: left;
+	margin: 16px 20px 0px 0px;
+    font-family: OpenSans;
+}
+
+#me-pic {
+    position: relative;
+	height: auto;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: white;
+}
+
+/*index.html, portfolio*/
+
+.portfolio-title{
+    color:white;
+    font-family: Inknut Antiqua;
+    text-align: center;
+    border-bottom: 1px solid white;
+    padding-bottom: 1em;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+#grid-pic {
+    width: 100%;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: white;
+    /*box-shadow: 6px 6px rgba(255, 255, 255, 0.326);*/
+}
+
+#grid-pic:hover {
+}
+
+.grid-item {
+    float: left;
+    padding: 5%;
+  }
+
+.card-title {
+    text-align: center;
+    color: white;
+    font-family: Inknut Antiqua;
+    font-size: 14pt;
+    padding-top: 1em;
+}
+
+/*resume.html*/
+
+#resume-item {
+    font-family: OpenSans;
+    padding-bottom: 20px;
+}
+
+#resume {
+    padding-top: 30px;
+}
+
+.section {
+    font-family: Inknut Antiqua;
+    margin-top: 0 !important;
+}
+
+.body hr {
+    opacity: 1 ;
+}
+
+.date {
+    margin-bottom: 5px;
+    font-variant: small-caps;
+}
+
+.job {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comp {
+    margin-bottom: 5px;
+    font-style: italic;
+    font-size: 14pt;
+}
+
+.skills {
+    margin-top: 1em;
+}
+
+/*portfolio pages*/
+
+.map-title {
+    font-family: Inknut Antiqua;
+    padding: 1em;
+}
+
+.map-detail {
+    font-family: OpenSans;
+    padding-bottom: 50px;
+}
+
+.portfolio-image {
+    width: 100%;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: white;
 }

@@ -12,10 +12,11 @@
   </head>
 
   <body>
+    <div class="body">
     <!-- Create the navbar -->
     <nav class="navbar navbar-expand-lg navbar-default">
     <!-- Container inside the navbar header to span the page -->
-        <div class="container-fluid">
+        <div class="container-fluid" id="nav-container">
             <div class="navbar" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -31,19 +32,182 @@
             </div> <!-- end .navbar -->
         </div> <!-- end .container-fluid -->
     </nav> <!-- end navigation bar -->  
-    
-    <div class="me-box">
-		<div class="container">
-            <p class="about-intro">My name is <strong>Jake</strong> and I tell visual stories with maps, text, graphics, illustration, and code. My interests include data visualization, web design, and all manner of mapmaking. I will graduate with an <strong>M.S. in Cartography and GIS</strong> from the <strong>University of Wisconsin-Madison</strong> in spring 2023. I muse about maps <a href="https://twitter.com/thesilentcarto">@thesilentcarto</a> and can be easily reached via <a href="mailto: j.steinberg@live.com">email</a>.</p>
+
+    <div class="container">
+        <!-- anchor for return to top button -->  
+        <a name="top-anchor" id="top-anchor"></a>
+        <div class="row" id="top">
+            <div id="me-box">
+                <div class="col-sm-8" id="me-text">
+                    <h1>Hello!</h1>
+                    <p class="about-intro">My name is <strong>Jake</strong> and I tell visual stories with maps, text, graphics, illustration, and code. My interests include data visualization, web design, and all manner of mapmaking. I will graduate with an <strong>M.S. in Cartography and GIS</strong> from the <strong>University of Wisconsin-Madison</strong> in spring 2023. I muse about maps <a href="https://twitter.com/thesilentcarto">@thesilentcarto</a> and can be easily reached via <a href="mailto: j.steinberg@live.com">email</a>.</p>
+                </div> 
+                <div class="col-sm-4" id="me-pic">
+                    <img id="headshot" src="img/JakeGrad-5.jpg">
+                </div>
+            </div> <!-- end #me-box-->
+        </div> <!-- end .row #top -->
+    </div> <!-- end .container -->
+
+    <!-- portfolio -->
+    <!-- UW-Madison maps-->
+    <div class="container py-2">
+        <h3 class="portfolio-title">Explanatory graphics, maps and other artistic endeavors made at <strong>UW-Madison</strong></h3>
+        <div class="grid" data-masonry='{"percentPosition": true }'>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="trees.html"><img src="img/slivers-of-an ancient-forest-sml.png" id="grid-pic"></a>
+                    <h3 class="card-title">Slivers of an Ancient Forest</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="https://jake-steinberg.github.io/2022_DarkSkies_js/"><img src="img/dark-skies.gif" id="grid-pic"></a>
+                    <h3 class="card-title">Dark Sky Sanctuaries</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="img/turner-maps-sml.png"><img src="img/turner-maps-sml.png" id="grid-pic"></a>
+                    <h3 class="card-title">The movements of pastoralists around protected areas in Chad</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="golf.html"><img src="img/hiawatha.gif" id="grid-pic"></a>
+                    <h3 class="card-title">How Minneapolis Got Over Golf</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="img/bryn-mawr-sml.png"><img src="img/bryn-mawr-sml.png" id="grid-pic"></a>
+                    <h3 class="card-title">Bryn Mawr</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <img src="img/urban-sprawl.gif" id="grid-pic">
+                    <h3 class="card-title">Urban Sprawl in the Twin Cities</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="img/east-river-north-sml.png"><img src="img/east-river-north-sml.png" id="grid-pic"></a>
+                    <h3 class="card-title">East River Resilience</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="https://uwcartlab.github.io/coastal-erosion/index.html"><img src="img/coastal-erosion.gif" id="grid-pic"></a>
+                    <h3 class="card-title">Lake Michigan Coastal Erosion Viewer</h3>
+                </div>
+            </div>            
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="img/projection-card.jpg"><img src="img/projection-card.jpg" id="grid-pic"></a>
+                    <h3 class="card-title">Projection Trading Card</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="img/breweries.pdf"><img src="img/breweries-sml.png" id="grid-pic"></a>
+                    <h3 class="card-title">Breweries: A proxy for gentrification?</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <img src="img/cheetahs.gif" id="grid-pic">
+                    <h3 class="card-title">Backyard Cheetahs</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href ="img/africa.pdf"><img src="img/africa-sml.png" id="grid-pic"></a>
+                    <h3 class="card-title">The Nations of Africa</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="https://wi101.wisc.edu/"><img src="img/w101.gif" id="grid-pic"></a>
+                    <h3 class="card-title">Wisconsin 101</h3>
+                </div>
+            </div>
         </div>
-        <div class="jake-pic">
-            <img id="headshot" src="img/JakeGrad-5.jpg">
+    </div>
+
+    <!-- journalist stuff -->
+    <div class="container py-2">
+        <h3 class="portfolio-title">Writing, graphics and more from my work as a <strong>professional journalist</strong></h3>
+        <div class="grid" data-masonry='{"percentPosition": true }'>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="https://news.azpm.org/p/news-splash/2020/2/4/165432-miles-from-recovery-how-distance-and-stigma-keep-rural-arizonans-from-opioid-treatment/"><img src="img/arizona-opioids.gif" id="grid-pic"></a>
+                    <h3 class="card-title">Miles from Recovery</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                    <div class="grid-item">
+                    <a href="img/the-miracle-of-finland.pdf"><img src="img/miracle-of-finland.jpg" id="grid-pic"></a>
+                    <h3 class="card-title">The Miracle of Finland</h3>
+                    </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                    <div class="grid-item">
+                    <a href="https://stateofemergency.news21.com/developments-in-disaster-prone-areas-means-big-bucks-for-builders-but-can-leave-communities-at-risk/"><img src="img/state-of-emergency.gif" id="grid-pic"></a>
+                    <h3 class="card-title">State of Emergency</h3>
+                    </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href=""><img src="img/tucson-internet.jpg" id="grid-pic"></a>
+                    <h3 class="card-title">Tucson Internet Access</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <a href="https://news.azpm.org/p/news-splash/2019/11/13/161697-see-how-your-neighborhood-voted-in-the-tucson-election/"><img src="img/tucson-election.gif" id="grid-pic"></a>
+                    <h3 class="card-title">Tucson 2019 Election</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <img src="img/tucson-zoning.jpg" id="grid-pic">
+                    <h3 class="card-title">Tucson Zoning</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <img src="img/evictions.gif" id="grid-pic">
+                    <h3 class="card-title">COVID-19 Evictions</h3>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="grid-item">
+                    <img src="img/fungi.jpg" id="grid-pic">
+                    <h3 class="card-title">Indiana Jones of fungi</h3>
+                </div>
+            </div>
         </div>
     </div>
 
 
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="js/imagesloaded.pkgd.min.js"></script>
+
+    <script type="text/javascript" src="js/masonry.pkgd.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+    <script>
+        $('.container').imagesLoaded( function(){
+          $('.grid').masonry({
+           itemSelector: '.item',
+           isAnimated: true,
+           isFitWidth: true
+          });
+        });
+      </script>
   </body>
+</div>
 
 </html>
