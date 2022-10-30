@@ -1,11 +1,15 @@
 .body {
     background-color: #001219;
-    color: white;
+    color: #FAF9F6;
     padding-bottom: 100px;
 }
 
 .body a {
     color: #EE9B00;
+}
+
+.body a:hover {
+    color: #CA6702;
 }
 
 @font-face {
@@ -29,7 +33,7 @@
 /*index.html, navbar*/
 
 .nav-link {
-    color: white !important;
+    color: #FAF9F6 !important;
     font-size: 16pt !important;
 }
 #nav-container{
@@ -62,7 +66,7 @@
 	position: relative;
 	height: auto;
 	float: left;
-    color: white;
+    color: #FAF9F6;
     font-family: Inknut Antiqua;
     padding: 1em;
     padding-bottom: 2em;
@@ -86,14 +90,14 @@
 	padding: 0px;
 	margin: 0px;
     outline-style: solid;
-    outline-width: 1px;
-    outline-color: white;
+    outline-width: 2px;
+    outline-color: #FAF9F6;
 }
 
 /*index.html, portfolio*/
 
 .portfolio-title{
-    color:white;
+    color:#FAF9F6;
     font-family: Inknut Antiqua;
     text-align: center;
     border-bottom: 1px solid white;
@@ -105,12 +109,14 @@
 #grid-pic {
     width: 100%;
     outline-style: solid;
-    outline-width: 1px;
-    outline-color: white;
+    outline-width: 2px;
+    outline-color: #FAF9F6;
+    transition: transform .3s ease-in-out;
     /*box-shadow: 6px 6px rgba(255, 255, 255, 0.326);*/
 }
 
 #grid-pic:hover {
+    transform: rotate(3deg);
 }
 
 .grid-item {
@@ -120,7 +126,7 @@
 
 .card-title {
     text-align: center;
-    color: white;
+    color: #FAF9F6;
     font-family: Inknut Antiqua;
     font-size: 14pt;
     padding-top: 1em;
@@ -182,6 +188,6 @@
 .portfolio-image {
     width: 100%;
     outline-style: solid;
-    outline-width: 1px;
-    outline-color: white;
+    outline-width: 2px;
+    outline-color: #FAF9F6;
 }
