@@ -1,3 +1,7 @@
+/* Stylesheet by Jake Steinberg, Oct. 2022 */
+
+/* universal site styles */
+
 .body {
     background-color: #001219;
     color: #FAF9F6;
@@ -12,42 +16,87 @@
     color: #CA6702;
 }
 
+/* fonts */
+
 @font-face {
     font-family: Inknut Antiqua;
     src: url("/lib/InknutAntiqua-Regular.ttf");
     font-style:normal;
-  }
+}
 
 @font-face {
-        font-family: OpenSans;
-        src: url("/lib/OpenSans-VariableFont_wdth\,wght.ttf");
-        font-style:normal;
-    }
+    font-family: OpenSans;
+    src: url("/lib/OpenSans-VariableFont_wdth\,wght.ttf");
+    font-style:normal;
+ }
 
 @font-face {
-        font-family: OpenSans;
-        src: url("/lib/OpenSans-Italic-VariableFont_wdth\,wght.ttf");
-        font-style:italic;
-    }
+    font-family: OpenSans;
+    src: url("/lib/OpenSans-Italic-VariableFont_wdth\,wght.ttf");
+    font-style:italic;
+}
 
-/*index.html, navbar*/
+/* index.html, navbar */
+
+#navbarNav {
+    width: 400px;
+}
 
 .nav-link {
     color: #FAF9F6 !important;
     font-size: 16pt !important;
+    font-family: Inknut Antiqua;
 }
-#nav-container{
-    width:auto;
-}
-/*index.html, top*/
 
-#top-anchor {
-    top: -40px;
-    position: absolute;
+.nav-link:hover {
+    color: #CA6702 !important;
 }
+
+a.active {
+    color: #EE9B00 !important;
+}
+
+.nav-name {
+    color: #FAF9F6 !important;
+    font-size: 26pt !important;
+    margin-bottom: 0;
+    margin-top: 10;
+    font-family: Inknut Antiqua;
+}
+
+.nav-sub {
+    font-family: OpenSans;
+    font-size: 14pt;
+    font-variant: small-caps;
+}
+
+#name-container{
+    margin-left: 8%;
+    padding-bottom: 0;
+    padding-top: 1%;
+    margin-right: 10%;
+}
+
+/* navbar on mobile devices */
+
+@media only screen and (min-width: 0px) and (max-width: 576px)  {
+    #nav-name{
+        display: none;
+    }
+
+    #navbarNav{
+        width: 330px
+    }
+
+    #name-container{
+        margin-left: 3%;
+    }
+ }
+
+/* index.html, top */
 
 .container #top {
-    margin-top: 40px;
+    margin-top: 10px;
     margin-bottom: 40px;
 }
 
@@ -79,7 +128,7 @@
 	font-weight: 300;
 	text-align: left;
 	float: left;
-	margin: 16px 20px 0px 0px;
+	margin: 0px 20px 0px 0px;
     font-family: OpenSans;
 }
 
@@ -94,9 +143,9 @@
     outline-color: #FAF9F6;
 }
 
-/*index.html, portfolio*/
+/* index.html, portfolio */
 
-.portfolio-title{
+.portfolio-title {
     color:#FAF9F6;
     font-family: Inknut Antiqua;
     text-align: center;
@@ -112,7 +161,6 @@
     outline-width: 2px;
     outline-color: #FAF9F6;
     transition: transform .3s ease-in-out;
-    /*box-shadow: 6px 6px rgba(255, 255, 255, 0.326);*/
 }
 
 #grid-pic:hover {
@@ -122,7 +170,7 @@
 .grid-item {
     float: left;
     padding: 5%;
-  }
+}
 
 .card-title {
     text-align: center;
@@ -132,7 +180,7 @@
     padding-top: 1em;
 }
 
-/*resume.html*/
+/* resume.html */
 
 #resume-item {
     font-family: OpenSans;
@@ -173,7 +221,7 @@
     margin-top: 1em;
 }
 
-/*portfolio pages*/
+/* portfolio pages */
 
 .map-title {
     font-family: Inknut Antiqua;
