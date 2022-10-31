@@ -19,21 +19,21 @@
 /* fonts */
 
 @font-face {
-    font-family: 'Inknut Antiqua';
-    src: url("/lib/InknutAntiqua-Regular.ttf");
-    font-style:normal;
+    font-family: Inknut Antiqua;
+    src: url("fonts/InknutAntiqua-Regular.ttf");
+    font-style: normal;
 }
 
 @font-face {
-    font-family: 'OpenSans';
-    src: url("/lib/OpenSans-VariableFont_wdth,wght.ttf");
-    font-style:normal;
+    font-family: OpenSans;
+    src: url("fonts/OpenSans-VariableFont_wdth,wght.ttf");
+    font-style: normal;
  }
 
 @font-face {
-    font-family: 'OpenSans';
-    src: url("/lib/OpenSans-Italic-VariableFont_wdth,wght.ttf");
-    font-style:italic;
+    font-family: OpenSans;
+    src: url("fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf");
+    font-style: italic;
 }
 
 /* index.html, navbar */
