@@ -19,19 +19,19 @@
 /* fonts */
 
 @font-face {
-    font-family: Inknut Antiqua;
+    font-family: 'Inknut Antiqua';
     src: url("/lib/InknutAntiqua-Regular.ttf");
     font-style:normal;
 }
 
 @font-face {
-    font-family: OpenSans;
+    font-family: 'OpenSans';
     src: url("/lib/OpenSans-VariableFont_wdth,wght.ttf");
     font-style:normal;
  }
 
 @font-face {
-    font-family: OpenSans;
+    font-family: 'OpenSans';
     src: url("/lib/OpenSans-Italic-VariableFont_wdth,wght.ttf");
     font-style:italic;
 }
