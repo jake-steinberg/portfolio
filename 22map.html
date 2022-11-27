@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Jake's portfolio</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/scrollmap.css">    
+</head>
+<body>
+    <div class="body" id="amillion">
+    <!-- Create the navbar -->
+    <nav class="navbar navbar-expand-lg navbar-default">
+        <div class="container-fluid" id="name-container">
+            <div class="navbar" id="navbarNav">
+                <p class="nav-name">Jake Steinberg</p><br><br>
+                <p class="nav-sub">Cartography / Data Visualization / UX Design</p>
+            </div>
+            <div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="resume.html">Resume</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> 
+    <div class="content">
+        <!--title block, background image is title image-->
+        <div class="row amillion">
+            <div class="center-wide">
+                <img class="fit" id="amillion-header" src="img/22map_head.png">
+            </div>
+        </div>
+        <div class="center title amillion">
+            <!--title text-->
+            <h1 class="amillion-title">22, A Map</h1>
+        </div>
+        <!--text block-->
+        <div class="row amillion">
+            <div class="center">
+                <a id="embed-anchor-top"></a>
+                <p class="amillion-text">I made this Mapbox tileset for Rob Roth’s <strong>Graphic Design in Cartography</strong> class. 
+                    The assignment: deconstruct an aesthetic style and build a map based on that style using <a href="https://www.mapbox.com/" target="_blank" rel="noopener noreferrer">Mapbox</a> — a widely used platform for designing custom basemaps. 
+                    </p><br><br>
+                    <p class="amillion-jump"><a href="#embed-anchor-bottom">Jump to the interactive map at the bottom.</a></p>
+            </div>
+        </div>
+
+        <div class="row glyph">
+            <div class="center">
+                <img class="fit" id="dude" src="img/dude-01.svg">
+            </div>
+        </div>  
+        
+        <div class="row amillion">
+            <div class="center">
+                <p class="amillion-text">Some background: Print cartography has long influenced and been influenced by the arts.</p>
+            </div>
+            <div class="center-wide">
+                <img class="fit" id="print" src="img/print.png">
+             </div>
+        </div>
+
+        <div class="row amillion">
+            <div class="center">
+                <p class="amillion-text">However, the maps we most often interact with today are comparatively bland. Web maps often place utility above aesthetics to make it easier to use them for shopping and navigation.</p>
+            </div>
+            <div class="center-wide">
+                <img class="fit" id="print" src="img/web.png">
+             </div>
+        </div>
+
+        <div class="row amillion">
+            <div class="center">
+                <p class="amillion-text">The goal of this assignment was the put the art back into web cartography.<br><br>
+                    I took inspiration from Dylan Moriarty’s <a href="https://moriartynaps.org/covers/" target="_blank" rel="noopener noreferrer">Covers</a>
+                     atlas and chose a style I’ve long obsessed over: the aesthetic materials surrounding Bon Iver’s 2016 album 
+                     <em>22, A Million</em>. 
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="center-wide">
+                <img class="fit" src="img/22_album.jpg">
+            </div>
+        </div>                                     
+        <div class="row amillion">
+            <div class="center">
+                <p class="amillion-text">Designed by artist <a href="https://www.erictimothycarlson.com/" target="_blank" rel="noopener noreferrer">Eric Timothy Carlson</a>, the style is defined by
+                      a collage of pictographic glyphs. A flaming shepherd’s cane against pillars of smoke; a bird-rabbit Rorschach test;
+                       a planet with butterfly wings hanging above a highway flanked by crucified men stretching into the horizon;
+                        lots of sheep. The ideas are as varied as the sounds and concepts explored in the album itself. 
+            </div>
+        </div>
+        <div class="row amillion ">
+            <div class="center-wide">
+                <img class="fit" src="img/minneapolis.jpg">
+                <figcaption>Minneapolis, Minnesota</figcaption>
+            </div>
+        </div>  
+        <div class="row amillion ">
+            <div class="center-wide">
+                <img class="fit" src="img/madison.jpg">
+                <figcaption>The Isthmus of Madison, Wisconsin</figcaption>
+            </div>
+        </div>  
+        <div class="row amillion">
+            <div class="center-wide">
+                <img class="fit" src="img/tucson.jpg">
+                <figcaption>Downtown Tucson, Arizona</figcaption>
+            </div>
+        </div>  
+
+        <div class="row glyph">
+            <div class="center">
+                <img class="fit" id="fireball" src="img/fireball-01.svg">
+            </div>
+        </div>  
+
+        <div class="row amillion">
+            <div class="left">
+                <p class="vert-center amillion-text">I achieved this effect by converting 38 of the symbols from the album into SVGs. It was a time-intensive process that relied on Illustrator’s Image Trace algorithm.</p>
+            </div>
+            <div class="right">
+                <img class="fit" src="img/illustrator-screen.jpg">
+            </div>            
+        </div>
+        <div class="row amillion">
+            <div class="left">
+                <p class="vert-center amillion-text">I plugged the glyphs into various point of interest and transportation categories throughout the Mapbox database.</p>
+            </div>
+            <div class="right">
+                <img class="fit" src="img/mapbox-screen.jpg">
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="left">
+                <p class="vert-center amillion-text">For example, the snake stands in for parks and other natural features, leading scarcily populated places such as southern Utah to appear appropriately snake-ridden.</p>
+            </div>
+            <div class="right">
+                <img class="fit" src="img/utah.jpg">
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="left">
+                <p class="vert-center amillion-text">Urban areas such as Iowa City are more varied. Mapbox's algorithm ranks points of interest unequally, so each zoom level can reveal previously unseen glyphs.</p>
+            </div>
+            <div class="right">
+                <img class="fit" src="img/iowa-city.jpg">
+            </div>
+        </div>
+        <div class="row">
+            <div class="left">
+                <p class="vert-center amillion-text">All this I did while listening to the album on repeat deep into the night, an experience I recommend replicating only if you want to truly tap into the existential angst that animates the music.</p>
+            </div>
+            <div class="right">
+                <img class="fit" src="img/22_gif-2.gif">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="center">
+                <h1 id="deconstruct">Deconstructing <em>22, A Million</em></h1>
+            </div>
+        </div>
+
+        <div class="row amillion">
+            <div class="center">
+                <img class="fit" id="deconstruct" src="img/form.png">
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="center">
+                <p class="amillion-text">Carlson’s <strong>form</strong> is simple and irregular, as if scribbled in the corner of a notebook. The roads of 22, A Map mimic the style
+                    of his linework. They're also the only lines included on the map. 
+                    This ties the map further to the <a href="https://youtu.be/OeUadGNcN-8" target="_blank" rel="noopener noreferrer">music</a> and <a href="https://pitchfork.com/thepitch/bon-iver-water-is-life-minnesota-oil-pipeline-protest/" target="_blank" rel="noopener noreferrer">politics</a> of Justin Vernon, 
+                    who frequently evokes themes of a shared humanity. Roads connect us to each other, much as music does. There are no borders in 22, A Map.</p>
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="center-wide">
+                <img class="fit" src="img/phoenix.jpg">
+                <figcaption>The suburbia of Phoenix, Arizona</figcaption>
+            </div>
+        </div>  
+
+        <div class="row glyph">
+            <div class="center">
+                <img class="fit" id="weed" src="img/weed-01.svg">
+            </div>
+        </div>  
+
+        <div class="row amillion">
+            <div class="center">
+                <img class="fit" id="color-pic" src="img/color.png">
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="center">
+                <p class="amillion-text">The <em>22, A Million</em> aesthetic is defined by its limited <strong>color</strong> palette. The off-white against a black background allows the colorful yin-yang emblem that stands in for the album’s title to rise to figure. 
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="center">
+                <img class="fit" src="img/color-2.png">
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="center">
+                <p class="amillion-text">The <em>22, A Million</em> promotional materials include dazzling colorful iterations on the glyphs. But, to keep things simple, I limited the palette for 22, A Map to just the colors and symbols found on the album packaging itself.</p>
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="center">
+                <p class="amillion-text">I made an exception for this explainer page. It mimics the style of the liner notes from the <em>22, A Million</em> LP.</p>
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="center-wide">
+                <img class="fit" src="img/22_liner.jpg">
+            </div>
+        </div>      
+
+        <div class="row glyph">
+            <div class="center">
+                <img class="fit" id="twoface" src="img/twoface-01.svg">
+            </div>
+        </div>  
+
+        <div class="row amillion">
+            <div class="left">
+                <img class="fit" id="text-pic" src="img/text.png">
+            </div>              
+            <div class="right">
+                <p class="vert-center amillion-text">Place names are rendered in Optima, a humanist <strong>typeface</strong> Carlson used for every instance of the band’s name. 
+                    The album cover is also littered with handwritten text. I found a suitable match for Carlson’s script in DK Lemon Yellow Sun, a free font from <a href="https://www.dafont.com/" target="_blank" rel="noopener noreferrer">dafont.com</a>, which I used for water features.
+                    This page mimics the liner notes’ use of Courier.</p>
+            </div>          
+        </div>
+        <div class="row amillion">
+            <div class="left">
+                <p class="vert-center amillion-text-pic-2"><em>22, A Million</em> is notable for numbered song titles that mirror the nontraditional song structures and glitchy textures of its sonic palette: “10 d E A T h b R E a s T ⊠ ⊠”, “21 M♢♢N WATER”, “____45_____”, to name a few. 
+                    <br><br>Each song has an associated glyph. These glyphs recur throughout the <em>22, A Million</em> universe, scattered accross the album and promotional materials. My first brush with the album’s aesthetic was one of these symbols. 
+                    I encountered it on the side of a building while walking around Uptown Minneapolis late one night in the summer of 2016 – a full month before the album’s release.</p>
+            </div>                
+            <div class="right">
+                <img class="fit" id="text-pic-2" src="img/text-2.png">
+            </div>       
+        </div>
+        <div class="row amillion">
+            <div class="left">
+                <img class="fit" src="img/text-3.jpg">
+            </div>              
+            <div class="right">
+                <p class="vert-center amillion-text">It stuck out to me, and without knowing what it was or why it was there, I snapped this picture. The intrigue that gripped me that night compelled me all these years later to delve into this album’s visual code for this project.
+                    <br><br>The glyphs appear in my map as road icons, where they stand in for highway shields. If it wasn’t clear already, I don’t expect anyone to navigate by this map.</p>
+            </div>          
+        </div>
+        <div class="row amillion">
+            <div class="center-wide">
+                <img class="fit" id="print" src="img/duluth.jpg">
+                <figcaption>The Twin Ports of Duluth, MN and Superior, WI.</figcaption>
+            </div>
+        </div>  
+
+        <div class="row glyph">
+            <div class="center">
+                <img class="fit" id="fingers" src="img/fingers-01.svg">
+            </div>
+        </div>  
+
+        <div class="row amillion">
+            <div class="center">
+                <img class="fit" id="color-pic" src="img/texture.png">
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="center">
+                <p class="amillion-text">I filled in the water features on the map with a <strong>texture</strong> inspired by the dots that appear throughout the album cover. It reminds me of the spacey soundscape of songs like <a href="https://youtu.be/96t0rlPmn2E" target="_blank" rel="noopener noreferrer">“666 ʇ”</a>.</p> 
+            </div>
+        </div>
+        <div class="row amillion">
+            <div class="center-wide">
+                <img class="fit" src="img/juneau.jpg">
+                <figcaption>Juneau, Alaska</figcaption>
+            </div>
+        </div>  
+        <div class="row amillion">
+            <div class="center-wide">
+                <img class="fit" src="img/upnorth.jpg">
+                <figcaption>The Boundary Waters</figcaption>
+            </div>
+        </div>  
+
+        <div class="row glyph">
+            <div class="center">
+                <img class="fit" id="turnblue" src="img/turnblue-01.svg">
+            </div>
+        </div>  
+
+        <div class="row amillion">
+            <div class="center">
+                <p class="amillion-text">
+                I spent countless hours on this project, which is entirely reliant on the Mapbox service. The explainer you’re reading was added to the assignment as a way of preserving the work. <a href="https://www.bloomberg.com/news/articles/2015-05-08/this-roy-lichtenstein-themed-map-makes-pop-art-of-the-world" target="_blank" rel="noopener noreferrer">Projects from past classes</a> were erased by a platform update, leaving their creators with nothing to show for their time and effort. 
+                <br><br>Working late into the night, I began to wonder, am I putting in too much time for a final product that will ultimately vanish from the internet? Proof of all my hard work lost and no way to get it back. Why put in the time 
+                with a service over which I have no real control or ownership?<br><br>
+                I found an answer in the music.<br><br>
+                Toward the end of <a href="https://youtu.be/pPsBFPX_yU4" target="_blank" rel="noopener noreferrer">“8 (circle)”</a>, Justin Vernon cries out <em>“I’m an astuary king.”</em> It’s a cathartic moment that encapsulates his journey through the album. Like many of his lyrics, <strong>astuary</strong> is a made-up word. It combines “<strong>aster</strong>”, the Greek root for star (think asteroid), with <strong>estuary</strong>, a place where salt and freshwater meet. I understand an astuary to be a cosmic space between things. It’s somewhere on the edge of river and ocean, past and future, life and death, yin and yang. Throughout the album, Justin is trapped in this in-between space. He oscillates between trying to hold on to what was and reaching out to what could be. 
+                The anxiety and indecision overwhelm and nearly destroy him. Who among us can’t relate to his experience? I certainly did when he shared <em>22, A Million</em> with the world, having just transferred colleges and ended a relationship.<br><br>
+                By declaring himself an “astuary king” near the end of the album, Justin offers a thematic conclusion to this dilemma: an acceptance of self, a peace with uncertainty, a relinquishing of control and an embrace of the present moment.<br><br>
+                I found incredible joy and meaning while working on this project. I’m grateful I get to now share it with others. It will inevitably break one day, as all things do. Nothing lasts forever. Enjoy what you’ve got, while you can. Embrace the ephemeral. The first voice we hear on <em>22, A Million</em> says it better than I ever could:
+                <br><br><a href="https://youtu.be/ISCEilPMNak" target="_blank" rel="noopener noreferrer">It might be over soon.</a>
+                </p>
+            </div>
+            <div class="row glyph">
+                <div class="center">
+                    <img class="fit" id="astuary" src="img/astuary-01.svg">
+                </div>
+            </div>  
+        </div>
+        <div class="row amillion">
+            <div class="center-wide">
+                <p class="amillion-jump"><a href="https://api.mapbox.com/styles/v1/jakesteinberg/cl9zzsx6s002i14n8jzfclfq0.html?title=view&access_token=pk.eyJ1IjoiamFrZXN0ZWluYmVyZyIsImEiOiJjanVtbzhwa2kxNTlsM3ltcXA0aGtiMDliIn0.2Q6HfVv2bholtzkLAhhHnw&zoomwheel=true&fresh=true#12.89/43.13707/-89.34144/0/58" target="_blank" rel="noopener noreferrer">Click here to open a full-screen version (recommended on mobile).</a></p>
+                <a id="embed-anchor-bottom"></a>
+                <iframe width='100%' height='800px' src="https://api.mapbox.com/styles/v1/jakesteinberg/cl9zzsx6s002i14n8jzfclfq0.html?title=false&access_token=pk.eyJ1IjoiamFrZXN0ZWluYmVyZyIsImEiOiJjanVtbzhwa2kxNTlsM3ltcXA0aGtiMDliIn0.2Q6HfVv2bholtzkLAhhHnw&zoomwheel=false#12.89/43.13707/-89.34144/0/58" title="22, A Map" style="border:none;"></iframe>
+            </div>
+        </div>  
+        <p class="amillion-jump"><a href="#embed-anchor-top">Back to top.</a></p>
+
+
+
+<script type="text/javascript" src="./js/scrollmap.js"></script>
+
+</body>
+</html>

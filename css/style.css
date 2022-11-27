@@ -36,29 +36,46 @@
     font-style: italic;
 }
 
+    /* Optima */
+
+    @font-face {
+        font-family: Optima;
+        src: url("fonts/Optima/OptimaLTPro-Medium.otf");
+        font-style: normal;
+        font-weight: medium;
+    }
+
+    @font-face {
+        font-family: Optima;
+        src: url("fonts/Optima/OptimaLTPro-ExtraBlack.otf");
+        font-style: normal;
+        font-weight: bolder
+    }
+
+
 /* index.html, navbar */
 
 #navbarNav {
     width: 400px;
 }
 
-.nav-link {
-    color: #FAF9F6 !important;
-    font-size: 16pt !important;
+.body .nav-link {
+    color: #FAF9F6;
+    font-size: 16pt;
     font-family: Inknut Antiqua;
 }
 
-.nav-link:hover {
-    color: #CA6702 !important;
+.body .nav-link:hover {
+    color: #CA6702;
 }
 
-a.active {
-    color: #EE9B00 !important;
+.body a.nav-link.active {
+    color: #EE9B00;
 }
 
 .nav-name {
-    color: #FAF9F6 !important;
-    font-size: 26pt !important;
+    color: #FAF9F6;
+    font-size: 26pt;
     margin-bottom: 0;
     margin-top: 10;
     font-family: Inknut Antiqua;
@@ -91,6 +108,29 @@ a.active {
     #name-container{
         margin-left: 3%;
     }
+
+    #amillion .nav-name {
+        letter-spacing: 1px !important;
+    }
+
+    #amillion h1#deconstruct {
+        font-size: 16pt !important;
+    }
+
+    #amillion .row.glyph {
+        margin-top: 50% !important;
+        margin-bottom: 50% !important;
+    }
+
+    #amillion #text-pic {
+        width: 50% !important;
+        margin-left: auto !important;
+    }
+
+    #amillion #text-pic-2 {
+        margin-right: auto !important;
+    }
+    
  }
 
 /* index.html, top */
@@ -238,4 +278,161 @@ a.active {
     outline-style: solid;
     outline-width: 2px;
     outline-color: #FAF9F6;
+}
+
+/* 22map.html */
+
+#amillion {
+    background-color: #e6e4db;
+    color: #85827e;
+    padding-bottom: 100px;
+}
+
+#amillion .nav-name {
+    color: #a0a6a5;
+    font-family: Optima;
+    font-weight: bolder;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+#amillion .nav-link {
+    color: #a0a6a5;
+    font-family: Optima;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+#amillion .nav-sub {
+    color: #636059;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16pt;
+    letter-spacing: 1px;
+}
+
+#amillion a {
+    color: #262421;
+}
+
+#amillion a:hover {
+    color: #C72C2B;
+}
+
+#amillion-header {
+    padding-top: 2em;
+}
+
+#amillion .center.title.amillion {
+    height: 70vh
+}
+
+#amillion .title h1.amillion-title {
+    color: #a0a6a5;
+    font-family: 'Courier New', Courier, monospace;;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    font-size: 50px;
+}
+
+#amillion p.amillion-text {
+    color: #636059;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16pt;
+    text-align: left;
+}
+
+#amillion #print {
+    padding-top: 30px;
+}
+
+#amillion .row.amillion {
+    margin-bottom: 30px;
+}
+
+#amillion .left{
+    padding-right: 40px;
+}
+
+#amillion figcaption {
+    color: #636059;
+    font-family: 'Courier New', Courier, monospace;
+    padding-top: 10px;
+    text-align: center;
+    font-size: 16pt;
+}
+
+#amillion h1 {
+    color: #a0a6a5;
+    font-family: Optima;
+    font-weight: bolder;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 28pt;
+}
+
+#amillion #color-pic {
+    width: 80%;
+}
+
+#amillion #text-pic {
+    width: 30%;
+    display: block;
+    margin-left: 66%;
+    margin-right: auto;
+}
+
+#amillion #text-pic-2 {
+    width: 30%;
+    display: block;
+    margin-left: auto;
+    margin-right: 66%;
+}
+
+#amillion p.amillion-text-pic-2 {
+    color: #636059;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16pt;
+    text-align: right;
+}
+
+#amillion p.amillion-jump {
+    color: #636059;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14pt;
+    text-align: center;
+}
+
+#amillion .row.glyph {
+    margin-top: 25%;
+    margin-bottom: 25%;
+}
+
+#dude {
+    width: 15%;
+}
+
+#fireball {
+    width: 20%
+}
+
+#weed {
+    width: 30%
+}
+
+#twoface {
+    width: 40%
+}
+
+#fingers {
+    width: 10%
+}
+
+#turnblue {
+    width: 30%
+}
+
+#astuary {
+    width: 80%;
 }
