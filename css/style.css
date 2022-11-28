@@ -130,6 +130,10 @@
     #amillion #text-pic-2 {
         margin-right: auto !important;
     }
+
+    #amillion p.amillion-text-pic-2 {
+        text-align: left !important;
+    }
     
  }
 
