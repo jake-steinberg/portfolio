@@ -73,27 +73,41 @@
                     //if the element is not a "text" element
                     if (child.nodeName != "#text" && child.nodeName != "#comment"){
                         //retrieve data-slide value to get the foreground item
-                        console.log(child)
-                        let id = child.dataset.slide ? child.dataset.slide : 0;
+                        let id = child.dataset.slide ? child.dataset.slide : 0,
+                            nextId = child.nextElementSibling ? child.nextElementSibling.dataset.slide : null;
                         //activate listener for each background item
                         document.addEventListener("scroll",function(){
                             //position at the bottom of the screen
                             let scrollPos = window.scrollY + (window.innerHeight) - foregroundItems[id].clientHeight,
                             //position of the select foreground item
-                                foreGroundOffset = foregroundItems[id].offsetParent.offsetTop + foregroundItems[id].offsetTop;
+                                foreGroundOffset = foregroundItems[id].offsetParent.offsetTop + foregroundItems[id].offsetTop,
+                            //position of the next foreground item
+                                foreGroundBottom = nextId ? foregroundItems[nextId].offsetParent.offsetTop + foregroundItems[nextId].offsetTop : document.querySelector("body").offsetHeight;
                             //if the current scroll position is greater than the bottom position of the foreground element
-                            if (scrollPos > foreGroundOffset){
-                                if (child.previousElementSibling)
-                                    child.previousElementSibling.classList.add("hidden");
-                                if (child.nextElementSibling)
-                                    child.nextElementSibling.classList.add("hidden");
-                                child.classList.remove("hidden");
+                            if (scrollPos > foreGroundOffset && scrollPos < foreGroundBottom){
+                                if (child.classList.contains("hidden")){
+                                    if (child.previousElementSibling)
+                                        child.previousElementSibling.classList.add("hidden");
+                                    if (child.nextElementSibling)
+                                        child.nextElementSibling.classList.add("hidden");
+
+                                    child.classList.remove("hidden");
+                                }
+                                if (!nextId){
+                                    scrollContainer.style.marginBottom = child.offsetHeight - background.offsetHeight + "px";
+                                }
                                 vertCenter();
                             }  
                         })
                     }
                 })
             }
+            /*marginOffset = scrollContainer.offsetHeight - (background.children.length*child.offsetHeight + background.children.length*background.offsetHeight)
+            console.log(marginOffset)
+            if (marginOffset < 0){
+                scrollContainer.style.marginBottom = Math.abs(marginOffset) + "px";
+                console.log(scrollContainer.style.marginBottom)
+            }*/
         })
     }
     //functions to fire on resize
