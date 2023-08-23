@@ -24,17 +24,19 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: OpenSans;
-    src: url("fonts/OpenSans-VariableFont_wdth,wght.ttf");
-    font-style: normal;
- }
+    /* Open Sans */
 
-@font-face {
-    font-family: OpenSans;
-    src: url("fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf");
-    font-style: italic;
-}
+    @font-face {
+        font-family: OpenSans;
+        src: url("fonts/OpenSans-VariableFont_wdth,wght.ttf");
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: OpenSans;
+        src: url("fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf");
+        font-style: italic;
+    }
 
 @font-face {
     font-family: Grenze;
@@ -133,6 +135,19 @@
         margin-left: 3%;
     }
 
+    #me-box img {
+        width: 100% !important;
+        margin-left: 0px !important;
+    }
+
+    .about-intro {
+        margin: 0px 0px 0px 0px !important;
+    }
+
+    #me-text {
+        padding-left: 1em !important;
+    }
+
     .desktop {
         display: none;
     }
@@ -184,7 +199,8 @@
     }
 
 #me-box img {
-    width: 100%
+    width: 80%;
+    margin-left: 40px;
 }
 
 #me-text {
@@ -195,16 +211,18 @@
     font-family: Inknut Antiqua;
     padding: 1em;
     padding-bottom: 2em;
+    padding-left: 0em;
+
 }
 
 .about-intro {
     position: relative;
-	font-size: 19px;
-	line-height: 28px;
-	font-weight: 300;
+	font-size: 22px;
+	line-height: 32px;
+	font-weight: 400;
 	text-align: left;
 	float: left;
-	margin: 0px 20px 0px 0px;
+	margin: 0px 0px 0px 0px;
     font-family: OpenSans;
 }
 
@@ -212,11 +230,13 @@
     position: relative;
 	height: auto;
 	float: left;
-	padding: 0px;
+	padding: 1em;
 	margin: 0px;
+    /*
     outline-style: solid;
     outline-width: 2px;
     outline-color: #FAF9F6;
+    */
 }
 
 /* index.html, portfolio */
