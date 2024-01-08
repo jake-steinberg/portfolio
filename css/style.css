@@ -208,7 +208,6 @@
 	height: auto;
 	float: left;
     color: #FAF9F6;
-    font-family: Inknut Antiqua;
     padding: 1em;
     padding-bottom: 2em;
     padding-left: 0em;
@@ -220,7 +219,7 @@
 	font-size: 22px;
 	line-height: 32px;
 	font-weight: 400;
-	text-align: left;
+    text-align: left;
 	float: left;
 	margin: 0px 0px 0px 0px;
     font-family: OpenSans;
