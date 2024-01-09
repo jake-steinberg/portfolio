@@ -3,17 +3,34 @@
 /* universal site styles */
 
 .body {
-    background-color: #001219;
+    background-color: #16191E;
     color: #FAF9F6;
     padding-bottom: 100px;
 }
 
 .body a {
-    color: #EE9B00;
+    color: #cbcb2c;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .body a:hover {
-    color: #CA6702;
+    color: #cbcb2cb5;
+}
+
+.footer {
+    text-align: center;
+}
+
+.footer hr {
+    margin-bottom: 2rem;
+}
+
+
+.footer a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14pt;
 }
 
 /* fonts */
@@ -92,11 +109,11 @@
 }
 
 .body .nav-link:hover {
-    color: #CA6702;
+    color: #cbcb2cb5;
 }
 
 .body a.nav-link.active {
-    color: #EE9B00;
+    color: #cbcb2c;
 }
 
 .nav-name {
@@ -133,11 +150,6 @@
 
     #name-container{
         margin-left: 3%;
-    }
-
-    #me-box img {
-        width: 100% !important;
-        margin-left: 0px !important;
     }
 
     .about-intro {
@@ -188,7 +200,6 @@
 
 .container #top {
     margin-top: 10px;
-    margin-bottom: 40px;
 }
 
 .me-box {
@@ -203,12 +214,13 @@
     margin-left: 40px;
 }
 
+
 #me-text {
 	position: relative;
 	height: auto;
 	float: left;
     color: #FAF9F6;
-    padding: 1em;
+    padding: 1m;
     padding-bottom: 2em;
     padding-left: 0em;
 
@@ -231,12 +243,38 @@
 	float: left;
 	padding: 1em;
 	margin: 0px;
-    /*
-    outline-style: solid;
-    outline-width: 2px;
-    outline-color: #FAF9F6;
-    */
 }
+
+/*
+
+#icons a {
+    width: 21%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 0 !important;
+}
+
+#me-pic #ST, #me-pic #LI, #me-pic #GH {
+    position: relative;
+    display: inline-block;
+}
+
+#me-pic #img-top {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+
+#me-pic #ST, #me-pic #LI, #me-pic #GH:hover #me-pic #img-top {
+    display: inline;
+}
+
+#icons {
+    margin-left: 10%;
+}
+*/
 
 /* index.html, portfolio */
 
@@ -246,14 +284,13 @@
     text-align: center;
     border-bottom: 1px solid white;
     padding-bottom: 1em;
-    margin-top: 2rem;
     margin-bottom: 2rem;
 }
 
 #grid-pic {
     width: 100%;
     outline-style: solid;
-    outline-width: 2px;
+    outline-width: 1px;
     outline-color: #FAF9F6;
     transition: transform .3s ease-in-out;
 }
@@ -264,13 +301,16 @@
 
 .grid-item {
     float: left;
-    padding: 5%;
+    padding: 4%;
 }
 
 .card-title {
     text-align: center;
     color: #FAF9F6;
-    font-family: Inknut Antiqua;
+    font-family: OpenSans;
+    font-weight: 600;
+    font-style: italic;
+    font-variant: small-caps;
     font-size: 14pt;
     padding-top: 1em;
 }
@@ -315,6 +355,7 @@
 .skills {
     margin-top: 1em;
 }
+
 
 /* portfolio pages */
 
