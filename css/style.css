@@ -321,6 +321,8 @@
     font-family: OpenSans;
     padding-bottom: 20px;
     font-size: 1.25rem;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 #resume {
