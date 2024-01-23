@@ -349,6 +349,11 @@
     margin-bottom: 5px;
 }
 
+.loc {
+    font-variant: small-caps;
+    margin-bottom: 5px;
+}
+
 .comp {
     margin-bottom: 5px;
     font-style: italic;
@@ -359,14 +364,14 @@
     margin-top: 1em;
 }
 
-@counter-style emojis {
+@counter-style toolkit-emojis {
     system: cyclic;
     symbols: "\1F30E" "\1F3A8" "\1F5FB" "\1F4BB" "\1F4D6" "\1F4CA";
     suffix: " ";
 }
 
 ul.skills {
-    list-style-type: emojis;
+    list-style-type: toolkit-emojis;
 }
 
 ul.skills li {
@@ -377,6 +382,34 @@ ul.skills li::marker {
     font-size: 1.5rem;
 }
 
+/* emojis felt cute, might delete later */
+/* @counter-style MN-emoji {
+    system: cyclic;
+    symbols: "\26C4";
+    suffix: " ";
+}
+
+ul.MN {
+    list-style-type: MN-emoji;
+}
+
+ul.MN li::marker {
+    font-size: 1.5rem;
+}
+
+@counter-style NY-emoji {
+    system: cyclic;
+    symbols: "\1F5FD";
+    suffix: " ";
+}
+
+ul.NY {
+    list-style-type: NY-emoji;
+}
+
+ul.NY li::marker {
+    font-size: 1.5rem;
+} */
 
 /* portfolio pages */
 
