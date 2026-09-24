@@ -49,6 +49,9 @@ const TAGS = [
      images:      [],                          // extra pictures for the panel, e.g.
                                                //   ["img/foo-detail.webp", "img/foo-2.webp"]
                                                //   Left [] → the panel is text only
+     links:       [],                          // optional list of stories, for a project that
+                                               //   spans several. Each: { label: "…", url: "…" }.
+                                               //   Set link: "" to drop the single main button
      awards:      []                           // lines shown with a star in the panel.
                                                //   HTML is allowed: "<em>Atlas of Design</em>"
    },
@@ -397,68 +400,34 @@ const PROJECTS = [
     awards:      []
   },
   {
-    title:       "Lahaina Wildfire",
-    slug:        "lahaina-wildfire",
-    tile:        "img/tiles/lahaina-wildfire.webp",
-    video:       "",
-    link:        "https://www.wsj.com/articles/why-maui-wildfires-hawaii-devastating-84651f12",
+    // One tile for seven WSJ maps. The video crossfades through all seven;
+    // the panel shows each map (click to enlarge) and links every story.
+    title:       "Maps for the Wall Street Journal",
+    slug:        "wall-street-journal",
+    tile:        "img/tiles/wall-street-journal.webp",
+    video:       "img/tiles/wall-street-journal.mp4",
+    link:        "",
     linkType:    "story",
-    tags:        ["news", "remote-sensing"],
+    tags:        ["scrollytelling", "3d", "news", "remote-sensing"],
     inBook:      false,
     description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Ring of Fire",
-    slug:        "ring-of-fire",
-    tile:        "img/tiles/ring-of-fire.webp",
-    video:       "img/tiles/ring-of-fire.mp4",
-    link:        "https://www.wsj.com/world/americas/minerals-nickel-batteries-canada-climate-carbon-376f11fd",
-    linkType:    "story",
-    tags:        ["scrollytelling", "3d", "news"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Hawaii Wildfires",
-    slug:        "hawaii-wildfires",
-    tile:        "img/tiles/hawaii-wildfires.webp",
-    video:       "",
-    link:        "https://www.wsj.com/articles/why-maui-wildfires-hawaii-devastating-84651f12",
-    linkType:    "story",
-    tags:        ["news", "remote-sensing"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Red Sea Oil Spill",
-    slug:        "red-sea-oil-spill",
-    tile:        "img/tiles/red-sea-oil-spill.webp",
-    video:       "img/tiles/red-sea-oil-spill.mp4",
-    link:        "https://www.wsj.com/articles/the-race-to-avert-an-oil-spill-that-could-cost-20-billion-to-fix-85a884ea",
-    linkType:    "story",
-    tags:        ["scrollytelling", "news", "remote-sensing"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Strait of Messina Bridge",
-    slug:        "strait-of-messina-bridge",
-    tile:        "img/tiles/strait-of-messina-bridge.webp",
-    video:       "",
-    link:        "https://www.wsj.com/articles/italy-says-it-will-build-the-longest-suspension-bridge-in-the-world-dont-hold-your-breath-71b7cc86",
-    linkType:    "story",
-    tags:        ["3d", "news"],
-    inBook:      false,
-    description: "",
-    images:      [],
+    images:      [
+      "img/tiles/lahaina-wildfire.webp",
+      "img/tiles/ring-of-fire.webp",
+      "img/tiles/hawaii-wildfires.webp",
+      "img/tiles/red-sea-oil-spill.webp",
+      "img/tiles/strait-of-messina-bridge.webp",
+      "img/tiles/titan-submersible.webp",
+      "img/tiles/ukraine-land-bridge.webp"
+    ],
+    links:       [
+      { label: "Maui wildfires", url: "https://www.wsj.com/articles/why-maui-wildfires-hawaii-devastating-84651f12" },
+      { label: "Ring of Fire", url: "https://www.wsj.com/world/americas/minerals-nickel-batteries-canada-climate-carbon-376f11fd" },
+      { label: "Red Sea oil spill", url: "https://www.wsj.com/articles/the-race-to-avert-an-oil-spill-that-could-cost-20-billion-to-fix-85a884ea" },
+      { label: "Strait of Messina bridge", url: "https://www.wsj.com/articles/italy-says-it-will-build-the-longest-suspension-bridge-in-the-world-dont-hold-your-breath-71b7cc86" },
+      { label: "Titan submersible search", url: "https://www.wsj.com/articles/missing-titan-submersible-search-map-22c882f?mod=Searchresults_pos20&page=1" },
+      { label: "Ukraine land bridge", url: "https://www.wsj.com/story/the-strategic-importance-of-the-russia-controlled-land-bridge-in-ukraine-832d0728?mod=hp_lead_pos7" }
+    ],
     awards:      []
   },
   {
@@ -482,32 +451,6 @@ const PROJECTS = [
     link:        "https://www.wsj.com/articles/u-s-allies-in-asia-snub-natural-gas-from-alaska-project-e54f754a?mod=Searchresults_pos1&page=1",
     linkType:    "story",
     tags:        ["3d", "news"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Titan Submersible",
-    slug:        "titan-submersible",
-    tile:        "img/tiles/titan-submersible.webp",
-    video:       "",
-    link:        "https://www.wsj.com/articles/missing-titan-submersible-search-map-22c882f?mod=Searchresults_pos20&page=1",
-    linkType:    "story",
-    tags:        ["3d", "news"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Ukraine Land Bridge",
-    slug:        "ukraine-land-bridge",
-    tile:        "img/tiles/ukraine-land-bridge.webp",
-    video:       "img/tiles/ukraine-land-bridge.mp4",
-    link:        "https://www.wsj.com/story/the-strategic-importance-of-the-russia-controlled-land-bridge-in-ukraine-832d0728?mod=hp_lead_pos7",
-    linkType:    "story",
-    tags:        ["scrollytelling", "news"],
     inBook:      false,
     description: "",
     images:      [],

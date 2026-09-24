@@ -123,11 +123,18 @@
 
     const awards = (p.awards || []).map((a) => `<p class="award">${a}</p>`).join('');
 
-    // "file" links open in the lightbox, except PDFs, which open in a new tab
+    // "file" links open in the lightbox, except PDFs, which open in a new tab.
+    // A project with link: "" gets no main button (e.g. one that lists several stories).
     const isPdf = /\.pdf$/i.test(p.link);
-    const mainLink = (p.linkType === 'file' && !isPdf)
+    const mainLink = !p.link ? '' : (p.linkType === 'file' && !isPdf)
       ? `<a class="primary" href="${esc(p.link)}" data-lb="${esc(p.link)}" data-title="${esc(p.title)}">${LINK_LABEL.file} &#8599;</a>`
       : `<a class="primary" href="${esc(p.link)}"${p.linkType === 'page' ? '' : ' target="_blank" rel="noopener"'}>${LINK_LABEL[p.linkType] || 'Open'} &#8599;</a>`;
+
+    // links: [{ label, url }] — a list of stories, for projects that span several
+    const storyLinks = (p.links && p.links.length)
+      ? `<ul class="storylinks">${p.links.map((l) =>
+          `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}<span aria-hidden="true"> &#8599;</span></a></li>`).join('')}</ul>`
+      : '';
 
     const bookLink = p.inBook
       ? `<a href="${BOOK_URL}" target="_blank" rel="noopener">In the book &#8599;</a>`
@@ -147,7 +154,8 @@
               <h3>${esc(p.title)}</h3>
               ${description}
               ${awards}
-              <div class="plinks">${mainLink}${bookLink}</div>
+              ${storyLinks}
+              ${(mainLink || bookLink) ? `<div class="plinks">${mainLink}${bookLink}</div>` : ''}
             </div>
             ${shots}
           </div>

@@ -335,6 +335,18 @@
 .plinks a.primary { background: var(--accent); color: #fff; }
 .plinks a.primary:hover { background: var(--accent-ink); }
 
+/* list of stories (links: [] in projects.js), for projects that span several */
+.storylinks {
+  list-style: none; margin: 4px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px 22px;
+  max-width: var(--measure);
+}
+.storylinks a {
+  font-size: 15px; line-height: 1.4; color: var(--ink); text-decoration: none;
+  border-bottom: 2px solid var(--accent-soft); transition: border-color .15s;
+}
+.storylinks a:hover { border-bottom-color: var(--accent); }
+
 /* extra pictures (images: [] in projects.js), two per row; click to enlarge */
 .pshots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start; }
 @media (min-width: 721px) { .pshots { padding-top: 30px; } }   /* clears the Close button */
