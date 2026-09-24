@@ -1,0 +1,197 @@
+/* =============================================================================
+   resume.css — styles used only by resume.html.
+   Shared pieces (colors, fonts, header, footer) are in css/site.css.
+
+   Layout: a row of section buttons ("jump bar") sticks under the header, and
+   each section has its name in a left-hand column that sticks while you
+   scroll through that section. On phones the name moves above the section.
+
+     1. Jump bar
+     2. Section layout + sticky section names
+     3. Toolkit (three groups)
+     4. Entry rows — Experience, Education (organization / role / dates)
+     5. Year rows — Book & publications, Awards, Talks
+     6. Book entry
+   ============================================================================= */
+
+:root {
+  /* Height of the jump bar, measured by js/resume.js. --headH (the header's
+     height) is measured by js/site.js. Sticky things use both to line up. */
+  --jumpH: 58px;
+}
+
+.rmain { padding-bottom: 10px; }
+
+
+/* -----------------------------------------------------------------------------
+   1. JUMP BAR — sticks directly under the site header
+   ----------------------------------------------------------------------------- */
+.jump {
+  position: sticky;
+  top: calc(env(safe-area-inset-top, 0px) + var(--headH));
+  z-index: 20;
+  display: flex; flex-wrap: wrap; gap: 7px;
+  padding-block: 14px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule-soft);
+}
+.jump a {
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: .04em;
+  text-decoration: none; white-space: nowrap;
+  padding: 5px 11px;
+  border: 1px solid var(--rule); border-radius: 999px;
+  transition: background .14s, border-color .14s, color .14s;
+}
+.jump a:hover { border-color: var(--ink); }
+.jump a.on { background: var(--accent-ink); color: #fff; border-color: var(--accent-ink); }   /* section in view */
+
+/* phones: one row you swipe sideways, instead of a tall block of wrapped buttons */
+@media (max-width: 640px) {
+  .jump {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    margin-inline: calc(-1 * clamp(16px, 3vw, 40px));     /* run edge to edge… */
+    padding-inline: clamp(16px, 3vw, 40px);               /* …but keep the page's side margin */
+  }
+  .jump::-webkit-scrollbar { display: none; }
+  .jump a { flex: none; }
+}
+
+
+/* -----------------------------------------------------------------------------
+   2. SECTIONS — name on the left (sticky), content on the right
+   ----------------------------------------------------------------------------- */
+.rsec {
+  display: grid;
+  grid-template-columns: 186px minmax(0, 1fr);
+  gap: clamp(18px, 3vw, 50px);
+  padding-block: clamp(30px, 3.6vw, 54px);
+  border-top: 1px solid var(--rule-soft);
+  /* when a jump-bar button scrolls here, stop below the header and jump bar */
+  scroll-margin-top: calc(var(--headH) + var(--jumpH) + 8px);
+}
+.rsec:first-of-type { border-top: 0; }
+
+.rsec > h2 {
+  position: sticky;
+  top: calc(env(safe-area-inset-top, 0px) + var(--headH) + var(--jumpH) + 18px);
+  align-self: start;
+  margin: 0;
+  font-family: var(--display); font-weight: 400; line-height: 1.15;
+  font-size: clamp(1.15rem, .9rem + .9vw, 1.6rem);
+  text-wrap: balance;
+}
+
+@media (max-width: 780px) {
+  .rsec { grid-template-columns: 1fr; gap: 16px; }
+  .rsec > h2 { position: static; padding-bottom: 4px; border-bottom: 2px solid var(--accent); }
+}
+
+
+/* -----------------------------------------------------------------------------
+   3. TOOLKIT — three groups side by side, one column on phones
+   ----------------------------------------------------------------------------- */
+.kit { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 26px; }
+@media (max-width: 560px) { .kit { grid-template-columns: 1fr; } }
+
+.kit h3 {
+  margin: 0 0 8px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono); font-weight: 400;
+  font-size: var(--label); letter-spacing: var(--track); text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.kit ul { list-style: none; margin: 0; padding: 0; font-size: 14px; line-height: 1.85; }
+
+
+/* -----------------------------------------------------------------------------
+   4. ENTRY ROWS — Experience and Education
+      left: organization + role (+ notes underneath)
+      right: dates + place
+   ----------------------------------------------------------------------------- */
+.ent {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 172px;
+  gap: 8px 22px;
+  padding-block: 16px;
+  border-top: 1px solid var(--rule-soft);
+}
+.ent:first-child { border-top: 0; padding-top: 0; }
+@media (max-width: 560px) { .ent { grid-template-columns: 1fr; gap: 5px; } }
+
+.ent .org  { margin: 0; font-family: var(--display); font-weight: 400; font-size: 16px; line-height: 1.3; }
+.ent .role { margin: 3px 0 0; color: var(--muted); font-size: 14.5px; }
+.ent .meta {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--muted); text-align: right; line-height: 1.7;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 560px) { .ent .meta { text-align: left; } }
+
+.ent .note { grid-column: 1; margin: 9px 0 0; max-width: var(--measure); color: var(--muted); font-size: 14px; }
+.ent .note + .note { margin-top: 7px; }
+
+
+/* -----------------------------------------------------------------------------
+   5. YEAR ROWS — the year gets its own column so the list is easy to scan
+   ----------------------------------------------------------------------------- */
+.line {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: 6px 18px;
+  padding-block: 11px;
+  border-top: 1px solid var(--rule-soft);
+}
+.line:first-child { border-top: 0; }
+
+.line .yr {
+  padding-top: 2px;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: .03em;
+  color: var(--accent-ink); font-variant-numeric: tabular-nums;
+}
+/* a year that still needs filling in: <span class="yr" data-missing>year?</span> */
+.line .yr[data-missing] { color: var(--muted); opacity: .55; }
+
+.line .what  { margin: 0; max-width: var(--measure); font-size: 14.5px; line-height: 1.5; }
+.line .who   { display: block; margin-top: 3px; color: var(--muted); font-size: 12.5px; }     /* collaborators */
+.line .venue {                                                                                /* NICAR, NACIS… */
+  display: block; margin-top: 4px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);
+}
+
+
+/* -----------------------------------------------------------------------------
+   Links inside resume text: ink color with a soft coral underline
+   (same treatment as the homepage intro, so link-heavy lines stay calm)
+   ----------------------------------------------------------------------------- */
+.rsec a:not(.pre) {
+  color: inherit; text-decoration: none;
+  border-bottom: 2px solid var(--accent-soft);
+  transition: border-color .15s;
+}
+.rsec a:not(.pre):hover { border-bottom-color: var(--accent); }
+
+
+/* -----------------------------------------------------------------------------
+   6. BOOK ENTRY — cover thumbnail beside the details
+   ----------------------------------------------------------------------------- */
+.bookline {
+  display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 20px; align-items: start;
+  padding-bottom: 16px; border-bottom: 1px solid var(--rule-soft); margin-bottom: 5px;
+}
+.bookline img { border: 1px solid var(--stroke); box-shadow: var(--shadow); }
+.bookline h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 18px; line-height: 1.25; }
+.bookline .meta2 {
+  margin: 6px 0 0;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);
+}
+.bookline p { margin: 9px 0 0; max-width: var(--measure); color: var(--muted); font-size: 14px; }
+.bookline a.pre {
+  display: inline-block; margin-top: 11px;
+  font-family: var(--mono); font-size: 11.5px;
+  color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid var(--accent);
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .jump a, .rsec a { transition: none; }
+}
