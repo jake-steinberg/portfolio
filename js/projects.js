@@ -124,10 +124,13 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // The video pans slowly down the full page (img/urban_paddling.jpg) and
+    // back up, like the Driftless tile. The old static thumbnail is still at
+    // img/tiles/urban-paddling-guide.webp
     title:       "Urban Paddling guide",
     slug:        "urban-paddling-guide",
-    tile:        "img/tiles/urban-paddling-guide.webp",
-    video:       "",
+    tile:        "img/tiles/urban-paddling-guide-scroll.webp",
+    video:       "img/tiles/urban-paddling-guide-scroll.mp4",
     link:        "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift",
     linkType:    "story",
     tags:        ["print", "illustrated", "outdoors"],
