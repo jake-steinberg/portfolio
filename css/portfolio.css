@@ -309,11 +309,7 @@
 .panel h3 {
   font-family: var(--display); font-weight: 400; line-height: 1.2;
   font-size: clamp(1.15rem, .95rem + .8vw, 1.55rem);
-  margin: 0 0 5px; padding-right: 70px;   /* room for the Close button */
-}
-.ptags {
-  font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--muted); margin-bottom: 15px;
+  margin: 0 0 14px; padding-right: 70px;  /* room for the Close button */
 }
 .desc { font-size: 15.5px; line-height: 1.6; margin: 0 0 13px; max-width: var(--measure); }
 /* shown when a project's description is blank — so it's obvious what's left to write */

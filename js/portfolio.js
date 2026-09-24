@@ -145,7 +145,6 @@
             <button class="close" type="button" data-close="${esc(p.slug)}">Close &#215;</button>
             <div class="panel-main">
               <h3>${esc(p.title)}</h3>
-              <div class="ptags">${p.tags.map(tagLabel).join(' &middot; ')}</div>
               ${description}
               ${awards}
               <div class="plinks">${mainLink}${bookLink}</div>
