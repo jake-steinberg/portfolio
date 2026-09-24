@@ -61,7 +61,7 @@ That's all: the tile, its filter tags and its panel are built automatically.
   its poster. With none, the panel is text only.
 
   On wider screens the pictures sit beside the text, kept within a set height:
-  half the screen, and never more than 480px (`MEDIA_MAX_HEIGHT` and
+  40% of the screen, and never more than 340px (`MEDIA_MAX_HEIGHT` and
   `MEDIA_MAX_PX` at the top of the panel section of `js/portfolio.js`). The
   text column takes the rest of the width, with its links and buttons at the
   foot, level with the bottom of the pictures.

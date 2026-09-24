@@ -274,8 +274,8 @@
   // How tall a panel's pictures may be: a share of the screen's height, and
   // never more than a set number of pixels. Lower these to make the pictures
   // (and so the panels) smaller; the text column widens to take the room.
-  const MEDIA_MAX_HEIGHT = 0.5;      // half the screen's height…
-  const MEDIA_MAX_PX     = 480;      // …but no taller than this
+  const MEDIA_MAX_HEIGHT = 0.4;      // 40% of the screen's height…
+  const MEDIA_MAX_PX     = 340;      // …but no taller than this
   const TEXT_MIN_WIDTH   = 300;      // the text column never gets narrower than this
 
   // Lay out a panel's pictures: matching heights, then size the group so it
