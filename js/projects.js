@@ -207,8 +207,9 @@ const PROJECTS = [
   {
     title:       "The Driftless Area",
     slug:        "the-driftless-area",
-    // The video scrolls down the full-size map and back up (54s loop), zoomed
-    // 2.5x on the middle 40% of the map's width. The tile is its first frame.
+    // The video scrolls down the full-size map and back up (38s loop), zoomed
+    // 2.5x on the middle 40% of the map's width, stopping short of the bottom
+    // 10%. The tile is its first frame.
     // The old static thumbnail is still at img/tiles/the-driftless-area.webp
     // if you'd rather go back to it.
     tile:        "img/tiles/the-driftless-area-scroll.webp",
