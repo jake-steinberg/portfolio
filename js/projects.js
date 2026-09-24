@@ -284,8 +284,9 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // One tile for seven WSJ maps. The video crossfades through all seven;
-    // the panel shows each map (click to enlarge) and links every story.
+    // One tile for nine WSJ maps. The video crossfades through all nine, built
+    // from Jake's 5:4 crops in img/tiles/WSJ tile/. The panel shows each map
+    // (click to enlarge) and links every story.
     title:       "Maps for the Wall Street Journal",
     slug:        "wall-street-journal",
     tile:        "img/tiles/wall-street-journal.webp",
@@ -301,6 +302,8 @@ const PROJECTS = [
       "img/tiles/hawaii-wildfires.webp",
       "img/tiles/red-sea-oil-spill.webp",
       "img/tiles/strait-of-messina-bridge.webp",
+      "img/tiles/mountain-valley-pipeline.webp",
+      "img/tiles/alaska-lng-project.webp",
       "img/tiles/titan-submersible.webp",
       "img/tiles/ukraine-land-bridge.webp"
     ],
@@ -309,6 +312,8 @@ const PROJECTS = [
       { label: "Ring of Fire", url: "https://www.wsj.com/world/americas/minerals-nickel-batteries-canada-climate-carbon-376f11fd" },
       { label: "Red Sea oil spill", url: "https://www.wsj.com/articles/the-race-to-avert-an-oil-spill-that-could-cost-20-billion-to-fix-85a884ea" },
       { label: "Strait of Messina bridge", url: "https://www.wsj.com/articles/italy-says-it-will-build-the-longest-suspension-bridge-in-the-world-dont-hold-your-breath-71b7cc86" },
+      { label: "Mountain Valley Pipeline", url: "https://www.wsj.com/articles/they-fought-a-pipeline-on-their-land-then-congress-got-involved-95c4870f?mod=Searchresults_pos1&page=1" },
+      { label: "Alaska LNG project", url: "https://www.wsj.com/articles/u-s-allies-in-asia-snub-natural-gas-from-alaska-project-e54f754a?mod=Searchresults_pos1&page=1" },
       { label: "Titan submersible search", url: "https://www.wsj.com/articles/missing-titan-submersible-search-map-22c882f?mod=Searchresults_pos20&page=1" },
       { label: "Ukraine land bridge", url: "https://www.wsj.com/story/the-strategic-importance-of-the-russia-controlled-land-bridge-in-ukraine-832d0728?mod=hp_lead_pos7" }
     ],
