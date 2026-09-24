@@ -152,7 +152,10 @@
    ----------------------------------------------------------------------------- */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(218px, 1fr));
+  /* As many columns as fit at 218px or wider, but never more than 4:
+     each column is at least a quarter of the row (minus the gaps).
+     To change the maximum, change both 4 and 3 (the number of gaps). */
+  grid-template-columns: repeat(auto-fill, minmax(max(218px, calc((100% - 3 * var(--gap)) / 4)), 1fr));
   gap: var(--gap);
   align-items: start;
   padding-bottom: 10px;
