@@ -1,0 +1,198 @@
+/* =============================================================================
+   site.css — shared by every redesigned page (index.html, resume.html, and
+   later about.html / freelance.html).
+
+   What lives here:
+     1. Design tokens  — every color, font and shadow, defined once
+     2. Base styles    — page background, text, images, links, focus rings
+     3. Sticky header  — name, subtitle and nav; condenses on scroll (js/site.js)
+     4. Footer         — credit, "Last updated", Back to top
+
+   Page-specific styles live in their own files (portfolio.css, resume.css).
+
+   ⚠ Do not merge this into css/style.css. The bespoke project pages
+   (22map.html, pipeline.html, golf.html, trees.html) still use style.css and
+   Bootstrap, and must keep looking exactly as they do.
+   ============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+   1. DESIGN TOKENS  ("Atlas" palette, taken from the book cover)
+   Change a value here and it changes everywhere it's used.
+   ----------------------------------------------------------------------------- */
+:root {
+  /* paper and ink */
+  --bg:          #F1EBDD;   /* page background — warm cream paper */
+  --plate:       #FBF8F1;   /* lighter paper for panels and image mats */
+  --ink:         #22201C;   /* body text and headings */
+  --muted:       #6B6355;   /* secondary text: captions, tags, metadata */
+  --stroke:      #22201C;   /* the hairline black stroke around images and buttons */
+
+  /* accent — the cover's coral (St. Paul) */
+  --accent:      #D4745A;   /* fills, rules, markers. Too light for text (2.7:1). */
+  --accent-ink:  #A34527;   /* darker coral that passes contrast for text and links */
+  --accent-soft: #E4B3A0;   /* pale coral for the thick link underlines */
+  --teal:        #3F7A8C;   /* the cover's teal (Minneapolis) — reserved for later use */
+
+  /* rules and dividers */
+  --rule:        #D9D0BC;   /* section dividers */
+  --rule-soft:   #E6DECC;   /* lighter dividers inside a section */
+
+  /* type: display serif / reading serif / mono for labels and data */
+  --display: "Inknut Antiqua", Georgia, serif;
+  --text:    "Source Serif 4", Georgia, serif;
+  --mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --label: 10.5px;          /* size of small uppercase mono labels */
+  --track: .1em;            /* letter-spacing for those labels */
+  --measure: 63ch;          /* comfortable maximum line length for paragraphs */
+
+  /* depth */
+  --shadow:      0 1px 2px rgba(34,32,28,.06), 0 6px 18px rgba(34,32,28,.05);
+  --shadow-lift: 0 3px 6px rgba(34,32,28,.10), 0 18px 40px rgba(34,32,28,.14);
+
+  --gap: 24px;              /* default spacing between grid items */
+
+  /* Height of the sticky header. js/site.js keeps this updated with the
+     header's real height, so anything that sticks beneath it lines up. */
+  --headH: 46px;
+}
+
+
+/* -----------------------------------------------------------------------------
+   2. BASE
+   ----------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--text);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* height:auto matters: without it, an <img> with width/height attributes
+   gets squished when CSS shrinks its width. */
+img, video { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; }
+
+/* visible keyboard focus everywhere */
+:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 3px; }
+
+/* the centered page column; header, main and footer all use it so edges line up */
+.wrap {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+
+
+/* -----------------------------------------------------------------------------
+   3. STICKY HEADER
+   Markup is copied into each page — see the "SITE HEADER" comment in
+   index.html. js/site.js adds the .stuck class once the page scrolls.
+   ----------------------------------------------------------------------------- */
+.site {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+}
+.site.stuck { box-shadow: 0 1px 0 var(--rule), 0 6px 18px rgba(34,32,28,.06); }
+
+.site-in {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 18px;
+  transition: padding-block .2s;
+}
+.site.stuck .site-in { padding-block: 9px; }
+
+/* name + "JS" box (the box is a placeholder until there's a logo) */
+.brand { display: flex; align-items: center; gap: 11px; min-width: 0; text-decoration: none; }
+.mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; flex: none;
+  border: 1.5px solid var(--ink);
+  font-family: var(--mono); font-size: 11px; font-weight: 500;
+  transition: width .2s, height .2s, font-size .2s;
+}
+.site.stuck .mark { width: 26px; height: 26px; font-size: 9.5px; }
+.brand-txt { min-width: 0; }
+.brand-name {
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(17px, 1.7vw, 23px); line-height: 1.15; white-space: nowrap;
+  transition: font-size .2s;
+}
+.site.stuck .brand-name { font-size: clamp(15px, 1.4vw, 18px); }
+
+/* "Cartography · Data visualization · Journalism" — wraps on phones rather
+   than clipping, and fades out when the header condenses */
+.brand-sub {
+  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
+  margin-top: 4px; line-height: 1.5; text-wrap: balance;
+  overflow: hidden; max-height: 4.5em; opacity: 1;
+  transition: max-height .2s, opacity .18s, margin-top .2s;
+}
+.site.stuck .brand-sub { max-height: 0; opacity: 0; margin-top: 0; }
+
+/* nav — the current page gets aria-current="page", which draws the coral underline */
+.site nav { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.site nav a {
+  font-family: var(--mono); font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
+  text-decoration: none; padding: 3px 0;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.site nav a:hover { color: var(--accent-ink); border-bottom-color: var(--rule); }
+.site nav a[aria-current] { color: var(--accent-ink); border-bottom-color: var(--accent); }
+
+@media (max-width: 560px) {
+  .site-in { padding-block: 12px; }
+  .site nav { gap: 4px 15px; width: 100%; }
+  .site nav a { font-size: 11px; }
+}
+
+
+/* -----------------------------------------------------------------------------
+   4. FOOTER + BACK TO TOP
+   ----------------------------------------------------------------------------- */
+/* invisible target at the very top of the page for Back to top to focus */
+#top { position: absolute; top: 0; left: 0; width: 1px; height: 1px; outline: none; }
+
+.foot {
+  margin-top: 50px;
+  padding-block: 22px 40px;
+  border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; gap: 10px 26px;
+  justify-content: space-between; align-items: baseline;
+  font-family: var(--mono); font-size: 11px; color: var(--muted);
+}
+.foot .credit { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+
+.totop {
+  display: inline-block;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--accent-ink); text-decoration: none;
+  border-bottom: 1px solid var(--accent); padding-bottom: 1px;
+  transition: transform .15s, color .15s;
+}
+.totop:hover { color: var(--ink); border-bottom-color: var(--ink); transform: translateY(-2px); }
+
+
+/* -----------------------------------------------------------------------------
+   Respect visitors who ask their device for less motion
+   ----------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .site-in, .mark, .brand-name, .brand-sub, .site nav a, .totop { transition: none; }
+  .totop:hover { transform: none; }
+}
