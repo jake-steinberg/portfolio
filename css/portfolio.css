@@ -274,7 +274,10 @@
 
 .panel-body {
   position: relative;
-  display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  /* one column (phones, and text-only panels); PANEL LAYOUTS below arranges
+     wider screens. minmax(0, …) lets it shrink; a plain 1fr would stretch to
+     the widest picture and get cut off at the right edge. */
+  display: grid; grid-template-columns: minmax(0, 1fr);
   gap: clamp(18px, 2.6vw, 38px);
   margin-top: var(--arrow);      /* room for the pointer inside the clipped panel */
   padding: clamp(20px, 2.5vw, 32px);
@@ -302,11 +305,22 @@
   border-bottom-color: var(--plate);
 }
 
-/* no extra images for this project → one full-width column */
-.panel-body.solo { grid-template-columns: minmax(0, 1fr); }
-/* phones: one column. minmax(0, …) lets it shrink to the screen; a plain 1fr
-   would stretch to the widest picture and get cut off at the right edge. */
-@media (max-width: 720px) { .panel-body { grid-template-columns: minmax(0, 1fr); } }
+/* -- PANEL LAYOUT (wider screens) -------------------------------------------
+   The text column sits beside the pictures. Its title and description are at
+   the top (.ptop) and its links and buttons at the foot (.pfoot), level with
+   the bottom of the pictures, so short text still reads as a caption rather
+   than leaving a gap. js/portfolio.js sets the width of the pictures
+   (.pmedia) to keep them within a set height (MEDIA_MAX_HEIGHT); the text
+   column takes the rest of the width. */
+@media (min-width: 721px) {
+  .panel-body:not(.solo) { grid-template-columns: minmax(0, 1fr) auto; }
+  .panel-body:not(.solo) .panel-main { display: flex; flex-direction: column; }
+  .panel-body:not(.solo) .pfoot { margin-top: auto; }
+  .pmedia { padding-top: 30px; }          /* clears the Close button */
+}
+.pfoot > :first-child { margin-top: 0; }
+.ptop > :last-child { margin-bottom: 0; }
+.pfoot { padding-top: 18px; }
 
 .panel h3 {
   font-family: var(--display); font-weight: 400; line-height: 1.2;
@@ -358,7 +372,8 @@
 
 /* extra pictures (images: [] in projects.js), two per row; click to enlarge */
 .pshots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start; }
-@media (min-width: 721px) { .pshots { padding-top: 30px; } }   /* clears the Close button */
+/* .pmedia holds the pictures */
+.pmedia { min-width: 0; }
 .pshots a {
   display: block; overflow: hidden;
   border: 1px solid var(--stroke); background: var(--bg);
@@ -370,36 +385,24 @@
 /* a single picture gets the whole column, shown uncropped at its true shape */
 .pshots a:only-child { grid-column: 1 / -1; }
 .pshots a:only-child img { aspect-ratio: auto; height: auto; object-fit: fill; }
-/* 2 or 3 pictures (js adds .mosaic): uncropped, at matching heights. Two sit
-   side by side; with three, the widest goes across the top and the others
-   side by side under it. js/portfolio.js gives each picture its shape
-   (width ÷ height) as --ar and, for three, marks the widest .wide.
+/* 2 to 5 pictures (js adds .mosaic): uncropped, at matching heights. Two sit
+   side by side; with three or more, the widest goes across the top and the
+   rest share a row under it. js/portfolio.js gives each picture its shape
+   (width ÷ height) as --ar and marks the widest .wide.
    Growing each one in proportion to its shape is what makes the heights
    match; the 2px basis covers the hairline border, so the match is exact. */
-.pshots.mosaic, .pshots.pextra { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
-.pshots.mosaic > *, .pshots.pextra > * { flex: var(--ar, 1) 1 2px; min-width: 0; }
+.pshots.mosaic { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+.pshots.mosaic > * { flex: var(--ar, 1) 1 2px; min-width: 0; }
 .pshots.mosaic > .wide { flex-basis: 100%; order: -1; }
-.pshots.mosaic img, .pshots.pextra img { aspect-ratio: auto; height: auto; object-fit: fill; }
-@media (max-width: 720px) { .pshots.mosaic, .pshots.pextra { gap: 8px; } }
-
-/* 4 or 5 pictures (js adds .has-extra): the first 3 make the mosaic on the
-   right, spanning both rows; the rest (.pextra) fill the space under the
-   text in one row, their bottoms lined up with the mosaic's. */
-.panel-body.has-extra { grid-template-rows: auto 1fr; }
-.panel-body.has-extra > .pshots.mosaic { grid-column: 2; grid-row: 1 / span 2; }
-.pshots.pextra { grid-column: 1; grid-row: 2; align-self: end; padding-top: 0; }
-/* when the text runs long (js adds .extra-right), the row sits under the
-   mosaic instead, and the text runs down the whole left side */
-.panel-body.extra-right { row-gap: 12px; }
-.panel-body.extra-right > .panel-main { grid-row: 1 / span 2; }
-.panel-body.extra-right > .pshots.mosaic { grid-row: 1; }
-.panel-body.extra-right > .pshots.pextra { grid-column: 2; align-self: start; }
-/* phones: one column — text, then the mosaic, then the extra row */
+.pshots.mosaic img { aspect-ratio: auto; height: auto; object-fit: fill; }
 @media (max-width: 720px) {
-  .panel-body.has-extra { grid-template-rows: none; }
-  .panel-body.has-extra > .pshots.mosaic,
-  .panel-body.has-extra > .pshots.pextra { grid-column: auto; grid-row: auto; }
+  .pshots.mosaic { gap: 8px; }
+  /* 4 or 5 pictures: on a phone the lower row wraps, two to a line. A
+     starting width in proportion to each picture's shape keeps the heights
+     matched within each line; 30% per unit of shape fits two, never three. */
+  .pshots.mosaic.many > :not(.wide) { flex-basis: calc(var(--ar, 1) * 30%); }
 }
+
 /* an .mp4 in images: [] — a looping video, framed like the pictures
    (as a link, it's an <a class="pvid"> and gets the tilt on hover too) */
 .pvid { display: block; border: 1px solid var(--stroke); background: var(--bg); }

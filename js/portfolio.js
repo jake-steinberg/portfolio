@@ -147,10 +147,10 @@
     //                      name (minus "-loop") as its still poster; not
     //                      clickable unless it has a link
     //   with a link      → opens that page in a new tab
-    // 1 picture fills its column uncropped; 2 sit side by side and 3 make a
-    // mosaic, uncropped at matching heights. With 4 or 5, the first 3 make the
-    // mosaic and the rest sit in a row under the text. 6 or more become even
-    // 4:3 thumbnails.
+    // 1 picture shows uncropped. 2 sit side by side at matching heights. 3 to 5
+    // make a mosaic: the widest across the top, the rest sharing a row
+    // beneath it, all uncropped. 6 or more become even 4:3 thumbnails. The
+    // whole group is kept within a set height (layoutMedia).
     const shot = (entry) => {
       const { src, link, label } = typeof entry === 'string' ? { src: entry } : entry;
       const isVideo = /\.mp4$/i.test(src);
@@ -167,30 +167,33 @@
         : `<a href="${esc(src)}" data-lb="${esc(src)}" data-title="${esc(p.title)}">${media}</a>`;
     };
     const count = hasImages ? p.images.length : 0;
-    const split = count === 4 || count === 5;
-    const main  = split ? p.images.slice(0, 3) : (p.images || []);
-    const extra = split ? p.images.slice(3) : [];
+    const kind = count >= 4 && count <= 5 ? ' mosaic many'      // .many: the lower row wraps on phones
+               : count >= 2 && count <= 3 ? ' mosaic' : '';
     const shots = hasImages
-      ? `<div class="pshots${(main.length === 2 || main.length === 3) ? ' mosaic' : ''}">${main.map(shot).join('')}</div>`
-      : '';
-    const extras = extra.length
-      ? `<div class="pshots pextra">${extra.map(shot).join('')}</div>`
+      ? `<div class="pshots${kind}">${p.images.map(shot).join('')}</div>`
       : '';
 
+    // The text is in two parts: .ptop (title, description, awards) at the top
+    // of its column, and .pfoot (story links and buttons) at the foot, level
+    // with the bottom of the pictures (see "PANEL LAYOUT" in portfolio.css).
+    const foot = storyLinks || mainLink || bookLink;
     return `
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
         <div class="panel-in">
-          <div class="panel-body${hasImages ? '' : ' solo'}${extras ? ' has-extra' : ''}">
+          <div class="panel-body${hasImages ? '' : ' solo'}">
             <button class="close" type="button" data-close="${esc(p.slug)}">Close &#215;</button>
             <div class="panel-main">
-              <h3>${esc(p.title)}</h3>
-              ${description}
-              ${awards}
-              ${storyLinks}
-              ${(mainLink || bookLink) ? `<div class="plinks">${mainLink}${bookLink}</div>` : ''}
+              <div class="ptop">
+                <h3>${esc(p.title)}</h3>
+                ${description}
+                ${awards}
+              </div>
+              ${foot ? `<div class="pfoot">
+                ${storyLinks}
+                ${(mainLink || bookLink) ? `<div class="plinks">${mainLink}${bookLink}</div>` : ''}
+              </div>` : ''}
             </div>
-            ${shots}
-            ${extras}
+            ${hasImages ? `<div class="pmedia">${shots}</div>` : ''}
           </div>
         </div>
       </div>`;
@@ -211,11 +214,11 @@
     return tiles[Math.min(Math.ceil((i + 1) / cols) * cols - 1, tiles.length - 1)];
   }
 
-  // Aim the panel's pointer at the middle of the open tile
   // The open panel. A panel that's still animating closed can sit in the
   // grid for a moment alongside the new one, so skip any marked .closing.
   const currentPanel = () => gridEl.querySelector('.panel:not(.closing)');
 
+  // Aim the panel's pointer at the middle of the open tile
   function aimPointer() {
     const panel = currentPanel();
     const tile = openSlug && gridEl.querySelector(`.gcard[data-slug="${openSlug}"] .gframe`);
@@ -232,7 +235,7 @@
     const end = rowEnd(openSlug);
     if (panel && end && end.nextElementSibling !== panel) end.after(panel);
     aimPointer();
-    alignExtra(panel);
+    layoutMedia(panel);
   });
 
   function closePanel() {
@@ -250,58 +253,52 @@
   }
 
   // Give each picture in a mosaic its shape (width ÷ height) as --ar, so the
-  // CSS can size them to matching heights, and, when there are 3, mark the
-  // widest one .wide (the mosaic puts it on top). Shapes are only known once each picture or
-  // video has loaded, so this re-runs as each one arrives.
+  // CSS can size them to matching heights, and, with 3 or more, mark the
+  // widest one .wide (the mosaic puts it on top).
   function fitShots(shots) {
-    if (!shots) return;
     const items = [...shots.children];
-    const media = items.map((el) => el.querySelector('img, video'));
-    const run = () => {
-      const ratios = media.map((m) => {
-        const w = m.naturalWidth || m.videoWidth, h = m.naturalHeight || m.videoHeight;
-        return w && h ? w / h : 0;
-      });
-      if (ratios.some((r) => !r)) return;              // still waiting on one
-      // in a mosaic of 3 the widest goes on top; otherwise they sit side by side
-      const top = items.length === 3 && shots.classList.contains('mosaic');
-      const widest = top ? ratios.indexOf(Math.max(...ratios)) : -1;
-      items.forEach((el, i) => {
-        el.style.setProperty('--ar', ratios[i].toFixed(4));
-        el.classList.toggle('wide', i === widest);
-      });
-    };
-    const runAndAlign = () => { run(); alignExtra(shots.closest('.panel')); };
-    media.forEach((m) => m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', runAndAlign, { once: true }));
-    runAndAlign();
+    const ratios = items.map((el) => {
+      const m = el.querySelector('img, video');
+      const w = m.naturalWidth || m.videoWidth, h = m.naturalHeight || m.videoHeight;
+      return w && h ? w / h : 0;
+    });
+    if (ratios.some((r) => !r)) return;                // still waiting on one to load
+    const top = items.length >= 3;
+    const widest = top ? ratios.indexOf(Math.max(...ratios)) : -1;
+    items.forEach((el, i) => {
+      el.style.setProperty('--ar', ratios[i].toFixed(4));
+      el.classList.toggle('wide', i === widest);
+    });
   }
 
-  // With a row of extra pictures under the text (4 or 5 pictures), line its
-  // bottom up with the bottom of the mosaic beside it. If the row is a bit
-  // too tall for the space under the text, narrow it until its height fits.
-  // If there's hardly any space (long text, narrow screen), move the row
-  // under the mosaic instead (.extra-right in portfolio.css).
-  function alignExtra(panel) {
-    const extra  = panel && panel.querySelector('.pshots.pextra');
-    const mosaic = panel && panel.querySelector('.pshots.mosaic');
-    if (!extra || !mosaic) return;
-    extra.style.maxWidth = '';
-    extra.parentElement.classList.remove('extra-right');
-    if (getComputedStyle(extra).gridRowStart !== '2') return;   // phones: stacked, nothing to line up
-    const items = [...extra.children];
-    const shape = items.reduce((sum, el) => sum + (parseFloat(el.style.getPropertyValue('--ar')) || 0), 0);
-    if (!shape || items.some((el) => !el.style.getPropertyValue('--ar'))) return;   // not all loaded yet
-    const mosaicBottom = Math.max(...[...mosaic.children].map((el) => el.getBoundingClientRect().bottom));
-    const textBottom   = panel.querySelector('.panel-main').getBoundingClientRect().bottom;
-    const rowGap = parseFloat(getComputedStyle(extra.parentElement).rowGap) || 0;
-    const room   = mosaicBottom - textBottom - rowGap;             // height available for the row
-    const boxH   = items[0].getBoundingClientRect().height;                          // with its hairline border
-    const height = items[0].querySelector('img, video').getBoundingClientRect().height;   // the picture alone
-    if (room < boxH * 0.6) {
-      extra.parentElement.classList.add('extra-right');
-    } else if (boxH > room) {
-      const fixed = extra.getBoundingClientRect().width - height * shape;   // gaps and borders
-      extra.style.maxWidth = Math.floor((room - (boxH - height)) * shape + fixed) + 'px';
+  // How tall a panel's pictures may be: a share of the screen's height, and
+  // never more than a set number of pixels. Lower these to make the pictures
+  // (and so the panels) smaller; the text column widens to take the room.
+  const MEDIA_MAX_HEIGHT = 0.5;      // half the screen's height…
+  const MEDIA_MAX_PX     = 480;      // …but no taller than this
+  const TEXT_MIN_WIDTH   = 300;      // the text column never gets narrower than this
+
+  // Lay out a panel's pictures: matching heights, then size the group so it
+  // is as wide as possible without going over the height limit. The text
+  // column takes whatever width is left. Shapes are only known once each
+  // picture or video loads, so this runs again as each one arrives, and
+  // when the window is resized.
+  function layoutMedia(panel) {
+    const box = panel && panel.querySelector('.pmedia');
+    if (!box) return;
+    box.querySelectorAll('.pshots.mosaic').forEach(fitShots);
+    box.style.width = '';
+    if (!window.matchMedia('(min-width: 721px)').matches) return;   // phones: full width
+    const body = box.parentElement, cs = getComputedStyle(body);
+    const inner = body.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    let width = Math.floor(inner - TEXT_MIN_WIDTH - parseFloat(cs.columnGap));
+    const limit = Math.min(window.innerHeight * MEDIA_MAX_HEIGHT, MEDIA_MAX_PX);
+    for (let pass = 0; pass < 3; pass++) {             // a few passes, since gaps don't scale
+      box.style.width = width + 'px';
+      const kids = [...box.children];
+      const height = kids[kids.length - 1].getBoundingClientRect().bottom - kids[0].getBoundingClientRect().top;
+      if (height <= limit + 1) break;
+      width = Math.floor(width * limit / height);
     }
   }
 
@@ -321,7 +318,9 @@
     tile.setAttribute('aria-expanded', 'true');
     aimPointer();
     watchVideos();                                     // so any loops in the panel play too
-    panel.querySelectorAll('.pshots.mosaic, .pshots.pextra').forEach(fitShots);
+    panel.querySelectorAll('.pmedia img, .pmedia video').forEach((m) =>
+      m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => layoutMedia(panel), { once: true }));
+    layoutMedia(panel);
 
     // next frame: flip data-open so the CSS transition runs, and keep the tile in view
     requestAnimationFrame(() => {

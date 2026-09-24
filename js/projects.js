@@ -50,13 +50,12 @@ const TAGS = [
                                                //   <a href=\"https://…\" target=\"_blank\">text</a>
      images:      [],                          // extra pictures for the panel, e.g.
                                                //   ["img/foo-detail.webp", "img/foo-2.webp"]
-                                               //   1 fills its column, uncropped. 2 sit side by
-                                               //   side at matching heights. 3 make a mosaic: the
-                                               //   widest on top, the others side by side under
-                                               //   it. With 4 or 5, the first 3 make the mosaic
-                                               //   and the rest sit in a row under the text.
-                                               //   All uncropped. 6 or more show as even 4:3
-                                               //   thumbnails.
+                                               //   1 shows uncropped. 2 sit side by side at
+                                               //   matching heights. 3 to 5 make a mosaic: the
+                                               //   widest on top, the rest sharing a row under
+                                               //   it, all uncropped. 6 or more show as even 4:3
+                                               //   thumbnails. The pictures are kept within a set
+                                               //   height (MEDIA_MAX_HEIGHT in js/portfolio.js).
                                                //   Clicking a picture enlarges it. To open a
                                                //   story instead, write it as
                                                //   { src: "img/…", link: "https://…", label: "Story name" }
@@ -321,7 +320,6 @@ const PROJECTS = [
         link: "https://www.wsj.com/world/americas/minerals-nickel-batteries-canada-climate-carbon-376f11fd" },
       { src: "img/tiles/red-sea-oil-spill-loop.mp4", label: "Red Sea oil spill",
         link: "https://www.wsj.com/articles/the-race-to-avert-an-oil-spill-that-could-cost-20-billion-to-fix-85a884ea" },
-      // pictures 4 and 5 sit in a row under the text
       "img/tiles/titan-submersible.webp",
       "img/tiles/strait-of-messina-bridge.webp"
     ],

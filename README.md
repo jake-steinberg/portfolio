@@ -50,17 +50,22 @@ That's all: the tile, its filter tags and its panel are built automatically.
 
 ### Fields that are easy to forget
 
-- `description` — the panel shows a visible placeholder until this is filled in.
-- `images` — extra pictures for the panel. One fills its column uncropped. Two
-  sit side by side at matching heights. Three make a mosaic: the widest across
-  the top, the others side by side beneath it. With four or five, the first
-  three make the mosaic and the rest fill the space under the text in a row.
-  All are uncropped. Six or more show as even thumbnails. Clicking a
-  picture opens it full size in the lightbox; write an entry as
-  `{ src, link, label }` to open a story instead. An `.mp4` plays as a silent
-  loop, with the `.webp` of the same name (minus `-loop`) as its poster. With
-  none, the panel is text only.
-- `links` — a list of stories, for a project that spans several (see *Maps for the
+- `description` — the panel shows a visible placeholder until this is filled
+  in. HTML is allowed, so it can include a link.
+- `images` — extra pictures for the panel. One shows uncropped. Two sit side
+  by side at matching heights. Three to five make a mosaic: the widest across
+  the top, the rest sharing a row beneath it, all uncropped. Six or more show
+  as even thumbnails. Clicking a picture opens it full size in the lightbox;
+  write an entry as `{ src, link, label }` to open a story instead. An `.mp4`
+  plays as a silent loop, with the `.webp` of the same name (minus `-loop`) as
+  its poster. With none, the panel is text only.
+
+  On wider screens the pictures sit beside the text, kept within a set height:
+  half the screen, and never more than 480px (`MEDIA_MAX_HEIGHT` and
+  `MEDIA_MAX_PX` at the top of the panel section of `js/portfolio.js`). The
+  text column takes the rest of the width, with its links and buttons at the
+  foot, level with the bottom of the pictures.
+- `links` — a list of stories, for a project that spans several (see *Work for the
   Wall Street Journal*). Set `link: ""` to drop the single main button.
 - `linkType: "file"` opens the full-size image in a lightbox. PDFs open in a
   new tab instead.
