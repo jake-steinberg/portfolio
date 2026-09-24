@@ -90,7 +90,7 @@ const PROJECTS = [
   {
     // One tile for both Uptown stories: the call-out where readers drew their
     // boundaries, and the results. The tile video shows the drawing animation
-    // at full width, with white above and below to make it 5:4.
+    // at full width, with the basemap's gray (#EDEDED) above and below to make it 5:4.
     title:       "Where is Uptown?",
     slug:        "where-is-uptown",
     tile:        "img/tiles/where-is-uptown.webp",
@@ -302,7 +302,7 @@ const PROJECTS = [
     // One tile for nine WSJ maps. The video crossfades through all nine, built
     // from Jake's 5:4 crops in img/tiles/WSJ tile/. The panel shows three of
     // them as a mosaic and links every story.
-    title:       "Work for Wall Street Journal",
+    title:       "Work for The Wall Street Journal",
     slug:        "wall-street-journal",
     tile:        "img/tiles/wall-street-journal.webp",
     video:       "img/tiles/wall-street-journal.mp4",
