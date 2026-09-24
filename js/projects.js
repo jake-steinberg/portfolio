@@ -51,7 +51,9 @@ const TAGS = [
                                                //   1 fills its column, uncropped. 2 sit side by
                                                //   side at matching heights. 3 make a mosaic: the
                                                //   widest on top, the others side by side under
-                                               //   it. All uncropped. 4 or more show as even 4:3
+                                               //   it. With 4 or 5, the first 3 make the mosaic
+                                               //   and the rest sit in a row under the text.
+                                               //   All uncropped. 6 or more show as even 4:3
                                                //   thumbnails.
                                                //   Clicking a picture enlarges it. To open a
                                                //   story instead, write it as
@@ -315,7 +317,10 @@ const PROJECTS = [
       { src: "img/tiles/ring-of-fire-loop.mp4", label: "Ring of Fire mining conflict",
         link: "https://www.wsj.com/world/americas/minerals-nickel-batteries-canada-climate-carbon-376f11fd" },
       { src: "img/tiles/red-sea-oil-spill-loop.mp4", label: "Red Sea oil spill",
-        link: "https://www.wsj.com/articles/the-race-to-avert-an-oil-spill-that-could-cost-20-billion-to-fix-85a884ea" }
+        link: "https://www.wsj.com/articles/the-race-to-avert-an-oil-spill-that-could-cost-20-billion-to-fix-85a884ea" },
+      // pictures 4 and 5 sit in a row under the text
+      "img/tiles/titan-submersible.webp",
+      "img/tiles/strait-of-messina-bridge.webp"
     ],
     links:       [
       { label: "Maui wildfires", url: "https://www.wsj.com/articles/why-maui-wildfires-hawaii-devastating-84651f12" },

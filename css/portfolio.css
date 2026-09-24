@@ -370,11 +370,30 @@
    (width ÷ height) as --ar and, for three, marks the widest .wide.
    Growing each one in proportion to its shape is what makes the heights
    match; the 2px basis covers the hairline border, so the match is exact. */
-.pshots.mosaic { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
-.pshots.mosaic > * { flex: var(--ar, 1) 1 2px; min-width: 0; }
+.pshots.mosaic, .pshots.pextra { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+.pshots.mosaic > *, .pshots.pextra > * { flex: var(--ar, 1) 1 2px; min-width: 0; }
 .pshots.mosaic > .wide { flex-basis: 100%; order: -1; }
-.pshots.mosaic img { aspect-ratio: auto; height: auto; object-fit: fill; }
-@media (max-width: 720px) { .pshots.mosaic { gap: 8px; } }
+.pshots.mosaic img, .pshots.pextra img { aspect-ratio: auto; height: auto; object-fit: fill; }
+@media (max-width: 720px) { .pshots.mosaic, .pshots.pextra { gap: 8px; } }
+
+/* 4 or 5 pictures (js adds .has-extra): the first 3 make the mosaic on the
+   right, spanning both rows; the rest (.pextra) fill the space under the
+   text in one row, their bottoms lined up with the mosaic's. */
+.panel-body.has-extra { grid-template-rows: auto 1fr; }
+.panel-body.has-extra > .pshots.mosaic { grid-column: 2; grid-row: 1 / span 2; }
+.pshots.pextra { grid-column: 1; grid-row: 2; align-self: end; padding-top: 0; }
+/* when the text runs long (js adds .extra-right), the row sits under the
+   mosaic instead, and the text runs down the whole left side */
+.panel-body.extra-right { row-gap: 12px; }
+.panel-body.extra-right > .panel-main { grid-row: 1 / span 2; }
+.panel-body.extra-right > .pshots.mosaic { grid-row: 1; }
+.panel-body.extra-right > .pshots.pextra { grid-column: 2; align-self: start; }
+/* phones: one column — text, then the mosaic, then the extra row */
+@media (max-width: 720px) {
+  .panel-body.has-extra { grid-template-rows: none; }
+  .panel-body.has-extra > .pshots.mosaic,
+  .panel-body.has-extra > .pshots.pextra { grid-column: auto; grid-row: auto; }
+}
 /* an .mp4 in images: [] — a looping video, framed like the pictures
    (as a link, it's an <a class="pvid"> and gets the tilt on hover too) */
 .pvid { display: block; border: 1px solid var(--stroke); background: var(--bg); }

@@ -53,7 +53,9 @@ That's all: the tile, its filter tags and its panel are built automatically.
 - `description` — the panel shows a visible placeholder until this is filled in.
 - `images` — extra pictures for the panel. One fills its column uncropped. Two
   sit side by side at matching heights. Three make a mosaic: the widest across
-  the top, the others side by side beneath it. All are uncropped. Four or more show as even thumbnails. Clicking a
+  the top, the others side by side beneath it. With four or five, the first
+  three make the mosaic and the rest fill the space under the text in a row.
+  All are uncropped. Six or more show as even thumbnails. Clicking a
   picture opens it full size in the lightbox; write an entry as
   `{ src, link, label }` to open a story instead. An `.mp4` plays as a silent
   loop, with the `.webp` of the same name (minus `-loop`) as its poster. With
