@@ -302,7 +302,7 @@ const PROJECTS = [
     // One tile for nine WSJ maps. The video crossfades through all nine, built
     // from Jake's 5:4 crops in img/tiles/WSJ tile/. The panel shows three of
     // them as a mosaic and links every story.
-    title:       "Work for The Wall Street Journal",
+    title:       "Work for the Wall Street Journal",
     slug:        "wall-street-journal",
     tile:        "img/tiles/wall-street-journal.webp",
     video:       "img/tiles/wall-street-journal.mp4",
