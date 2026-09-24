@@ -318,6 +318,12 @@
   font-size: 15.5px; line-height: 1.6; margin: 0 0 13px; max-width: var(--measure);
   border-left: 2px solid var(--accent); padding-left: 12px;
 }
+/* a link inside a description gets the same coral underline as the story links */
+.desc a {
+  color: var(--ink); text-decoration: none;
+  border-bottom: 2px solid var(--accent-soft); transition: border-color .15s;
+}
+.desc a:hover { border-bottom-color: var(--accent); }
 /* shown when a project's description is blank — so it's obvious what's left to write */
 .desc.placeholder { color: var(--muted); font-style: italic; }
 .award {                          /* ★ lines, from awards: [] in projects.js */

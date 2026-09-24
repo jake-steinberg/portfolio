@@ -45,7 +45,9 @@ const TAGS = [
      tags:        ["print", "news"],           // any number of ids from TAGS above
      inBook:      false,                       // true adds the "In the book" corner marker
      description: "",                          // a sentence or two for the panel.
-                                               //   Left "" → the panel shows a placeholder
+                                               //   Left "" → the panel shows a placeholder.
+                                               //   HTML is allowed, e.g. a link:
+                                               //   <a href=\"https://…\" target=\"_blank\">text</a>
      images:      [],                          // extra pictures for the panel, e.g.
                                                //   ["img/foo-detail.webp", "img/foo-2.webp"]
                                                //   1 fills its column, uncropped. 2 sit side by
@@ -292,10 +294,11 @@ const PROJECTS = [
     video:       "",
     link:        "img/projection-card.jpg",
     linkType:    "file",
-    tags:        ["print", "illustrated"],
+    tags:        ["print"],
     inBook:      false,
-    description: "",
-    images:      [],
+    description: "A retro video game design I contributed to Daniel Huffman&rsquo;s " +
+                 "<a href=\"https://somethingaboutmaps.wordpress.com/2023/09/26/the-projection-collection-returns/\" target=\"_blank\" rel=\"noopener\">Projection Collection</a>.",
+    images:      ["img/tiles/projection-trading-card-full.webp"],   // the whole card, uncropped
     awards:      []
   },
   {
