@@ -173,10 +173,13 @@
       ? `<div class="pshots${kind}">${p.images.map(shot).join('')}</div>`
       : '';
 
-    // The text is in two parts: .ptop (title, description, awards) at the top
-    // of its column, and .pfoot (story links and buttons) at the foot, level
-    // with the bottom of the pictures (see "PANEL LAYOUT" in portfolio.css).
+    // The text is in two parts: .ptop (title, year and tags, description,
+    // awards) and .pfoot (story links and buttons) right after it.
     const foot = storyLinks || mainLink || bookLink;
+
+    // The line under the title: the year (if set), then the tags
+    const meta = [p.year ? `<span class="tag year">${esc(p.year)}</span>` : '',
+                  ...p.tags.map((id) => `<span class="tag">${esc(tagLabel(id))}</span>`)].join('');
     return `
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
         <div class="panel-in">
@@ -185,6 +188,7 @@
             <div class="panel-main">
               <div class="ptop">
                 <h3>${esc(p.title)}</h3>
+                ${meta ? `<div class="tags pmeta">${meta}</div>` : ''}
                 ${description}
                 ${awards}
               </div>

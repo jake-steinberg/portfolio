@@ -306,16 +306,13 @@
 }
 
 /* -- PANEL LAYOUT (wider screens) -------------------------------------------
-   The text column sits beside the pictures. Its title and description are at
-   the top (.ptop) and its links and buttons at the foot (.pfoot), level with
-   the bottom of the pictures, so short text still reads as a caption rather
-   than leaving a gap. js/portfolio.js sets the width of the pictures
-   (.pmedia) to keep them within a set height (MEDIA_MAX_HEIGHT); the text
-   column takes the rest of the width. */
+   The text column sits beside the pictures: title, year and tags,
+   description, awards (.ptop), then links and buttons (.pfoot).
+   js/portfolio.js sets the width of the pictures (.pmedia) to keep them
+   within a set height (MEDIA_MAX_HEIGHT); the text column takes the rest of
+   the width. */
 @media (min-width: 721px) {
   .panel-body:not(.solo) { grid-template-columns: minmax(0, 1fr) auto; }
-  .panel-body:not(.solo) .panel-main { display: flex; flex-direction: column; }
-  .panel-body:not(.solo) .pfoot { margin-top: auto; }
   .pmedia { padding-top: 30px; }          /* clears the Close button */
 }
 .pfoot > :first-child { margin-top: 0; }
@@ -327,6 +324,9 @@
   font-size: clamp(1.15rem, .95rem + .8vw, 1.55rem);
   margin: 0 0 14px; padding-right: 70px;  /* room for the Close button */
 }
+/* year and tags under the title — the same small labels as under each tile */
+.pmeta { margin: -6px 0 14px; }
+.pmeta .year { color: var(--ink); }
 /* the description, set off by a coral rule down its left side */
 .desc {
   font-size: 15.5px; line-height: 1.6; margin: 0 0 13px; max-width: var(--measure);

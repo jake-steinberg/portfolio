@@ -50,6 +50,8 @@ That's all: the tile, its filter tags and its panel are built automatically.
 
 ### Fields that are easy to forget
 
+- `year` — shown in the panel under the title, before the tags. Leave it `""`
+  to show just the tags.
 - `description` — the panel shows a visible placeholder until this is filled
   in. HTML is allowed, so it can include a link.
 - `images` — extra pictures for the panel. One shows uncropped. Two sit side
@@ -63,8 +65,7 @@ That's all: the tile, its filter tags and its panel are built automatically.
   On wider screens the pictures sit beside the text, kept within a set height:
   40% of the screen, and never more than 340px (`MEDIA_MAX_HEIGHT` and
   `MEDIA_MAX_PX` at the top of the panel section of `js/portfolio.js`). The
-  text column takes the rest of the width, with its links and buttons at the
-  foot, level with the bottom of the pictures.
+  text column takes the rest of the width.
 - `links` — a list of stories, for a project that spans several (see *Work for the
   Wall Street Journal*). Set `link: ""` to drop the single main button.
 - `linkType: "file"` opens the full-size image in a lightbox. PDFs open in a
