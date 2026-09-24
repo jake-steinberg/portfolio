@@ -11,7 +11,7 @@
    Page-specific styles live in their own files (portfolio.css, resume.css).
 
    ⚠ Do not merge this into css/style.css. The bespoke project pages
-   (22map.html, pipeline.html, golf.html, trees.html) still use style.css and
+   (22map.html, pipeline.html, golf.html) still use style.css and
    Bootstrap, and must keep looking exactly as they do.
    ============================================================================= */
 

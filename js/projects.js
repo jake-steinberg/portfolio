@@ -40,7 +40,7 @@ const TAGS = [
                                                //   becomes its poster frame. "" for none
      link:        "https://...",               // where the panel's main button goes
      linkType:    "story",                     // "story" — a published story (opens in a new tab)
-                                               // "page"  — one of your own pages, e.g. "trees.html"
+                                               // "page"  — one of your own pages, e.g. "22map.html"
                                                // "file"  — a full-size image, shown in the lightbox
      tags:        ["print", "news"],           // any number of ids from TAGS above
      inBook:      false,                       // true adds the "In the book" corner marker
@@ -229,11 +229,11 @@ const PROJECTS = [
     slug:        "slivers-of-an-ancient-forest",
     tile:        "img/tiles/slivers-of-an-ancient-forest.webp",   // 5:4 crop for the grid
     video:       "",
-    link:        "trees.html",
-    linkType:    "page",
+    link:        "img/slivers-of-an-ancient-forest-sml.png",   // full-size map (6375 x 4125)
+    linkType:    "file",
     tags:        ["print", "illustrated", "outdoors"],
     inBook:      false,
-    description: "",
+    description: "The Northwoods are as fundamental to the cultural identity of the Upper Midwest as lakes and mosquitos. I made this National Geographic-inspired poster map for GEOG 370: Intro to Cartography. It tells the story of what the Northwoods used to be, as well as what they might one day become.",
     images:      ["img/tiles/slivers-of-an-ancient-forest-full.webp"],   // the whole map, uncropped
     awards:      [
       "CaGIS Arthur Robinson Award for best print map, 2021",

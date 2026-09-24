@@ -9,7 +9,7 @@ file and pushing to `main` publishes it.
 |---|---|---|---|
 | Portfolio (homepage) | `index.html` | `css/site.css` + `css/portfolio.css` | `js/projects.js`, `js/portfolio.js`, `js/site.js` |
 | Resume | `resume.html` | `css/site.css` + `css/resume.css` | `js/site.js`, `js/resume.js` |
-| Bespoke project pages: `22map.html`, `pipeline.html`, `golf.html`, `trees.html` | as is | `css/style.css`, Bootstrap, `css/scrollmap.css` | `js/scrollmap.js` |
+| Bespoke project pages: `22map.html`, `pipeline.html`, `golf.html` | as is | `css/style.css`, Bootstrap, `css/scrollmap.css` | `js/scrollmap.js` |
 
 - **`css/site.css`** holds everything shared by the redesigned pages: the color
   and font tokens at the top, the sticky header and the footer.
