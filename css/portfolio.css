@@ -151,17 +151,20 @@
    (object-fit: cover), so reformat source images to 5:4 to control the crop.
    ----------------------------------------------------------------------------- */
 .grid {
+  /* spacing between tiles: across (columns) and down (rows) */
+  --col-gap: 34px;
+  --row-gap: 38px;
   display: grid;
-  /* As many columns as fit at 218px or wider, but never more than 4:
-     each column is at least a quarter of the row (minus the gaps).
-     To change the maximum, change both 4 and 3 (the number of gaps). */
-  grid-template-columns: repeat(auto-fill, minmax(max(218px, calc((100% - 3 * var(--gap)) / 4)), 1fr));
-  gap: var(--gap);
+  /* As many columns as fit at 218px or wider, but never more than 3:
+     each column is at least a third of the row (minus the gaps).
+     To change the maximum, change both 3 and 2 (the number of gaps). */
+  grid-template-columns: repeat(auto-fill, minmax(max(218px, calc((100% - 2 * var(--col-gap)) / 3)), 1fr));
+  gap: var(--row-gap) var(--col-gap);
   align-items: start;
   padding-bottom: 10px;
 }
 @media (max-width: 520px) {
-  .grid { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 16px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 22px 16px; }
 }
 
 /* each tile is a <button> — clicking unfolds its panel */
@@ -218,22 +221,30 @@
 }
 
 /* title + tags under each tile */
-.cap { display: block; margin-top: 9px; }
+.cap { display: block; margin-top: 12px; }
 .cap .ttl {
   display: block;
-  font-family: var(--display); font-weight: 400; font-size: 14.5px; line-height: 1.3;
+  font-family: var(--display); font-weight: 400; font-size: 17.5px; line-height: 1.3;
   margin: 0; transition: color .15s;
 }
 .gcard:hover .cap .ttl,
 .gcard[aria-expanded="true"] .cap .ttl { color: var(--accent-ink); }
 
-.tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .tag {
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .08em;
   text-transform: uppercase; color: var(--muted);
 }
-.tag::after { content: "\00B7"; margin-left: 5px; opacity: .5; }   /* the · between tags */
+.tag::after { content: "\00B7"; margin-left: 6px; opacity: .5; }   /* the · between tags */
 .tag:last-child::after { content: ""; }
+
+/* phones: two small tiles side by side, so keep the captions compact */
+@media (max-width: 520px) {
+  .cap { margin-top: 9px; }
+  .cap .ttl { font-size: 15px; }
+  .tags { gap: 5px; margin-top: 5px; }
+  .tag { font-size: 9.5px; }
+}
 
 /* shown when no project has every selected tag */
 .empty { padding: 50px 0; text-align: center; color: var(--muted); font-family: var(--mono); font-size: 13px; }
