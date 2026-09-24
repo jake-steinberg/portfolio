@@ -337,19 +337,25 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // The video crossfades through five hikes, built from Jake's 5:4 crops
-    // in img/tiles/Fall Hikes tile/ (same recipe as the WSJ tile).
-    title:       "Fall Hikes",
+    // A seasonal series; one tile for all three stories. The video
+    // crossfades through five hikes from Fall 2024, built from Jake's 5:4
+    // crops in img/tiles/Fall Hikes tile/ (same recipe as the WSJ tile).
+    title:       "Best places to hike",
     slug:        "fall-hikes",
-    year:        "",
+    year:        "2024–2026",
     tile:        "img/tiles/fall-hikes.webp",
     video:       "img/tiles/fall-hikes.mp4",
-    link:        "https://www.startribune.com/minnesota-hike-fall-colors-north-shore-state-parks/601143123",
+    link:        "",
     linkType:    "story",
     tags:        ["interactive", "outdoors"],
     inBook:      false,
-    description: "",
+    description: "A seasonal feature for the Star Tribune spotlighting the best places to be outside.",
     images:      [],
+    links:       [
+      { label: "Fall 2024", url: "https://www.startribune.com/minnesota-hike-fall-colors-north-shore-state-parks/601143123" },
+      { label: "Spring 2026", url: "https://www.startribune.com/eight-minnesota-hikes-that-sing-of-spring/601637574" },
+      { label: "Fall 2026", url: "https://www.startribune.com/8-minnesota-hikes-to-fall-for-this-autumn/601883249" }
+    ],
     awards:      []
   }
 ];
