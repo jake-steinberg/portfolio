@@ -202,6 +202,8 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // The video crossfades through five hikes, built from Jake's 5:4 crops
+    // in img/tiles/Fall Hikes tile/ (same recipe as the WSJ tile).
     title:       "Fall Hikes",
     slug:        "fall-hikes",
     tile:        "img/tiles/fall-hikes.webp",
@@ -293,8 +295,8 @@ const PROJECTS = [
   },
   {
     // One tile for nine WSJ maps. The video crossfades through all nine, built
-    // from Jake's 5:4 crops in img/tiles/WSJ tile/. The panel shows each map
-    // (click to enlarge) and links every story.
+    // from Jake's 5:4 crops in img/tiles/WSJ tile/. The panel shows three of
+    // them as a mosaic and links every story.
     title:       "Maps for the Wall Street Journal",
     slug:        "wall-street-journal",
     tile:        "img/tiles/wall-street-journal.webp",
