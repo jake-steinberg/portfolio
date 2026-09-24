@@ -278,7 +278,7 @@
     focusBeforeLightbox = document.activeElement;
     lbImg.src = src;
     lbImg.alt = title;
-    lbCap.innerHTML = `${esc(title)} &middot; <a href="${esc(src)}" target="_blank" rel="noopener">Open original &#8599;</a>`;
+    lbCap.innerHTML = `${esc(title)} &middot; <a href="${esc(src)}" target="_blank" rel="noopener">Open full-size map &#8599;</a>`;
     lb.hidden = false;
     lbClose.focus();
   }
