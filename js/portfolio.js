@@ -280,22 +280,21 @@
   // (and so the panels) smaller; the text column widens to take the room.
   const MEDIA_MAX_HEIGHT = 0.4;      // 40% of the screen's height…
   const MEDIA_MAX_PX     = 340;      // …but no taller than this
-  const TEXT_MIN_WIDTH   = 300;      // the text column never gets narrower than this
 
   // Lay out a panel's pictures: matching heights, then size the group so it
-  // is as wide as possible without going over the height limit. The text
-  // column takes whatever width is left. Shapes are only known once each
-  // picture or video loads, so this runs again as each one arrives, and
-  // when the window is resized.
+  // is as wide as its column allows without going over the height limit.
+  // The CSS centers it in that column (see "PANEL LAYOUT" in portfolio.css).
+  // Shapes are only known once each picture or video loads, so this runs
+  // again as each one arrives, and when the window is resized.
   function layoutMedia(panel) {
     const box = panel && panel.querySelector('.pmedia');
     if (!box) return;
     box.querySelectorAll('.pshots.mosaic').forEach(fitShots);
     box.style.width = '';
     if (!window.matchMedia('(min-width: 721px)').matches) return;   // phones: full width
-    const body = box.parentElement, cs = getComputedStyle(body);
-    const inner = body.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    let width = Math.floor(inner - TEXT_MIN_WIDTH - parseFloat(cs.columnGap));
+    // the picture column's width, as the grid has worked it out ("544px 700px")
+    const tracks = getComputedStyle(box.parentElement).gridTemplateColumns.split(' ');
+    let width = Math.floor(parseFloat(tracks[tracks.length - 1]));
     const limit = Math.min(window.innerHeight * MEDIA_MAX_HEIGHT, MEDIA_MAX_PX);
     for (let pass = 0; pass < 3; pass++) {             // a few passes, since gaps don't scale
       box.style.width = width + 'px';

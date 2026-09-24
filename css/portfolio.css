@@ -308,12 +308,18 @@
 /* -- PANEL LAYOUT (wider screens) -------------------------------------------
    The text column sits beside the pictures: title, year and tags,
    description, awards (.ptop), then links and buttons (.pfoot).
-   js/portfolio.js sets the width of the pictures (.pmedia) to keep them
-   within a set height (MEDIA_MAX_HEIGHT); the text column takes the rest of
-   the width. */
+   The text column is as wide as its text needs, up to 34rem (and at least
+   300px); the pictures get the rest. js/portfolio.js sets the width of the
+   pictures (.pmedia) to keep them within a set height (MEDIA_MAX_HEIGHT),
+   and they sit centered in their column, with equal space above and below,
+   and to either side. */
 @media (min-width: 721px) {
-  .panel-body:not(.solo) { grid-template-columns: minmax(0, 1fr) auto; }
-  .pmedia { padding-top: 30px; }          /* clears the Close button */
+  .panel-body:not(.solo) { grid-template-columns: fit-content(34rem) minmax(0, 1fr); }
+  .panel-body:not(.solo) .panel-main { min-width: 300px; }
+  .pmedia {
+    justify-self: center; align-self: center;
+    padding-block: 30px;                  /* clears the Close button, and keeps it centered */
+  }
 }
 .pfoot > :first-child { margin-top: 0; }
 .ptop > :last-child { margin-bottom: 0; }
