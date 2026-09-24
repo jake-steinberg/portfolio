@@ -57,9 +57,7 @@ const TAGS = [
    },
 
    Notes
-   - inBook is only true for State Fair Smellscape so far. Other likely book
-     chapters to check: Urban Sprawl in the Twin Cities, How Minneapolis Got
-     Over Golf, Bryn Mawr.
+   - inBook is only true for State Fair Smellscape so far.
    - Tags were a first pass. Scrollytelling vs. Interactive especially is a guess.
    ----------------------------------------------------------------------------- */
 const PROJECTS = [
@@ -251,34 +249,6 @@ const PROJECTS = [
     awards:      []
   },
   {
-    title:       "Cloud Peak Wilderness",
-    slug:        "cloud-peak-wilderness",
-    tile:        "img/tiles/cloud-peak-wilderness.webp",
-    video:       "",
-    link:        "img/bighorns-website.png",
-    linkType:    "file",
-    tags:        ["print", "3d", "outdoors"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Dark Sky Sanctuaries",
-    slug:        "dark-sky-sanctuaries",
-    tile:        "img/tiles/dark-sky-sanctuaries.webp",
-    video:       "img/tiles/dark-sky-sanctuaries.mp4",
-    link:        "https://jake-steinberg.github.io/2022_DarkSkies_js/",
-    linkType:    "story",
-    tags:        ["interactive", "outdoors"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      [
-      "Winner, NACIS Student Dynamic Map Competition, 2022 &mdash; with Aileen Clarke and Austin Novak"
-    ]
-  },
-  {
     title:       "The Life and Death of the Great Lakes Pipeline",
     slug:        "great-lakes-pipeline",
     tile:        "img/tiles/great-lakes-pipeline.webp",
@@ -294,19 +264,6 @@ const PROJECTS = [
     ]
   },
   {
-    title:       "Urban Sprawl in the Twin Cities",
-    slug:        "urban-sprawl-in-the-twin-cities",
-    tile:        "img/tiles/urban-sprawl-in-the-twin-cities.webp",
-    video:       "img/tiles/urban-sprawl-in-the-twin-cities.mp4",
-    link:        "https://jake-steinberg.github.io/Twin-Cities-Sprawl/",
-    linkType:    "story",
-    tags:        ["scrollytelling", "news", "remote-sensing"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
     title:       "Projection Trading Card",
     slug:        "projection-trading-card",
     tile:        "img/tiles/projection-trading-card.webp",
@@ -314,86 +271,6 @@ const PROJECTS = [
     link:        "img/projection-card.jpg",
     linkType:    "file",
     tags:        ["print", "illustrated"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "The Mesabi Trail",
-    slug:        "the-mesabi-trail",
-    tile:        "img/tiles/the-mesabi-trail.webp",
-    video:       "",
-    link:        "https://www.startribune.com/mesabi-bike-trail-electric-bikes-iron-range-minnesota/601158947?utm_source=gift",
-    linkType:    "story",
-    tags:        ["print", "outdoors"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Paddlers",
-    slug:        "paddlers",
-    tile:        "img/tiles/paddlers.webp",
-    video:       "",
-    link:        "https://www.startribune.com/beyond-wilderness-the-epic-paddle-that-took-two-men-from-minnesota-to-the-arctic-ocean/601148229",
-    linkType:    "story",
-    tags:        ["outdoors"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "From One to All",
-    slug:        "from-one-to-all",
-    tile:        "img/tiles/from-one-to-all.webp",
-    video:       "",
-    link:        "https://www2.startribune.com/a-history-of-st-paul-women-on-the-city-council/600330010/",
-    linkType:    "story",
-    tags:        ["scrollytelling", "news"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      [
-      "First place, local reporting &mdash; Minnesota SPJ Page One Award, 2025 &mdash; with Anna Boone and Katie Galioto"
-    ]
-  },
-  {
-    title:       "Minnesota's Deepest Lake",
-    slug:        "minnesotas-deepest-lake",
-    tile:        "img/tiles/minnesotas-deepest-lake.webp",
-    video:       "",
-    link:        "https://www.startribune.com/minnesota-deepest-lake-iron-mines-cuyuna-range/600322085/",
-    linkType:    "story",
-    tags:        ["news", "outdoors"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "State of Turkeys",
-    slug:        "state-of-turkeys",
-    tile:        "img/tiles/state-of-turkeys.webp",
-    video:       "",
-    link:        "https://www.startribune.com/turkeys-minnesota-rank-number-one-producer/600320510/",
-    linkType:    "story",
-    tags:        ["news", "outdoors"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "How Minneapolis Got Over Golf",
-    slug:        "how-minneapolis-got-over-golf",
-    tile:        "img/tiles/how-minneapolis-got-over-golf.webp",
-    video:       "img/tiles/how-minneapolis-got-over-golf.mp4",
-    link:        "golf.html",
-    linkType:    "page",
-    tags:        ["scrollytelling", "news"],
     inBook:      false,
     description: "",
     images:      [],
@@ -428,58 +305,6 @@ const PROJECTS = [
       { label: "Titan submersible search", url: "https://www.wsj.com/articles/missing-titan-submersible-search-map-22c882f?mod=Searchresults_pos20&page=1" },
       { label: "Ukraine land bridge", url: "https://www.wsj.com/story/the-strategic-importance-of-the-russia-controlled-land-bridge-in-ukraine-832d0728?mod=hp_lead_pos7" }
     ],
-    awards:      []
-  },
-  {
-    title:       "Mountain Valley Pipeline",
-    slug:        "mountain-valley-pipeline",
-    tile:        "img/tiles/mountain-valley-pipeline.webp",
-    video:       "",
-    link:        "https://www.wsj.com/articles/they-fought-a-pipeline-on-their-land-then-congress-got-involved-95c4870f?mod=Searchresults_pos1&page=1",
-    linkType:    "story",
-    tags:        ["news", "remote-sensing"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Alaska LNG Project",
-    slug:        "alaska-lng-project",
-    tile:        "img/tiles/alaska-lng-project.webp",
-    video:       "",
-    link:        "https://www.wsj.com/articles/u-s-allies-in-asia-snub-natural-gas-from-alaska-project-e54f754a?mod=Searchresults_pos1&page=1",
-    linkType:    "story",
-    tags:        ["3d", "news"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Bryn Mawr",
-    slug:        "bryn-mawr",
-    tile:        "img/tiles/bryn-mawr.webp",
-    video:       "",
-    link:        "img/brynMawr.png",
-    linkType:    "file",
-    tags:        ["print", "illustrated"],
-    inBook:      false,
-    description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Miles from Recovery",
-    slug:        "miles-from-recovery",
-    tile:        "img/tiles/miles-from-recovery.webp",
-    video:       "img/tiles/miles-from-recovery.mp4",
-    link:        "https://news.azpm.org/p/news-splash/2020/2/4/165432-miles-from-recovery-how-distance-and-stigma-keep-rural-arizonans-from-opioid-treatment/",
-    linkType:    "story",
-    tags:        ["scrollytelling", "news"],
-    inBook:      false,
-    description: "",
-    images:      [],
     awards:      []
   }
 ];
