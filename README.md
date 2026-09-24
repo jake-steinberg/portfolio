@@ -40,7 +40,9 @@ That's all: the tile, its filter tags and its panel are built automatically.
 ### Fields that are easy to forget
 
 - `description` — the panel shows a visible placeholder until this is filled in.
-- `images` — extra pictures for the panel. With none, the panel is text only.
+- `images` — extra pictures for the panel. One picture shows uncropped; several
+  show as even thumbnails that open uncropped in the lightbox. With none, the
+  panel is text only.
 - `links` — a list of stories, for a project that spans several (see *Maps for the
   Wall Street Journal*). Set `link: ""` to drop the single main button.
 - `linkType: "file"` opens the full-size image in a lightbox. PDFs open in a

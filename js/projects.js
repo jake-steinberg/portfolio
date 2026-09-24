@@ -48,6 +48,8 @@ const TAGS = [
                                                //   Left "" → the panel shows a placeholder
      images:      [],                          // extra pictures for the panel, e.g.
                                                //   ["img/foo-detail.webp", "img/foo-2.webp"]
+                                               //   One picture shows uncropped at full width;
+                                               //   several show as even 4:3 thumbnails.
                                                //   Left [] → the panel is text only
      links:       [],                          // optional list of stories, for a project that
                                                //   spans several. Each: { label: "…", url: "…" }.
@@ -225,14 +227,14 @@ const PROJECTS = [
   {
     title:       "Slivers of an Ancient Forest",
     slug:        "slivers-of-an-ancient-forest",
-    tile:        "img/tiles/slivers-of-an-ancient-forest.webp",
+    tile:        "img/tiles/slivers-of-an-ancient-forest.webp",   // 5:4 crop for the grid
     video:       "",
     link:        "trees.html",
     linkType:    "page",
     tags:        ["print", "illustrated", "outdoors"],
     inBook:      false,
     description: "",
-    images:      [],
+    images:      ["img/tiles/slivers-of-an-ancient-forest-full.webp"],   // the whole map, uncropped
     awards:      [
       "CaGIS Arthur Robinson Award for best print map, 2021",
       "Featured in the NACIS <em>Atlas of Design</em>, Vol. VI",

@@ -356,7 +356,11 @@
   transition: transform .18s;
 }
 .pshots a:hover { transform: rotate(.8deg); }
+/* several pictures: even 4:3 thumbnails (click one to see it uncropped in the lightbox) */
 .pshots img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+/* a single picture gets the whole column, shown uncropped at its true shape */
+.pshots a:only-child { grid-column: 1 / -1; }
+.pshots a:only-child img { aspect-ratio: auto; height: auto; object-fit: fill; }
 
 .panel .close {
   position: absolute; top: 12px; right: 12px; z-index: 3;
