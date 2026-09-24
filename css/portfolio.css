@@ -164,7 +164,7 @@
   padding-bottom: 10px;
 }
 @media (max-width: 520px) {
-  .grid { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 22px 16px; }
+  .grid { --col-gap: 16px; --row-gap: 22px; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); }
 }
 
 /* each tile is a <button> — clicking unfolds its panel */
@@ -257,22 +257,51 @@
    by growing its grid row from 0fr to 1fr.
    ----------------------------------------------------------------------------- */
 .panel {
+  /* How far the pointer's tip sits below the open tile's caption. The panel
+     is pulled up into the row gap by the difference. */
+  --panel-gap: 10px;
+  --arrow: 11px;                 /* pointer size */
   grid-column: 1 / -1;           /* spans the whole grid width */
   display: grid; grid-template-rows: 0fr;
-  transition: grid-template-rows .32s cubic-bezier(.2,.7,.3,1);
+  margin-top: 0;
+  transition: grid-template-rows .32s cubic-bezier(.2,.7,.3,1), margin-top .32s cubic-bezier(.2,.7,.3,1);
 }
-.panel[data-open="true"] { grid-template-rows: 1fr; }
+.panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  margin-top: calc(var(--panel-gap) - var(--row-gap));
+}
 .panel > .panel-in { overflow: hidden; min-height: 0; }
 
 .panel-body {
   position: relative;
   display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   gap: clamp(18px, 2.6vw, 38px);
-  margin-top: var(--gap);
+  margin-top: var(--arrow);      /* room for the pointer inside the clipped panel */
   padding: clamp(20px, 2.5vw, 32px);
   background: var(--plate);
   border: 1px solid var(--stroke);
 }
+/* the pointer: a small notch in the top edge, aimed at the center of the open
+   tile. js/portfolio.js sets --arrow-x. Two stacked triangles make the
+   hairline outline (::before) and the paper fill (::after). */
+.panel-body::before,
+.panel-body::after {
+  content: ""; position: absolute; width: 0; height: 0;
+  border-style: solid; border-color: transparent; border-top-width: 0;
+}
+.panel-body::before {
+  top: calc(-1 * var(--arrow));
+  left: calc(var(--arrow-x, 50%) - var(--arrow));
+  border-width: 0 var(--arrow) var(--arrow);
+  border-bottom-color: var(--stroke);
+}
+.panel-body::after {
+  top: calc(-1 * var(--arrow) + 1px);
+  left: calc(var(--arrow-x, 50%) - var(--arrow) + 1px);
+  border-width: 0 calc(var(--arrow) - 1px) calc(var(--arrow) - 1px);
+  border-bottom-color: var(--plate);
+}
+
 /* no extra images for this project → one full-width column */
 .panel-body.solo { grid-template-columns: minmax(0, 1fr); }
 @media (max-width: 720px) { .panel-body { grid-template-columns: 1fr; } }

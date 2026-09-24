@@ -171,12 +171,23 @@
     return tiles[Math.min(Math.ceil((i + 1) / cols) * cols - 1, tiles.length - 1)];
   }
 
-  // If the window is resized, move the open panel to its row's new end
+  // Aim the panel's pointer at the middle of the open tile
+  function aimPointer() {
+    const panel = gridEl.querySelector('.panel');
+    const tile = openSlug && gridEl.querySelector(`.gcard[data-slug="${openSlug}"] .gframe`);
+    if (!panel || !tile) return;
+    const body = panel.querySelector('.panel-body');
+    const t = tile.getBoundingClientRect(), b = body.getBoundingClientRect();
+    body.style.setProperty('--arrow-x', Math.round(t.left + t.width / 2 - b.left) + 'px');
+  }
+
+  // If the window is resized, move the open panel to its row's new end and re-aim its pointer
   window.addEventListener('resize', () => {
     if (!openSlug) return;
     const panel = gridEl.querySelector('.panel');
     const end = rowEnd(openSlug);
     if (panel && end && end.nextElementSibling !== panel) end.after(panel);
+    aimPointer();
   });
 
   function closePanel() {
@@ -206,6 +217,7 @@
     const panel = gridEl.querySelector('.panel');
     const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
     tile.setAttribute('aria-expanded', 'true');
+    aimPointer();
 
     // next frame: flip data-open so the CSS transition runs, and keep the tile in view
     requestAnimationFrame(() => {
