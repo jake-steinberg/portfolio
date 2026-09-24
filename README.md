@@ -29,6 +29,17 @@ file and pushing to `main` publishes it.
      -c:v libx264 -crf 28 img/tiles/my-project.mp4
    ```
 
+   **For a slideshow** (a few separate maps rather than one animation), use
+   `tools/crossfade-loop.sh` instead, which crossfades from one picture to
+   the next and loops seamlessly. It takes a list of pictures cropped to 5:4,
+   or a slideshow GIF:
+
+   ```sh
+   tools/crossfade-loop.sh img/tiles/my-project.mp4 800 640 "img/tiles/My tile/"*.jpg
+   ```
+
+   Timing and quality settings are at the top of the script.
+
    The WebP tile is used as the video's poster frame. Videos only play while
    they're on screen, and never for visitors who've asked their device for
    reduced motion.
