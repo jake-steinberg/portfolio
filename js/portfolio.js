@@ -203,8 +203,12 @@
   }
 
   // Aim the panel's pointer at the middle of the open tile
+  // The open panel. A panel that's still animating closed can sit in the
+  // grid for a moment alongside the new one, so skip any marked .closing.
+  const currentPanel = () => gridEl.querySelector('.panel:not(.closing)');
+
   function aimPointer() {
-    const panel = gridEl.querySelector('.panel');
+    const panel = currentPanel();
     const tile = openSlug && gridEl.querySelector(`.gcard[data-slug="${openSlug}"] .gframe`);
     if (!panel || !tile) return;
     const body = panel.querySelector('.panel-body');
@@ -215,7 +219,7 @@
   // If the window is resized, move the open panel to its row's new end and re-aim its pointer
   window.addEventListener('resize', () => {
     if (!openSlug) return;
-    const panel = gridEl.querySelector('.panel');
+    const panel = currentPanel();
     const end = rowEnd(openSlug);
     if (panel && end && end.nextElementSibling !== panel) end.after(panel);
     aimPointer();
@@ -223,11 +227,12 @@
 
   function closePanel() {
     if (!openSlug) return;
-    const panel = gridEl.querySelector('.panel');
+    const panel = currentPanel();
     const tile = gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`);
     if (tile) tile.setAttribute('aria-expanded', 'false');
     openSlug = null;
     if (!panel) return;
+    panel.classList.add('closing');                    // so currentPanel() skips it from now on
     panel.dataset.open = 'false';                      // starts the closing animation
     const remove = () => panel.remove();
     if (prefersReducedMotion()) remove();
@@ -270,7 +275,7 @@
 
     end.insertAdjacentHTML('afterend', panelHTML(project));
     openSlug = slug;
-    const panel = gridEl.querySelector('.panel');
+    const panel = end.nextElementSibling;              // the panel just added
     const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
     tile.setAttribute('aria-expanded', 'true');
     aimPointer();

@@ -313,12 +313,13 @@
   font-size: clamp(1.15rem, .95rem + .8vw, 1.55rem);
   margin: 0 0 14px; padding-right: 70px;  /* room for the Close button */
 }
-.desc { font-size: 15.5px; line-height: 1.6; margin: 0 0 13px; max-width: var(--measure); }
-/* shown when a project's description is blank — so it's obvious what's left to write */
-.desc.placeholder {
-  color: var(--muted); font-style: italic;
+/* the description, set off by a coral rule down its left side */
+.desc {
+  font-size: 15.5px; line-height: 1.6; margin: 0 0 13px; max-width: var(--measure);
   border-left: 2px solid var(--accent); padding-left: 12px;
 }
+/* shown when a project's description is blank — so it's obvious what's left to write */
+.desc.placeholder { color: var(--muted); font-style: italic; }
 .award {                          /* ★ lines, from awards: [] in projects.js */
   position: relative; max-width: var(--measure);
   font-size: 13.5px; line-height: 1.55; margin: 0 0 9px; padding-left: 21px;
