@@ -363,9 +363,10 @@
 /* a single picture gets the whole column, shown uncropped at its true shape */
 .pshots a:only-child { grid-column: 1 / -1; }
 .pshots a:only-child img { aspect-ratio: auto; height: auto; object-fit: fill; }
-/* 2 or 3 pictures (js adds .mosaic): uncropped, the widest across the top and
-   the others side by side under it at matching heights. js/portfolio.js gives
-   each picture its shape (width ÷ height) as --ar and marks the widest .wide.
+/* 2 or 3 pictures (js adds .mosaic): uncropped, at matching heights. Two sit
+   side by side; with three, the widest goes across the top and the others
+   side by side under it. js/portfolio.js gives each picture its shape
+   (width ÷ height) as --ar and, for three, marks the widest .wide.
    Growing each one in proportion to its shape is what makes the heights
    match; the 2px basis covers the hairline border, so the match is exact. */
 .pshots.mosaic { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }

@@ -147,8 +147,8 @@
     //                      name (minus "-loop") as its still poster; not
     //                      clickable unless it has a link
     //   with a link      → opens that page in a new tab
-    // 1 picture fills its column uncropped; 2 or 3 make a mosaic, uncropped
-    // at matching heights; 4 or more become even 4:3 thumbnails.
+    // 1 picture fills its column uncropped; 2 sit side by side and 3 make a
+    // mosaic, uncropped at matching heights; 4 or more become even 4:3 thumbnails.
     const shot = (entry) => {
       const { src, link, label } = typeof entry === 'string' ? { src: entry } : entry;
       const isVideo = /\.mp4$/i.test(src);
@@ -235,8 +235,8 @@
   }
 
   // Give each picture in a mosaic its shape (width ÷ height) as --ar, so the
-  // CSS can size them to matching heights, and mark the widest one .wide
-  // (the mosaic puts it on top). Shapes are only known once each picture or
+  // CSS can size them to matching heights, and, when there are 3, mark the
+  // widest one .wide (the mosaic puts it on top). Shapes are only known once each picture or
   // video has loaded, so this re-runs as each one arrives.
   function fitShots(shots) {
     if (!shots) return;
@@ -248,7 +248,8 @@
         return w && h ? w / h : 0;
       });
       if (ratios.some((r) => !r)) return;              // still waiting on one
-      const widest = ratios.indexOf(Math.max(...ratios));
+      // with 3 pictures the widest goes on top; 2 simply sit side by side
+      const widest = items.length > 2 ? ratios.indexOf(Math.max(...ratios)) : -1;
       items.forEach((el, i) => {
         el.style.setProperty('--ar', ratios[i].toFixed(4));
         el.classList.toggle('wide', i === widest);

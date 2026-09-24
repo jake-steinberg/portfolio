@@ -48,10 +48,11 @@ const TAGS = [
                                                //   Left "" → the panel shows a placeholder
      images:      [],                          // extra pictures for the panel, e.g.
                                                //   ["img/foo-detail.webp", "img/foo-2.webp"]
-                                               //   1 fills its column, uncropped. 2 or 3 make a
-                                               //   mosaic: the widest on top, the others side by
-                                               //   side under it, all uncropped. 4 or more show
-                                               //   as even 4:3 thumbnails.
+                                               //   1 fills its column, uncropped. 2 sit side by
+                                               //   side at matching heights. 3 make a mosaic: the
+                                               //   widest on top, the others side by side under
+                                               //   it. All uncropped. 4 or more show as even 4:3
+                                               //   thumbnails.
                                                //   Clicking a picture enlarges it. To open a
                                                //   story instead, write it as
                                                //   { src: "img/…", link: "https://…", label: "Story name" }
@@ -85,29 +86,28 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // One tile for both Uptown stories: the call-out where readers drew their
+    // boundaries, and the results. The tile video shows the drawing animation
+    // at full width, with white above and below to make it 5:4.
     title:       "Where is Uptown?",
     slug:        "where-is-uptown",
     tile:        "img/tiles/where-is-uptown.webp",
     video:       "img/tiles/where-is-uptown.mp4",
-    link:        "https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173",
+    link:        "",
     linkType:    "story",
     tags:        ["interactive", "news"],
     inBook:      false,
     description: "",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Uptown results",
-    slug:        "uptown-results",
-    tile:        "img/tiles/uptown-results.webp",
-    video:       "",
-    link:        "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699",
-    linkType:    "story",
-    tags:        ["news"],
-    inBook:      false,
-    description: "",
-    images:      [],
+    images:      [
+      { src: "img/tiles/uptown-draw-loop.mp4", label: "Where is Uptown?",
+        link: "https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173" },
+      { src: "img/tiles/uptown-results-full.webp", label: "Uptown results",
+        link: "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699" }
+    ],
+    links:       [
+      { label: "Where is Uptown?", url: "https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173" },
+      { label: "Uptown results", url: "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699" }
+    ],
     awards:      []
   },
   {
