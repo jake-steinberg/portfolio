@@ -140,9 +140,33 @@
       ? `<a href="${BOOK_URL}" target="_blank" rel="noopener">In the book &#8599;</a>`
       : '';
 
+    // Panel pictures. Each entry in images: [] is either a path, or
+    // { src, link, label } to make that picture open a story instead.
+    //   picture, no link → opens full size in the lightbox
+    //   .mp4             → plays as a silent loop, with the .webp of the same
+    //                      name (minus "-loop") as its still poster; not
+    //                      clickable unless it has a link
+    //   with a link      → opens that page in a new tab
+    // 1 picture fills its column uncropped; 2 or 3 make a mosaic, uncropped
+    // at matching heights; 4 or more become even 4:3 thumbnails.
+    const shot = (entry) => {
+      const { src, link, label } = typeof entry === 'string' ? { src: entry } : entry;
+      const isVideo = /\.mp4$/i.test(src);
+      const media = isVideo
+        ? `<video src="${esc(src)}" poster="${esc(src.replace(/(-loop)?\.mp4$/i, '.webp'))}" muted loop playsinline preload="metadata" aria-hidden="true"></video>`
+        : `<img src="${esc(src)}" alt="" decoding="async">`;
+      const cls = isVideo ? ' class="pvid"' : '';
+      if (link) {
+        const name = esc(label || p.title);
+        return `<a${cls} href="${esc(link)}" target="_blank" rel="noopener" aria-label="${name} (opens the story)" title="${name}">${media}</a>`;
+      }
+      return isVideo
+        ? `<div class="pvid">${media}</div>`
+        : `<a href="${esc(src)}" data-lb="${esc(src)}" data-title="${esc(p.title)}">${media}</a>`;
+    };
+    const count = hasImages ? p.images.length : 0;
     const shots = hasImages
-      ? `<div class="pshots">${p.images.map((src) =>
-          `<a href="${esc(src)}" data-lb="${esc(src)}" data-title="${esc(p.title)}"><img src="${esc(src)}" alt="" loading="lazy" decoding="async"></a>`).join('')}</div>`
+      ? `<div class="pshots${(count === 2 || count === 3) ? ' mosaic' : ''}">${p.images.map(shot).join('')}</div>`
       : '';
 
     return `
@@ -210,6 +234,30 @@
     else { panel.addEventListener('transitionend', remove, { once: true }); setTimeout(remove, 430); }
   }
 
+  // Give each picture in a mosaic its shape (width ÷ height) as --ar, so the
+  // CSS can size them to matching heights, and mark the widest one .wide
+  // (the mosaic puts it on top). Shapes are only known once each picture or
+  // video has loaded, so this re-runs as each one arrives.
+  function fitShots(shots) {
+    if (!shots) return;
+    const items = [...shots.children];
+    const media = items.map((el) => el.querySelector('img, video'));
+    const run = () => {
+      const ratios = media.map((m) => {
+        const w = m.naturalWidth || m.videoWidth, h = m.naturalHeight || m.videoHeight;
+        return w && h ? w / h : 0;
+      });
+      if (ratios.some((r) => !r)) return;              // still waiting on one
+      const widest = ratios.indexOf(Math.max(...ratios));
+      items.forEach((el, i) => {
+        el.style.setProperty('--ar', ratios[i].toFixed(4));
+        el.classList.toggle('wide', i === widest);
+      });
+    };
+    media.forEach((m) => m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', run, { once: true }));
+    run();
+  }
+
   function openPanel(slug) {
     const wasOpen = openSlug;
     closePanel();
@@ -225,6 +273,8 @@
     const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
     tile.setAttribute('aria-expanded', 'true');
     aimPointer();
+    watchVideos();                                     // so any loops in the panel play too
+    fitShots(panel.querySelector('.pshots.mosaic'));
 
     // next frame: flip data-open so the CSS transition runs, and keep the tile in view
     requestAnimationFrame(() => {

@@ -304,7 +304,9 @@
 
 /* no extra images for this project → one full-width column */
 .panel-body.solo { grid-template-columns: minmax(0, 1fr); }
-@media (max-width: 720px) { .panel-body { grid-template-columns: 1fr; } }
+/* phones: one column. minmax(0, …) lets it shrink to the screen; a plain 1fr
+   would stretch to the widest picture and get cut off at the right edge. */
+@media (max-width: 720px) { .panel-body { grid-template-columns: minmax(0, 1fr); } }
 
 .panel h3 {
   font-family: var(--display); font-weight: 400; line-height: 1.2;
@@ -361,6 +363,20 @@
 /* a single picture gets the whole column, shown uncropped at its true shape */
 .pshots a:only-child { grid-column: 1 / -1; }
 .pshots a:only-child img { aspect-ratio: auto; height: auto; object-fit: fill; }
+/* 2 or 3 pictures (js adds .mosaic): uncropped, the widest across the top and
+   the others side by side under it at matching heights. js/portfolio.js gives
+   each picture its shape (width ÷ height) as --ar and marks the widest .wide.
+   Growing each one in proportion to its shape is what makes the heights
+   match; the 2px basis covers the hairline border, so the match is exact. */
+.pshots.mosaic { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+.pshots.mosaic > * { flex: var(--ar, 1) 1 2px; min-width: 0; }
+.pshots.mosaic > .wide { flex-basis: 100%; order: -1; }
+.pshots.mosaic img { aspect-ratio: auto; height: auto; object-fit: fill; }
+@media (max-width: 720px) { .pshots.mosaic { gap: 8px; } }
+/* an .mp4 in images: [] — a looping video, framed like the pictures
+   (as a link, it's an <a class="pvid"> and gets the tilt on hover too) */
+.pvid { display: block; border: 1px solid var(--stroke); background: var(--bg); }
+.pvid video { width: 100%; display: block; }
 
 .panel .close {
   position: absolute; top: 12px; right: 12px; z-index: 3;

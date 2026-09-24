@@ -48,8 +48,16 @@ const TAGS = [
                                                //   Left "" → the panel shows a placeholder
      images:      [],                          // extra pictures for the panel, e.g.
                                                //   ["img/foo-detail.webp", "img/foo-2.webp"]
-                                               //   One picture shows uncropped at full width;
-                                               //   several show as even 4:3 thumbnails.
+                                               //   1 fills its column, uncropped. 2 or 3 make a
+                                               //   mosaic: the widest on top, the others side by
+                                               //   side under it, all uncropped. 4 or more show
+                                               //   as even 4:3 thumbnails.
+                                               //   Clicking a picture enlarges it. To open a
+                                               //   story instead, write it as
+                                               //   { src: "img/…", link: "https://…", label: "Story name" }
+                                               //   An .mp4 plays as a silent loop; put a .webp
+                                               //   of the same name (minus "-loop") beside it
+                                               //   for its still poster.
                                                //   Left [] → the panel is text only
      links:       [],                          // optional list of stories, for a project that
                                                //   spans several. Each: { label: "…", url: "…" }.
@@ -298,14 +306,11 @@ const PROJECTS = [
     description: "",
     images:      [
       "img/tiles/lahaina-wildfire.webp",
-      "img/tiles/ring-of-fire.webp",
-      "img/tiles/hawaii-wildfires.webp",
-      "img/tiles/red-sea-oil-spill.webp",
-      "img/tiles/strait-of-messina-bridge.webp",
-      "img/tiles/mountain-valley-pipeline.webp",
-      "img/tiles/alaska-lng-project.webp",
-      "img/tiles/titan-submersible.webp",
-      "img/tiles/ukraine-land-bridge.webp"
+      // looping videos made from the original GIFs; clicking one opens its story
+      { src: "img/tiles/ring-of-fire-loop.mp4", label: "Ring of Fire",
+        link: "https://www.wsj.com/world/americas/minerals-nickel-batteries-canada-climate-carbon-376f11fd" },
+      { src: "img/tiles/red-sea-oil-spill-loop.mp4", label: "Red Sea oil spill",
+        link: "https://www.wsj.com/articles/the-race-to-avert-an-oil-spill-that-could-cost-20-billion-to-fix-85a884ea" }
     ],
     links:       [
       { label: "Maui wildfires", url: "https://www.wsj.com/articles/why-maui-wildfires-hawaii-devastating-84651f12" },
