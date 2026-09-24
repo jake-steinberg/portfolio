@@ -207,8 +207,11 @@ const PROJECTS = [
   {
     title:       "The Driftless Area",
     slug:        "the-driftless-area",
-    tile:        "img/tiles/the-driftless-area.webp",
-    video:       "",
+    // The video scrolls down the full-size map and back up. The tile is its
+    // first frame (the top of the map). The old static thumbnail is still at
+    // img/tiles/the-driftless-area.webp if you'd rather go back to it.
+    tile:        "img/tiles/the-driftless-area-scroll.webp",
+    video:       "img/tiles/the-driftless-area-scroll.mp4",
     link:        "img/driftless-website.jpg",
     linkType:    "file",
     tags:        ["print", "3d", "outdoors"],
