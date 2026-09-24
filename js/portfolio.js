@@ -178,7 +178,7 @@
     const foot = storyLinks || mainLink || bookLink;
 
     // The line under the title: the year (if set), then the tags
-    const meta = [p.year ? `<span class="tag year">${esc(p.year)}</span>` : '',
+    const meta = [p.year ? `<span class="tag">${esc(p.year)}</span>` : '',
                   ...p.tags.map((id) => `<span class="tag">${esc(tagLabel(id))}</span>`)].join('');
     return `
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
