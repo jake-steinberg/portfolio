@@ -1,0 +1,331 @@
+/* =============================================================================
+   portfolio.js — builds the "Selected work" section on index.html.
+
+   It reads TAGS and PROJECTS from js/projects.js (which must load first) and:
+     1. makes a filter pill for every tag
+     2. draws a tile for every project that matches the selected tags
+     3. unfolds a detail panel under a tile's row when it's clicked
+     4. plays video tiles only while they're on screen
+     5. shows full-size maps in a lightbox
+     6. keeps the selected tags in the address bar (?tags=3d,outdoors), so a
+        filtered view can be shared as a link
+
+   To add or change work, edit js/projects.js — not this file.
+   ============================================================================= */
+(function () {
+
+  /* ---------------------------------------------------------------------------
+     Setup
+     ------------------------------------------------------------------------- */
+  const gridEl   = document.getElementById('grid');        // where tiles go
+  const pillsEl  = document.getElementById('f-tags');      // where filter pills go
+  const emptyEl  = document.getElementById('empty');       // "No projects match…"
+  const clearBtn = document.getElementById('clear');       // "Clear filters"
+
+  const selected = new Set();   // tag ids currently switched on
+  let openSlug = null;          // slug of the project whose panel is open, if any
+
+  // Where the "In the book" button in a panel goes
+  const BOOK_URL = 'https://beltpublishing.com/products/the-twin-cities-in-50-maps';
+
+  // Text on each panel's main button, by linkType
+  const LINK_LABEL = { story: 'Read the story', page: 'Open the project', file: 'View the full map' };
+
+  // Shown in a panel when a project's description is still blank
+  const PLACEHOLDER = 'Description goes here &mdash; a sentence or two on what the map shows ' +
+                      'and what you had to work out to make it.';
+
+  const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Escape text before putting it into HTML (titles can contain quotes or &)
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  // tag id -> visible label, e.g. "3d" -> "3D"
+  const tagLabel = (id) => (TAGS.find((t) => t.id === id) || { label: id }).label;
+
+  // A project matches if it has EVERY selected tag. Nothing selected = show all.
+  const matches = (p) => [...selected].every((id) => p.tags.includes(id));
+
+
+  /* ---------------------------------------------------------------------------
+     1. Filter pills
+     ------------------------------------------------------------------------- */
+  TAGS.forEach((tag) => {
+    const pill = document.createElement('button');
+    pill.type = 'button';
+    pill.className = 'pill';
+    pill.dataset.tag = tag.id;
+    pill.textContent = tag.label;
+    pill.setAttribute('aria-pressed', 'false');
+    pill.addEventListener('click', () => {
+      selected.has(tag.id) ? selected.delete(tag.id) : selected.add(tag.id);
+      pill.setAttribute('aria-pressed', String(selected.has(tag.id)));
+      render();
+    });
+    pillsEl.insertBefore(pill, clearBtn);   // pills sit before the Clear button
+  });
+
+  clearBtn.addEventListener('click', () => {
+    selected.clear();
+    pillsEl.querySelectorAll('.pill').forEach((p) => p.setAttribute('aria-pressed', 'false'));
+    render();
+  });
+
+
+  /* ---------------------------------------------------------------------------
+     2. Tiles
+     ------------------------------------------------------------------------- */
+  function tileHTML(p) {
+    // A video tile shows the still image as its poster until the video plays.
+    // preload="none" means nothing downloads until the tile scrolls into view.
+    const media = p.video
+      ? `<video muted loop playsinline preload="none" poster="${esc(p.tile)}" aria-label="${esc(p.title)}">
+           <source src="${esc(p.video)}" type="video/mp4">
+         </video>`
+      : `<img src="${esc(p.tile)}" alt="${esc(p.title)}" loading="lazy" decoding="async">`;
+
+    return `
+      <button class="gcard" type="button" aria-expanded="false" data-slug="${esc(p.slug)}">
+        <span class="gframe">
+          ${p.inBook ? '<span class="marker">In the book</span>' : ''}
+          ${media}
+          <span class="chip" aria-hidden="true">+</span>
+        </span>
+        <span class="cap"><span class="ttl">${esc(p.title)}</span></span>
+        <span class="tags">${p.tags.map((id) => `<span class="tag">${esc(tagLabel(id))}</span>`).join('')}</span>
+      </button>`;
+  }
+
+  function render() {
+    const visible = PROJECTS.filter(matches);
+    openSlug = null;                                   // re-rendering closes any open panel
+    gridEl.innerHTML = visible.map(tileHTML).join('');
+    emptyEl.hidden = visible.length > 0;
+    clearBtn.hidden = selected.size === 0;
+    watchVideos();
+    writeURL();
+  }
+
+
+  /* ---------------------------------------------------------------------------
+     3. Unfolding panel
+     The panel is created when a tile is clicked and removed when it closes.
+     It's inserted after the last tile in the clicked tile's ROW, so the rest
+     of the grid simply moves down instead of leaving holes.
+     ------------------------------------------------------------------------- */
+  function panelHTML(p) {
+    const hasImages = p.images && p.images.length > 0;
+
+    const description = p.description
+      ? `<p class="desc">${p.description}</p>`
+      : `<p class="desc placeholder">${PLACEHOLDER}</p>`;
+
+    const awards = (p.awards || []).map((a) => `<p class="award">${a}</p>`).join('');
+
+    // "file" links open in the lightbox, except PDFs, which open in a new tab
+    const isPdf = /\.pdf$/i.test(p.link);
+    const mainLink = (p.linkType === 'file' && !isPdf)
+      ? `<a class="primary" href="${esc(p.link)}" data-lb="${esc(p.link)}" data-title="${esc(p.title)}">${LINK_LABEL.file} &#8599;</a>`
+      : `<a class="primary" href="${esc(p.link)}"${p.linkType === 'page' ? '' : ' target="_blank" rel="noopener"'}>${LINK_LABEL[p.linkType] || 'Open'} &#8599;</a>`;
+
+    const bookLink = p.inBook
+      ? `<a href="${BOOK_URL}" target="_blank" rel="noopener">In the book &#8599;</a>`
+      : '';
+
+    const shots = hasImages
+      ? `<div class="pshots">${p.images.map((src) =>
+          `<a href="${esc(src)}" data-lb="${esc(src)}" data-title="${esc(p.title)}"><img src="${esc(src)}" alt="" loading="lazy" decoding="async"></a>`).join('')}</div>`
+      : '';
+
+    return `
+      <div class="panel" data-open="false" data-for="${esc(p.slug)}">
+        <div class="panel-in">
+          <div class="panel-body${hasImages ? '' : ' solo'}">
+            <button class="close" type="button" data-close="${esc(p.slug)}">Close &#215;</button>
+            <div class="panel-main">
+              <h3>${esc(p.title)}</h3>
+              <div class="ptags">${p.tags.map(tagLabel).join(' &middot; ')}</div>
+              ${description}
+              ${awards}
+              <div class="plinks">${mainLink}${bookLink}</div>
+            </div>
+            ${shots}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  // How many columns the grid has right now (changes with screen width)
+  function columnCount() {
+    const cols = getComputedStyle(gridEl).gridTemplateColumns;
+    return cols && cols !== 'none' ? cols.split(' ').filter(Boolean).length : 1;
+  }
+
+  // The last tile in the same row as the tile with this slug
+  function rowEnd(slug) {
+    const tiles = [...gridEl.querySelectorAll('.gcard')];
+    const i = tiles.findIndex((t) => t.dataset.slug === slug);
+    if (i < 0) return null;
+    const cols = columnCount();
+    return tiles[Math.min(Math.ceil((i + 1) / cols) * cols - 1, tiles.length - 1)];
+  }
+
+  // If the window is resized, move the open panel to its row's new end
+  window.addEventListener('resize', () => {
+    if (!openSlug) return;
+    const panel = gridEl.querySelector('.panel');
+    const end = rowEnd(openSlug);
+    if (panel && end && end.nextElementSibling !== panel) end.after(panel);
+  });
+
+  function closePanel() {
+    if (!openSlug) return;
+    const panel = gridEl.querySelector('.panel');
+    const tile = gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`);
+    if (tile) tile.setAttribute('aria-expanded', 'false');
+    openSlug = null;
+    if (!panel) return;
+    panel.dataset.open = 'false';                      // starts the closing animation
+    const remove = () => panel.remove();
+    if (prefersReducedMotion()) remove();
+    else { panel.addEventListener('transitionend', remove, { once: true }); setTimeout(remove, 430); }
+  }
+
+  function openPanel(slug) {
+    const wasOpen = openSlug;
+    closePanel();
+    if (wasOpen === slug) return;                      // clicking the open tile again just closes it
+
+    const project = PROJECTS.find((p) => p.slug === slug);
+    const end = rowEnd(slug);
+    if (!project || !end) return;
+
+    end.insertAdjacentHTML('afterend', panelHTML(project));
+    openSlug = slug;
+    const panel = gridEl.querySelector('.panel');
+    const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
+    tile.setAttribute('aria-expanded', 'true');
+
+    // next frame: flip data-open so the CSS transition runs, and keep the tile in view
+    requestAnimationFrame(() => {
+      panel.dataset.open = 'true';
+      tile.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+    });
+  }
+
+
+  /* ---------------------------------------------------------------------------
+     4. Video tiles — play only while at least a quarter of the tile is on
+        screen, so 13 videos never run at once. Visitors who prefer reduced
+        motion just see the still poster image.
+     ------------------------------------------------------------------------- */
+  const videoWatcher = ('IntersectionObserver' in window)
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target;
+          if (entry.isIntersecting && !prefersReducedMotion()) {
+            video.play().catch(() => {});             // a blocked autoplay just leaves the poster
+          } else {
+            video.pause();
+          }
+        });
+      }, { threshold: 0.25 })
+    : null;
+
+  function watchVideos() {
+    if (!videoWatcher) return;
+    videoWatcher.disconnect();
+    gridEl.querySelectorAll('video').forEach((v) => videoWatcher.observe(v));
+  }
+
+  // Browsers won't start video in a background tab. If the page was opened
+  // in one, re-check the on-screen videos when the tab comes to the front.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') watchVideos();
+  });
+
+
+  /* ---------------------------------------------------------------------------
+     5. Lightbox — any element with data-lb="image.png" opens that image full size
+     ------------------------------------------------------------------------- */
+  const lb      = document.getElementById('lb');
+  const lbImg   = document.getElementById('lb-img');
+  const lbCap   = document.getElementById('lb-cap');
+  const lbClose = document.getElementById('lb-close');
+  let focusBeforeLightbox = null;
+
+  function openLightbox(src, title) {
+    focusBeforeLightbox = document.activeElement;
+    lbImg.src = src;
+    lbImg.alt = title;
+    lbCap.innerHTML = `${esc(title)} &middot; <a href="${esc(src)}" target="_blank" rel="noopener">Open original &#8599;</a>`;
+    lb.hidden = false;
+    lbClose.focus();
+  }
+  function closeLightbox() {
+    lb.hidden = true;
+    lbImg.removeAttribute('src');
+    if (focusBeforeLightbox) focusBeforeLightbox.focus();
+  }
+  lbClose.addEventListener('click', closeLightbox);
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });   // click the dark backdrop
+
+
+  /* ---------------------------------------------------------------------------
+     Clicks and keys (one listener each, for tiles, panels and the lightbox)
+     ------------------------------------------------------------------------- */
+  document.addEventListener('click', (e) => {
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+      const tile = gridEl.querySelector(`.gcard[data-slug="${closeBtn.dataset.close}"]`);
+      closePanel();
+      if (tile) tile.focus();
+      return;
+    }
+    const lbLink = e.target.closest('[data-lb]');
+    if (lbLink) { e.preventDefault(); openLightbox(lbLink.dataset.lb, lbLink.dataset.title); return; }
+
+    const tile = e.target.closest('.gcard');
+    if (tile) openPanel(tile.dataset.slug);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!lb.hidden) { closeLightbox(); return; }       // Escape closes the lightbox first…
+    if (openSlug) {                                     // …then the open panel
+      const tile = gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`);
+      closePanel();
+      if (tile) tile.focus();
+    }
+  });
+
+
+  /* ---------------------------------------------------------------------------
+     6. Selected tags in the address bar
+     ------------------------------------------------------------------------- */
+  function writeURL() {
+    const params = new URLSearchParams(location.search);
+    if (selected.size) params.set('tags', [...selected].join(','));
+    else params.delete('tags');
+    const query = params.toString();
+    try { history.replaceState(null, '', query ? `?${query}` : location.pathname); } catch (e) { /* ignore */ }
+  }
+
+  function readURL() {
+    const known = new Set(TAGS.map((t) => t.id));
+    (new URLSearchParams(location.search).get('tags') || '')
+      .split(',')
+      .filter((id) => known.has(id))                   // ignore misspelled or retired tags
+      .forEach((id) => selected.add(id));
+    pillsEl.querySelectorAll('.pill').forEach((p) =>
+      p.setAttribute('aria-pressed', String(selected.has(p.dataset.tag))));
+  }
+
+
+  /* ---------------------------------------------------------------------------
+     Go
+     ------------------------------------------------------------------------- */
+  readURL();
+  render();
+})();

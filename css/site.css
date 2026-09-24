@@ -127,6 +127,7 @@ a { color: inherit; }
 }
 .site.stuck .mark { width: 26px; height: 26px; font-size: 9.5px; }
 .brand-txt { min-width: 0; }
+.brand-name, .brand-sub { display: block; }
 .brand-name {
   font-family: var(--display); font-weight: 700;
   font-size: clamp(17px, 1.7vw, 23px); line-height: 1.15; white-space: nowrap;

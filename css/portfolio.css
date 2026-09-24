@@ -1,0 +1,351 @@
+/* =============================================================================
+   portfolio.css — styles used only by index.html (the portfolio homepage).
+   Shared pieces (colors, fonts, header, footer) are in css/site.css.
+
+   Sections, top to bottom of the page:
+     1. Intro — three columns (who / what I make / off the clock)
+     2. Book hero
+     3. "Selected work" heading + tag filter pills
+     4. Uniform grid of project tiles
+     5. Unfolding project panel (opens under a tile's row)
+     6. Lightbox (full-size image viewer)
+   ============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+   1. INTRO — three columns, stacks to one on phones
+   ----------------------------------------------------------------------------- */
+.trio {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(22px, 3vw, 44px);
+  padding-block: clamp(28px, 3.5vw, 48px);
+  border-bottom: 1px solid var(--rule);
+}
+.trio h2 {                       /* the small mono headings: "Hi, I'm Jake." etc. */
+  font-family: var(--mono); font-weight: 500; font-size: 15px; letter-spacing: .01em;
+  margin: 0 0 10px; color: var(--ink);
+}
+.trio p {
+  margin: 0;
+  font-size: clamp(16.5px, 1.25vw, 18.5px); line-height: 1.62;
+  text-wrap: pretty;             /* avoids a lonely last word on its own line */
+}
+/* links stay ink-colored with a thick pale-coral underline, so a paragraph
+   with several links doesn't turn into a wall of red */
+.trio a {
+  color: var(--ink); text-decoration: none;
+  border-bottom: 3px solid var(--accent-soft);
+  transition: border-color .15s;
+}
+.trio a:hover { border-bottom-color: var(--accent); }
+
+@media (max-width: 760px) {
+  .trio { grid-template-columns: 1fr; gap: 20px; }
+}
+
+
+/* -----------------------------------------------------------------------------
+   2. BOOK HERO
+   Desktop: cover on the left, at least as tall as the text (the plate stretches
+   to the row height and the cover sits centered inside it at 90% width).
+   Tablet (641–900px): cover beside the text, top-aligned.
+   Phone (≤640px): cover stacked above the text, full column width.
+   ----------------------------------------------------------------------------- */
+.hero {
+  display: grid;
+  grid-template-columns: clamp(300px, 42vw, 440px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: stretch;
+  padding-block: clamp(30px, 4vw, 56px);
+  border-bottom: 1px solid var(--rule);
+}
+.hero-cover { margin: 0; display: flex; align-items: center; justify-content: center; }
+.hero-cover img {
+  width: 90%; height: auto; align-self: center;
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow-lift);
+}
+
+/* "OUT NOVEMBER 17 · PREORDERS OPEN" with a rule running off to the right */
+.eyebrow {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--accent-ink);
+}
+.eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+
+.hero h1 {
+  font-family: var(--display); font-weight: 400; line-height: 1.1;
+  font-size: clamp(2rem, 1.2rem + 3vw, 3.4rem);
+  margin: 14px 0 0; text-wrap: balance;
+}
+.hero p {
+  max-width: var(--measure); color: var(--muted);
+  margin: 15px 0 0; font-size: clamp(15px, 1vw, 16.5px);
+}
+.hero-meta {                     /* Belt Publishing · 8×8 hardback · $30.00 */
+  display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px;
+  font-family: var(--mono); font-size: 11.5px; color: var(--muted);
+}
+.hero-meta span { white-space: nowrap; }
+
+/* the coral button ("Preorder the book") — reusable anywhere */
+.btn {
+  display: inline-block; margin-top: 20px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
+  text-decoration: none; padding: 11px 22px;
+  background: var(--accent); color: #fff; border: 1px solid var(--stroke);
+  transition: transform .15s, background .15s;
+}
+.btn:hover { transform: rotate(-.6deg); background: var(--accent-ink); }
+
+@media (max-width: 900px) {      /* tablet */
+  .hero { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 28px; align-items: start; }
+  .hero-cover { display: block; }
+  .hero-cover img { width: 100%; }
+}
+@media (max-width: 640px) {      /* phone */
+  .hero { grid-template-columns: 1fr; gap: 22px; }
+  .hero h1 { margin-top: 12px; }
+}
+
+
+/* -----------------------------------------------------------------------------
+   3. "SELECTED WORK" HEADING + TAG FILTERS
+   The pills are generated from TAGS in js/projects.js.
+   ----------------------------------------------------------------------------- */
+.sec-head {
+  display: flex; flex-wrap: wrap; gap: 10px 20px;
+  align-items: baseline; justify-content: space-between;
+  padding-top: clamp(16px, 2.2vw, 28px);
+}
+.sec-head h2 {
+  font-family: var(--display); font-weight: 400; margin: 0;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.85rem);
+}
+.filters { padding-block: 16px 24px; }
+.fgroup { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+
+.pill {
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: .04em;
+  padding: 5px 12px; cursor: pointer;
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 999px;
+  transition: background .14s, border-color .14s, color .14s;
+}
+.pill:hover { border-color: var(--stroke); }
+.pill[aria-pressed="true"] { background: var(--accent-ink); color: #fff; border-color: var(--accent-ink); }
+
+.fclear {                        /* "Clear filters" — only shown while a tag is selected */
+  margin-left: auto; padding: 5px;
+  font-family: var(--mono); font-size: 11px;
+  background: none; border: 0; color: var(--accent-ink);
+  cursor: pointer; text-decoration: underline;
+}
+
+
+/* -----------------------------------------------------------------------------
+   4. UNIFORM GRID
+   Every tile is the same 5:4 shape. Images fill it edge to edge
+   (object-fit: cover), so reformat source images to 5:4 to control the crop.
+   ----------------------------------------------------------------------------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(218px, 1fr));
+  gap: var(--gap);
+  align-items: start;
+  padding-bottom: 10px;
+}
+@media (max-width: 520px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 16px; }
+}
+
+/* each tile is a <button> — clicking unfolds its panel */
+.gcard {
+  display: block; width: 100%; padding: 0; cursor: pointer;
+  font: inherit; color: inherit; text-align: left;
+  background: none; border: 0;
+}
+
+/* the picture frame: 5:4, hairline black stroke */
+.gframe {
+  display: block;                /* must be block: aspect-ratio is ignored on inline elements */
+  position: relative; aspect-ratio: 5 / 4; overflow: hidden;
+  background: var(--plate);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  transition: transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s, border-color .18s;
+}
+.gframe img,
+.gframe video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* hover: the "lift" — slight tilt, raised shadow */
+@media (hover: hover) {
+  .gcard:hover .gframe { transform: rotate(1deg) translateY(-3px); box-shadow: var(--shadow-lift); }
+}
+
+/* the + / − chip: hidden at rest, shows on hover or keyboard focus,
+   stays visible (as −) while the tile's panel is open */
+.chip {
+  position: absolute; right: 8px; bottom: 8px; z-index: 2;
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg); border: 1px solid var(--stroke);
+  font-family: var(--mono); font-size: 14px; line-height: 1; color: var(--ink);
+  opacity: 0; transform: translateY(3px);
+  transition: opacity .16s, transform .16s, background .16s;
+}
+@media (hover: hover) { .gcard:hover .chip { opacity: 1; transform: none; } }
+.gcard:focus-visible .chip { opacity: 1; transform: none; }
+
+/* open state */
+.gcard[aria-expanded="true"] .chip { opacity: 1; transform: none; background: var(--accent); color: #fff; }
+.gcard[aria-expanded="true"] .gframe {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-lift), 0 0 0 2px var(--accent);
+}
+
+/* "IN THE BOOK" corner marker (inBook: true in projects.js) */
+.marker {
+  position: absolute; top: 0; left: 0; z-index: 2;
+  font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+  background: var(--accent); color: #fff; padding: 4px 8px;
+  border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
+}
+
+/* title + tags under each tile */
+.cap { display: block; margin-top: 9px; }
+.cap .ttl {
+  display: block;
+  font-family: var(--display); font-weight: 400; font-size: 14.5px; line-height: 1.3;
+  margin: 0; transition: color .15s;
+}
+.gcard:hover .cap .ttl,
+.gcard[aria-expanded="true"] .cap .ttl { color: var(--accent-ink); }
+
+.tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+.tag {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted);
+}
+.tag::after { content: "\00B7"; margin-left: 5px; opacity: .5; }   /* the · between tags */
+.tag:last-child::after { content: ""; }
+
+/* shown when no project has every selected tag */
+.empty { padding: 50px 0; text-align: center; color: var(--muted); font-family: var(--mono); font-size: 13px; }
+
+
+/* -----------------------------------------------------------------------------
+   5. UNFOLDING PANEL
+   js/portfolio.js inserts the panel after the LAST tile in the clicked tile's
+   row, so the grid never gets a gap in the middle of a row. It animates open
+   by growing its grid row from 0fr to 1fr.
+   ----------------------------------------------------------------------------- */
+.panel {
+  grid-column: 1 / -1;           /* spans the whole grid width */
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows .32s cubic-bezier(.2,.7,.3,1);
+}
+.panel[data-open="true"] { grid-template-rows: 1fr; }
+.panel > .panel-in { overflow: hidden; min-height: 0; }
+
+.panel-body {
+  position: relative;
+  display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(18px, 2.6vw, 38px);
+  margin-top: var(--gap);
+  padding: clamp(20px, 2.5vw, 32px);
+  background: var(--plate);
+  border: 1px solid var(--stroke);
+}
+/* no extra images for this project → one full-width column */
+.panel-body.solo { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 720px) { .panel-body { grid-template-columns: 1fr; } }
+
+.panel h3 {
+  font-family: var(--display); font-weight: 400; line-height: 1.2;
+  font-size: clamp(1.15rem, .95rem + .8vw, 1.55rem);
+  margin: 0 0 5px; padding-right: 70px;   /* room for the Close button */
+}
+.ptags {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 15px;
+}
+.desc { font-size: 15.5px; line-height: 1.6; margin: 0 0 13px; max-width: var(--measure); }
+/* shown when a project's description is blank — so it's obvious what's left to write */
+.desc.placeholder {
+  color: var(--muted); font-style: italic;
+  border-left: 2px solid var(--accent); padding-left: 12px;
+}
+.award {                          /* ★ lines, from awards: [] in projects.js */
+  position: relative; max-width: var(--measure);
+  font-size: 13.5px; line-height: 1.55; margin: 0 0 9px; padding-left: 21px;
+}
+.award::before { content: "\2605"; position: absolute; left: 0; top: 1px; color: var(--accent); font-size: 12px; }
+
+/* link buttons: "Read the story ↗", "In the book ↗" */
+.plinks { display: flex; flex-wrap: wrap; gap: 9px 12px; margin-top: 18px; }
+.plinks a {
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase;
+  text-decoration: none; padding: 9px 15px;
+  border: 1px solid var(--stroke); color: var(--ink);
+  transition: background .15s, color .15s;
+}
+.plinks a:hover { background: var(--ink); color: var(--plate); }
+.plinks a.primary { background: var(--accent); color: #fff; }
+.plinks a.primary:hover { background: var(--accent-ink); }
+
+/* extra pictures (images: [] in projects.js), two per row; click to enlarge */
+.pshots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start; }
+@media (min-width: 721px) { .pshots { padding-top: 30px; } }   /* clears the Close button */
+.pshots a {
+  display: block; overflow: hidden;
+  border: 1px solid var(--stroke); background: var(--bg);
+  transition: transform .18s;
+}
+.pshots a:hover { transform: rotate(.8deg); }
+.pshots img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+
+.panel .close {
+  position: absolute; top: 12px; right: 12px; z-index: 3;
+  padding: 6px 11px; line-height: 1; cursor: pointer;
+  background: var(--bg); border: 1px solid var(--stroke); color: var(--ink);
+  font-family: var(--mono); font-size: 11px; letter-spacing: .05em;
+}
+.panel .close:hover { background: var(--ink); color: var(--plate); }
+
+
+/* -----------------------------------------------------------------------------
+   6. LIGHTBOX — full-size view of a map
+   ----------------------------------------------------------------------------- */
+.lb[hidden] { display: none !important; }
+.lb {
+  position: fixed; inset: 0; z-index: 80;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  padding: clamp(14px, 3vw, 40px);
+  background: rgba(20,17,14,.93);
+}
+.lb img {
+  max-width: 100%; max-height: 78vh; object-fit: contain;
+  border: 1px solid #000; box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+.lb-cap { color: #EDE7DA; font-family: var(--mono); font-size: 12px; text-align: center; letter-spacing: .04em; }
+.lb-cap a { color: #EDE7DA; }
+.lb-close {
+  position: absolute; top: calc(env(safe-area-inset-top, 0px) + 14px); right: 16px;
+  padding: 7px 13px; cursor: pointer;
+  background: none; border: 1px solid #6A6257; color: #EDE7DA;
+  font-family: var(--mono); font-size: 12px;
+}
+.lb-close:hover { background: #EDE7DA; color: #1A1613; }
+
+
+/* -----------------------------------------------------------------------------
+   Less motion for visitors who ask for it
+   ----------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .gframe, .chip, .cap .ttl, .panel, .pshots a, .btn, .pill, .trio a { transition: none; }
+  .gcard:hover .gframe { transform: none; box-shadow: var(--shadow-lift); }
+  .pshots a:hover, .btn:hover { transform: none; }
+}
