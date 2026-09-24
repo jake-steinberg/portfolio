@@ -215,7 +215,7 @@
 /* "IN THE BOOK" corner marker (inBook: true in projects.js) */
 .marker {
   position: absolute; top: 0; left: 0; z-index: 2;
-  font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
   background: var(--accent); color: #fff; padding: 4px 8px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
@@ -243,7 +243,7 @@
   .cap { margin-top: 9px; }
   .cap .ttl { font-size: 15px; }
   .tags { gap: 5px; margin-top: 5px; }
-  .tag { font-size: 10px; }
+  .tag { font-size: 11px; }
 }
 
 /* shown when no project has every selected tag */

@@ -43,7 +43,7 @@
   --text:    "Source Serif 4", Georgia, serif;
   --mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --label: 10.5px;          /* size of small uppercase mono labels */
+  --label: 11px;            /* size of small uppercase mono labels */
   --track: .1em;            /* letter-spacing for those labels */
   --measure: 63ch;          /* comfortable maximum line length for paragraphs */
 
@@ -125,7 +125,7 @@ a { color: inherit; }
   font-family: var(--mono); font-size: 11px; font-weight: 500;
   transition: width .2s, height .2s, font-size .2s;
 }
-.site.stuck .mark { width: 26px; height: 26px; font-size: 10px; }
+.site.stuck .mark { width: 26px; height: 26px; font-size: 11px; }
 .brand-txt { min-width: 0; }
 .brand-name, .brand-sub { display: block; }
 .brand-name {
