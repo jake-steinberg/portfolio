@@ -210,6 +210,83 @@
     return cols && cols !== 'none' ? cols.split(' ').filter(Boolean).length : 1;
   }
 
+  // A panel with no pictures only needs room for its text. On a grid of 3 or
+  // more columns it opens sideways instead of downward: it fills the rest of
+  // its tile's row, and the tile sits at one edge of the row beside it.
+  // (Panels with pictures still unfold across the whole row below.)
+
+  // Would this project's panel be a narrow one on the grid as it is now?
+  const isNarrow = (p) => !(p.images && p.images.length) && columnCount() >= 3;
+
+  // While a narrow panel is open, every tile gets an explicit place in the
+  // grid (closing clears it all and the grid returns to its usual order):
+  //   - the clicked tile stays in its row, at the edge: a tile in the first
+  //     or last column stays put; one in between moves to the first column
+  //   - the panel fills the rest of that row
+  //   - every column except the one the clicked tile started in moves down a
+  //     row from there, to make room, so nothing wraps. (The columns end
+  //     unevenly at the bottom while it's open.)
+  function clearPlacement() {
+    gridEl.querySelectorAll('.gcard').forEach((t) => { t.style.gridRow = ''; t.style.gridColumn = ''; });
+  }
+
+  function placePanel(panel, slug) {
+    clearPlacement();
+    const body = panel.querySelector('.panel-body');
+    panel.style.gridRow = ''; panel.style.gridColumn = ''; body.style.minHeight = '';
+    panel.classList.remove('narrow', 'tile-left', 'tile-right');
+    const cols = columnCount();
+    if (!body.classList.contains('solo') || cols < 3) return;
+    const tiles = [...gridEl.querySelectorAll('.gcard')];
+    const i = tiles.findIndex((t) => t.dataset.slug === slug);
+    const row = Math.floor(i / cols), col = i % cols;                     // 0 = top / leftmost
+    const edge = col === cols - 1 ? cols - 1 : 0;                         // where the clicked tile goes
+    tiles.forEach((t, k) => {
+      const c = k % cols;
+      let r = Math.floor(k / cols);
+      if (k === i) { t.style.gridRow = String(row + 1); t.style.gridColumn = String(edge + 1); return; }
+      if (r >= row && c !== col) r += 1;                                   // make room: move down a row
+      t.style.gridRow = String(r + 1);                                     // grid lines count from 1
+      t.style.gridColumn = String(c + 1);
+    });
+    panel.classList.add('narrow', edge === 0 ? 'tile-left' : 'tile-right');
+    panel.style.gridRow = String(row + 1);
+    panel.style.gridColumn = edge === 0 ? `2 / span ${cols - 1}` : `1 / span ${cols - 1}`;
+    // at least as tall as a tile's picture, so it lines up with the tile beside it
+    body.style.minHeight = tiles[i].querySelector('.gframe').getBoundingClientRect().height + 'px';
+  }
+
+  // Tiles glide to new places instead of jumping: note where they are
+  // (tileRects), change the layout, then slideTiles starts each one back at
+  // its old spot and lets it move to the new one.
+  const tileRects = () => new Map([...gridEl.querySelectorAll('.gcard')].map((t) => [t, t.getBoundingClientRect()]));
+
+  function slideTiles(before) {
+    if (prefersReducedMotion()) return;
+    const moved = [];
+    gridEl.querySelectorAll('.gcard').forEach((t) => {
+      const a = before.get(t);
+      if (!a) return;
+      const b = t.getBoundingClientRect();
+      const dx = a.left - b.left, dy = a.top - b.top;
+      if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+      t.style.transition = 'none';
+      t.style.transform = `translate(${dx}px, ${dy}px)`;
+      moved.push(t);
+    });
+    if (!moved.length) return;
+    gridEl.getBoundingClientRect();                    // lock in the starting positions
+    moved.forEach((t) => {
+      t.style.transition = 'transform .5s cubic-bezier(.2,.7,.3,1)';
+      t.style.transform = '';
+      t.addEventListener('transitionend', function done(e) {
+        if (e.target !== t) return;                    // ignore the hover lift inside the tile
+        t.style.transition = '';
+        t.removeEventListener('transitionend', done);
+      });
+    });
+  }
+
   // The last tile in the same row as the tile with this slug
   function rowEnd(slug) {
     const tiles = [...gridEl.querySelectorAll('.gcard')];
@@ -223,14 +300,18 @@
   // grid for a moment alongside the new one, so skip any marked .closing.
   const currentPanel = () => gridEl.querySelector('.panel:not(.closing)');
 
-  // Aim the panel's pointer at the middle of the open tile
+  // Aim the panel's pointer at the middle of the open tile: across for a
+  // panel below its tile (--arrow-x), up and down for a narrow panel beside
+  // it (--arrow-y). Aimed at where the tile will end up, even mid-glide.
   function aimPointer() {
     const panel = currentPanel();
     const tile = openSlug && gridEl.querySelector(`.gcard[data-slug="${openSlug}"] .gframe`);
     if (!panel || !tile) return;
     const body = panel.querySelector('.panel-body');
+    const glide = new DOMMatrixReadOnly(getComputedStyle(tile.parentElement).transform);   // offset still to travel
     const t = tile.getBoundingClientRect(), b = body.getBoundingClientRect();
-    body.style.setProperty('--arrow-x', Math.round(t.left + t.width / 2 - b.left) + 'px');
+    body.style.setProperty('--arrow-x', Math.round(t.left - glide.m41 + t.width / 2 - b.left) + 'px');
+    body.style.setProperty('--arrow-y', Math.round(t.top - glide.m42 + t.height / 2 - b.top) + 'px');
   }
 
   // If the window is resized, move the open panel to its row's new end and re-aim its pointer
@@ -239,17 +320,27 @@
     const panel = currentPanel();
     const end = rowEnd(openSlug);
     if (panel && end && end.nextElementSibling !== panel) end.after(panel);
+    if (panel) placePanel(panel, openSlug);
     aimPointer();
     layoutMedia(panel);
   });
 
-  function closePanel() {
+  // slide = false when a new panel is about to open: openPanel then moves
+  // the tiles once, straight to where the new panel needs them
+  function closePanel(slide = true) {
     if (!openSlug) return;
     const panel = currentPanel();
     const tile = gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`);
     if (tile) tile.setAttribute('aria-expanded', 'false');
     openSlug = null;
     if (!panel) return;
+    if (panel.classList.contains('narrow')) {          // a narrow panel: tiles glide back into place
+      const before = tileRects();
+      panel.remove();
+      clearPlacement();
+      if (slide) slideTiles(before);
+      return;
+    }
     panel.classList.add('closing');                    // so currentPanel() skips it from now on
     panel.dataset.open = 'false';                      // starts the closing animation
     const remove = () => panel.remove();
@@ -331,18 +422,25 @@
 
   function openPanel(slug) {
     const wasOpen = openSlug;
-    closePanel();
-    if (wasOpen === slug) return;                      // clicking the open tile again just closes it
+    if (wasOpen === slug) { closePanel(); return; }    // clicking the open tile again just closes it
+    const before = tileRects();
+    const wasNarrow = !!gridEl.querySelector('.panel.narrow');
+    closePanel(false);
 
     const project = PROJECTS.find((p) => p.slug === slug);
     const end = rowEnd(slug);
     if (!project || !end) return;
+    // a wide panel still folding shut would collide with a narrow one's
+    // place in the grid, so clear it away now
+    if (isNarrow(project)) gridEl.querySelectorAll('.panel.closing').forEach((old) => old.remove());
 
     end.insertAdjacentHTML('afterend', panelHTML(project));
     openSlug = slug;
     const panel = end.nextElementSibling;              // the panel just added
     const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
     tile.setAttribute('aria-expanded', 'true');
+    placePanel(panel, slug);
+    if (wasNarrow || panel.classList.contains('narrow')) slideTiles(before);
     aimPointer();
     watchVideos();                                     // so any loops in the panel play too
     panel.querySelectorAll('.pmedia img, .pmedia video').forEach((m) =>

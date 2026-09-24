@@ -64,7 +64,9 @@ const TAGS = [
                                                //   An .mp4 plays as a silent loop; put a .webp
                                                //   of the same name (minus "-loop") beside it
                                                //   for its still poster.
-                                               //   Left [] → the panel is text only
+                                               //   Left [] → the panel is text only, and on a
+                                               //   3-column grid it opens beside its tile, in
+                                               //   the same row, instead of below it
      links:       [],                          // optional list of stories, for a project that
                                                //   spans several. Each: { label: "…", url: "…" }.
                                                //   Set link: "" to drop the single main button
@@ -351,11 +353,11 @@ const PROJECTS = [
     tags:        ["interactive", "outdoors"],
     inBook:      false,
     description: "A seasonal feature for the Star Tribune spotlighting the best places to be outside.",
-    images:      [                                   // one map from each story
-      "img/tiles/hikes-fall-2024.webp",              // Tettegouche State Park
-      "img/tiles/hikes-spring-2026.webp",            // Mariner Mountain Park, Silver Bay
-      "img/tiles/hikes-fall-2026.webp"
-    ],
+    images:      [],
+    // To show a map from each story instead of a text-only panel, use:
+    // images: ["img/tiles/hikes-fall-2024.webp",     // Tettegouche State Park
+    //          "img/tiles/hikes-spring-2026.webp",   // Mariner Mountain Park, Silver Bay
+    //          "img/tiles/hikes-fall-2026.webp"],
     links:       [
       { label: "Fall 2024", url: "https://www.startribune.com/minnesota-hike-fall-colors-north-shore-state-parks/601143123" },
       { label: "Spring 2026", url: "https://www.startribune.com/eight-minnesota-hikes-that-sing-of-spring/601637574" },

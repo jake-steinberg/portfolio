@@ -61,7 +61,9 @@ That's all: the tile, its filter tags and its panel are built automatically.
   as even thumbnails. Clicking a picture opens it full size in the lightbox;
   write an entry as `{ src, link, label }` to open a story instead. An `.mp4`
   plays as a silent loop, with the `.webp` of the same name (minus `-loop`) as
-  its poster. With none, the panel is text only.
+  its poster. With none, the panel is text only: on a three-column grid it
+  opens sideways, filling the rest of its tile's row (a middle tile slides to
+  the left edge), and the tiles in the way move down a row.
 
   On wider screens the pictures sit beside the text, kept within a set height:
   40% of the screen, and never more than 340px (`MEDIA_MAX_HEIGHT` and
