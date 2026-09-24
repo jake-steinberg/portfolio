@@ -148,8 +148,9 @@
     //                      clickable unless it has a link
     //   with a link      → opens that page in a new tab
     // 1 picture shows uncropped. 2 sit side by side at matching heights. 3 to 5
-    // make a mosaic: the widest across the top, the rest sharing a row
-    // beneath it, all uncropped. 6 or more become even 4:3 thumbnails. The
+    // make a mosaic: the widest across the top and the rest sharing a row
+    // beneath it, or all in one row, whichever shows them bigger (see
+    // topIsBigger). All uncropped. 6 or more become even 4:3 thumbnails. The
     // whole group is kept within a set height (layoutMedia).
     const shot = (entry) => {
       const { src, link, label } = typeof entry === 'string' ? { src: entry } : entry;
@@ -257,22 +258,41 @@
   }
 
   // Give each picture in a mosaic its shape (width ÷ height) as --ar, so the
-  // CSS can size them to matching heights, and, with 3 or more, mark the
-  // widest one .wide (the mosaic puts it on top).
-  function fitShots(shots) {
+  // CSS can size them to matching heights. With top = true and 3 or more
+  // pictures, mark the widest .wide (the mosaic puts it on top); otherwise
+  // they all share one row. Returns the shapes, or null until all have loaded.
+  function fitShots(shots, top) {
     const items = [...shots.children];
     const ratios = items.map((el) => {
       const m = el.querySelector('img, video');
       const w = m.naturalWidth || m.videoWidth, h = m.naturalHeight || m.videoHeight;
       return w && h ? w / h : 0;
     });
-    if (ratios.some((r) => !r)) return;                // still waiting on one to load
-    const top = items.length >= 3;
-    const widest = top ? ratios.indexOf(Math.max(...ratios)) : -1;
+    if (ratios.some((r) => !r)) return null;           // still waiting on one to load
+    const widest = top && items.length >= 3 ? ratios.indexOf(Math.max(...ratios)) : -1;
     items.forEach((el, i) => {
       el.style.setProperty('--ar', ratios[i].toFixed(4));
       el.classList.toggle('wide', i === widest);
     });
+    return ratios;
+  }
+
+  // For 3 or more pictures in a space W wide and H tall: would they show
+  // bigger all in one row, or with the widest on top and the rest in a row
+  // beneath? Compares the total picture area of each. (Wide maps usually do
+  // better in one row; a mix of shapes, with one very wide, on top.)
+  function topIsBigger(ratios, W, H, gap) {
+    const n = ratios.length, sum = ratios.reduce((a, b) => a + b, 0);
+    const hRow = Math.min(H, (W - gap * (n - 1)) / sum);
+    const areaRow = hRow * hRow * sum;
+    const top = Math.max(...ratios), rest = sum - top;
+    // at width w the mosaic is w/top + gap + (w - gap*(n-2))/rest tall
+    let w = W;
+    if (w / top + gap + (w - gap * (n - 2)) / rest > H) {
+      w = (H - gap + gap * (n - 2) / rest) / (1 / top + 1 / rest);
+    }
+    const hTop = w / top, hRest = (w - gap * (n - 2)) / rest;
+    return hTop * hTop * top + hRest * hRest * rest > areaRow;
   }
 
   // How tall a panel's pictures may be: a share of the screen's height, and
@@ -289,13 +309,17 @@
   function layoutMedia(panel) {
     const box = panel && panel.querySelector('.pmedia');
     if (!box) return;
-    box.querySelectorAll('.pshots.mosaic').forEach(fitShots);
     box.style.width = '';
-    if (!window.matchMedia('(min-width: 721px)').matches) return;   // phones: full width
+    const mosaic = box.querySelector('.pshots.mosaic');
+    const wide = window.matchMedia('(min-width: 721px)').matches;
+    const ratios = mosaic ? fitShots(mosaic, true) : null;
+    if (!wide) return;                                 // phones: full width, widest on top
     // the picture column's width, as the grid has worked it out ("544px 700px")
     const tracks = getComputedStyle(box.parentElement).gridTemplateColumns.split(' ');
     let width = Math.floor(parseFloat(tracks[tracks.length - 1]));
     const limit = Math.min(window.innerHeight * MEDIA_MAX_HEIGHT, MEDIA_MAX_PX);
+    // with 3 or more, use whichever arrangement shows the pictures bigger here
+    if (ratios && ratios.length >= 3 && !topIsBigger(ratios, width, limit, 12)) fitShots(mosaic, false);
     for (let pass = 0; pass < 3; pass++) {             // a few passes, since gaps don't scale
       box.style.width = width + 'px';
       const kids = [...box.children];

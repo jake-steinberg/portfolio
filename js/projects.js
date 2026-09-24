@@ -53,8 +53,9 @@ const TAGS = [
                                                //   ["img/foo-detail.webp", "img/foo-2.webp"]
                                                //   1 shows uncropped. 2 sit side by side at
                                                //   matching heights. 3 to 5 make a mosaic: the
-                                               //   widest on top, the rest sharing a row under
-                                               //   it, all uncropped. 6 or more show as even 4:3
+                                               //   widest on top and the rest in a row under it,
+                                               //   or all in one row, whichever shows them
+                                               //   bigger. All uncropped. 6 or more show as even 4:3
                                                //   thumbnails. The pictures are kept within a set
                                                //   height (MEDIA_MAX_HEIGHT in js/portfolio.js).
                                                //   Clicking a picture enlarges it. To open a
@@ -113,7 +114,7 @@ const PROJECTS = [
     title:       "The Driftless Area",
     slug:        "the-driftless-area",
     year:        "",
-    tile:      "img/tiles/the-driftless-area-scroll.webp",
+    tile:        "img/tiles/the-driftless-area-scroll.webp",
     video:       "img/tiles/the-driftless-area-scroll.mp4",
     link:        "img/driftless-website.jpg",
     linkType:    "file",
@@ -350,7 +351,11 @@ const PROJECTS = [
     tags:        ["interactive", "outdoors"],
     inBook:      false,
     description: "A seasonal feature for the Star Tribune spotlighting the best places to be outside.",
-    images:      [],
+    images:      [                                   // one map from each story
+      "img/tiles/hikes-fall-2024.webp",              // Tettegouche State Park
+      "img/tiles/hikes-spring-2026.webp",            // Mariner Mountain Park, Silver Bay
+      "img/tiles/hikes-fall-2026.webp"
+    ],
     links:       [
       { label: "Fall 2024", url: "https://www.startribune.com/minnesota-hike-fall-colors-north-shore-state-parks/601143123" },
       { label: "Spring 2026", url: "https://www.startribune.com/eight-minnesota-hikes-that-sing-of-spring/601637574" },

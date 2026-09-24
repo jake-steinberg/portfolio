@@ -56,7 +56,8 @@ That's all: the tile, its filter tags and its panel are built automatically.
   in. HTML is allowed, so it can include a link.
 - `images` — extra pictures for the panel. One shows uncropped. Two sit side
   by side at matching heights. Three to five make a mosaic: the widest across
-  the top, the rest sharing a row beneath it, all uncropped. Six or more show
+  the top and the rest sharing a row beneath it, or all in one row, whichever
+  shows them bigger in the space. All are uncropped. Six or more show
   as even thumbnails. Clicking a picture opens it full size in the lightbox;
   write an entry as `{ src, link, label }` to open a story instead. An `.mp4`
   plays as a silent loop, with the `.webp` of the same name (minus `-loop`) as
