@@ -305,16 +305,18 @@ const PROJECTS = [
   {
     title:       "The Life and Death of the Great Lakes Pipeline",
     slug:        "great-lakes-pipeline",
-    year:        "",
+    year:        "2023",
     panelCols:   3,
     tile:        "img/tiles/great-lakes-pipeline.webp",
     video:       "img/tiles/great-lakes-pipeline.mp4",
     link:        "pipeline.html",
     linkType:    "page",
-    tags:        ["scrollytelling", "news"],
+    tags:        ["scrollytelling", "climate"],
     inBook:      false,
-    description: "",
-    images:      [],
+    description: "Taking place in the all-too-near future, this piece of speculative fiction I made for " +
+                 "Rob Roth’s Graphic Design in Cartography course tells the story of a pipeline that " +
+                 "exports water from the Great Lakes to an increasingly thirsty world.",
+    images:      ["img/tiles/great-lakes-pipeline-superior.webp"],   // from img/lake_superior-7-01.jpg
     awards:      [
       "Best student map, Wisconsin Land Information Association, 2023"
     ]
