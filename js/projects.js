@@ -138,18 +138,23 @@ const PROJECTS = [
     awards:      []
   },
   {
-    title:       "2025 Iditarod",
+    title:       "Emily Ford’s Iditarod",
     slug:        "2025-iditarod",
-    year:        "",
-    panelCols:   3,
+    year:        "2025",
+    panelCols:   2,
     tile:        "img/tiles/2025-iditarod.webp",
     video:       "",
     link:        "https://www.startribune.com/duluths-emily-ford-faces-her-toughest-winter-adventure-yet-alaskas-famed-iditarod/601225462",
     linkType:    "story",
-    tags:        ["news", "outdoors"],
+    tags:        ["news", "outdoors", "remote-sensing"],
     inBook:      false,
-    description: "",
-    images:      [],
+    description: "A map that conjures the icy Alaska faced by Minnesotan Emily Ford during " +
+                 "the 2025 Iditarod dog sled race. Built from a MODIS image.",
+    mediaFull:   true,                            // the map across the whole panel
+    images:      [
+      { src: "img/tiles/2025-iditarod-full.webp",   // a lighter copy to preview…
+        full: "img/ford.jpg" }                       // …"Open full-size map" opens the original
+    ],
     awards:      []
   },
   {
