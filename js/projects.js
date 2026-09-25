@@ -151,17 +151,17 @@ const PROJECTS = [
     // 10%. The tile is its first frame.
     // The old static thumbnail is still at img/tiles/the-driftless-area.webp
     // if you'd rather go back to it.
-    title:       "The Driftless Area",
+    title:       "Driftless Area",
     slug:        "the-driftless-area",
-    year:        "",
-    panelCols:   3,
+    year:        "2023",
+    panelCols:   1,
     tile:        "img/tiles/the-driftless-area-scroll.webp",
     video:       "img/tiles/the-driftless-area-scroll.mp4",
     link:        "img/driftless-website.jpg",
     linkType:    "file",
-    tags:        ["print", "3d", "outdoors"],
+    tags:        ["print"],
     inBook:      false,
-    description: "",
+    description: "Stylized land cover and elevation data for a sweeping wall map of the Driftless Area.",
     images:      [],
     awards:      []
   },
