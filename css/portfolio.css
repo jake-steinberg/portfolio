@@ -452,7 +452,7 @@ body { overflow-anchor: none; }
    through the veil.
    --dim sets how dark it gets. */
 .dimmer {
-  --dim: rgba(20, 17, 14, .2);
+  --dim: rgba(20, 17, 14, .28);
   position: fixed; inset: 0; z-index: 40;
   background: var(--dim);
   opacity: 0; pointer-events: none;
