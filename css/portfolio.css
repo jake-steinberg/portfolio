@@ -509,6 +509,10 @@ body { overflow-anchor: none; }
 .pshots.scatter a:hover { transform: scale(1.05); }
 @media (max-width: 720px) { .pshots.scatter { --scatter-h: 90px; gap: 14px 16px; } }
 
+/* a picture that's only shown, not enlarged (zoom: false in projects.js) */
+.pstill { display: block; position: relative; min-width: 0; }
+.pshots:not(.scatter) .pstill { border: 1px solid var(--stroke); background: var(--bg); }
+
 /* credit under a panel's pictures (credit: in projects.js), e.g. "Photos by …" */
 .pcredit {
   margin: 8px 0 0;

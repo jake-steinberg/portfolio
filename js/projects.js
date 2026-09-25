@@ -81,6 +81,8 @@ const TAGS = [
                                                //   To link "Open full-size map" to a bigger original
                                                //   than the one shown: { src: "img/…webp", full: "img/….jpg" }
                                                //   or full: false to leave that link out (photos).
+                                               //   zoom: false shows it but doesn't enlarge it
+                                               //   (no click, no hover effect)
                                                //   tall: true gives a picture the full height on
                                                //   the left, with the rest stacked beside it, all
                                                //   filling the width, cropped to fit (Outdoor tales)
@@ -164,18 +166,22 @@ const PROJECTS = [
     awards:      []
   },
   {
-    title:       "State Fair Smellscape",
+    title:       "Minnesota State Fair Smellscape",
     slug:        "state-fair-smellscape",
-    year:        "",
+    year:        "2025",
     panelCols:   3,
     tile:        "img/tiles/state-fair-smellscape.webp",
     video:       "",
     link:        "https://www.startribune.com/smells-of-the-minnesota-state-fair-create-a-festival-for-the-nose/601443971?utm_source=gift",
     linkType:    "story",
-    tags:        ["print", "illustrated", "news"],
+    tags:        ["print", "illustrated"],
     inBook:      true,
-    description: "",
-    images:      [],
+    description: "The landscape of smells — or, smellscape — of the Minnesota State Fair, " +
+                 "where the aroma of roasting corn is as prominent as any mountain.",
+    images:      [
+      { src: "img/tiles/state-fair-smellscape-full.webp",   // a lighter copy to preview…
+        full: "img/smellscape.png" }                         // …"Open full-size map" opens the original
+    ],
     awards:      []
   },
   {
@@ -213,12 +219,12 @@ const PROJECTS = [
                  "<em>22, A Million</em>, designed by Eric Timothy Carlson.",
     scatter:     true,                            // the glyphs, loosely scattered rather than framed
     images:      [                                 // the glyphs between the story's sections, in order
-      { src: "img/dude-01.svg", full: false },
-      { src: "img/fireball-01.svg", full: false },
-      { src: "img/weed-01.svg", full: false },
-      { src: "img/twoface-01.svg", full: false },
-      { src: "img/fingers-01.svg", full: false },
-      { src: "img/turnblue-01.svg", full: false }
+      { src: "img/dude-01.svg", full: false, zoom: false },
+      { src: "img/fireball-01.svg", full: false, zoom: false },
+      { src: "img/weed-01.svg", full: false, zoom: false },
+      { src: "img/twoface-01.svg", full: false, zoom: false },
+      { src: "img/fingers-01.svg", full: false, zoom: false },
+      { src: "img/turnblue-01.svg", full: false, zoom: false }
     ],
     awards:      []
   },

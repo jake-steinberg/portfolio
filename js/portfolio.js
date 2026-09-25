@@ -157,6 +157,7 @@
     //   picture, no link → opens full size in the lightbox
     //   with a story     → still opens in the lightbox (whose link then says
     //                      "Go to story"), with its label under it linking there
+    //   zoom: false      → shown, but not clickable and no hover effect
     //   with inBook      → { src, inBook: true }: the "In the book" corner
     //                      marker on the picture (e.g. its book version)
     //   with credit      → { src, credit: "Photo by …" }: shown only when the
@@ -183,7 +184,7 @@
       return flags ? html.replace(/^(\s*<\w+)/, '$1' + flags) : html;
     };
     const shotHTML = (entry) => {
-      const { src, link, label, story, full, credit, inBook } = typeof entry === 'string' ? { src: entry } : entry;
+      const { src, link, label, story, full, credit, inBook, zoom } = typeof entry === 'string' ? { src: entry } : entry;
       const marker = inBook ? '<span class="marker">In the book</span>' : '';   // like the tiles'
       const who = credit || p.credit;                  // a picture's own credit, else the project's
       const isVideo = /\.mp4$/i.test(src);
@@ -198,6 +199,7 @@
             <figcaption><a class="pcap" href="${esc(story)}" target="_blank" rel="noopener">${name}<span aria-hidden="true">&nbsp;&#8599;</span></a></figcaption>
           </figure>`;
       }
+      if (zoom === false && !link) return `<div class="pstill">${marker}${media}</div>`;   // just shown
       if (link) {
         const name = esc(label || p.title);
         return `<a${cls} href="${esc(link)}" target="_blank" rel="noopener" aria-label="${name} (opens the story)" title="${name}">${media}</a>`;

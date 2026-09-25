@@ -75,7 +75,8 @@ That's all: the tile, its filter tags and its panel are built automatically.
   linking to the story (and "Go to story" in the enlarged view). Captioned
   pictures always sit in one row, in the order listed. To show a light WebP
   but have "Open full-size map" open the original, write `{ src, full }`; use
-  `full: false` for pictures with no full-size version (photos, say). Write
+  `full: false` for pictures with no full-size version (photos, say), or
+  `zoom: false` for one that shouldn't enlarge at all (no click, no hover). Write
   `{ src, top: true }` to always put that picture across the top of the
   mosaic; with other pictures too, the top one gets the picture column to
   itself and the others spread out in a row under the description (see The
