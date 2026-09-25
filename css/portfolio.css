@@ -268,13 +268,12 @@ body { overflow-anchor: none; }
   --panel-gap: 21px;
   grid-column: 1 / -1;           /* spans the whole grid width */
   display: grid; grid-template-rows: 0fr;
-  margin-top: 0;
-  transition: grid-template-rows .32s cubic-bezier(.2,.7,.3,1), margin-top .32s cubic-bezier(.2,.7,.3,1);
-}
-.panel[data-open="true"] {
-  grid-template-rows: 1fr;
+  /* its top edge is set in its final place from the start, so only its
+     height animates: it unfolds downward, and folds back up from the bottom */
   margin-top: calc(var(--panel-gap) - var(--row-gap) - var(--pull, 0px));
+  transition: grid-template-rows .32s cubic-bezier(.2,.7,.3,1);
 }
+.panel[data-open="true"] { grid-template-rows: 1fr; }
 /* while a panel is open, the title and tags fade out on the open tile and
    on any tile in its row the panel reaches up over (js adds .hush) */
 .gcard .cap, .gcard .tags { transition: opacity .2s; }
