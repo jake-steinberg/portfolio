@@ -241,7 +241,7 @@
               </div>` : ''}
             </div>
             ${hasImages ? `<div class="pmedia">${shots}${splitBelow ? '' : creditHTML}</div>` : ''}
-            ${splitBelow ? `<div class="pmedia pmedia-below">${belowShots}${creditHTML}</div>` : ''}
+            ${splitBelow ? `<div class="pmedia pmedia-below">${belowShots}</div>${creditHTML}` : ''}
           </div>
         </div>
       </div>`;
@@ -434,10 +434,30 @@
   // always in one plain row (no "widest on top").
   function layoutMedia(panel) {
     if (!panel) return;
-    const box = panel.querySelector('.pmedia:not(.pmedia-below)');
-    if (box) sizeMediaBox(box);
     const belowMosaic = panel.querySelector('.pmedia-below .pshots.mosaic');
     if (belowMosaic) fitShots(belowMosaic, false);
+    const box = panel.querySelector('.pmedia:not(.pmedia-below)');
+    if (!box) return;
+    const split = panel.querySelector('.panel-body.split') && !panel.dataset.cols &&
+                  window.matchMedia('(min-width: 721px)').matches;
+    if (split) sizeSplitMedia(box);
+    else sizeMediaBox(box);
+  }
+
+  // The .split layout on wider screens (see portfolio.css): the top picture
+  // sits at the right edge, as tall as the height limit allows, and the other
+  // pictures fill the rest of the width beside it, bottoms lined up. It gets
+  // smaller on narrower screens so the text column keeps at least this much:
+  const SPLIT_MIN_TEXT = 340;
+  function sizeSplitMedia(box) {
+    const body = box.parentElement, cs = getComputedStyle(body);
+    const inner = body.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const gap = parseFloat(cs.columnGap);
+    const m = box.querySelector('img, video');
+    const ar = (m.naturalWidth || m.videoWidth) / (m.naturalHeight || m.videoHeight) || 4 / 3;  // until it loads
+    const limit = Math.min(window.innerHeight * MEDIA_MAX_HEIGHT, MEDIA_MAX_PX);
+    const height = Math.min(limit, (inner - gap - SPLIT_MIN_TEXT) / ar);
+    box.style.width = Math.floor(height * ar) + 'px';
   }
 
   // The viewport follows the panels: scroll smoothly so the stretch from

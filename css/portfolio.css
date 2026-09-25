@@ -302,6 +302,8 @@ body { overflow-anchor: none; }
    groups matches the gap between the pictures. On wider 3-column views it
    sits under the text instead (.split, below). */
 .pmedia-below { margin-top: calc(var(--shot-gap) - var(--pbody-gap)); }
+/* its credit line follows it, just as close as under any other pictures */
+.panel-body > .pcredit { margin-top: calc(8px - var(--pbody-gap)); }
 /* -- PANEL LAYOUT (wider screens) -------------------------------------------
    The text column sits beside the pictures: title, year and tags,
    description, awards (.ptop), then links and buttons (.pfoot).
@@ -317,18 +319,33 @@ body { overflow-anchor: none; }
     justify-self: center; align-self: center;
     padding-block: 30px;                  /* clears the Close button, and keeps it centered */
   }
-  /* .split (splitBelow in js/portfolio.js, e.g. The Legacy Tree): the second
-     group of pictures (.pmedia-below) spreads out under the description, in
-     the text column, while the top picture has the picture column to itself,
-     beside both. Any spare height goes under the photos. */
-  .panel:not([data-cols]) .panel-body.split { grid-template-rows: auto 1fr; }
-  .panel:not([data-cols]) .split > .panel-main { grid-column: 1; grid-row: 1; }
-  .panel:not([data-cols]) .split > .pmedia:not(.pmedia-below) { grid-column: 2; grid-row: 1 / span 2; }
+  /* .split (splitBelow in js/portfolio.js, e.g. The Legacy Tree): the top
+     picture sits at the right edge (js sizes it: sizeSplitMedia), and the
+     other pictures (.pmedia-below) fill the width beside it, under the text,
+     their bottoms lined up with its bottom. The gap between the pictures and
+     the top picture is the same as between the pictures (--shot-gap). The
+     credit goes under the pictures. */
+  .panel:not([data-cols]) .panel-body.split {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto 1fr auto;
+    column-gap: var(--shot-gap); row-gap: 0;
+  }
+  .panel:not([data-cols]) .split > .panel-main {
+    grid-column: 1; grid-row: 1;
+    padding-right: calc(var(--pbody-gap) - var(--shot-gap));   /* the text keeps its usual distance */
+  }
+  .panel:not([data-cols]) .split > .pmedia:not(.pmedia-below) {
+    grid-column: 2; grid-row: 1 / span 2;
+    justify-self: end; align-self: end;
+    padding-block: 30px 0;                /* still clears the Close button */
+  }
   .panel:not([data-cols]) .split > .pmedia-below {
     grid-column: 1; grid-row: 2;
-    justify-self: stretch; align-self: start;
-    padding-block: 0; margin-top: 0;      /* the usual gap between text and pictures */
+    justify-self: stretch; align-self: end;
+    padding-block: 0;
+    margin-top: var(--pbody-gap);         /* at least the usual gap under the text */
   }
+  .panel:not([data-cols]) .split > .pcredit { grid-column: 1; grid-row: 3; margin-top: 8px; }
 
   /* a one- or two-column detail view (panelCols: 1 or 2 in projects.js; js
      sets its width and position under the tile): one column inside, so the
