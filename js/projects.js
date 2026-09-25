@@ -298,7 +298,7 @@ const PROJECTS = [
     title:       "Outdoor tales told in the Star Tribune",
     slug:        "outdoor-tales",
     year:        "2023–2026",
-    panelCols:   3,
+    panelCols:   2,
     tile:        "img/tiles/ice-climbing.webp",
     video:       "img/tiles/ice-climbing.mp4",
     link:        "",                              // no button: the stories are listed instead
@@ -347,7 +347,7 @@ const PROJECTS = [
     title:       "Urban Paddling Guide",
     slug:        "urban-paddling-guide",
     year:        "2025",
-    panelCols:   3,
+    panelCols:   2,
     tile:        "img/tiles/urban-paddling-guide-scroll.webp",
     video:       "img/tiles/urban-paddling-guide-scroll.mp4",
     link:        "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift",
