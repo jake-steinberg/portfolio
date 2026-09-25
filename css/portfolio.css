@@ -320,6 +320,13 @@
     justify-self: center; align-self: center;
     padding-block: 30px;                  /* clears the Close button, and keeps it centered */
   }
+
+  /* a two-column detail view (panelCols: 2 in projects.js; js sets its width
+     and position under the tile): one column inside, so the pictures and
+     their links stack under the description */
+  .panel[data-cols="2"] .panel-body:not(.solo) { grid-template-columns: minmax(0, 1fr); }
+  .panel[data-cols="2"] .panel-main { min-width: 0; }
+  .panel[data-cols="2"] .pmedia { justify-self: start; align-self: start; padding-block: 0; }
 }
 .pfoot > :first-child { margin-top: 0; }
 .ptop > :last-child { margin-bottom: 0; }

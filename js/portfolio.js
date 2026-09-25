@@ -220,6 +220,29 @@
     return cols && cols !== 'none' ? cols.split(' ').filter(Boolean).length : 1;
   }
 
+  // A project with panelCols: 2 gets a detail view two columns wide on a
+  // desktop grid (3 columns or more), under the open tile and one neighbor.
+  // It still spans the whole grid row, so the rows below simply move down;
+  // it's just the visible panel (.panel-body) that's narrowed and shifted.
+  function sizePanel(panel, slug) {
+    const body = panel.querySelector('.panel-body');
+    body.style.width = ''; body.style.marginLeft = ''; delete panel.dataset.cols;
+    const project = PROJECTS.find((p) => p.slug === slug);
+    const cols = columnCount();
+    const span = project && project.panelCols;
+    if (!span || cols < 3 || span >= cols) return;
+    const grid = getComputedStyle(gridEl);
+    const tracks = grid.gridTemplateColumns.split(' ').map(parseFloat);    // each column's width
+    const gap = parseFloat(grid.columnGap);
+    const i = [...gridEl.querySelectorAll('.gcard')].findIndex((t) => t.dataset.slug === slug);
+    const start = Math.min(i % cols, cols - span);                        // keep it on the grid
+    const left = tracks.slice(0, start).reduce((sum, w) => sum + w + gap, 0);
+    const width = tracks.slice(start, start + span).reduce((sum, w) => sum + w, 0) + gap * (span - 1);
+    body.style.marginLeft = left + 'px';
+    body.style.width = width + 'px';
+    panel.dataset.cols = span;                         // see [data-cols] in portfolio.css
+  }
+
   // The last tile in the same row as the tile with this slug
   function rowEnd(slug) {
     const tiles = [...gridEl.querySelectorAll('.gcard')];
@@ -249,6 +272,7 @@
     const panel = currentPanel();
     const end = rowEnd(openSlug);
     if (panel && end && end.nextElementSibling !== panel) end.after(panel);
+    if (panel) sizePanel(panel, openSlug);
     aimPointer();
     layoutMedia(panel);
   });
@@ -355,6 +379,7 @@
     const panel = end.nextElementSibling;              // the panel just added
     const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
     tile.setAttribute('aria-expanded', 'true');
+    sizePanel(panel, slug);
     aimPointer();
     watchVideos();                                     // so any loops in the panel play too
     panel.querySelectorAll('.pmedia img, .pmedia video').forEach((m) =>

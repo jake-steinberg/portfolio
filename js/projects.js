@@ -36,6 +36,10 @@ const TAGS = [
      title:       "Project name",              // shown under the tile and in the panel
      slug:        "project-name",              // unique id, lowercase-with-dashes
      year:        "2024",                      // shown before the tags in the panel. "" for none
+     panelCols:   3,                           // how wide the detail view is on a desktop grid:
+                                               //   3 — the whole row: text beside the pictures
+                                               //   2 — two columns, under the tile: the text, then
+                                               //       the pictures and their links stacked below
      tile:        "img/tiles/project-name.webp", // the grid image — 5:4, about 1000x800
      video:       "",                          // optional looping .mp4; the tile image
                                                //   becomes its poster frame. "" for none
@@ -85,6 +89,7 @@ const PROJECTS = [
     title:       "Rincon Mountains",
     slug:        "rincon-mountains",
     year:        "",
+    panelCols:   3,
     tile:        "img/tiles/rincon-mountains.webp",
     video:       "",
     link:        "img/rincon.png",
@@ -99,6 +104,7 @@ const PROJECTS = [
     title:       "2025 Iditarod",
     slug:        "2025-iditarod",
     year:        "",
+    panelCols:   3,
     tile:        "img/tiles/2025-iditarod.webp",
     video:       "",
     link:        "https://www.startribune.com/duluths-emily-ford-faces-her-toughest-winter-adventure-yet-alaskas-famed-iditarod/601225462",
@@ -118,6 +124,7 @@ const PROJECTS = [
     title:       "The Driftless Area",
     slug:        "the-driftless-area",
     year:        "",
+    panelCols:   3,
     tile:        "img/tiles/the-driftless-area-scroll.webp",
     video:       "img/tiles/the-driftless-area-scroll.mp4",
     link:        "img/driftless-website.jpg",
@@ -132,6 +139,7 @@ const PROJECTS = [
     title:       "State Fair Smellscape",
     slug:        "state-fair-smellscape",
     year:        "",
+    panelCols:   3,
     tile:        "img/tiles/state-fair-smellscape.webp",
     video:       "",
     link:        "https://www.startribune.com/smells-of-the-minnesota-state-fair-create-a-festival-for-the-nose/601443971?utm_source=gift",
@@ -146,6 +154,7 @@ const PROJECTS = [
     title:       "Slivers of an Ancient Forest",
     slug:        "slivers-of-an-ancient-forest",
     year:        "2021",
+    panelCols:   3,
     tile:        "img/tiles/slivers-of-an-ancient-forest.webp",   // 5:4 crop for the grid
     video:       "",
     link:        "img/slivers-of-an-ancient-forest-sml.png",   // full-size map (6375 x 4125)
@@ -165,6 +174,7 @@ const PROJECTS = [
     title:       "22, A Map",
     slug:        "22-a-map",
     year:        "",
+    panelCols:   3,
     tile:        "img/tiles/22-a-map.webp",
     video:       "img/tiles/22-a-map.mp4",
     link:        "22map.html",
@@ -182,6 +192,7 @@ const PROJECTS = [
     title:       "Work for the Wall Street Journal",
     slug:        "wall-street-journal",
     year:        "2023",
+    panelCols:   3,
     tile:        "img/tiles/wall-street-journal.webp",
     video:       "img/tiles/wall-street-journal.mp4",
     link:        "",
@@ -218,6 +229,7 @@ const PROJECTS = [
     title:       "Where is Uptown?",
     slug:        "where-is-uptown",
     year:        "2025",
+    panelCols:   3,
     tile:        "img/tiles/where-is-uptown.webp",
     video:       "img/tiles/where-is-uptown.mp4",
     link:        "",
@@ -241,6 +253,7 @@ const PROJECTS = [
     title:       "Legacy Tree",
     slug:        "legacy-tree",
     year:        "",
+    panelCols:   3,
     tile:        "img/tiles/legacy-tree.webp",
     video:       "img/tiles/legacy-tree.mp4",
     link:        "https://www.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/",
@@ -255,6 +268,7 @@ const PROJECTS = [
     title:       "2024 Election in Minnesota",
     slug:        "2024-election-in-minnesota",
     year:        "",
+    panelCols:   3,
     tile:        "img/tiles/2024-election-in-minnesota.webp",
     video:       "img/tiles/2024-election-in-minnesota.mp4",
     link:        "img/Strib_election.pdf",
@@ -272,6 +286,7 @@ const PROJECTS = [
     title:       "Urban Paddling guide",
     slug:        "urban-paddling-guide",
     year:        "",
+    panelCols:   3,
     tile:        "img/tiles/urban-paddling-guide-scroll.webp",
     video:       "img/tiles/urban-paddling-guide-scroll.mp4",
     link:        "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift",
@@ -286,6 +301,7 @@ const PROJECTS = [
     title:       "The Life and Death of the Great Lakes Pipeline",
     slug:        "great-lakes-pipeline",
     year:        "",
+    panelCols:   3,
     tile:        "img/tiles/great-lakes-pipeline.webp",
     video:       "img/tiles/great-lakes-pipeline.mp4",
     link:        "pipeline.html",
@@ -302,6 +318,7 @@ const PROJECTS = [
     title:       "2024 Weather",
     slug:        "2024-weather",
     year:        "",
+    panelCols:   3,
     tile:        "img/tiles/2024-weather.webp",
     video:       "",
     link:        "https://www.startribune.com/how-does-2024s-weather-compare-with-your-childhood/601202878",
@@ -316,6 +333,7 @@ const PROJECTS = [
     title:       "Snowfall Tracker",
     slug:        "snowfall-tracker",
     year:        "",
+    panelCols:   3,
     tile:        "img/tiles/snowfall-tracker.webp",
     video:       "",
     link:        "https://www.startribune.com/see-how-much-snow-has-or-hasnt-fallen-this-winter/600339679/?refresh=true",
@@ -330,6 +348,7 @@ const PROJECTS = [
     title:       "Projection Trading Card",
     slug:        "projection-trading-card",
     year:        "2022",
+    panelCols:   3,
     tile:        "img/tiles/projection-trading-card.webp",
     video:       "",
     link:        "img/projection-card.jpg",
@@ -348,6 +367,7 @@ const PROJECTS = [
     title:       "Best places to hike",
     slug:        "fall-hikes",
     year:        "2024–2026",
+    panelCols:   2,
     tile:        "img/tiles/fall-hikes.webp",
     video:       "img/tiles/fall-hikes.mp4",
     link:        "",
