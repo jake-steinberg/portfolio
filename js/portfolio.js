@@ -100,6 +100,7 @@
   function render() {
     const visible = PROJECTS.filter(matches);
     openSlug = null;                                   // re-rendering closes any open panel
+    dim(false);
     gridEl.innerHTML = visible.map(tileHTML).join('');
     emptyEl.hidden = visible.length > 0;
     clearBtn.hidden = selected.size === 0;
@@ -252,6 +253,28 @@
     panel.dataset.cols = span;                         // see [data-cols] in portfolio.css
   }
 
+  // How far to pull the panel up: from the bottom of the open tile's picture
+  // to the bottom of its row (the title and tags it hides, and any taller
+  // captions beside it). Sets --pull, used in portfolio.css. The tiles in
+  // that row the panel reaches up over get .hush, which fades their title
+  // and tags out rather than half-covering them.
+  const unhush = () => gridEl.querySelectorAll('.gcard.hush').forEach((t) => t.classList.remove('hush'));
+
+  function pullPanel(panel, tile) {
+    unhush();
+    const top = tile.getBoundingClientRect().top;
+    const row = [...gridEl.querySelectorAll('.gcard')]
+      .filter((t) => Math.abs(t.getBoundingClientRect().top - top) < 2);        // same row
+    const frame = tile.querySelector('.gframe').getBoundingClientRect();
+    const rowBottom = Math.max(...row.map((t) => t.getBoundingClientRect().bottom));
+    panel.style.setProperty('--pull', Math.max(0, Math.round(rowBottom - frame.bottom)) + 'px');
+    const body = panel.querySelector('.panel-body').getBoundingClientRect();
+    row.forEach((t) => {
+      const r = t.getBoundingClientRect();
+      if (r.right > body.left + 1 && r.left < body.right - 1) t.classList.add('hush');   // under the panel
+    });
+  }
+
   // The last tile in the same row as the tile with this slug
   function rowEnd(slug) {
     const tiles = [...gridEl.querySelectorAll('.gcard')];
@@ -265,26 +288,24 @@
   // grid for a moment alongside the new one, so skip any marked .closing.
   const currentPanel = () => gridEl.querySelector('.panel:not(.closing)');
 
-  // Aim the panel's pointer at the middle of the open tile
-  function aimPointer() {
-    const panel = currentPanel();
-    const tile = openSlug && gridEl.querySelector(`.gcard[data-slug="${openSlug}"] .gframe`);
-    if (!panel || !tile) return;
-    const body = panel.querySelector('.panel-body');
-    const t = tile.getBoundingClientRect(), b = body.getBoundingClientRect();
-    body.style.setProperty('--arrow-x', Math.round(t.left + t.width / 2 - b.left) + 'px');
-  }
-
-  // If the window is resized, move the open panel to its row's new end and re-aim its pointer
+  // If the window is resized, move the open panel to its row's new end and re-fit it
   window.addEventListener('resize', () => {
     if (!openSlug) return;
     const panel = currentPanel();
     const end = rowEnd(openSlug);
     if (panel && end && end.nextElementSibling !== panel) end.after(panel);
     if (panel) sizePanel(panel, openSlug);
-    aimPointer();
+    if (panel) pullPanel(panel, gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`));
     layoutMedia(panel);
   });
+
+  // The veil that dims the rest of the page while a panel is open
+  // (see .dimmer in portfolio.css)
+  const dimmer = document.createElement('div');
+  dimmer.className = 'dimmer';
+  dimmer.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(dimmer);
+  const dim = (on) => dimmer.classList.toggle('on', on);
 
   function closePanel() {
     if (!openSlug) return;
@@ -292,6 +313,8 @@
     const tile = gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`);
     if (tile) tile.setAttribute('aria-expanded', 'false');
     openSlug = null;
+    dim(false);
+    unhush();
     if (!panel) return;
     panel.classList.add('closing');                    // so currentPanel() skips it from now on
     panel.dataset.open = 'false';                      // starts the closing animation
@@ -416,7 +439,7 @@
     const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
     tile.setAttribute('aria-expanded', 'true');
     sizePanel(panel, slug);
-    aimPointer();
+    pullPanel(panel, tile);
     watchVideos();                                     // so any loops in the panel play too
     panel.querySelectorAll('.pmedia img, .pmedia video').forEach((m) =>
       m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => layoutMedia(panel), { once: true }));
@@ -443,8 +466,8 @@
       if (--left === 0 && Date.now() - openedAt < 2000) follow();
     }, { once: true }));
 
-    // next frame: flip data-open so the CSS transition runs
-    requestAnimationFrame(() => { panel.dataset.open = 'true'; });
+    // next frame: flip data-open so the CSS transition runs, and dim the rest
+    requestAnimationFrame(() => { panel.dataset.open = 'true'; dim(true); });
   }
 
 

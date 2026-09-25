@@ -261,10 +261,11 @@ body { overflow-anchor: none; }
    by growing its grid row from 0fr to 1fr.
    ----------------------------------------------------------------------------- */
 .panel {
-  /* How far the pointer's tip sits below the open tile's caption. The panel
-     is pulled up into the row gap by the difference. */
-  --panel-gap: 10px;
-  --arrow: 11px;                 /* pointer size */
+  /* How far the panel sits below the open tile's picture. The open tile's
+     title and tags fade out (the panel repeats them), and the panel is pulled
+     up into their space and the row gap. js/portfolio.js measures that space
+     as --pull. */
+  --panel-gap: 21px;
   grid-column: 1 / -1;           /* spans the whole grid width */
   display: grid; grid-template-rows: 0fr;
   margin-top: 0;
@@ -272,8 +273,13 @@ body { overflow-anchor: none; }
 }
 .panel[data-open="true"] {
   grid-template-rows: 1fr;
-  margin-top: calc(var(--panel-gap) - var(--row-gap));
+  margin-top: calc(var(--panel-gap) - var(--row-gap) - var(--pull, 0px));
 }
+/* while a panel is open, the title and tags fade out on the open tile and
+   on any tile in its row the panel reaches up over (js adds .hush) */
+.gcard .cap, .gcard .tags { transition: opacity .2s; }
+.gcard.hush .cap,
+.gcard.hush .tags { opacity: 0; }
 .panel > .panel-in { overflow: hidden; min-height: 0; }
 
 .panel-body {
@@ -283,32 +289,10 @@ body { overflow-anchor: none; }
      the widest picture and get cut off at the right edge. */
   display: grid; grid-template-columns: minmax(0, 1fr);
   gap: clamp(18px, 2.6vw, 38px);
-  margin-top: var(--arrow);      /* room for the pointer inside the clipped panel */
   padding: clamp(20px, 2.5vw, 32px);
   background: var(--plate);
   border: 1px solid var(--stroke);
 }
-/* the pointer: a small notch in the top edge, aimed at the center of the open
-   tile. js/portfolio.js sets --arrow-x. Two stacked triangles make the
-   hairline outline (::before) and the paper fill (::after). */
-.panel-body::before,
-.panel-body::after {
-  content: ""; position: absolute; width: 0; height: 0;
-  border-style: solid; border-color: transparent; border-top-width: 0;
-}
-.panel-body::before {
-  top: calc(-1 * var(--arrow));
-  left: calc(var(--arrow-x, 50%) - var(--arrow));
-  border-width: 0 var(--arrow) var(--arrow);
-  border-bottom-color: var(--stroke);
-}
-.panel-body::after {
-  top: calc(-1 * var(--arrow) + 1px);
-  left: calc(var(--arrow-x, 50%) - var(--arrow) + 1px);
-  border-width: 0 calc(var(--arrow) - 1px) calc(var(--arrow) - 1px);
-  border-bottom-color: var(--plate);
-}
-
 /* -- PANEL LAYOUT (wider screens) -------------------------------------------
    The text column sits beside the pictures: title, year and tags,
    description, awards (.ptop), then links and buttons (.pfoot).
@@ -461,6 +445,25 @@ body { overflow-anchor: none; }
 .panel .close:hover { background: var(--ink); color: var(--plate); }
 
 
+/* While a detail view is open the rest of the page dims a little: a veil
+   over the whole window (js/portfolio.js adds it and toggles .on), with the
+   open tile and its panel lifted above it, so the tile's picture, title and
+   tags draw at full strength (only the page behind the title is darker).
+   The sticky header (z-index 50) stays above it too. Clicks pass straight
+   through the veil.
+   --dim sets how dark it gets. */
+.dimmer {
+  --dim: rgba(20, 17, 14, .2);
+  position: fixed; inset: 0; z-index: 40;
+  background: var(--dim);
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+}
+.dimmer.on { opacity: 1; }
+.gcard[aria-expanded="true"],
+.panel:not(.closing) { position: relative; z-index: 41; }
+
+
 /* -----------------------------------------------------------------------------
    6. LIGHTBOX — full-size view of a map
    ----------------------------------------------------------------------------- */
@@ -491,6 +494,8 @@ body { overflow-anchor: none; }
    ----------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .gframe, .chip, .cap .ttl, .panel, .pshots a, .btn, .pill, .trio a { transition: none; }
+  .dimmer { transition: none; }
+  .gcard .cap, .gcard .tags { transition: none; }
   .gcard:hover .gframe { transform: none; box-shadow: var(--shadow-lift); }
   .pshots a:hover, .btn:hover { transform: none; }
 }
