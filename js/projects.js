@@ -56,6 +56,10 @@ const TAGS = [
                                                //   Left "" → the panel shows a placeholder.
                                                //   HTML is allowed, e.g. a link:
                                                //   <a href=\"https://…\" target=\"_blank\">text</a>
+     scatter:     false,                       // optional: true lays the pictures out loosely,
+                                               //   unframed and slightly tilted, in rows filling
+                                               //   the width (for cut-out art on a clear
+                                               //   background, like 22, A Map's glyphs)
      mediaHalf:   false,                       // optional: true gives the pictures exactly half
                                                //   of a 3-column panel, filling it (no height limit)
      images:      [],                          // extra pictures for the panel, e.g.
@@ -197,16 +201,26 @@ const PROJECTS = [
   {
     title:       "22, A Map",
     slug:        "22-a-map",
-    year:        "",
-    panelCols:   3,
+    year:        "2022",
+    panelCols:   2,
     tile:        "img/tiles/22-a-map.webp",
     video:       "img/tiles/22-a-map.mp4",
     link:        "22map.html",
     linkType:    "page",
-    tags:        ["interactive", "illustrated"],
+    tags:        ["interactive", "scrollytelling"],
     inBook:      false,
-    description: "",
-    images:      [],
+    description: "A Mapbox-inspired journey through the aesthetic universe of Bon Iver’s " +
+                 "<em>22, A Million</em>, designed by Eric Timothy Carlson.",
+    scatter:     true,                            // the glyphs, loosely scattered rather than framed
+    images:      [                                 // the glyphs between the story's sections, in order
+      { src: "img/dude-01.svg", full: false },
+      { src: "img/fireball-01.svg", full: false },
+      { src: "img/weed-01.svg", full: false },
+      { src: "img/twoface-01.svg", full: false },
+      { src: "img/fingers-01.svg", full: false },
+      { src: "img/turnblue-01.svg", full: false },
+      { src: "img/astuary-01.svg", full: false }
+    ],
     awards:      []
   },
   {

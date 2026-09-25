@@ -210,6 +210,8 @@
     };
     const shotsGroup = (imgs) => {
       const n = imgs.length;
+      // scatter: true → loose, unframed rows filling the width (see .scatter in portfolio.css)
+      if (p.scatter) return `<div class="pshots scatter">${imgs.map(shot).join('')}</div>`;
       // tall: true → the tall picture first, then the rest in a column beside it,
       // as many rows as there are other pictures (--rest; see .tallmix in portfolio.css)
       const tall = imgs.filter((img) => typeof img !== 'string' && img.tall);
@@ -431,6 +433,9 @@
     // cropped to fit, rather than keeping within the height limit
     const tall = box.querySelector('.pshots.tallmix');
     if (tall) { box.style.width = '100%'; fitTall(tall); return; }
+    // scattered pictures fill the width too, in rows (their shapes set the widths)
+    const scatter = box.querySelector('.pshots.scatter');
+    if (scatter) { box.style.width = '100%'; fitShots(scatter, false); return; }
     const mosaic = box.querySelector('.pshots.mosaic');
     const wide = window.matchMedia('(min-width: 721px)').matches;
     const ratios = mosaic ? fitShots(mosaic, true) : null;
