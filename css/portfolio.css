@@ -347,11 +347,8 @@ body { overflow-anchor: none; }
 }
 /* year and tags under the title — the same small labels as under each tile */
 .pmeta { margin: 0 0 24px; }
-/* the description, set off by a coral rule down its left side */
-.desc {
-  font-size: 15.5px; line-height: 1.6; margin: 0 0 22px; max-width: var(--measure);
-  border-left: 2px solid var(--accent); padding-left: 12px;
-}
+/* the description */
+.desc { font-size: 15.5px; line-height: 1.6; margin: 0 0 22px; max-width: var(--measure); }
 /* a link inside a description gets the same coral underline as the story links */
 .desc a {
   color: var(--ink); text-decoration: none;
