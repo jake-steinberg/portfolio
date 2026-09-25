@@ -23,7 +23,8 @@ const TAGS = [
   { id: "illustrated", label: "Illustrated" },
   { id: "news", label: "News" },
   { id: "remote-sensing", label: "Remote sensing" },
-  { id: "outdoors", label: "Outdoors" }
+  { id: "outdoors", label: "Outdoors" },
+  { id: "climate", label: "Climate" }
 ];
 
 
@@ -334,15 +335,15 @@ const PROJECTS = [
   {
     title:       "Snowfall Tracker",
     slug:        "snowfall-tracker",
-    year:        "",
-    panelCols:   3,
+    year:        "2023–2026",
+    panelCols:   1,
     tile:        "img/tiles/snowfall-tracker.webp",
     video:       "",
     link:        "https://www.startribune.com/see-how-much-snow-has-or-hasnt-fallen-this-winter/600339679/?refresh=true",
     linkType:    "story",
-    tags:        ["interactive", "news"],
+    tags:        ["news", "interactive", "climate"],
     inBook:      false,
-    description: "",
+    description: "A seasonal data viz dashboard that tracks and compares annual snowfall accumulation.",
     images:      [],
     awards:      []
   },
