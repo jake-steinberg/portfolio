@@ -290,19 +290,23 @@ const PROJECTS = [
     // The video pans slowly down the full page (img/urban_paddling.jpg) and
     // back up, like the Driftless tile. The old static thumbnail is still at
     // img/tiles/urban-paddling-guide.webp
-    title:       "Urban Paddling guide",
+    title:       "Urban Paddling Guide",
     slug:        "urban-paddling-guide",
-    year:        "",
-    panelCols:   3,
+    year:        "2025",
+    panelCols:   2,
     tile:        "img/tiles/urban-paddling-guide-scroll.webp",
     video:       "img/tiles/urban-paddling-guide-scroll.mp4",
     link:        "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift",
     linkType:    "story",
-    tags:        ["print", "illustrated", "outdoors"],
+    tags:        ["print", "outdoors"],
     inBook:      false,
-    description: "",
+    description: "A guide to 13 of the best paddling routes in the Twin Cities. I scouted and " +
+                 "authored guides to most of the routes, and mapped them all.",
     images:      [],
-    awards:      []
+    awards:      [
+      "Silver Medal for Story Page Design, Society for News Design, May 2026. " +
+      "Primary page design by Anna Boone."
+    ]
   },
   {
     title:       "The Life and Death of the Great Lakes Pipeline",
