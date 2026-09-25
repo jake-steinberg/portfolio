@@ -287,11 +287,19 @@ body { overflow-anchor: none; }
      wider screens. minmax(0, …) lets it shrink; a plain 1fr would stretch to
      the widest picture and get cut off at the right edge. */
   display: grid; grid-template-columns: minmax(0, 1fr);
-  gap: clamp(18px, 2.6vw, 38px);
+  --pbody-gap: clamp(18px, 2.6vw, 38px);   /* space around the text/pictures columns */
+  --shot-gap: 12px;                        /* space between pictures in a row (.pshots.mosaic) */
+  gap: var(--pbody-gap);
   padding: clamp(20px, 2.5vw, 32px);
   background: var(--plate);
   border: 1px solid var(--stroke);
 }
+@media (max-width: 720px) { .panel-body { --shot-gap: 8px; } }
+/* a second group of pictures (splitBelow in js/portfolio.js, e.g. The Legacy
+   Tree's photos): the negative margin cancels the grid's own (wider) row
+   gap above it and substitutes --shot-gap, so the space above the pictures
+   matches the gap between them, on phones too (they simply stack there). */
+.pmedia-below { margin-top: calc(var(--shot-gap) - var(--pbody-gap)); }
 /* -- PANEL LAYOUT (wider screens) -------------------------------------------
    The text column sits beside the pictures: title, year and tags,
    description, awards (.ptop), then links and buttons (.pfoot).
@@ -309,7 +317,8 @@ body { overflow-anchor: none; }
   }
   /* a second group of pictures (splitBelow in js/portfolio.js, e.g. The
      Legacy Tree's photos): spans both columns in a full-width row under the
-     text and the first group, instead of squeezing into that narrow column */
+     text and the first group, instead of squeezing into that narrow column
+     (see .pmedia-below's margin-top above for its vertical gap) */
   .pmedia-below {
     grid-column: 1 / -1;
     justify-self: stretch; align-self: start;
@@ -413,12 +422,11 @@ body { overflow-anchor: none; }
    (width ÷ height) as --ar and marks the widest .wide.
    Growing each one in proportion to its shape is what makes the heights
    match; the 2px basis covers the hairline border, so the match is exact. */
-.pshots.mosaic { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+.pshots.mosaic { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--shot-gap); }
 .pshots.mosaic > * { flex: var(--ar, 1) 1 2px; min-width: 0; }
 .pshots.mosaic > .wide { flex-basis: 100%; order: -1; }
 .pshots.mosaic img { aspect-ratio: auto; height: auto; object-fit: fill; }
 @media (max-width: 720px) {
-  .pshots.mosaic { gap: 8px; }
   /* 4 or 5 pictures: on a phone the lower row wraps, two to a line. A
      starting width in proportion to each picture's shape keeps the heights
      matched within each line; 30% per unit of shape fits two, never three. */
