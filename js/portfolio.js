@@ -220,8 +220,9 @@
     return cols && cols !== 'none' ? cols.split(' ').filter(Boolean).length : 1;
   }
 
-  // A project with panelCols: 2 gets a detail view two columns wide on a
-  // desktop grid (3 columns or more), under the open tile and one neighbor.
+  // A project with panelCols: 1 or 2 gets a detail view that many columns
+  // wide on a desktop grid (3 columns or more): under the open tile alone, or
+  // under it and one neighbor.
   // It still spans the whole grid row, so the rows below simply move down;
   // it's just the visible panel (.panel-body) that's narrowed and shifted.
   function sizePanel(panel, slug) {

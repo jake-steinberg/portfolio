@@ -54,7 +54,8 @@ That's all: the tile, its filter tags and its panel are built automatically.
   to show just the tags.
 - `panelCols` — how wide the detail view is on a desktop grid. `3` spans the
   whole row, with the text beside the pictures. `2` spans two columns under
-  the tile, with the pictures and their links stacked under the description.
+  the tile, with the pictures and their links stacked under the description,
+  and `1` is a single column, just under the tile, stacked the same way.
   Either way the rows below move down to make room.
 - `description` — the panel shows a visible placeholder until this is filled
   in. HTML is allowed, so it can include a link.

@@ -40,6 +40,8 @@ const TAGS = [
                                                //   3 — the whole row: text beside the pictures
                                                //   2 — two columns, under the tile: the text, then
                                                //       the pictures and their links stacked below
+                                               //   1 — one column, just under the tile, stacked the
+                                               //       same way
      tile:        "img/tiles/project-name.webp", // the grid image — 5:4, about 1000x800
      video:       "",                          // optional looping .mp4; the tile image
                                                //   becomes its poster frame. "" for none
@@ -348,7 +350,7 @@ const PROJECTS = [
     title:       "Projection Trading Card",
     slug:        "projection-trading-card",
     year:        "2022",
-    panelCols:   2,
+    panelCols:   1,
     tile:        "img/tiles/projection-trading-card.webp",
     video:       "",
     link:        "",                              // no button: click the card to enlarge it
