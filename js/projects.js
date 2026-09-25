@@ -60,6 +60,8 @@ const TAGS = [
                                                //   unframed and slightly tilted, in one line
                                                //   across the width (for cut-out art on a clear
                                                //   background, like 22, A Map's glyphs)
+     mediaFull:   false,                       // optional: true puts the pictures under the text
+                                               //   across the panel's whole width, however tall
      mediaHalf:   false,                       // optional: true gives the pictures exactly half
                                                //   of a 3-column panel, filling it (no height limit)
      images:      [],                          // extra pictures for the panel, e.g.
@@ -118,16 +120,21 @@ const PROJECTS = [
   {
     title:       "Rincon Mountains",
     slug:        "rincon-mountains",
-    year:        "",
-    panelCols:   3,
+    year:        "2024",
+    panelCols:   2,
     tile:        "img/tiles/rincon-mountains.webp",
     video:       "",
     link:        "img/rincon.png",
     linkType:    "file",
-    tags:        ["3d", "outdoors"],
+    tags:        ["print", "3d", "outdoors"],
     inBook:      false,
-    description: "",
-    images:      [],
+    description: "A golden hour rendering of Saguaro National Park’s Rincon Mountains made " +
+                 "to commemorate a trip with an old friend.",
+    mediaFull:   true,                            // the rendering across the whole panel
+    images:      [
+      { src: "img/tiles/rincon-mountains-full.webp",   // a lighter copy to preview…
+        full: "img/rincon.png" }                        // …"Open full-size map" opens the original
+    ],
     awards:      []
   },
   {

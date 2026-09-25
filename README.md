@@ -60,6 +60,9 @@ That's all: the tile, its filter tags and its panel are built automatically.
 - `scatter: true` — the panel's pictures are laid out loosely: no frames,
   uncropped, slightly tilted, in one line across the width. For cut-out art on
   a clear background (see 22, A Map's glyphs).
+- `mediaFull: true` — the pictures go under the text and fill the panel's
+  whole width, rather than keeping within the height limit (see Rincon
+  Mountains).
 - `mediaHalf: true` — in a 3-column panel, the text and the pictures each
   get half, and the pictures fill their half rather than keeping within the
   height limit (see Where is Uptown?).

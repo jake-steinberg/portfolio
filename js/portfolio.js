@@ -257,7 +257,7 @@
     return `
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
         <div class="panel-in">
-          <div class="panel-body${hasImages ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}">
+          <div class="panel-body${hasImages ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}${p.mediaFull ? ' full' : ''}">
             <button class="close" type="button" data-close="${esc(p.slug)}">Close &#215;</button>
             <div class="panel-main">
               <div class="ptop">
@@ -451,6 +451,8 @@
     if (box.parentElement.classList.contains('half') && !box.closest('.panel[data-cols]')) {
       box.style.width = '100%'; return;
     }
+    // mediaFull: true — fill the whole width under the text, however tall
+    if (box.parentElement.classList.contains('full')) { box.style.width = '100%'; return; }
     // the picture column's width, as the grid has worked it out ("544px 700px")
     const tracks = getComputedStyle(box.parentElement).gridTemplateColumns.split(' ');
     let width = Math.floor(parseFloat(tracks[tracks.length - 1]));
