@@ -412,5 +412,24 @@ const PROJECTS = [
         story: "https://www.startribune.com/8-minnesota-hikes-to-fall-for-this-autumn/601883249" }
     ],
     awards:      []
+  },
+  {
+    // WORKING TITLE — rename, and add tags, a year, a link and a description.
+    // The tile video is ice-square.mp4 from the ICECLIMB folder (Jan. 2025),
+    // center-cropped to 5:4, with its last 0.6s crossfaded into its start so
+    // it loops seamlessly.
+    title:       "Ice climbing",
+    slug:        "ice-climbing",
+    year:        "",
+    panelCols:   1,
+    tile:        "img/tiles/ice-climbing.webp",
+    video:       "img/tiles/ice-climbing.mp4",
+    link:        "",
+    linkType:    "story",
+    tags:        [],
+    inBook:      false,
+    description: "",
+    images:      [],
+    awards:      []
   }
 ];
