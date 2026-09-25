@@ -293,7 +293,7 @@ const PROJECTS = [
     title:       "Urban Paddling Guide",
     slug:        "urban-paddling-guide",
     year:        "2025",
-    panelCols:   2,
+    panelCols:   1,
     tile:        "img/tiles/urban-paddling-guide-scroll.webp",
     video:       "img/tiles/urban-paddling-guide-scroll.mp4",
     link:        "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift",
