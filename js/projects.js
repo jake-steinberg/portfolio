@@ -49,7 +49,7 @@ const TAGS = [
      link:        "https://...",               // where the panel's main button goes
      linkType:    "story",                     // "story" — a published story (opens in a new tab)
                                                // "page"  — one of your own pages, e.g. "22map.html"
-                                               // "file"  — a full-size image, shown in the lightbox
+                                               // "file"  — a full-size image or PDF, opened in a new tab
      tags:        ["print", "news"],           // any number of ids from TAGS above
      inBook:      false,                       // true adds the "In the book" corner marker
      description: "",                          // a sentence or two for the panel.
@@ -73,17 +73,16 @@ const TAGS = [
                                                //   bigger. 4 sit in two rows of two. All uncropped. 6 or more show as even 4:3
                                                //   thumbnails. The pictures are kept within a set
                                                //   height (MEDIA_MAX_HEIGHT in js/portfolio.js).
-                                               //   Clicking a picture enlarges it. To open a
+                                               //   Clicking a picture opens it full size, in a
+                                               //   new tab. To open a
                                                //   story instead, write it as
                                                //   { src: "img/…", link: "https://…", label: "Story name" }
-                                               //   Or keep it enlarging, with its label under it
-                                               //   linking to its story (and "Go to story" in
-                                               //   the enlarged view):
+                                               //   Or caption it, with its label under it
+                                               //   linking to its story:
                                                //   { src: "img/…", story: "https://…", label: "Fall 2024" }
-                                               //   To link "Open full-size map" to a bigger original
-                                               //   than the one shown: { src: "img/…webp", full: "img/….jpg" }
-                                               //   or full: false to leave that link out (photos).
-                                               //   zoom: false shows it but doesn't enlarge it
+                                               //   To open a bigger original than the one shown:
+                                               //   { src: "img/…webp", full: "img/….jpg" }
+                                               //   zoom: false shows it but doesn't open it
                                                //   (no click, no hover effect)
                                                //   tall: true gives a picture the full height on
                                                //   the left, with the rest stacked beside it, all
@@ -100,9 +99,9 @@ const TAGS = [
                                                //   for its still poster.
                                                //   Left [] → the panel is text only
      credit:      "",                          // optional line under the pictures, e.g.
-                                               //   "Photos by …" (also shown when enlarged)
+                                               //   "Photos by …"
                                                //   A single picture can have its own, shown only
-                                               //   when it's enlarged: { src, credit: "Photo by …" }
+                                               //   as a tooltip on hover: { src, credit: "Photo by …" }
      links:       [],                          // optional list of stories, for a project that
                                                //   spans several. Each: { label: "…", url: "…" }.
                                                //   Set link: "" to drop the single main button
@@ -133,7 +132,7 @@ const PROJECTS = [
     mediaFull:   true,                            // the rendering across the whole panel
     images:      [
       { src: "img/tiles/rincon-mountains-full.webp",   // a lighter copy to preview…
-        full: "img/rincon.png" }                        // …"Open full-size map" opens the original
+        full: "img/rincon.png" }                        // …clicking it opens the original
     ],
     awards:      []
   },
@@ -153,7 +152,7 @@ const PROJECTS = [
     mediaFull:   true,                            // the map across the whole panel
     images:      [
       { src: "img/tiles/2025-iditarod-full.webp",   // a lighter copy to preview…
-        full: "img/ford.jpg" }                       // …"Open full-size map" opens the original
+        full: "img/ford.jpg" }                       // …clicking it opens the original
     ],
     awards:      []
   },
@@ -194,7 +193,7 @@ const PROJECTS = [
       // both made from the CMYK original, img/smellscape.jpg, converted to screen
       // colors: the preview has its white margins cropped off; the full size is whole
       { src: "img/tiles/state-fair-smellscape-full.webp",
-        full: "img/smellscape-fair.jpg" }                    // "Open full-size map" opens this
+        full: "img/smellscape-fair.jpg" }                    // clicking it opens this
     ],
     awards:      []
   },
@@ -233,12 +232,12 @@ const PROJECTS = [
                  "<em>22, A Million</em>, designed by Eric Timothy Carlson.",
     scatter:     true,                            // the glyphs, loosely scattered rather than framed
     images:      [                                 // the glyphs between the story's sections, in order
-      { src: "img/dude-01.svg", full: false, zoom: false },
-      { src: "img/fireball-01.svg", full: false, zoom: false },
-      { src: "img/weed-01.svg", full: false, zoom: false },
-      { src: "img/twoface-01.svg", full: false, zoom: false },
-      { src: "img/fingers-01.svg", full: false, zoom: false },
-      { src: "img/turnblue-01.svg", full: false, zoom: false }
+      { src: "img/dude-01.svg", zoom: false },
+      { src: "img/fireball-01.svg", zoom: false },
+      { src: "img/weed-01.svg", zoom: false },
+      { src: "img/twoface-01.svg", zoom: false },
+      { src: "img/fingers-01.svg", zoom: false },
+      { src: "img/turnblue-01.svg", zoom: false }
     ],
     awards:      []
   },
@@ -323,10 +322,10 @@ const PROJECTS = [
     tags:        ["news", "climate"],
     inBook:      false,
     description: "A quest through time in a warming wilderness to find the oldest living tree in Minnesota.",
-    images:      [                                 // photos have no full-size versions
-      { src: "img/tiles/legacy-tree-cedar.webp", full: false },   // the cedar
-      { src: "img/tiles/legacy-tree-dogs.webp", full: false },    // sled dogs
-      { src: "img/tiles/legacy-tree-sled.webp", full: false },    // mushing across the ice
+    images:      [                                 // clicking a photo opens it on its own
+      { src: "img/tiles/legacy-tree-cedar.webp" },   // the cedar
+      { src: "img/tiles/legacy-tree-dogs.webp" },    // sled dogs
+      { src: "img/tiles/legacy-tree-sled.webp" },    // mushing across the ice
       // the article's two maps (fire history, logging), lined up and alternating;
       // top: true puts it across the top of the mosaic
       { src: "img/tiles/legacy-tree-maps-loop.mp4", top: true }
@@ -352,10 +351,10 @@ const PROJECTS = [
     inBook:      false,
     description: "Stories about the people and places of the North.",
     images:      [                                 // one photo per story: the kayaks full height, the rest beside
-      { src: "img/tiles/urban-paddling-mississippi.webp", full: false, tall: true, credit: "Photo by Aaron Levinsky" },
-      { src: "img/tiles/outdoor-ice-climb.webp", full: false, credit: "Photo by Anthony Soufflé" },
-      { src: "img/tiles/legacy-tree-sled.webp", full: false, credit: "Photo by Anthony Soufflé" },
-      { src: "img/tiles/outdoor-midwest-mountaineering.webp", full: false, credit: "Photo by Jeff Wheeler" }
+      { src: "img/tiles/urban-paddling-mississippi.webp", tall: true, credit: "Photo by Aaron Levinsky" },
+      { src: "img/tiles/outdoor-ice-climb.webp", credit: "Photo by Anthony Soufflé" },
+      { src: "img/tiles/legacy-tree-sled.webp", credit: "Photo by Anthony Soufflé" },
+      { src: "img/tiles/outdoor-midwest-mountaineering.webp", credit: "Photo by Jeff Wheeler" }
     ],
     links:       [
       { label: "Urban Paddling Guide", url: "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521" },
@@ -379,7 +378,7 @@ const PROJECTS = [
     description: "Mapping the results of local, state and national elections for the Star Tribune.",
     images:      [
       { src: "img/tiles/election-results-page.webp",      // the 2024 presidential results page
-        full: "img/Strib_election.pdf" },                  // "Open full-size map" opens the PDF
+        full: "img/Strib_election.pdf" },                  // clicking it opens the PDF
       { src: "img/tiles/election-results-st-paul.webp",   // 2025 Minneapolis and St. Paul mayoral races
         full: "img/st_paul_election.png" }
     ],
@@ -402,11 +401,11 @@ const PROJECTS = [
     description: "A guide to 13 of the best paddling routes in the Twin Cities. I scouted and " +
                  "authored guides to most of the routes, and mapped them all.",
     images:      [                                 // the kayaks full height, the other two beside
-      { src: "img/tiles/urban-paddling-mississippi.webp", full: false, tall: true,   // kayaks below downtown Minneapolis
+      { src: "img/tiles/urban-paddling-mississippi.webp", tall: true,   // kayaks below downtown Minneapolis
         credit: "Photo by Aaron Levinsky" },
-      { src: "img/tiles/urban-paddling-shore.webp", full: false,    // landing the canoe at dusk
+      { src: "img/tiles/urban-paddling-shore.webp",    // landing the canoe at dusk
         credit: "Photo by Anthony Soufflé" },
-      { src: "img/tiles/urban-paddling-river.webp", full: false,    // on the river (border trimmed off)
+      { src: "img/tiles/urban-paddling-river.webp",    // on the river (border trimmed off)
         credit: "Photo by Anthony Soufflé" }
     ],
     awards:      [
@@ -429,7 +428,7 @@ const PROJECTS = [
                  "Rob Roth’s Graphic Design in Cartography course tells the story of a pipeline that " +
                  "exports water from the Great Lakes to an increasingly thirsty world.",
     images:      [{ src: "img/tiles/great-lakes-pipeline-superior.webp",   // light version for the panel
-                    full: "img/lake_superior-7-01.jpg" }],                 // "Open full-size map" opens the original
+                    full: "img/lake_superior-7-01.jpg" }],                 // clicking it opens the original
     awards:      [
       "Best student map, Wisconsin Land Information Association, 2023"
     ]
@@ -478,7 +477,7 @@ const PROJECTS = [
     panelCols:   1,
     tile:        "img/tiles/projection-trading-card.webp",
     video:       "",
-    link:        "",                              // no button: click the card to enlarge it
+    link:        "",                              // no button: click the card to open it full size
     linkType:    "file",
     tags:        ["print"],
     inBook:      false,
@@ -503,7 +502,7 @@ const PROJECTS = [
     inBook:      false,
     description: "A seasonal feature for the Star Tribune spotlighting the best places to be outside.",
     // one map from each story; its label underneath links to the story, and
-    // clicking the map enlarges it with a "Go to story" link
+    // clicking the map opens it full size
     images:      [
       { src: "img/tiles/hikes-fall-2024.webp", label: "Fall 2024",       // Tettegouche State Park
         story: "https://www.startribune.com/minnesota-hike-fall-colors-north-shore-state-parks/601143123" },

@@ -8,7 +8,6 @@
      3. "Selected work" heading + tag filter pills
      4. Uniform grid of project tiles
      5. Unfolding project panel (opens under a tile's row)
-     6. Lightbox (full-size image viewer)
    ============================================================================= */
 
 /* js/portfolio.js scrolls the page to follow panels as they open and close;
@@ -439,7 +438,7 @@ body { overflow-anchor: none; }
 }
 .storylinks a:hover { border-bottom-color: var(--accent); }
 
-/* extra pictures (images: [] in projects.js), two per row; click to enlarge */
+/* extra pictures (images: [] in projects.js), two per row; click one to open it full size */
 .pshots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start; }
 /* .pmedia holds the pictures */
 .pmedia { min-width: 0; }
@@ -450,7 +449,7 @@ body { overflow-anchor: none; }
   transition: transform .18s;
 }
 .pshots a:hover { transform: rotate(.8deg); }
-/* several pictures: even 4:3 thumbnails (click one to see it uncropped in the lightbox) */
+/* several pictures: even 4:3 thumbnails (click one to see it uncropped, full size) */
 .pshots img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 /* a single picture (or a lone video, e.g. a map split into its own .pmedia
    above splitBelow's photos) gets the whole column, shown uncropped */
@@ -513,7 +512,7 @@ body { overflow-anchor: none; }
 .pshots.scatter a:hover { transform: scale(1.05); }
 @media (max-width: 720px) { .pshots.scatter { gap: 12px; } }
 
-/* a picture that's only shown, not enlarged (zoom: false in projects.js) */
+/* a picture that's only shown, not clickable (zoom: false in projects.js) */
 .pstill { display: block; position: relative; min-width: 0; }
 .pshots:not(.scatter) .pstill { border: 1px solid var(--stroke); background: var(--bg); }
 
@@ -569,31 +568,6 @@ body { overflow-anchor: none; }
 .dimmer.on { opacity: 1; }
 .gcard[aria-expanded="true"],
 .panel:not(.closing) { position: relative; z-index: 41; }
-
-
-/* -----------------------------------------------------------------------------
-   6. LIGHTBOX — full-size view of a map
-   ----------------------------------------------------------------------------- */
-.lb[hidden] { display: none !important; }
-.lb {
-  position: fixed; inset: 0; z-index: 80;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
-  padding: clamp(14px, 3vw, 40px);
-  background: rgba(20,17,14,.93);
-}
-.lb img {
-  max-width: 100%; max-height: 78vh; object-fit: contain;
-  border: 1px solid #000; box-shadow: 0 20px 60px rgba(0,0,0,.5);
-}
-.lb-cap { color: #EDE7DA; font-family: var(--mono); font-size: 12px; text-align: center; letter-spacing: .04em; }
-.lb-cap a { color: #EDE7DA; }
-.lb-close {
-  position: absolute; top: calc(env(safe-area-inset-top, 0px) + 14px); right: 16px;
-  padding: 7px 13px; cursor: pointer;
-  background: none; border: 1px solid #6A6257; color: #EDE7DA;
-  font-family: var(--mono); font-size: 12px;
-}
-.lb-close:hover { background: #EDE7DA; color: #1A1613; }
 
 
 /* -----------------------------------------------------------------------------

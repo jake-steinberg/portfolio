@@ -6,8 +6,7 @@
      2. draws a tile for every project that matches the selected tag
      3. unfolds a detail panel under a tile's row when it's clicked
      4. plays video tiles only while they're on screen
-     5. shows full-size maps in a lightbox
-     6. keeps the selected tag in the address bar (?tags=outdoors), so a
+     5. keeps the selected tag in the address bar (?tags=outdoors), so a
         filtered view can be shared as a link
 
    To add or change work, edit js/projects.js — not this file.
@@ -135,11 +134,10 @@
           <blockquote class="quote">${a.quote}${a.quoteBy ? `<footer>${a.quoteBy}</footer>` : ''}</blockquote>` : ''}
         </div>`).join('');
 
-    // "file" links open in the lightbox, except PDFs, which open in a new tab.
+    // Stories and files (full-size images, PDFs) open in a new tab; the
+    // project's own page opens in this one.
     // A project with link: "" gets no main button (e.g. one that lists several stories).
-    const isPdf = /\.pdf$/i.test(p.link);
-    const mainLink = !p.link ? '' : (p.linkType === 'file' && !isPdf)
-      ? `<a class="primary" href="${esc(p.link)}" data-lb="${esc(p.link)}" data-title="${esc(p.title)}">${LINK_LABEL.file} &#8599;</a>`
+    const mainLink = !p.link ? ''
       : `<a class="primary" href="${esc(p.link)}"${p.linkType === 'page' ? '' : ' target="_blank" rel="noopener"'}>${LINK_LABEL[p.linkType] || 'Open'} &#8599;</a>`;
 
     // links: [{ label, url }] — a list of stories, for projects that span several.
@@ -159,18 +157,17 @@
     // Panel pictures. Each entry in images: [] is either a path, or
     // { src, link, label } to make that picture open a story instead, or
     // { src, story, label } to caption it with a link to its story.
-    //   picture, no link → opens full size in the lightbox
-    //   with a story     → still opens in the lightbox (whose link then says
-    //                      "Go to story"), with its label under it linking there
+    //   picture, no link → clicking opens it full size, in a new tab
+    //   with a story     → the picture still opens full size; its label under
+    //                      it links to the story
     //   zoom: false      → shown, but not clickable and no hover effect
     //   with inBook      → { src, inBook: true }: the "In the book" corner
     //                      marker on the picture (e.g. its book version)
-    //   with credit      → { src, credit: "Photo by …" }: shown only when the
-    //                      picture is enlarged (the project's credit: shows
-    //                      under all the pictures, and when enlarged)
-    //   with full        → { src, full }: the lightbox shows src, and its
-    //                      "Open full-size map" link opens full (the original).
-    //                      full: false (photos, say) leaves that link out
+    //   with credit      → { src, credit: "Photo by …" }: shown as a tooltip
+    //                      when the picture is hovered (the project's credit:
+    //                      is a line under all the pictures)
+    //   with full        → { src, full }: the panel shows src (a light copy),
+    //                      and clicking opens full (the original)
     //   .mp4             → plays as a silent loop, with the .webp of the same
     //                      name (minus "-loop") as its still poster; not
     //                      clickable unless it has a link
@@ -191,7 +188,8 @@
     const shotHTML = (entry) => {
       const { src, link, label, story, full, credit, inBook, zoom } = typeof entry === 'string' ? { src: entry } : entry;
       const marker = inBook ? '<span class="marker">In the book</span>' : '';   // like the tiles'
-      const who = credit || p.credit;                  // a picture's own credit, else the project's
+      const big = esc(full || src);                    // what clicking the picture opens
+      const tip = credit ? ` title="${esc(credit)}"` : '';
       const isVideo = /\.mp4$/i.test(src);
       const media = isVideo
         ? `<video src="${esc(src)}" poster="${esc(src.replace(/(-loop)?\.mp4$/i, '.webp'))}" muted loop playsinline preload="metadata" aria-hidden="true"></video>`
@@ -200,20 +198,18 @@
       if (story && !isVideo) {
         const name = esc(label || p.title);
         return `<figure class="pshot">
-            <a href="${esc(src)}" data-lb="${esc(src)}" data-title="${esc(p.title)} · ${name}" data-story="${esc(story)}">${media}</a>
+            <a href="${big}" target="_blank" rel="noopener"${tip}>${media}</a>
             <figcaption><a class="pcap" href="${esc(story)}" target="_blank" rel="noopener">${name}<span aria-hidden="true">&nbsp;&#8599;</span></a></figcaption>
           </figure>`;
       }
-      if (zoom === false && !link) return `<div class="pstill">${marker}${media}</div>`;   // just shown
+      if (zoom === false && !link) return `<div class="pstill"${tip}>${marker}${media}</div>`;   // just shown
       if (link) {
         const name = esc(label || p.title);
         return `<a${cls} href="${esc(link)}" target="_blank" rel="noopener" aria-label="${name} (opens the story)" title="${name}">${media}</a>`;
       }
       return isVideo
         ? `<div class="pvid">${media}</div>`
-        : `<a href="${esc(full || src)}" data-lb="${esc(src)}" data-title="${esc(p.title)}"` +
-          (full === false ? ' data-full="none"' : full ? ` data-full="${esc(full)}"` : '') +
-          (who ? ` data-credit="${esc(who)}"` : '') + `>${marker}${media}</a>`;
+        : `<a href="${big}" target="_blank" rel="noopener"${tip}>${marker}${media}</a>`;
     };
     const shotsGroup = (imgs) => {
       const n = imgs.length;
@@ -659,40 +655,7 @@
 
 
   /* ---------------------------------------------------------------------------
-     5. Lightbox — any element with data-lb="image.png" opens that image full size
-     ------------------------------------------------------------------------- */
-  const lb      = document.getElementById('lb');
-  const lbImg   = document.getElementById('lb-img');
-  const lbCap   = document.getElementById('lb-cap');
-  const lbClose = document.getElementById('lb-close');
-  let focusBeforeLightbox = null;
-
-  // story: if given, the caption links to that story instead of the full-size file
-  // full:  the full-size original to link to, if it isn't src itself
-  // full:   "none" when there's no full-size version: no link at all
-  // credit: shown after the title, e.g. "Photos by …"
-  function openLightbox(src, title, story, full, credit) {
-    focusBeforeLightbox = document.activeElement;
-    lbImg.src = src;
-    lbImg.alt = title;
-    const link = story ? `<a href="${esc(story)}" target="_blank" rel="noopener">Go to story &#8599;</a>`
-      : full === 'none' ? ''
-      : `<a href="${esc(full || src)}" target="_blank" rel="noopener">Open full-size map &#8599;</a>`;
-    lbCap.innerHTML = [esc(title), credit ? esc(credit) : '', link].filter(Boolean).join(' &middot; ');
-    lb.hidden = false;
-    lbClose.focus();
-  }
-  function closeLightbox() {
-    lb.hidden = true;
-    lbImg.removeAttribute('src');
-    if (focusBeforeLightbox) focusBeforeLightbox.focus();
-  }
-  lbClose.addEventListener('click', closeLightbox);
-  lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });   // click the dark backdrop
-
-
-  /* ---------------------------------------------------------------------------
-     Clicks and keys (one listener each, for tiles, panels and the lightbox)
+     Clicks and keys (one listener each, for tiles and panels)
      ------------------------------------------------------------------------- */
   document.addEventListener('click', (e) => {
     const closeBtn = e.target.closest('[data-close]');
@@ -702,17 +665,13 @@
       if (tile) { tile.focus({ preventScroll: true }); followTile(tile); }
       return;
     }
-    const lbLink = e.target.closest('[data-lb]');
-    if (lbLink) { e.preventDefault(); openLightbox(lbLink.dataset.lb, lbLink.dataset.title, lbLink.dataset.story, lbLink.dataset.full, lbLink.dataset.credit); return; }
-
     const tile = e.target.closest('.gcard');
     if (tile) openPanel(tile.dataset.slug);
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
-    if (!lb.hidden) { closeLightbox(); return; }       // Escape closes the lightbox first…
-    if (openSlug) {                                     // …then the open panel
+    if (openSlug) {                                     // Escape closes the open panel
       const tile = gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`);
       closePanel();
       if (tile) { tile.focus({ preventScroll: true }); followTile(tile); }
@@ -721,7 +680,7 @@
 
 
   /* ---------------------------------------------------------------------------
-     6. Selected tags in the address bar
+     5. Selected tags in the address bar
      ------------------------------------------------------------------------- */
   function writeURL() {
     const params = new URLSearchParams(location.search);

@@ -72,14 +72,13 @@ That's all: the tile, its filter tags and its panel are built automatically.
   by side at matching heights. Three or five make a mosaic: the widest across
   the top and the rest sharing a row beneath it, or all in one row, whichever
   shows them bigger in the space. Four sit in two rows of two. All are uncropped. Six or more show
-  as even thumbnails. Clicking a picture opens it full size in the lightbox;
+  as even thumbnails. Clicking a picture opens it full size in a new tab;
   write an entry as `{ src, link, label }` to open a story instead, or as
-  `{ src, story, label }` to keep it enlarging, with its label underneath
-  linking to the story (and "Go to story" in the enlarged view). Captioned
-  pictures always sit in one row, in the order listed. To show a light WebP
-  but have "Open full-size map" open the original, write `{ src, full }`; use
-  `full: false` for pictures with no full-size version (photos, say), or
-  `zoom: false` for one that shouldn't enlarge at all (no click, no hover). Write
+  `{ src, story, label }` to caption it with its label underneath linking to
+  the story. Captioned pictures always sit in one row, in the order listed.
+  To show a light WebP but have clicking open the original, write
+  `{ src, full }`; use `zoom: false` for a picture that shouldn't open at all
+  (no click, no hover). Write
   `{ src, top: true }` to always put that picture across the top of the
   mosaic; with other pictures too, the top one gets the picture column to
   itself and the others spread out in a row under the description (see The
@@ -87,9 +86,9 @@ That's all: the tile, its filter tags and its panel are built automatically.
   On phones they stack after it. Write `{ src, tall: true }` to give a
   picture the full height on the left with the others stacked in a column
   beside it, filling the width, cropped to fit (see Outdoor tales).
-- `credit` — an optional line under the pictures, like "Photos by …". It's
-  also shown when a picture is enlarged. To credit a single picture, and only
-  when it's enlarged, write it as `{ src, credit: "Photo by …" }`. An `.mp4`
+- `credit` — an optional line under the pictures, like "Photos by …". To
+  credit a single picture as a tooltip when it's hovered, write it as
+  `{ src, credit: "Photo by …" }`. An `.mp4`
   plays as a silent loop, with the `.webp` of the same name (minus `-loop`) as
   its poster. With none, the panel is text only.
 
@@ -99,8 +98,7 @@ That's all: the tile, its filter tags and its panel are built automatically.
   text column takes the rest of the width.
 - `links` — a list of stories, for a project that spans several (see *Work for the
   Wall Street Journal*). Set `link: ""` to drop the single main button.
-- `linkType: "file"` opens the full-size image in a lightbox. PDFs open in a
-  new tab instead.
+- `linkType: "file"` opens the full-size image (or PDF) in a new tab.
 - `awards` — each is a line with a star. To add the judges' words in a quote
   box beneath it, write it as `{ award: "…", quote: "“…”", quoteBy: "Judge’s comments" }`.
 - `inBook: true` adds the "In the book" marker to the tile and an "In the book"
