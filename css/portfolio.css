@@ -459,10 +459,10 @@ body { overflow-anchor: none; }
 .pshots.mosaic.pairs > * { flex-basis: calc(var(--ar, 1) * 30%); }
 
 /* a tall picture beside a column of others (tall: true in projects.js, e.g.
-   Outdoor tales): the group fills the whole width, the column pictures at
-   3:2 and the tall one as tall as that column, all cropped to fit. Change
-   the 1.6fr to widen or narrow the tall picture (1.6 suits a 3:4 portrait
-   beside 3:2 photos). */
+   Outdoor tales, Urban Paddling): the group fills the whole width, the
+   column pictures at 3:2 and the tall one as tall as that column, all
+   cropped to fit. js (fitTall) splits the width to suit the tall picture's
+   shape and the number beside it; 1.6fr is its starting guess. */
 .pshots.tallmix {
   display: grid; gap: var(--shot-gap);
   grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);

@@ -208,7 +208,7 @@
       const tall = imgs.filter((img) => typeof img !== 'string' && img.tall);
       if (tall.length && n > 1) {
         const ordered = [...tall.slice(0, 1), ...imgs.filter((img) => img !== tall[0])];
-        return `<div class="pshots tallmix" style="--rest:${n - 1}">${ordered.map(shot).join('')}</div>`;
+        return `<div class="pshots tallmix" style="--rest:${n - 1}">${ordered.map(shot).join('')}</div>`;   // fitTall sizes it
       }
       const kind = n === 4 ? ' mosaic many pairs'         // .pairs: two rows of two
                  : n === 5 ? ' mosaic many'               // .many: the lower row wraps on phones
@@ -422,7 +422,8 @@
     box.style.width = '';
     // a tall picture with a column beside it fills the whole width it's given,
     // cropped to fit, rather than keeping within the height limit
-    if (box.querySelector('.pshots.tallmix')) { box.style.width = '100%'; return; }
+    const tall = box.querySelector('.pshots.tallmix');
+    if (tall) { box.style.width = '100%'; fitTall(tall); return; }
     const mosaic = box.querySelector('.pshots.mosaic');
     const wide = window.matchMedia('(min-width: 721px)').matches;
     const ratios = mosaic ? fitShots(mosaic, true) : null;
@@ -445,6 +446,18 @@
       if (height <= limit + 1) break;
       width = Math.floor(width * limit / height);
     }
+  }
+
+  // A tall picture beside a column of others (.tallmix): split the width so
+  // the tall one is as tall as the column at its own shape, give or take the
+  // gaps, so it's barely cropped. The column pictures are shown at 3:2.
+  const COLUMN_SHAPE = 3 / 2;
+  function fitTall(group) {
+    const m = group.querySelector('[data-tall] img, [data-tall] video');
+    const ar = m && (m.naturalWidth || m.videoWidth) / (m.naturalHeight || m.videoHeight);
+    const rest = group.children.length - 1;
+    const share = ar ? ar * rest / COLUMN_SHAPE : rest / 2;     // until it loads: a 3:4 portrait
+    group.style.gridTemplateColumns = `minmax(0, ${share.toFixed(3)}fr) minmax(0, 1fr)`;
   }
 
   // A project can also have a second group of pictures, spread out under the

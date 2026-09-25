@@ -361,13 +361,14 @@ const PROJECTS = [
     inBook:      false,
     description: "A guide to 13 of the best paddling routes in the Twin Cities. I scouted and " +
                  "authored guides to most of the routes, and mapped them all.",
-    images:      [                                 // no full-size versions, so no full-size link
-      { src: "img/tiles/urban-paddling-shore.webp", full: false },   // landing the canoe at dusk
-      { src: "img/tiles/urban-paddling-river.webp", full: false },   // on the river (border trimmed off)
-      { src: "img/tiles/urban-paddling-mississippi.webp", full: false,   // kayaks below downtown Minneapolis
-        credit: "Photo by Aaron Levinsky" }
+    images:      [                                 // the kayaks full height, the other two beside
+      { src: "img/tiles/urban-paddling-mississippi.webp", full: false, tall: true,   // kayaks below downtown Minneapolis
+        credit: "Photo by Aaron Levinsky" },
+      { src: "img/tiles/urban-paddling-shore.webp", full: false,    // landing the canoe at dusk
+        credit: "Photo by Anthony Soufflé" },
+      { src: "img/tiles/urban-paddling-river.webp", full: false,    // on the river (border trimmed off)
+        credit: "Photo by Anthony Soufflé" }
     ],
-    credit:      "Photos by Anthony Soufflé",
     awards:      [
       "Silver Medal for Story Page Design, Society for News Design, 2026. " +
       "Primary page design by Anna Boone."
