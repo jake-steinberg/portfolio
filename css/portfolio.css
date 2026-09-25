@@ -322,6 +322,11 @@ body { overflow-anchor: none; }
     justify-self: center; align-self: center;
     padding-block: 30px;                  /* clears the Close button, and keeps it centered */
   }
+  /* mediaHalf: true in projects.js: the text and the pictures each get
+     half the panel, and the pictures fill their half */
+  .panel:not([data-cols]) .panel-body.half { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .panel:not([data-cols]) .half > .pmedia { justify-self: stretch; }
+
   /* .split (splitBelow in js/portfolio.js, e.g. The Legacy Tree): the top
      picture sits at the right edge (js sizes it: sizeSplitMedia), and the
      other pictures (.pmedia-below) fill the width beside it, under the text,

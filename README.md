@@ -57,6 +57,9 @@ That's all: the tile, its filter tags and its panel are built automatically.
   the tile, with the pictures and their links stacked under the description,
   and `1` is a single column, just under the tile, stacked the same way.
   Either way the rows below move down to make room.
+- `mediaHalf: true` — in a 3-column panel, the text and the pictures each
+  get half, and the pictures fill their half rather than keeping within the
+  height limit (see Where is Uptown?).
 - `description` — the panel shows a visible placeholder until this is filled
   in. HTML is allowed, so it can include a link.
 - `images` — extra pictures for the panel. One shows uncropped. Two sit side

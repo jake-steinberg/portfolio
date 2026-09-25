@@ -137,13 +137,17 @@
       ? `<a class="primary" href="${esc(p.link)}" data-lb="${esc(p.link)}" data-title="${esc(p.title)}">${LINK_LABEL.file} &#8599;</a>`
       : `<a class="primary" href="${esc(p.link)}"${p.linkType === 'page' ? '' : ' target="_blank" rel="noopener"'}>${LINK_LABEL[p.linkType] || 'Open'} &#8599;</a>`;
 
-    // links: [{ label, url }] — a list of stories, for projects that span several
-    const storyLinks = (p.links && p.links.length)
-      ? `<ul class="storylinks">${p.links.map((l) =>
+    // links: [{ label, url }] — a list of stories, for projects that span several.
+    // A project that's also in the book gets "In the book" as the list's last
+    // item, looking like the rest; without a list, it's a button instead.
+    const hasList = p.links && p.links.length;
+    const listed = hasList ? [...p.links, ...(p.inBook ? [{ label: 'In the book', url: BOOK_URL }] : [])] : [];
+    const storyLinks = hasList
+      ? `<ul class="storylinks">${listed.map((l) =>
           `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}<span aria-hidden="true"> &#8599;</span></a></li>`).join('')}</ul>`
       : '';
 
-    const bookLink = p.inBook
+    const bookLink = p.inBook && !hasList
       ? `<a href="${BOOK_URL}" target="_blank" rel="noopener">In the book &#8599;</a>`
       : '';
 
@@ -244,7 +248,7 @@
     return `
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
         <div class="panel-in">
-          <div class="panel-body${hasImages ? '' : ' solo'}${splitBelow ? ' split' : ''}">
+          <div class="panel-body${hasImages ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}">
             <button class="close" type="button" data-close="${esc(p.slug)}">Close &#215;</button>
             <div class="panel-main">
               <div class="ptop">
@@ -431,6 +435,10 @@
     const wide = window.matchMedia('(min-width: 721px)').matches;
     const ratios = mosaic ? fitShots(mosaic, true) : null;
     if (!wide) return;                                 // phones: full width, widest on top
+    // mediaHalf: true in projects.js — fill the picture half, however tall
+    if (box.parentElement.classList.contains('half') && !box.closest('.panel[data-cols]')) {
+      box.style.width = '100%'; return;
+    }
     // the picture column's width, as the grid has worked it out ("544px 700px")
     const tracks = getComputedStyle(box.parentElement).gridTemplateColumns.split(' ');
     let width = Math.floor(parseFloat(tracks[tracks.length - 1]));

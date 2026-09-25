@@ -56,6 +56,8 @@ const TAGS = [
                                                //   Left "" → the panel shows a placeholder.
                                                //   HTML is allowed, e.g. a link:
                                                //   <a href=\"https://…\" target=\"_blank\">text</a>
+     mediaHalf:   false,                       // optional: true gives the pictures exactly half
+                                               //   of a 3-column panel, filling it (no height limit)
      images:      [],                          // extra pictures for the panel, e.g.
                                                //   ["img/foo-detail.webp", "img/foo-2.webp"]
                                                //   1 shows uncropped. 2 sit side by side at
@@ -252,6 +254,7 @@ const PROJECTS = [
     slug:        "where-is-uptown",
     year:        "2025",
     panelCols:   3,
+    mediaHalf:   true,                            // the pictures take half the panel and fill it
     tile:        "img/tiles/where-is-uptown.webp",
     video:       "img/tiles/where-is-uptown.mp4",
     link:        "",
@@ -261,8 +264,6 @@ const PROJECTS = [
     description: "A crowdsourced community geography story about Minneapolis’s most " +
                  "argued-over district. Or, neighborhood? Maybe vibe?",
     images:      [
-      { src: "img/tiles/uptown-draw-loop.mp4", label: "Where is Uptown?",
-        link: "https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173" },
       { src: "img/tiles/uptown-results-full.webp", label: "Uptown results",
         link: "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699" },
       { src: "img/tiles/uptown-book.webp", inBook: true }   // the book version (from img/uptown.jpg)
