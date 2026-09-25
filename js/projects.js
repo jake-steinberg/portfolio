@@ -257,17 +257,17 @@ const PROJECTS = [
     awards:      []
   },
   {
-    title:       "Legacy Tree",
+    title:       "The Legacy Tree",
     slug:        "legacy-tree",
-    year:        "",
+    year:        "2024",
     panelCols:   3,
     tile:        "img/tiles/legacy-tree.webp",
     video:       "img/tiles/legacy-tree.mp4",
     link:        "https://www.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/",
     linkType:    "story",
-    tags:        ["scrollytelling", "news", "outdoors"],
+    tags:        ["news", "climate"],
     inBook:      false,
-    description: "",
+    description: "A quest through time and a warming wilderness to find the oldest living tree in Minnesota.",
     images:      [],
     awards:      []
   },
@@ -418,7 +418,8 @@ const PROJECTS = [
     // The tile video loops three clips from the ICECLIMB folder (Jan. 2025),
     // center-cropped to 5:4: hero-square (the climb), ice-square (the top)
     // and descent-square (lowering off), with 0.6s crossfades between them
-    // and back to the start, so it loops seamlessly. 31s, 3.4 MB.
+    // and back to the start, so it loops seamlessly; sped up 1.25x and
+    // scaled to 640x512. 25s, 1.8 MB.
     title:       "Ice climbing",
     slug:        "ice-climbing",
     year:        "",
