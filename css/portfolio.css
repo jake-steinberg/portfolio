@@ -307,6 +307,14 @@ body { overflow-anchor: none; }
     justify-self: center; align-self: center;
     padding-block: 30px;                  /* clears the Close button, and keeps it centered */
   }
+  /* a second group of pictures (splitBelow in js/portfolio.js, e.g. The
+     Legacy Tree's photos): spans both columns in a full-width row under the
+     text and the first group, instead of squeezing into that narrow column */
+  .pmedia-below {
+    grid-column: 1 / -1;
+    justify-self: stretch; align-self: start;
+    padding-block: 0;
+  }
 
   /* a one- or two-column detail view (panelCols: 1 or 2 in projects.js; js
      sets its width and position under the tile): one column inside, so the
@@ -394,8 +402,10 @@ body { overflow-anchor: none; }
 .pshots a:hover { transform: rotate(.8deg); }
 /* several pictures: even 4:3 thumbnails (click one to see it uncropped in the lightbox) */
 .pshots img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-/* a single picture gets the whole column, shown uncropped at its true shape */
-.pshots a:only-child { grid-column: 1 / -1; }
+/* a single picture (or a lone video, e.g. a map split into its own .pmedia
+   above splitBelow's photos) gets the whole column, shown uncropped */
+.pshots a:only-child,
+.pshots > .pvid:only-child { grid-column: 1 / -1; }
 .pshots a:only-child img { aspect-ratio: auto; height: auto; object-fit: fill; }
 /* 2 to 5 pictures (js adds .mosaic): uncropped, at matching heights. Two sit
    side by side; with three or more, the widest goes across the top and the

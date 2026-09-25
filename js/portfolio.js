@@ -194,12 +194,25 @@
           (full === false ? ' data-full="none"' : full ? ` data-full="${esc(full)}"` : '') +
           (p.credit ? ` data-credit="${esc(p.credit)}"` : '') + `>${media}</a>`;
     };
-    const count = hasImages ? p.images.length : 0;
-    const kind = count >= 4 && count <= 5 ? ' mosaic many'      // .many: the lower row wraps on phones
-               : count >= 2 && count <= 3 ? ' mosaic' : '';
-    const shots = hasImages
-      ? `<div class="pshots${kind}">${p.images.map(shot).join('')}</div>`
-      : '';
+    const shotsGroup = (imgs) => {
+      const n = imgs.length;
+      const kind = n >= 4 && n <= 5 ? ' mosaic many'      // .many: the lower row wraps on phones
+                 : n >= 2 && n <= 3 ? ' mosaic' : '';
+      return `<div class="pshots${kind}">${imgs.map(shot).join('')}</div>`;
+    };
+    // A picture marked top: true normally just sits across the top of the
+    // mosaic beside the text (see fitShots in layoutMedia below). But when
+    // there are OTHER pictures too, they'd get squeezed into that same narrow
+    // column under it — so instead they spread out in their own full-width
+    // row underneath the whole panel (.pmedia-below), with more room to
+    // breathe. (Used by The Legacy Tree: the map stays beside the text; the
+    // photos spread out under the description.)
+    const isTop = (img) => typeof img !== 'string' && img.top;
+    const topImages = hasImages ? p.images.filter(isTop) : [];
+    const belowImages = hasImages ? p.images.filter((img) => !isTop(img)) : [];
+    const splitBelow = topImages.length > 0 && belowImages.length > 0;
+    const shots = hasImages ? shotsGroup(splitBelow ? topImages : p.images) : '';
+    const belowShots = splitBelow ? shotsGroup(belowImages) : '';
 
     // The text is in two parts: .ptop (title, year and tags, description,
     // awards) and .pfoot (story links and buttons) right after it.
@@ -208,6 +221,7 @@
     // The line under the title: the year (if set), then the tags
     const meta = [p.year ? `<span class="tag">${esc(p.year)}</span>` : '',
                   ...p.tags.map((id) => `<span class="tag">${esc(tagLabel(id))}</span>`)].join('');
+    const creditHTML = p.credit ? `<p class="pcredit">${esc(p.credit)}</p>` : '';
     return `
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
         <div class="panel-in">
@@ -225,7 +239,8 @@
                 ${(mainLink || bookLink) ? `<div class="plinks">${mainLink}${bookLink}</div>` : ''}
               </div>` : ''}
             </div>
-            ${hasImages ? `<div class="pmedia">${shots}${p.credit ? `<p class="pcredit">${esc(p.credit)}</p>` : ''}</div>` : ''}
+            ${hasImages ? `<div class="pmedia">${shots}${splitBelow ? '' : creditHTML}</div>` : ''}
+            ${splitBelow ? `<div class="pmedia pmedia-below">${belowShots}${creditHTML}</div>` : ''}
           </div>
         </div>
       </div>`;
@@ -380,14 +395,13 @@
   const MEDIA_MAX_HEIGHT = 0.4;      // 40% of the screen's height…
   const MEDIA_MAX_PX     = 340;      // …but no taller than this
 
-  // Lay out a panel's pictures: matching heights, then size the group so it
-  // is as wide as its column allows without going over the height limit.
-  // The CSS centers it in that column (see "PANEL LAYOUT" in portfolio.css).
-  // Shapes are only known once each picture or video loads, so this runs
-  // again as each one arrives, and when the window is resized.
-  function layoutMedia(panel) {
-    const box = panel && panel.querySelector('.pmedia');
-    if (!box) return;
+  // Lay out the pictures beside the text (.pmedia): matching heights, then
+  // size the group so it is as wide as its column allows without going over
+  // the height limit. The CSS centers it in that column (see "PANEL LAYOUT"
+  // in portfolio.css). Shapes are only known once each picture or video
+  // loads, so this runs again as each one arrives, and when the window is
+  // resized.
+  function sizeMediaBox(box) {
     box.style.width = '';
     const mosaic = box.querySelector('.pshots.mosaic');
     const wide = window.matchMedia('(min-width: 721px)').matches;
@@ -411,6 +425,18 @@
       if (height <= limit + 1) break;
       width = Math.floor(width * limit / height);
     }
+  }
+
+  // A project can also have a second group of pictures that spreads across
+  // the whole panel, under the text and the first group (.pmedia-below —
+  // see splitBelow above). It's already full width from the CSS grid, so it
+  // just needs its shapes set, always in one plain row (no "widest on top").
+  function layoutMedia(panel) {
+    if (!panel) return;
+    const box = panel.querySelector('.pmedia');
+    if (box) sizeMediaBox(box);
+    const belowMosaic = panel.querySelector('.pmedia-below .pshots.mosaic');
+    if (belowMosaic) fitShots(belowMosaic, false);
   }
 
   // The viewport follows the panels: scroll smoothly so the stretch from

@@ -76,7 +76,12 @@ const TAGS = [
                                                //   than the one shown: { src: "img/…webp", full: "img/….jpg" }
                                                //   or full: false to leave that link out (photos).
                                                //   top: true puts a picture across the top of a
-                                               //   mosaic, instead of the widest one
+                                               //   mosaic, instead of the widest one. With OTHER
+                                               //   pictures too, they spread out in their own
+                                               //   full-width row under the whole panel instead of
+                                               //   squeezing into the narrow column beside the text
+                                               //   (see The Legacy Tree: the map stays beside the
+                                               //   text, the photos spread out below)
                                                //   An .mp4 plays as a silent loop; put a .webp
                                                //   of the same name (minus "-loop") beside it
                                                //   for its still poster.
