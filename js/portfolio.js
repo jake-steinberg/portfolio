@@ -365,10 +365,37 @@
     }
   }
 
+  // The viewport follows the panels: scroll smoothly so the stretch from
+  // top to bottom (page positions) is on screen, below the sticky header. If
+  // it's too tall to fit, its top goes just under the header. Nothing moves
+  // if it's already in view.
+  const FOLLOW_MARGIN = 16;                            // breathing room above and below, in px
+  const pageTop = (el) => el.getBoundingClientRect().top + window.scrollY;
+  const pageBottom = (el) => el.getBoundingClientRect().bottom + window.scrollY;
+
+  function reveal(top, bottom) {
+    const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headH')) || 0;
+    const viewTop = window.scrollY + head + FOLLOW_MARGIN;
+    const viewBottom = window.scrollY + window.innerHeight - FOLLOW_MARGIN;
+    let target = null;
+    if (bottom - top > viewBottom - viewTop || top < viewTop) target = top - head - FOLLOW_MARGIN;
+    else if (bottom > viewBottom) target = bottom - window.innerHeight + FOLLOW_MARGIN;
+    if (target === null) return;
+    window.scrollTo({ top: Math.max(0, target), behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+  }
+
+  // after a panel closes: bring its tile back into view if it's scrolled away
+  function followTile(tile) {
+    if (tile) reveal(pageTop(tile), pageBottom(tile));
+  }
+
   function openPanel(slug) {
     const wasOpen = openSlug;
     closePanel();
-    if (wasOpen === slug) return;                      // clicking the open tile again just closes it
+    if (wasOpen === slug) {                            // clicking the open tile again just closes it
+      followTile(gridEl.querySelector(`.gcard[data-slug="${slug}"]`));
+      return;
+    }
 
     const project = PROJECTS.find((p) => p.slug === slug);
     const end = rowEnd(slug);
@@ -386,11 +413,29 @@
       m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => layoutMedia(panel), { once: true }));
     layoutMedia(panel);
 
-    // next frame: flip data-open so the CSS transition runs, and keep the tile in view
-    requestAnimationFrame(() => {
-      panel.dataset.open = 'true';
-      tile.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
-    });
+    // Follow it: bring the tile and the whole panel into view. The panel's
+    // contents are already full height inside its unfolding frame, so its
+    // final size is known now. If a panel above is still folding shut, the
+    // page is still moving, so wait for it to finish first. Pictures still
+    // loading can make the panel taller, so once they've all arrived (within
+    // a couple of seconds), follow once more.
+    const openedAt = Date.now();
+    const follow = () => { if (openSlug === slug) reveal(pageTop(tile), pageBottom(panel.querySelector('.panel-body'))); };
+    const closingAbove = [...gridEl.querySelectorAll('.panel.closing')]
+      .some((old) => old.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING);
+    if (closingAbove && !prefersReducedMotion()) setTimeout(follow, 360); else follow();
+    // …and again once it has finished unfolding: near the bottom of the page
+    // there isn't room to scroll far enough until the panel has grown
+    if (!prefersReducedMotion()) setTimeout(follow, 380);
+    const loading = [...panel.querySelectorAll('.pmedia img, .pmedia video')]
+      .filter((m) => (m.tagName === 'VIDEO' ? m.readyState < 1 : !m.complete));
+    let left = loading.length;
+    loading.forEach((m) => m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => {
+      if (--left === 0 && Date.now() - openedAt < 2000) follow();
+    }, { once: true }));
+
+    // next frame: flip data-open so the CSS transition runs
+    requestAnimationFrame(() => { panel.dataset.open = 'true'; });
   }
 
 
@@ -463,7 +508,7 @@
     if (closeBtn) {
       const tile = gridEl.querySelector(`.gcard[data-slug="${closeBtn.dataset.close}"]`);
       closePanel();
-      if (tile) tile.focus();
+      if (tile) { tile.focus({ preventScroll: true }); followTile(tile); }
       return;
     }
     const lbLink = e.target.closest('[data-lb]');
@@ -479,7 +524,7 @@
     if (openSlug) {                                     // …then the open panel
       const tile = gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`);
       closePanel();
-      if (tile) tile.focus();
+      if (tile) { tile.focus({ preventScroll: true }); followTile(tile); }
     }
   });
 

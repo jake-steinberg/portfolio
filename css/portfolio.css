@@ -11,6 +11,10 @@
      6. Lightbox (full-size image viewer)
    ============================================================================= */
 
+/* js/portfolio.js scrolls the page to follow panels as they open and close;
+   the browser's own scroll anchoring would fight that, so it's off here */
+body { overflow-anchor: none; }
+
 
 /* -----------------------------------------------------------------------------
    1. INTRO — three columns, stacks to one on phones
