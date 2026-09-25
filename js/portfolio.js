@@ -425,6 +425,33 @@
     if (tile) reveal(pageTop(tile), pageBottom(tile));
   }
 
+  // A panel scrolled right out of view closes itself. It's only watched
+  // once it has been on screen (it may start off screen while the page
+  // scrolls to it). Closing one that's above the screen takes it out at once
+  // and scrolls by the same amount, so what's in front of the reader doesn't
+  // jump; one below the screen just folds away out of sight.
+  let panelWatch = null;
+
+  function watchPanel(panel) {
+    if (panelWatch) panelWatch.disconnect();
+    if (!('IntersectionObserver' in window)) return;
+    const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headH')) || 0;
+    let seen = false;
+    panelWatch = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { seen = true; return; }
+      if (!seen || panel !== currentPanel()) return;
+      panelWatch.disconnect();
+      if (panel.getBoundingClientRect().bottom > head) { closePanel(); return; }   // below the screen
+      const next = panel.nextElementSibling;             // the first tile after it
+      const before = next ? next.getBoundingClientRect().top : 0;
+      closePanel();
+      panel.remove();
+      const after = next ? next.getBoundingClientRect().top : 0;
+      window.scrollBy({ top: after - before, behavior: 'instant' });
+    }, { rootMargin: `-${Math.round(head)}px 0px 0px 0px` });   // under the sticky header counts as out of view
+    panelWatch.observe(panel);
+  }
+
   function openPanel(slug) {
     const wasOpen = openSlug;
     closePanel();
@@ -445,6 +472,7 @@
     sizePanel(panel, slug);
     pullPanel(panel, tile);
     watchVideos();                                     // so any loops in the panel play too
+    watchPanel(panel);
     panel.querySelectorAll('.pmedia img, .pmedia video').forEach((m) =>
       m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => layoutMedia(panel), { once: true }));
     layoutMedia(panel);
