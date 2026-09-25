@@ -165,10 +165,13 @@
     // beneath it, or all in one row, whichever shows them bigger (see
     // topIsBigger). 4 sit in two rows of two (.pairs). All uncropped. 6 or more become even 4:3 thumbnails. The
     // whole group is kept within a set height (layoutMedia).
-    // top: true puts that picture across the top of a mosaic instead of the widest
+    // top: true puts that picture across the top of a mosaic instead of the widest.
+    // tall: true gives that picture the full height on the left, with the
+    // others stacked in a column beside it (.tallmix).
     const shot = (entry) => {
       const html = shotHTML(entry);
-      return entry.top ? html.replace(/^(\s*<\w+)/, '$1 data-top') : html;
+      const flags = (entry.top ? ' data-top' : '') + (entry.tall ? ' data-tall' : '');
+      return flags ? html.replace(/^(\s*<\w+)/, '$1' + flags) : html;
     };
     const shotHTML = (entry) => {
       const { src, link, label, story, full } = typeof entry === 'string' ? { src: entry } : entry;
@@ -196,6 +199,13 @@
     };
     const shotsGroup = (imgs) => {
       const n = imgs.length;
+      // tall: true → the tall picture first, then the rest in a column beside it,
+      // as many rows as there are other pictures (--rest; see .tallmix in portfolio.css)
+      const tall = imgs.filter((img) => typeof img !== 'string' && img.tall);
+      if (tall.length && n > 1) {
+        const ordered = [...tall.slice(0, 1), ...imgs.filter((img) => img !== tall[0])];
+        return `<div class="pshots tallmix" style="--rest:${n - 1}">${ordered.map(shot).join('')}</div>`;
+      }
       const kind = n === 4 ? ' mosaic many pairs'         // .pairs: two rows of two
                  : n === 5 ? ' mosaic many'               // .many: the lower row wraps on phones
                  : n >= 2 && n <= 3 ? ' mosaic' : '';
@@ -406,6 +416,9 @@
   // resized.
   function sizeMediaBox(box) {
     box.style.width = '';
+    // a tall picture with a column beside it fills the whole width it's given,
+    // cropped to fit, rather than keeping within the height limit
+    if (box.querySelector('.pshots.tallmix')) { box.style.width = '100%'; return; }
     const mosaic = box.querySelector('.pshots.mosaic');
     const wide = window.matchMedia('(min-width: 721px)').matches;
     const ratios = mosaic ? fitShots(mosaic, true) : null;

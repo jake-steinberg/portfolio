@@ -75,6 +75,9 @@ const TAGS = [
                                                //   To link "Open full-size map" to a bigger original
                                                //   than the one shown: { src: "img/…webp", full: "img/….jpg" }
                                                //   or full: false to leave that link out (photos).
+                                               //   tall: true gives a picture the full height on
+                                               //   the left, with the rest stacked beside it, all
+                                               //   filling the width, cropped to fit (Outdoor tales)
                                                //   top: true puts a picture across the top of a
                                                //   mosaic, instead of the widest one. With OTHER
                                                //   pictures too, the top one gets the picture
@@ -306,8 +309,8 @@ const PROJECTS = [
     tags:        ["news", "scrollytelling", "outdoors"],
     inBook:      false,
     description: "Stories about the people and places of the North.",
-    images:      [                                 // one photo per story; four sit two by two
-      { src: "img/tiles/outdoor-paddling.webp", full: false },               // square crop of img/mississippi_up.jpg
+    images:      [                                 // one photo per story: the kayaks full height, the rest beside
+      { src: "img/tiles/urban-paddling-mississippi.webp", full: false, tall: true },
       { src: "img/tiles/outdoor-ice-climb.webp", full: false },
       { src: "img/tiles/legacy-tree-sled.webp", full: false },
       { src: "img/tiles/outdoor-midwest-mountaineering.webp", full: false }
