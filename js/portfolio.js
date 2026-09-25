@@ -257,7 +257,7 @@
     return `
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
         <div class="panel-in">
-          <div class="panel-body${hasImages ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}${p.mediaFull ? ' full' : ''}">
+          <div class="panel-body${hasImages ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}">
             <button class="close" type="button" data-close="${esc(p.slug)}">Close &#215;</button>
             <div class="panel-main">
               <div class="ptop">
@@ -447,9 +447,8 @@
     const wide = window.matchMedia('(min-width: 721px)').matches;
     const ratios = mosaic ? fitShots(mosaic, true) : null;
     if (!wide) return;                                 // phones: full width, widest on top
-    // mediaHalf / mediaFull: true in projects.js — fill that space, however tall
-    const body = box.parentElement.classList;
-    if ((body.contains('half') || body.contains('full')) && !box.closest('.panel[data-cols]')) {
+    // mediaHalf: true in projects.js — fill the picture half, however tall
+    if (box.parentElement.classList.contains('half') && !box.closest('.panel[data-cols]')) {
       box.style.width = '100%'; return;
     }
     // the picture column's width, as the grid has worked it out ("544px 700px")

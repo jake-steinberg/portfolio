@@ -60,8 +60,6 @@ const TAGS = [
                                                //   unframed and slightly tilted, in rows filling
                                                //   the width (for cut-out art on a clear
                                                //   background, like 22, A Map's glyphs)
-     mediaFull:   false,                       // optional: true puts the pictures under the text,
-                                               //   across the whole panel (for a wide map)
      mediaHalf:   false,                       // optional: true gives the pictures exactly half
                                                //   of a 3-column panel, filling it (no height limit)
      images:      [],                          // extra pictures for the panel, e.g.
@@ -171,7 +169,7 @@ const PROJECTS = [
     title:       "Minnesota State Fair Smellscape",
     slug:        "state-fair-smellscape",
     year:        "2025",
-    panelCols:   3,
+    panelCols:   2,
     tile:        "img/tiles/state-fair-smellscape.webp",
     video:       "",
     link:        "https://www.startribune.com/smells-of-the-minnesota-state-fair-create-a-festival-for-the-nose/601443971?utm_source=gift",
@@ -180,10 +178,11 @@ const PROJECTS = [
     inBook:      true,
     description: "The landscape of smells — or, smellscape — of the Minnesota State Fair, " +
                  "where the aroma of roasting corn is as prominent as any mountain.",
-    mediaFull:   true,                            // the map spans the panel, under the text
     images:      [
-      { src: "img/tiles/state-fair-smellscape-full.webp",   // a lighter copy to preview…
-        full: "img/smellscape-fair.jpg" }                    // …"Open full-size map" opens the full-size map
+      // both made from the CMYK original, img/smellscape.jpg, converted to screen
+      // colors: the preview has its white margins cropped off; the full size is whole
+      { src: "img/tiles/state-fair-smellscape-full.webp",
+        full: "img/smellscape-fair.jpg" }                    // "Open full-size map" opens this
     ],
     awards:      []
   },
