@@ -153,6 +153,8 @@
     //   picture, no link → opens full size in the lightbox
     //   with a story     → still opens in the lightbox (whose link then says
     //                      "Go to story"), with its label under it linking there
+    //   with inBook      → { src, inBook: true }: the "In the book" corner
+    //                      marker on the picture (e.g. its book version)
     //   with credit      → { src, credit: "Photo by …" }: shown only when the
     //                      picture is enlarged (the project's credit: shows
     //                      under all the pictures, and when enlarged)
@@ -177,7 +179,8 @@
       return flags ? html.replace(/^(\s*<\w+)/, '$1' + flags) : html;
     };
     const shotHTML = (entry) => {
-      const { src, link, label, story, full, credit } = typeof entry === 'string' ? { src: entry } : entry;
+      const { src, link, label, story, full, credit, inBook } = typeof entry === 'string' ? { src: entry } : entry;
+      const marker = inBook ? '<span class="marker">In the book</span>' : '';   // like the tiles'
       const who = credit || p.credit;                  // a picture's own credit, else the project's
       const isVideo = /\.mp4$/i.test(src);
       const media = isVideo
@@ -199,7 +202,7 @@
         ? `<div class="pvid">${media}</div>`
         : `<a href="${esc(full || src)}" data-lb="${esc(src)}" data-title="${esc(p.title)}"` +
           (full === false ? ' data-full="none"' : full ? ` data-full="${esc(full)}"` : '') +
-          (who ? ` data-credit="${esc(who)}"` : '') + `>${media}</a>`;
+          (who ? ` data-credit="${esc(who)}"` : '') + `>${marker}${media}</a>`;
     };
     const shotsGroup = (imgs) => {
       const n = imgs.length;

@@ -224,6 +224,9 @@ body { overflow-anchor: none; }
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
 
+/* smaller on a panel's pictures ({ src, inBook: true } in projects.js) */
+.pshots .marker { font-size: 9px; padding: 3px 6px; }
+
 /* title + tags under each tile */
 .cap { display: block; margin-top: 12px; }
 .cap .ttl {
@@ -427,6 +430,7 @@ body { overflow-anchor: none; }
 .pmedia { min-width: 0; }
 .pshots a {
   display: block; overflow: hidden;
+  position: relative;                   /* holds an "In the book" .marker */
   border: 1px solid var(--stroke); background: var(--bg);
   transition: transform .18s;
 }

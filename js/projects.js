@@ -256,20 +256,26 @@ const PROJECTS = [
     video:       "img/tiles/where-is-uptown.mp4",
     link:        "",
     linkType:    "story",
-    tags:        ["interactive", "news"],
-    inBook:      false,
-    description: "",
+    tags:        ["news", "interactive", "print"],
+    inBook:      true,
+    description: "A crowdsourced community geography story about Minneapolis’s most " +
+                 "argued-over district. Or, neighborhood? Maybe vibe?",
     images:      [
       { src: "img/tiles/uptown-draw-loop.mp4", label: "Where is Uptown?",
         link: "https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173" },
       { src: "img/tiles/uptown-results-full.webp", label: "Uptown results",
-        link: "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699" }
+        link: "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699" },
+      { src: "img/tiles/uptown-book.webp", inBook: true }   // the book version (from img/uptown.jpg)
     ],
     links:       [
       { label: "Where is Uptown?", url: "https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173" },
       { label: "Uptown results", url: "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699" }
     ],
-    awards:      []
+    awards:      [
+      "Awards of Excellence in Infographics; Line of Coverage; and Use of Multimedia " +
+      "and Design Elements, Society for News Design, 2026. It contributed to a " +
+      "portfolio Bronze Medal for my excellent editor, C.J. Sinner."
+    ]
   },
   {
     title:       "The Legacy Tree",

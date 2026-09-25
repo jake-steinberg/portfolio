@@ -93,7 +93,9 @@ That's all: the tile, its filter tags and its panel are built automatically.
   new tab instead.
 - `awards` — each is a line with a star. To add the judges' words in a quote
   box beneath it, write it as `{ award: "…", quote: "“…”", quoteBy: "Judge’s comments" }`.
-- `inBook: true` adds the "In the book" marker.
+- `inBook: true` adds the "In the book" marker to the tile and an "In the book"
+  button to the panel. To mark one of the panel's pictures too (say, the book
+  version of a map), write it as `{ src, inBook: true }`.
 
 ## Tags
 
