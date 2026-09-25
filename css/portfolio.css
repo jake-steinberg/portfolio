@@ -261,11 +261,11 @@ body { overflow-anchor: none; }
    by growing its grid row from 0fr to 1fr.
    ----------------------------------------------------------------------------- */
 .panel {
-  /* How far the panel sits below the open tile's picture. The open tile's
-     title and tags fade out (the panel repeats them), and the panel is pulled
-     up into their space and the row gap. js/portfolio.js measures that space
-     as --pull. */
-  --panel-gap: 21px;
+  /* How far the panel sits below the open tile's picture: level with the top
+     of the tile's title (js/portfolio.js measures it). The open tile's title
+     and tags fade out (the panel repeats them), and the panel is pulled up
+     into their space and the row gap, which js measures as --pull. */
+  --panel-gap: 12px;
   grid-column: 1 / -1;           /* spans the whole grid width */
   display: grid; grid-template-rows: 0fr;
   /* its top edge is set in its final place from the start, so only its

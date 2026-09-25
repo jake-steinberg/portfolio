@@ -268,6 +268,10 @@
     const frame = tile.querySelector('.gframe').getBoundingClientRect();
     const rowBottom = Math.max(...row.map((t) => t.getBoundingClientRect().bottom));
     panel.style.setProperty('--pull', Math.max(0, Math.round(rowBottom - frame.bottom)) + 'px');
+    // the panel's top edge lines up with the top of the tile's title, so the
+    // title is covered the moment the panel appears (and until it's gone)
+    const title = tile.querySelector('.cap').getBoundingClientRect();
+    panel.style.setProperty('--panel-gap', Math.max(0, Math.floor(title.top - frame.bottom)) + 'px');
     const body = panel.querySelector('.panel-body').getBoundingClientRect();
     row.forEach((t) => {
       const r = t.getBoundingClientRect();
