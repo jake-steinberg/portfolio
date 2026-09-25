@@ -72,6 +72,8 @@ const TAGS = [
                                                //   linking to its story (and "Go to story" in
                                                //   the enlarged view):
                                                //   { src: "img/…", story: "https://…", label: "Fall 2024" }
+                                               //   To link "Open full-size map" to a bigger original
+                                               //   than the one shown: { src: "img/…webp", full: "img/….jpg" }
                                                //   An .mp4 plays as a silent loop; put a .webp
                                                //   of the same name (minus "-loop") beside it
                                                //   for its still poster.
@@ -316,7 +318,8 @@ const PROJECTS = [
     description: "Taking place in the all-too-near future, this piece of speculative fiction I made for " +
                  "Rob Roth’s Graphic Design in Cartography course tells the story of a pipeline that " +
                  "exports water from the Great Lakes to an increasingly thirsty world.",
-    images:      ["img/tiles/great-lakes-pipeline-superior.webp"],   // from img/lake_superior-7-01.jpg
+    images:      [{ src: "img/tiles/great-lakes-pipeline-superior.webp",   // light version for the panel
+                    full: "img/lake_superior-7-01.jpg" }],                 // "Open full-size map" opens the original
     awards:      [
       "Best student map, Wisconsin Land Information Association, 2023"
     ]

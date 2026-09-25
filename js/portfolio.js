@@ -152,6 +152,8 @@
     //   picture, no link → opens full size in the lightbox
     //   with a story     → still opens in the lightbox (whose link then says
     //                      "Go to story"), with its label under it linking there
+    //   with full        → { src, full }: the lightbox shows src, and its
+    //                      "Open full-size map" link opens full (the original)
     //   .mp4             → plays as a silent loop, with the .webp of the same
     //                      name (minus "-loop") as its still poster; not
     //                      clickable unless it has a link
@@ -162,7 +164,7 @@
     // topIsBigger). All uncropped. 6 or more become even 4:3 thumbnails. The
     // whole group is kept within a set height (layoutMedia).
     const shot = (entry) => {
-      const { src, link, label, story } = typeof entry === 'string' ? { src: entry } : entry;
+      const { src, link, label, story, full } = typeof entry === 'string' ? { src: entry } : entry;
       const isVideo = /\.mp4$/i.test(src);
       const media = isVideo
         ? `<video src="${esc(src)}" poster="${esc(src.replace(/(-loop)?\.mp4$/i, '.webp'))}" muted loop playsinline preload="metadata" aria-hidden="true"></video>`
@@ -181,7 +183,7 @@
       }
       return isVideo
         ? `<div class="pvid">${media}</div>`
-        : `<a href="${esc(src)}" data-lb="${esc(src)}" data-title="${esc(p.title)}">${media}</a>`;
+        : `<a href="${esc(full || src)}" data-lb="${esc(src)}" data-title="${esc(p.title)}"${full ? ` data-full="${esc(full)}"` : ''}>${media}</a>`;
     };
     const count = hasImages ? p.images.length : 0;
     const kind = count >= 4 && count <= 5 ? ' mosaic many'      // .many: the lower row wraps on phones
@@ -487,13 +489,14 @@
   let focusBeforeLightbox = null;
 
   // story: if given, the caption links to that story instead of the full-size file
-  function openLightbox(src, title, story) {
+  // full:  the full-size original to link to, if it isn't src itself
+  function openLightbox(src, title, story, full) {
     focusBeforeLightbox = document.activeElement;
     lbImg.src = src;
     lbImg.alt = title;
     const link = story
       ? `<a href="${esc(story)}" target="_blank" rel="noopener">Go to story &#8599;</a>`
-      : `<a href="${esc(src)}" target="_blank" rel="noopener">Open full-size map &#8599;</a>`;
+      : `<a href="${esc(full || src)}" target="_blank" rel="noopener">Open full-size map &#8599;</a>`;
     lbCap.innerHTML = `${esc(title)} &middot; ${link}`;
     lb.hidden = false;
     lbClose.focus();
@@ -519,7 +522,7 @@
       return;
     }
     const lbLink = e.target.closest('[data-lb]');
-    if (lbLink) { e.preventDefault(); openLightbox(lbLink.dataset.lb, lbLink.dataset.title, lbLink.dataset.story); return; }
+    if (lbLink) { e.preventDefault(); openLightbox(lbLink.dataset.lb, lbLink.dataset.title, lbLink.dataset.story, lbLink.dataset.full); return; }
 
     const tile = e.target.closest('.gcard');
     if (tile) openPanel(tile.dataset.slug);
