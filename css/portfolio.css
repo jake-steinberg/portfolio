@@ -272,42 +272,6 @@
 }
 .panel > .panel-in { overflow: hidden; min-height: 0; }
 
-/* a narrow, text-only panel (js adds .narrow and gives it a place in the
-   grid): it opens sideways, filling the rest of its tile's row, level with
-   the tile and at least as tall as its picture (js sets that). The tiles
-   around it glide aside, so it fades in rather than unfolding. Its pointer
-   is on the side facing the tile: .tile-left or .tile-right. */
-.panel.narrow,
-.panel.narrow[data-open] {
-  grid-template-rows: 1fr;
-  margin-top: 0;
-  transition: opacity .35s ease;
-}
-.panel.narrow[data-open="false"] { opacity: 0; }
-.panel.narrow[data-open="true"] { opacity: 1; }
-.panel.narrow .panel-body { margin-top: 0; }
-/* the side pointer, aimed at the middle of the tile's picture (--arrow-y) */
-.panel.narrow .panel-body::before,
-.panel.narrow .panel-body::after { border-color: transparent; }
-.panel.tile-left .panel-body::before {
-  left: calc(-1 * var(--arrow)); top: calc(var(--arrow-y, 50%) - var(--arrow));
-  border-width: var(--arrow) var(--arrow) var(--arrow) 0; border-right-color: var(--stroke);
-}
-.panel.tile-left .panel-body::after {
-  left: calc(-1 * var(--arrow) + 1px); top: calc(var(--arrow-y, 50%) - var(--arrow) + 1px);
-  border-width: calc(var(--arrow) - 1px) calc(var(--arrow) - 1px) calc(var(--arrow) - 1px) 0;
-  border-right-color: var(--plate);
-}
-.panel.tile-right .panel-body::before {
-  left: auto; right: calc(-1 * var(--arrow)); top: calc(var(--arrow-y, 50%) - var(--arrow));
-  border-width: var(--arrow) 0 var(--arrow) var(--arrow); border-left-color: var(--stroke);
-}
-.panel.tile-right .panel-body::after {
-  left: auto; right: calc(-1 * var(--arrow) + 1px); top: calc(var(--arrow-y, 50%) - var(--arrow) + 1px);
-  border-width: calc(var(--arrow) - 1px) 0 calc(var(--arrow) - 1px) calc(var(--arrow) - 1px);
-  border-left-color: var(--plate);
-}
-
 .panel-body {
   position: relative;
   /* one column (phones, and text-only panels); PANEL LAYOUTS below arranges
@@ -488,7 +452,6 @@
    ----------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .gframe, .chip, .cap .ttl, .panel, .pshots a, .btn, .pill, .trio a { transition: none; }
-  .panel.narrow, .panel.narrow[data-open] { transition: none; }
   .gcard:hover .gframe { transform: none; box-shadow: var(--shadow-lift); }
   .pshots a:hover, .btn:hover { transform: none; }
 }
