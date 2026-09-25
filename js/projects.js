@@ -59,10 +59,10 @@ const TAGS = [
      images:      [],                          // extra pictures for the panel, e.g.
                                                //   ["img/foo-detail.webp", "img/foo-2.webp"]
                                                //   1 shows uncropped. 2 sit side by side at
-                                               //   matching heights. 3 to 5 make a mosaic: the
+                                               //   matching heights. 3 or 5 make a mosaic: the
                                                //   widest on top and the rest in a row under it,
                                                //   or all in one row, whichever shows them
-                                               //   bigger. All uncropped. 6 or more show as even 4:3
+                                               //   bigger. 4 sit in two rows of two. All uncropped. 6 or more show as even 4:3
                                                //   thumbnails. The pictures are kept within a set
                                                //   height (MEDIA_MAX_HEIGHT in js/portfolio.js).
                                                //   Clicking a picture enlarges it. To open a
@@ -290,27 +290,33 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // Tile: a crossfade of one photo from each story (tools/crossfade-loop.sh)
+    // The tile video loops three clips from the ICECLIMB folder (Jan. 2025),
+    // center-cropped to 5:4: hero-square (the climb), ice-square (the top)
+    // and descent-square (lowering off), with 0.6s crossfades between them
+    // and back to the start, so it loops seamlessly; sped up 1.25x and
+    // scaled to 640x512. 25s, 1.8 MB.
     title:       "Outdoor tales told in the Star Tribune",
     slug:        "outdoor-tales",
     year:        "2023–2026",
     panelCols:   3,
-    tile:        "img/tiles/outdoor-tales.webp",
-    video:       "img/tiles/outdoor-tales.mp4",
-    link:        "",                              // no button: each photo's caption links to its story
+    tile:        "img/tiles/ice-climbing.webp",
+    video:       "img/tiles/ice-climbing.mp4",
+    link:        "",                              // no button: the stories are listed instead
     linkType:    "story",
     tags:        ["news", "scrollytelling", "outdoors"],
     inBook:      false,
     description: "Stories about the people and places of the North.",
-    images:      [                                 // one photo per story, captioned with a link to it
-      { src: "img/tiles/outdoor-paddling.webp", label: "Paddling guide",    // square crop of img/mississippi_up.jpg
-        story: "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521" },
-      { src: "img/tiles/outdoor-ice-climb.webp", label: "Ice climbing",
-        story: "https://www.startribune.com/flying-shards-and-screaming-barfies-ice-climbing-is-thrilling-and-excruciating/601208711" },
-      { src: "img/tiles/legacy-tree-sled.webp", label: "The Legacy Tree",
-        story: "https://www2.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/" },
-      { src: "img/tiles/outdoor-midwest-mountaineering.webp", label: "Midwest Mountaineering",
-        story: "https://www.startribune.com/midwest-mountaineering-was-more-than-just-a-store-and-losing-it-matters/600314102" }
+    images:      [                                 // one photo per story; four sit two by two
+      { src: "img/tiles/outdoor-paddling.webp", full: false },               // square crop of img/mississippi_up.jpg
+      { src: "img/tiles/outdoor-ice-climb.webp", full: false },
+      { src: "img/tiles/legacy-tree-sled.webp", full: false },
+      { src: "img/tiles/outdoor-midwest-mountaineering.webp", full: false }
+    ],
+    links:       [
+      { label: "Urban Paddling Guide", url: "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521" },
+      { label: "Ice climbing", url: "https://www.startribune.com/flying-shards-and-screaming-barfies-ice-climbing-is-thrilling-and-excruciating/601208711" },
+      { label: "The Legacy Tree", url: "https://www2.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/" },
+      { label: "Midwest Mountaineering", url: "https://www.startribune.com/midwest-mountaineering-was-more-than-just-a-store-and-losing-it-matters/600314102" }
     ],
     awards:      []
   },
@@ -459,27 +465,6 @@ const PROJECTS = [
       { src: "img/tiles/hikes-fall-2026.webp", label: "Fall 2026",
         story: "https://www.startribune.com/8-minnesota-hikes-to-fall-for-this-autumn/601883249" }
     ],
-    awards:      []
-  },
-  {
-    // WORKING TITLE — rename, and add tags, a year, a link and a description.
-    // The tile video loops three clips from the ICECLIMB folder (Jan. 2025),
-    // center-cropped to 5:4: hero-square (the climb), ice-square (the top)
-    // and descent-square (lowering off), with 0.6s crossfades between them
-    // and back to the start, so it loops seamlessly; sped up 1.25x and
-    // scaled to 640x512. 25s, 1.8 MB.
-    title:       "Ice climbing",
-    slug:        "ice-climbing",
-    year:        "",
-    panelCols:   1,
-    tile:        "img/tiles/ice-climbing.webp",
-    video:       "img/tiles/ice-climbing.mp4",
-    link:        "",
-    linkType:    "story",
-    tags:        [],
-    inBook:      false,
-    description: "",
-    images:      [],
     awards:      []
   }
 ];

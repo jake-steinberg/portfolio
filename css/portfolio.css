@@ -454,6 +454,9 @@ body { overflow-anchor: none; }
      matched within each line; 30% per unit of shape fits two, never three. */
   .pshots.mosaic.many > :not(.wide) { flex-basis: calc(var(--ar, 1) * 30%); }
 }
+/* 4 pictures (.pairs): two rows of two at every width, by the same trick —
+   a starting width of 30% per unit of shape fits two to a row, never three */
+.pshots.mosaic.pairs > * { flex-basis: calc(var(--ar, 1) * 30%); }
 
 /* credit under a panel's pictures (credit: in projects.js), e.g. "Photos by …" */
 .pcredit {

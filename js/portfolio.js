@@ -160,10 +160,10 @@
     //                      name (minus "-loop") as its still poster; not
     //                      clickable unless it has a link
     //   with a link      → opens that page in a new tab
-    // 1 picture shows uncropped. 2 sit side by side at matching heights. 3 to 5
+    // 1 picture shows uncropped. 2 sit side by side at matching heights. 3 or 5
     // make a mosaic: the widest across the top and the rest sharing a row
     // beneath it, or all in one row, whichever shows them bigger (see
-    // topIsBigger). All uncropped. 6 or more become even 4:3 thumbnails. The
+    // topIsBigger). 4 sit in two rows of two (.pairs). All uncropped. 6 or more become even 4:3 thumbnails. The
     // whole group is kept within a set height (layoutMedia).
     // top: true puts that picture across the top of a mosaic instead of the widest
     const shot = (entry) => {
@@ -196,7 +196,8 @@
     };
     const shotsGroup = (imgs) => {
       const n = imgs.length;
-      const kind = n >= 4 && n <= 5 ? ' mosaic many'      // .many: the lower row wraps on phones
+      const kind = n === 4 ? ' mosaic many pairs'         // .pairs: two rows of two
+                 : n === 5 ? ' mosaic many'               // .many: the lower row wraps on phones
                  : n >= 2 && n <= 3 ? ' mosaic' : '';
       return `<div class="pshots${kind}">${imgs.map(shot).join('')}</div>`;
     };
@@ -364,7 +365,8 @@
     });
     if (ratios.some((r) => !r)) return null;           // still waiting on one to load
     const chosen = items.findIndex((el) => el.hasAttribute('data-top'));   // top: true in projects.js
-    const widest = top && items.length >= 3 ? (chosen >= 0 ? chosen : ratios.indexOf(Math.max(...ratios))) : -1;
+    const pairs = shots.classList.contains('pairs');     // two rows of two: nothing goes on top
+    const widest = top && items.length >= 3 && !pairs ? (chosen >= 0 ? chosen : ratios.indexOf(Math.max(...ratios))) : -1;
     items.forEach((el, i) => {
       el.style.setProperty('--ar', ratios[i].toFixed(4));
       el.classList.toggle('wide', i === widest);

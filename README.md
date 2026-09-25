@@ -60,9 +60,9 @@ That's all: the tile, its filter tags and its panel are built automatically.
 - `description` — the panel shows a visible placeholder until this is filled
   in. HTML is allowed, so it can include a link.
 - `images` — extra pictures for the panel. One shows uncropped. Two sit side
-  by side at matching heights. Three to five make a mosaic: the widest across
+  by side at matching heights. Three or five make a mosaic: the widest across
   the top and the rest sharing a row beneath it, or all in one row, whichever
-  shows them bigger in the space. All are uncropped. Six or more show
+  shows them bigger in the space. Four sit in two rows of two. All are uncropped. Six or more show
   as even thumbnails. Clicking a picture opens it full size in the lightbox;
   write an entry as `{ src, link, label }` to open a story instead, or as
   `{ src, story, label }` to keep it enlarging, with its label underneath
