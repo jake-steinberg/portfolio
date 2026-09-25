@@ -415,9 +415,10 @@ const PROJECTS = [
   },
   {
     // WORKING TITLE — rename, and add tags, a year, a link and a description.
-    // The tile video is ice-square.mp4 from the ICECLIMB folder (Jan. 2025),
-    // center-cropped to 5:4, with its last 0.6s crossfaded into its start so
-    // it loops seamlessly.
+    // The tile video loops three clips from the ICECLIMB folder (Jan. 2025),
+    // center-cropped to 5:4: hero-square (the climb), ice-square (the top)
+    // and descent-square (lowering off), with 0.6s crossfades between them
+    // and back to the start, so it loops seamlessly. 31s, 3.4 MB.
     title:       "Ice climbing",
     slug:        "ice-climbing",
     year:        "",
