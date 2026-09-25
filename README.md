@@ -58,7 +58,7 @@ That's all: the tile, its filter tags and its panel are built automatically.
   and `1` is a single column, just under the tile, stacked the same way.
   Either way the rows below move down to make room.
 - `scatter: true` — the panel's pictures are laid out loosely: no frames,
-  uncropped, slightly tilted, in rows filling the width. For cut-out art on
+  uncropped, slightly tilted, in one line across the width. For cut-out art on
   a clear background (see 22, A Map's glyphs).
 - `mediaHalf: true` — in a 3-column panel, the text and the pictures each
   get half, and the pictures fill their half rather than keeping within the

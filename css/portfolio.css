@@ -490,16 +490,15 @@ body { overflow-anchor: none; }
 .pshots.tallmix > [data-tall] img { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; }
 
 /* scattered pictures (scatter: true in projects.js, e.g. 22, A Map's
-   glyphs): no frames, uncropped, in rows that fill the width, each row's
-   pictures at matching heights (the same shape trick as .mosaic). Pictures
-   start about --scatter-h tall; the rows then stretch to fill. Each one is
-   tilted a little, alternating, so they look scattered rather than lined up. */
+   glyphs): no frames, uncropped, all in one line across the width, at
+   matching heights (each grows in proportion to its shape, the same trick
+   as .mosaic). Each one is tilted a little, alternating, so they look
+   scattered rather than lined up. */
 .pshots.scatter {
-  --scatter-h: 150px;
-  display: flex; flex-wrap: wrap; align-items: center;
-  gap: 20px 24px; padding: 8px 4px;
+  display: flex; flex-wrap: nowrap; align-items: center;
+  gap: 24px; padding: 8px 4px;
 }
-.pshots.scatter > * { flex: var(--ar, 1) 1 calc(var(--ar, 1) * var(--scatter-h)); min-width: 0; }
+.pshots.scatter > * { flex: var(--ar, 1) 1 0; min-width: 0; }
 .pshots.scatter a { border: 0; background: none; overflow: visible; }
 .pshots.scatter img { aspect-ratio: auto; height: auto; object-fit: contain; }
 .pshots.scatter > :nth-child(4n+1) { transform: rotate(-3deg); }
@@ -507,7 +506,7 @@ body { overflow-anchor: none; }
 .pshots.scatter > :nth-child(4n+3) { transform: rotate(-1.5deg) translateY(-4px); }
 .pshots.scatter > :nth-child(4n)   { transform: rotate(2.5deg); }
 .pshots.scatter a:hover { transform: scale(1.05); }
-@media (max-width: 720px) { .pshots.scatter { --scatter-h: 90px; gap: 14px 16px; } }
+@media (max-width: 720px) { .pshots.scatter { gap: 12px; } }
 
 /* a picture that's only shown, not enlarged (zoom: false in projects.js) */
 .pstill { display: block; position: relative; min-width: 0; }

@@ -57,8 +57,8 @@ const TAGS = [
                                                //   HTML is allowed, e.g. a link:
                                                //   <a href=\"https://…\" target=\"_blank\">text</a>
      scatter:     false,                       // optional: true lays the pictures out loosely,
-                                               //   unframed and slightly tilted, in rows filling
-                                               //   the width (for cut-out art on a clear
+                                               //   unframed and slightly tilted, in one line
+                                               //   across the width (for cut-out art on a clear
                                                //   background, like 22, A Map's glyphs)
      mediaHalf:   false,                       // optional: true gives the pictures exactly half
                                                //   of a 3-column panel, filling it (no height limit)
