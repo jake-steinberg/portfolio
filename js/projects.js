@@ -218,8 +218,7 @@ const PROJECTS = [
       { src: "img/weed-01.svg", full: false },
       { src: "img/twoface-01.svg", full: false },
       { src: "img/fingers-01.svg", full: false },
-      { src: "img/turnblue-01.svg", full: false },
-      { src: "img/astuary-01.svg", full: false }
+      { src: "img/turnblue-01.svg", full: false }
     ],
     awards:      []
   },

@@ -435,7 +435,7 @@
     if (tall) { box.style.width = '100%'; fitTall(tall); return; }
     // scattered pictures fill the width too, in rows (their shapes set the widths)
     const scatter = box.querySelector('.pshots.scatter');
-    if (scatter) { box.style.width = '100%'; fitShots(scatter, false); return; }
+    if (scatter) { box.style.width = '100%'; if (fitShots(scatter, false)) fitScatter(scatter); return; }
     const mosaic = box.querySelector('.pshots.mosaic');
     const wide = window.matchMedia('(min-width: 721px)').matches;
     const ratios = mosaic ? fitShots(mosaic, true) : null;
@@ -462,6 +462,27 @@
       if (height <= limit + 1) break;
       width = Math.floor(width * limit / height);
     }
+  }
+
+  // Scattered pictures (.scatter) stretch each row to fill the width. A short
+  // last row would stretch far bigger than the rest, so it's held to the
+  // height of the row above it instead (left-aligned, with room to spare).
+  function fitScatter(group) {
+    const items = [...group.children];
+    items.forEach((el) => { el.style.flex = ''; });
+    const rows = [];
+    items.forEach((el) => {
+      const top = el.offsetTop, row = rows.find((r) => Math.abs(r.top - top) < 30);
+      if (row) row.items.push(el); else rows.push({ top, items: [el] });
+    });
+    if (rows.length < 2) return;
+    const height = (r) => Math.max(...r.items.map((el) => el.getBoundingClientRect().height));
+    const last = rows[rows.length - 1], above = rows[rows.length - 2];
+    const limit = height(above);
+    if (height(last) <= limit) return;
+    last.items.forEach((el) => {
+      el.style.flex = `0 0 ${(parseFloat(el.style.getPropertyValue('--ar')) * limit).toFixed(1)}px`;
+    });
   }
 
   // A tall picture beside a column of others (.tallmix): split the width so
