@@ -78,7 +78,8 @@ That's all: the tile, its filter tags and its panel are built automatically.
   picture the full height on the left with the others stacked in a column
   beside it, filling the width, cropped to fit (see Outdoor tales).
 - `credit` — an optional line under the pictures, like "Photos by …". It's
-  also shown when a picture is enlarged. An `.mp4`
+  also shown when a picture is enlarged. To credit a single picture, and only
+  when it's enlarged, write it as `{ src, credit: "Photo by …" }`. An `.mp4`
   plays as a silent loop, with the `.webp` of the same name (minus `-loop`) as
   its poster. With none, the panel is text only.
 

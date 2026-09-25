@@ -91,6 +91,8 @@ const TAGS = [
                                                //   Left [] → the panel is text only
      credit:      "",                          // optional line under the pictures, e.g.
                                                //   "Photos by …" (also shown when enlarged)
+                                               //   A single picture can have its own, shown only
+                                               //   when it's enlarged: { src, credit: "Photo by …" }
      links:       [],                          // optional list of stories, for a project that
                                                //   spans several. Each: { label: "…", url: "…" }.
                                                //   Set link: "" to drop the single main button
@@ -310,10 +312,10 @@ const PROJECTS = [
     inBook:      false,
     description: "Stories about the people and places of the North.",
     images:      [                                 // one photo per story: the kayaks full height, the rest beside
-      { src: "img/tiles/urban-paddling-mississippi.webp", full: false, tall: true },
-      { src: "img/tiles/outdoor-ice-climb.webp", full: false },
-      { src: "img/tiles/legacy-tree-sled.webp", full: false },
-      { src: "img/tiles/outdoor-midwest-mountaineering.webp", full: false }
+      { src: "img/tiles/urban-paddling-mississippi.webp", full: false, tall: true, credit: "Photo by Aaron Levinsky" },
+      { src: "img/tiles/outdoor-ice-climb.webp", full: false, credit: "Photo by Anthony Soufflé" },
+      { src: "img/tiles/legacy-tree-sled.webp", full: false, credit: "Photo by Anthony Soufflé" },
+      { src: "img/tiles/outdoor-midwest-mountaineering.webp", full: false, credit: "Photo by Jeff Wheeler" }
     ],
     links:       [
       { label: "Urban Paddling Guide", url: "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521" },
@@ -362,7 +364,8 @@ const PROJECTS = [
     images:      [                                 // no full-size versions, so no full-size link
       { src: "img/tiles/urban-paddling-shore.webp", full: false },   // landing the canoe at dusk
       { src: "img/tiles/urban-paddling-river.webp", full: false },   // on the river (border trimmed off)
-      { src: "img/tiles/urban-paddling-mississippi.webp", full: false }  // kayaks below downtown Minneapolis
+      { src: "img/tiles/urban-paddling-mississippi.webp", full: false,   // kayaks below downtown Minneapolis
+        credit: "Photo by Aaron Levinsky" }
     ],
     credit:      "Photos by Anthony Soufflé",
     awards:      [

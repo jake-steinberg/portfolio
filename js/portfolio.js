@@ -153,6 +153,9 @@
     //   picture, no link → opens full size in the lightbox
     //   with a story     → still opens in the lightbox (whose link then says
     //                      "Go to story"), with its label under it linking there
+    //   with credit      → { src, credit: "Photo by …" }: shown only when the
+    //                      picture is enlarged (the project's credit: shows
+    //                      under all the pictures, and when enlarged)
     //   with full        → { src, full }: the lightbox shows src, and its
     //                      "Open full-size map" link opens full (the original).
     //                      full: false (photos, say) leaves that link out
@@ -174,7 +177,8 @@
       return flags ? html.replace(/^(\s*<\w+)/, '$1' + flags) : html;
     };
     const shotHTML = (entry) => {
-      const { src, link, label, story, full } = typeof entry === 'string' ? { src: entry } : entry;
+      const { src, link, label, story, full, credit } = typeof entry === 'string' ? { src: entry } : entry;
+      const who = credit || p.credit;                  // a picture's own credit, else the project's
       const isVideo = /\.mp4$/i.test(src);
       const media = isVideo
         ? `<video src="${esc(src)}" poster="${esc(src.replace(/(-loop)?\.mp4$/i, '.webp'))}" muted loop playsinline preload="metadata" aria-hidden="true"></video>`
@@ -195,7 +199,7 @@
         ? `<div class="pvid">${media}</div>`
         : `<a href="${esc(full || src)}" data-lb="${esc(src)}" data-title="${esc(p.title)}"` +
           (full === false ? ' data-full="none"' : full ? ` data-full="${esc(full)}"` : '') +
-          (p.credit ? ` data-credit="${esc(p.credit)}"` : '') + `>${media}</a>`;
+          (who ? ` data-credit="${esc(who)}"` : '') + `>${media}</a>`;
     };
     const shotsGroup = (imgs) => {
       const n = imgs.length;
