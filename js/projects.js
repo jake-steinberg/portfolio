@@ -298,7 +298,7 @@ const PROJECTS = [
     title:       "Urban Paddling Guide",
     slug:        "urban-paddling-guide",
     year:        "2025",
-    panelCols:   1,
+    panelCols:   2,
     tile:        "img/tiles/urban-paddling-guide-scroll.webp",
     video:       "img/tiles/urban-paddling-guide-scroll.mp4",
     link:        "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift",
@@ -307,7 +307,10 @@ const PROJECTS = [
     inBook:      false,
     description: "A guide to 13 of the best paddling routes in the Twin Cities. I scouted and " +
                  "authored guides to most of the routes, and mapped them all.",
-    images:      [],
+    images:      [
+      "img/tiles/urban-paddling-shore.webp",      // landing the canoe at dusk
+      "img/tiles/urban-paddling-river.webp"       // on the river (border trimmed off)
+    ],
     awards:      [
       "Silver Medal for Story Page Design, Society for News Design, 2026. " +
       "Primary page design by Anna Boone."
