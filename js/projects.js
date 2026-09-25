@@ -348,10 +348,10 @@ const PROJECTS = [
     title:       "Projection Trading Card",
     slug:        "projection-trading-card",
     year:        "2022",
-    panelCols:   3,
+    panelCols:   2,
     tile:        "img/tiles/projection-trading-card.webp",
     video:       "",
-    link:        "img/projection-card.jpg",
+    link:        "",                              // no button: click the card to enlarge it
     linkType:    "file",
     tags:        ["print"],
     inBook:      false,
