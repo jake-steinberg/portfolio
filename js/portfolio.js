@@ -202,11 +202,12 @@
     };
     // A picture marked top: true normally just sits across the top of the
     // mosaic beside the text (see fitShots in layoutMedia below). But when
-    // there are OTHER pictures too, they'd get squeezed into that same narrow
-    // column under it — so instead they spread out in their own full-width
-    // row underneath the whole panel (.pmedia-below), with more room to
-    // breathe. (Used by The Legacy Tree: the map stays beside the text; the
-    // photos spread out under the description.)
+    // there are OTHER pictures too, they'd get squeezed into that same column
+    // under it — so instead the top picture has the picture column to itself,
+    // and the others spread out in a row under the description, in the text
+    // column (.pmedia-below; the .split layout in portfolio.css). On phones
+    // everything stacks: text, top picture, then the others.
+    // (Used by The Legacy Tree: the map beside the text, the photos under it.)
     const isTop = (img) => typeof img !== 'string' && img.top;
     const topImages = hasImages ? p.images.filter(isTop) : [];
     const belowImages = hasImages ? p.images.filter((img) => !isTop(img)) : [];
@@ -225,7 +226,7 @@
     return `
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
         <div class="panel-in">
-          <div class="panel-body${hasImages ? '' : ' solo'}">
+          <div class="panel-body${hasImages ? '' : ' solo'}${splitBelow ? ' split' : ''}">
             <button class="close" type="button" data-close="${esc(p.slug)}">Close &#215;</button>
             <div class="panel-main">
               <div class="ptop">
@@ -427,13 +428,13 @@
     }
   }
 
-  // A project can also have a second group of pictures that spreads across
-  // the whole panel, under the text and the first group (.pmedia-below —
-  // see splitBelow above). It's already full width from the CSS grid, so it
-  // just needs its shapes set, always in one plain row (no "widest on top").
+  // A project can also have a second group of pictures, spread out under the
+  // description (.pmedia-below — see splitBelow above). It already fills the
+  // text column's width from the CSS grid, so it just needs its shapes set,
+  // always in one plain row (no "widest on top").
   function layoutMedia(panel) {
     if (!panel) return;
-    const box = panel.querySelector('.pmedia');
+    const box = panel.querySelector('.pmedia:not(.pmedia-below)');
     if (box) sizeMediaBox(box);
     const belowMosaic = panel.querySelector('.pmedia-below .pshots.mosaic');
     if (belowMosaic) fitShots(belowMosaic, false);

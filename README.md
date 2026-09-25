@@ -71,10 +71,10 @@ That's all: the tile, its filter tags and its panel are built automatically.
   but have "Open full-size map" open the original, write `{ src, full }`; use
   `full: false` for pictures with no full-size version (photos, say). Write
   `{ src, top: true }` to always put that picture across the top of the
-  mosaic; with other pictures too, they spread out in their own full-width
-  row under the whole panel instead of squeezing into the narrow column
-  beside the text (see The Legacy Tree, where the map stays beside the text
-  and the photos spread out below).
+  mosaic; with other pictures too, the top one gets the picture column to
+  itself and the others spread out in a row under the description (see The
+  Legacy Tree: the map beside the text, the photos under the description).
+  On phones they stack after it.
 - `credit` — an optional line under the pictures, like "Photos by …". It's
   also shown when a picture is enlarged. An `.mp4`
   plays as a silent loop, with the `.webp` of the same name (minus `-loop`) as

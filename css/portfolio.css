@@ -296,9 +296,11 @@ body { overflow-anchor: none; }
 }
 @media (max-width: 720px) { .panel-body { --shot-gap: 8px; } }
 /* a second group of pictures (splitBelow in js/portfolio.js, e.g. The Legacy
-   Tree's photos): the negative margin cancels the grid's own (wider) row
-   gap above it and substitutes --shot-gap, so the space above the pictures
-   matches the gap between them, on phones too (they simply stack there). */
+   Tree's photos). Where it stacks right under the top picture (phones, and
+   1- or 2-column detail views), the negative margin cancels the grid's own
+   (wider) row gap and substitutes --shot-gap, so the space between the two
+   groups matches the gap between the pictures. On wider 3-column views it
+   sits under the text instead (.split, below). */
 .pmedia-below { margin-top: calc(var(--shot-gap) - var(--pbody-gap)); }
 /* -- PANEL LAYOUT (wider screens) -------------------------------------------
    The text column sits beside the pictures: title, year and tags,
@@ -315,14 +317,17 @@ body { overflow-anchor: none; }
     justify-self: center; align-self: center;
     padding-block: 30px;                  /* clears the Close button, and keeps it centered */
   }
-  /* a second group of pictures (splitBelow in js/portfolio.js, e.g. The
-     Legacy Tree's photos): spans both columns in a full-width row under the
-     text and the first group, instead of squeezing into that narrow column
-     (see .pmedia-below's margin-top above for its vertical gap) */
-  .pmedia-below {
-    grid-column: 1 / -1;
+  /* .split (splitBelow in js/portfolio.js, e.g. The Legacy Tree): the second
+     group of pictures (.pmedia-below) spreads out under the description, in
+     the text column, while the top picture has the picture column to itself,
+     beside both. Any spare height goes under the photos. */
+  .panel:not([data-cols]) .panel-body.split { grid-template-rows: auto 1fr; }
+  .panel:not([data-cols]) .split > .panel-main { grid-column: 1; grid-row: 1; }
+  .panel:not([data-cols]) .split > .pmedia:not(.pmedia-below) { grid-column: 2; grid-row: 1 / span 2; }
+  .panel:not([data-cols]) .split > .pmedia-below {
+    grid-column: 1; grid-row: 2;
     justify-self: stretch; align-self: start;
-    padding-block: 0;
+    padding-block: 0; margin-top: 0;      /* the usual gap between text and pictures */
   }
 
   /* a one- or two-column detail view (panelCols: 1 or 2 in projects.js; js
