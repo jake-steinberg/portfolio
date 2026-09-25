@@ -59,7 +59,10 @@ That's all: the tile, its filter tags and its panel are built automatically.
   the top and the rest sharing a row beneath it, or all in one row, whichever
   shows them bigger in the space. All are uncropped. Six or more show
   as even thumbnails. Clicking a picture opens it full size in the lightbox;
-  write an entry as `{ src, link, label }` to open a story instead. An `.mp4`
+  write an entry as `{ src, link, label }` to open a story instead, or as
+  `{ src, story, label }` to keep it enlarging, with its label underneath
+  linking to the story (and "Go to story" in the enlarged view). Captioned
+  pictures always sit in one row, in the order listed. An `.mp4`
   plays as a silent loop, with the `.webp` of the same name (minus `-loop`) as
   its poster. With none, the panel is text only.
 

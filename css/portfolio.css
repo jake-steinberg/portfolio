@@ -408,6 +408,21 @@
   .pshots.mosaic.many > :not(.wide) { flex-basis: calc(var(--ar, 1) * 30%); }
 }
 
+/* a picture with a story ({ src, story, label } in projects.js): the picture,
+   then its label underneath as a link to the story, styled like the story
+   links. .pcap undoes the frame the other picture links get. */
+.pshot { margin: 0; min-width: 0; }
+.pshots > .pshot:only-child { grid-column: 1 / -1; }
+.pshot img { aspect-ratio: auto; height: auto; object-fit: fill; }
+.pshot figcaption { margin-top: 8px; font-size: 14.5px; line-height: 1.35; }
+.pshots a.pcap {
+  display: inline; overflow: visible; background: none;
+  border: 0; border-bottom: 2px solid var(--accent-soft);
+  color: var(--ink); text-decoration: none;
+  transition: border-color .15s;
+}
+.pshots a.pcap:hover { transform: none; border-bottom-color: var(--accent); }
+
 /* an .mp4 in images: [] — a looping video, framed like the pictures
    (as a link, it's an <a class="pvid"> and gets the tilt on hover too) */
 .pvid { display: block; border: 1px solid var(--stroke); background: var(--bg); }

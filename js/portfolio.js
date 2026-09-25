@@ -141,8 +141,11 @@
       : '';
 
     // Panel pictures. Each entry in images: [] is either a path, or
-    // { src, link, label } to make that picture open a story instead.
+    // { src, link, label } to make that picture open a story instead, or
+    // { src, story, label } to caption it with a link to its story.
     //   picture, no link → opens full size in the lightbox
+    //   with a story     → still opens in the lightbox (whose link then says
+    //                      "Go to story"), with its label under it linking there
     //   .mp4             → plays as a silent loop, with the .webp of the same
     //                      name (minus "-loop") as its still poster; not
     //                      clickable unless it has a link
@@ -153,12 +156,19 @@
     // topIsBigger). All uncropped. 6 or more become even 4:3 thumbnails. The
     // whole group is kept within a set height (layoutMedia).
     const shot = (entry) => {
-      const { src, link, label } = typeof entry === 'string' ? { src: entry } : entry;
+      const { src, link, label, story } = typeof entry === 'string' ? { src: entry } : entry;
       const isVideo = /\.mp4$/i.test(src);
       const media = isVideo
         ? `<video src="${esc(src)}" poster="${esc(src.replace(/(-loop)?\.mp4$/i, '.webp'))}" muted loop playsinline preload="metadata" aria-hidden="true"></video>`
         : `<img src="${esc(src)}" alt="" decoding="async">`;
       const cls = isVideo ? ' class="pvid"' : '';
+      if (story && !isVideo) {
+        const name = esc(label || p.title);
+        return `<figure class="pshot">
+            <a href="${esc(src)}" data-lb="${esc(src)}" data-title="${esc(p.title)} · ${name}" data-story="${esc(story)}">${media}</a>
+            <figcaption><a class="pcap" href="${esc(story)}" target="_blank" rel="noopener">${name}<span aria-hidden="true"> &#8599;</span></a></figcaption>
+          </figure>`;
+      }
       if (link) {
         const name = esc(label || p.title);
         return `<a${cls} href="${esc(link)}" target="_blank" rel="noopener" aria-label="${name} (opens the story)" title="${name}">${media}</a>`;
@@ -318,8 +328,10 @@
     const tracks = getComputedStyle(box.parentElement).gridTemplateColumns.split(' ');
     let width = Math.floor(parseFloat(tracks[tracks.length - 1]));
     const limit = Math.min(window.innerHeight * MEDIA_MAX_HEIGHT, MEDIA_MAX_PX);
-    // with 3 or more, use whichever arrangement shows the pictures bigger here
-    if (ratios && ratios.length >= 3 && !topIsBigger(ratios, width, limit, 12)) fitShots(mosaic, false);
+    // with 3 or more, use whichever arrangement shows the pictures bigger here.
+    // Captioned pictures (a story each) always keep one row, in their order.
+    const captioned = mosaic && mosaic.querySelector('.pshot');
+    if (ratios && ratios.length >= 3 && (captioned || !topIsBigger(ratios, width, limit, 12))) fitShots(mosaic, false);
     for (let pass = 0; pass < 3; pass++) {             // a few passes, since gaps don't scale
       box.style.width = width + 'px';
       const kids = [...box.children];
@@ -397,11 +409,15 @@
   const lbClose = document.getElementById('lb-close');
   let focusBeforeLightbox = null;
 
-  function openLightbox(src, title) {
+  // story: if given, the caption links to that story instead of the full-size file
+  function openLightbox(src, title, story) {
     focusBeforeLightbox = document.activeElement;
     lbImg.src = src;
     lbImg.alt = title;
-    lbCap.innerHTML = `${esc(title)} &middot; <a href="${esc(src)}" target="_blank" rel="noopener">Open full-size map &#8599;</a>`;
+    const link = story
+      ? `<a href="${esc(story)}" target="_blank" rel="noopener">Go to story &#8599;</a>`
+      : `<a href="${esc(src)}" target="_blank" rel="noopener">Open full-size map &#8599;</a>`;
+    lbCap.innerHTML = `${esc(title)} &middot; ${link}`;
     lb.hidden = false;
     lbClose.focus();
   }
@@ -426,7 +442,7 @@
       return;
     }
     const lbLink = e.target.closest('[data-lb]');
-    if (lbLink) { e.preventDefault(); openLightbox(lbLink.dataset.lb, lbLink.dataset.title); return; }
+    if (lbLink) { e.preventDefault(); openLightbox(lbLink.dataset.lb, lbLink.dataset.title, lbLink.dataset.story); return; }
 
     const tile = e.target.closest('.gcard');
     if (tile) openPanel(tile.dataset.slug);

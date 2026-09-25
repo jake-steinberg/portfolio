@@ -61,6 +61,10 @@ const TAGS = [
                                                //   Clicking a picture enlarges it. To open a
                                                //   story instead, write it as
                                                //   { src: "img/…", link: "https://…", label: "Story name" }
+                                               //   Or keep it enlarging, with its label under it
+                                               //   linking to its story (and "Go to story" in
+                                               //   the enlarged view):
+                                               //   { src: "img/…", story: "https://…", label: "Fall 2024" }
                                                //   An .mp4 plays as a silent loop; put a .webp
                                                //   of the same name (minus "-loop") beside it
                                                //   for its still poster.
@@ -351,15 +355,15 @@ const PROJECTS = [
     tags:        ["interactive", "outdoors"],
     inBook:      false,
     description: "A seasonal feature for the Star Tribune spotlighting the best places to be outside.",
-    images:      [                                   // one map from each story
-      "img/tiles/hikes-fall-2024.webp",              // Tettegouche State Park
-      "img/tiles/hikes-spring-2026.webp",            // Mariner Mountain Park, Silver Bay
-      "img/tiles/hikes-fall-2026.webp"
-    ],
-    links:       [
-      { label: "Fall 2024", url: "https://www.startribune.com/minnesota-hike-fall-colors-north-shore-state-parks/601143123" },
-      { label: "Spring 2026", url: "https://www.startribune.com/eight-minnesota-hikes-that-sing-of-spring/601637574" },
-      { label: "Fall 2026", url: "https://www.startribune.com/8-minnesota-hikes-to-fall-for-this-autumn/601883249" }
+    // one map from each story; its label underneath links to the story, and
+    // clicking the map enlarges it with a "Go to story" link
+    images:      [
+      { src: "img/tiles/hikes-fall-2024.webp", label: "Fall 2024",       // Tettegouche State Park
+        story: "https://www.startribune.com/minnesota-hike-fall-colors-north-shore-state-parks/601143123" },
+      { src: "img/tiles/hikes-spring-2026.webp", label: "Spring 2026",   // Mariner Mountain Park, Silver Bay
+        story: "https://www.startribune.com/eight-minnesota-hikes-that-sing-of-spring/601637574" },
+      { src: "img/tiles/hikes-fall-2026.webp", label: "Fall 2026",
+        story: "https://www.startribune.com/8-minnesota-hikes-to-fall-for-this-autumn/601883249" }
     ],
     awards:      []
   }
