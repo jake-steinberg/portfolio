@@ -318,19 +318,25 @@ const PROJECTS = [
     ]
   },
   {
-    title:       "2024 Weather",
+    title:       "Compare 2024’s weather with your childhood’s",
     slug:        "2024-weather",
-    year:        "",
-    panelCols:   3,
+    year:        "2025",
+    panelCols:   2,
     tile:        "img/tiles/2024-weather.webp",
     video:       "",
     link:        "https://www.startribune.com/how-does-2024s-weather-compare-with-your-childhood/601202878",
     linkType:    "story",
-    tags:        ["news"],
+    tags:        ["news", "interactive", "climate"],
     inBook:      false,
-    description: "",
+    description: "An interactive story that put data behind the feeling that 2024’s weather " +
+                 "wasn’t like you remember when you were growing up.",
     images:      [],
-    awards:      []
+    awards:      [
+      "Best Infographic/Data Visualization, Minnesota Society of Professional Journalists, 2026. " +
+      "Shared with Bryan Brussee and Mark Boswell.<br>" +
+      "Judge’s comments: <em>“This is a brilliant way to take what’s otherwise a distant international " +
+      "issue and puts it in stark personal terms, with engaging imagery and functionality.”</em>"
+    ]
   },
   {
     title:       "Snowfall Tracker",
