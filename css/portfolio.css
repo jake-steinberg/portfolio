@@ -365,6 +365,18 @@ body { overflow-anchor: none; }
   font-size: 13.5px; line-height: 1.55; margin: 0 0 12px; padding-left: 21px;
 }
 .award::before { content: "\2605"; position: absolute; left: 0; top: 1px; color: var(--accent); font-size: 12px; }
+/* a quote from the judges ({ award, quote, quoteBy } in projects.js): a small
+   box on the page's darker paper, with who said it underneath */
+.award .quote {
+  margin: 8px 0 0; padding: 11px 15px 12px;
+  background: var(--bg); border: 1px solid var(--rule);
+  font-style: italic; font-size: 14px; line-height: 1.55;
+}
+.award .quote footer {
+  margin-top: 7px; font-style: normal;
+  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
+}
 
 /* link buttons: "Read the story ↗", "In the book ↗" */
 .plinks { display: flex; flex-wrap: wrap; gap: 9px 12px; margin-top: 26px; }

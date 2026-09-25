@@ -121,7 +121,13 @@
       ? `<p class="desc">${p.description}</p>`
       : `<p class="desc placeholder">${PLACEHOLDER}</p>`;
 
-    const awards = (p.awards || []).map((a) => `<p class="award">${a}</p>`).join('');
+    // awards: each is a line of text (HTML allowed), or { award, quote, quoteBy }
+    // to add a quote from the judges in a box beneath it
+    const awards = (p.awards || []).map((a) => typeof a === 'string'
+      ? `<div class="award">${a}</div>`
+      : `<div class="award">${a.award}${a.quote ? `
+          <blockquote class="quote">${a.quote}${a.quoteBy ? `<footer>${a.quoteBy}</footer>` : ''}</blockquote>` : ''}
+        </div>`).join('');
 
     // "file" links open in the lightbox, except PDFs, which open in a new tab.
     // A project with link: "" gets no main button (e.g. one that lists several stories).

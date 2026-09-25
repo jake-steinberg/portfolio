@@ -79,6 +79,8 @@ That's all: the tile, its filter tags and its panel are built automatically.
   Wall Street Journal*). Set `link: ""` to drop the single main button.
 - `linkType: "file"` opens the full-size image in a lightbox. PDFs open in a
   new tab instead.
+- `awards` — each is a line with a star. To add the judges' words in a quote
+  box beneath it, write it as `{ award: "…", quote: "“…”", quoteBy: "Judge’s comments" }`.
 - `inBook: true` adds the "In the book" marker.
 
 ## Tags

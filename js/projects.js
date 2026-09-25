@@ -81,6 +81,8 @@ const TAGS = [
                                                //   Set link: "" to drop the single main button
      awards:      []                           // lines shown with a star in the panel.
                                                //   HTML is allowed: "<em>Atlas of Design</em>"
+                                               //   To add the judges' words in a quote box:
+                                               //   { award: "…", quote: "“…”", quoteBy: "Judge’s comments" }
    },
 
    Notes
@@ -318,7 +320,7 @@ const PROJECTS = [
     ]
   },
   {
-    title:       "Compare 2024’s weather with your childhood’s",
+    title:       "How does 2024’s weather compare with your childhood’s?",
     slug:        "2024-weather",
     year:        "2025",
     panelCols:   2,
@@ -328,14 +330,15 @@ const PROJECTS = [
     linkType:    "story",
     tags:        ["news", "interactive", "climate"],
     inBook:      false,
-    description: "An interactive story that put data behind the feeling that 2024’s weather " +
-                 "wasn’t like you remember when you were growing up.",
+    description: "An interactive story that puts data behind the feeling that 2024’s weather " +
+                 "wasn’t like you remember it being when you were growing up.",
     images:      [],
     awards:      [
-      "Best Infographic/Data Visualization, Minnesota Society of Professional Journalists, 2026. " +
-      "Shared with Bryan Brussee and Mark Boswell.<br>" +
-      "Judge’s comments: <em>“This is a brilliant way to take what’s otherwise a distant international " +
-      "issue and puts it in stark personal terms, with engaging imagery and functionality.”</em>"
+      { award:   "Best Infographic/Data Visualization, Minnesota Society of Professional Journalists, 2026. " +
+                 "Shared with Bryan Brussee and Mark Boswell.",
+        quote:   "“This is a brilliant way to take what’s otherwise a distant international issue and " +
+                 "puts it in stark personal terms, with engaging imagery and functionality.”",
+        quoteBy: "Judge’s comments" }
     ]
   },
   {
