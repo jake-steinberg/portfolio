@@ -290,6 +290,31 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // Tile: a crossfade of one photo from each story (tools/crossfade-loop.sh)
+    title:       "Outdoor tales told in the Star Tribune",
+    slug:        "outdoor-tales",
+    year:        "2023–2026",
+    panelCols:   3,
+    tile:        "img/tiles/outdoor-tales.webp",
+    video:       "img/tiles/outdoor-tales.mp4",
+    link:        "",                              // no button: each photo's caption links to its story
+    linkType:    "story",
+    tags:        ["news", "scrollytelling", "outdoors"],
+    inBook:      false,
+    description: "Stories about the people and places of the North.",
+    images:      [                                 // one photo per story, captioned with a link to it
+      { src: "img/tiles/outdoor-paddling.webp", label: "Paddling guide",    // square crop of img/mississippi_up.jpg
+        story: "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521" },
+      { src: "img/tiles/outdoor-ice-climb.webp", label: "Ice climbing",
+        story: "https://www.startribune.com/flying-shards-and-screaming-barfies-ice-climbing-is-thrilling-and-excruciating/601208711" },
+      { src: "img/tiles/legacy-tree-sled.webp", label: "The Legacy Tree",
+        story: "https://www2.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/" },
+      { src: "img/tiles/outdoor-midwest-mountaineering.webp", label: "Midwest Mountaineering",
+        story: "https://www.startribune.com/midwest-mountaineering-was-more-than-just-a-store-and-losing-it-matters/600314102" }
+    ],
+    awards:      []
+  },
+  {
     title:       "Election Results",
     slug:        "2024-election-in-minnesota",
     year:        "2023–2026",
@@ -316,7 +341,7 @@ const PROJECTS = [
     title:       "Urban Paddling Guide",
     slug:        "urban-paddling-guide",
     year:        "2025",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/urban-paddling-guide-scroll.webp",
     video:       "img/tiles/urban-paddling-guide-scroll.mp4",
     link:        "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift",
@@ -327,7 +352,8 @@ const PROJECTS = [
                  "authored guides to most of the routes, and mapped them all.",
     images:      [                                 // no full-size versions, so no full-size link
       { src: "img/tiles/urban-paddling-shore.webp", full: false },   // landing the canoe at dusk
-      { src: "img/tiles/urban-paddling-river.webp", full: false }    // on the river (border trimmed off)
+      { src: "img/tiles/urban-paddling-river.webp", full: false },   // on the river (border trimmed off)
+      { src: "img/tiles/urban-paddling-mississippi.webp", full: false }  // kayaks below downtown Minneapolis
     ],
     credit:      "Photos by Anthony Soufflé",
     awards:      [

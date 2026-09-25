@@ -181,7 +181,7 @@
         const name = esc(label || p.title);
         return `<figure class="pshot">
             <a href="${esc(src)}" data-lb="${esc(src)}" data-title="${esc(p.title)} · ${name}" data-story="${esc(story)}">${media}</a>
-            <figcaption><a class="pcap" href="${esc(story)}" target="_blank" rel="noopener">${name}<span aria-hidden="true"> &#8599;</span></a></figcaption>
+            <figcaption><a class="pcap" href="${esc(story)}" target="_blank" rel="noopener">${name}<span aria-hidden="true">&nbsp;&#8599;</span></a></figcaption>
           </figure>`;
       }
       if (link) {
