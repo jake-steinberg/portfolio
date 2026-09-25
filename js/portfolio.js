@@ -163,9 +163,9 @@
     //   zoom: false      → shown, but not clickable and no hover effect
     //   with inBook      → { src, inBook: true }: the "In the book" corner
     //                      marker on the picture (e.g. its book version)
-    //   with credit      → { src, credit: "Photo by …" }: shown as a tooltip
-    //                      when the picture is hovered (the project's credit:
-    //                      is a line under all the pictures)
+    //   with credit      → { src, credit: "Photo by …" }: a tooltip on the
+    //                      picture, and gathered into one line under the
+    //                      pictures (unless the project has its own credit:)
     //   with full        → { src, full }: the panel shows src (a light copy),
     //                      and clicking opens full (the original)
     //   .mp4             → plays as a silent loop, with the .webp of the same
@@ -249,7 +249,14 @@
     // The line under the title: the year (if set), then the tags
     const meta = [p.year ? `<span class="tag">${esc(p.year)}</span>` : '',
                   ...p.tags.map((id) => `<span class="tag">${esc(tagLabel(id))}</span>`)].join('');
-    const creditHTML = p.credit ? `<p class="pcredit">${esc(p.credit)}</p>` : '';
+    // The credit line under the pictures: the project's credit:, or else one
+    // line gathered from the pictures' own credits, e.g. "Photo by A" on two
+    // pictures and "Photo by B" on another → "Photos by A and B"
+    const credited = (p.images || []).filter((img) => typeof img === 'object' && img.credit);
+    const names = [...new Set(credited.map((img) => img.credit.replace(/^photos? by\s+/i, '')))];
+    const joined = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : names[0];
+    const creditLine = p.credit || (names.length ? `${credited.length > 1 ? 'Photos' : 'Photo'} by ${joined}` : '');
+    const creditHTML = creditLine ? `<p class="pcredit">${esc(creditLine)}</p>` : '';
     return `
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
         <div class="panel-in">

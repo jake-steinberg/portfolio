@@ -101,7 +101,9 @@ const TAGS = [
      credit:      "",                          // optional line under the pictures, e.g.
                                                //   "Photos by …"
                                                //   A single picture can have its own, shown only
-                                               //   as a tooltip on hover: { src, credit: "Photo by …" }
+                                               //   { src, credit: "Photo by …" }: shown as a tooltip,
+                                               //   and all the pictures' credits are gathered into
+                                               //   one line under them ("Photos by A and B")
      links:       [],                          // optional list of stories, for a project that
                                                //   spans several. Each: { label: "…", url: "…" }.
                                                //   Set link: "" to drop the single main button
