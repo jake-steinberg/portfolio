@@ -68,7 +68,10 @@ That's all: the tile, its filter tags and its panel are built automatically.
   `{ src, story, label }` to keep it enlarging, with its label underneath
   linking to the story (and "Go to story" in the enlarged view). Captioned
   pictures always sit in one row, in the order listed. To show a light WebP
-  but have "Open full-size map" open the original, write `{ src, full }`. An `.mp4`
+  but have "Open full-size map" open the original, write `{ src, full }`; use
+  `full: false` for pictures with no full-size version (photos, say).
+- `credit` — an optional line under the pictures, like "Photos by …". It's
+  also shown when a picture is enlarged. An `.mp4`
   plays as a silent loop, with the `.webp` of the same name (minus `-loop`) as
   its poster. With none, the panel is text only.
 

@@ -415,6 +415,12 @@ body { overflow-anchor: none; }
   .pshots.mosaic.many > :not(.wide) { flex-basis: calc(var(--ar, 1) * 30%); }
 }
 
+/* credit under a panel's pictures (credit: in projects.js), e.g. "Photos by …" */
+.pcredit {
+  margin: 8px 0 0;
+  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
+}
 /* a picture with a story ({ src, story, label } in projects.js): the picture,
    then its label underneath as a link to the story, styled like the story
    links. .pcap undoes the frame the other picture links get. */

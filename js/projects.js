@@ -74,10 +74,15 @@ const TAGS = [
                                                //   { src: "img/…", story: "https://…", label: "Fall 2024" }
                                                //   To link "Open full-size map" to a bigger original
                                                //   than the one shown: { src: "img/…webp", full: "img/….jpg" }
+                                               //   or full: false to leave that link out (photos).
+                                               //   top: true puts a picture across the top of a
+                                               //   mosaic, instead of the widest one
                                                //   An .mp4 plays as a silent loop; put a .webp
                                                //   of the same name (minus "-loop") beside it
                                                //   for its still poster.
                                                //   Left [] → the panel is text only
+     credit:      "",                          // optional line under the pictures, e.g.
+                                               //   "Photos by …" (also shown when enlarged)
      links:       [],                          // optional list of stories, for a project that
                                                //   spans several. Each: { label: "…", url: "…" }.
                                                //   Set link: "" to drop the single main button
@@ -267,8 +272,16 @@ const PROJECTS = [
     linkType:    "story",
     tags:        ["news", "climate"],
     inBook:      false,
-    description: "A quest through time and a warming wilderness to find the oldest living tree in Minnesota.",
-    images:      [],
+    description: "A quest through time in a warming wilderness to find the oldest living tree in Minnesota.",
+    images:      [                                 // photos have no full-size versions
+      { src: "img/tiles/legacy-tree-cedar.webp", full: false },   // the cedar
+      { src: "img/tiles/legacy-tree-dogs.webp", full: false },    // sled dogs
+      { src: "img/tiles/legacy-tree-sled.webp", full: false },    // mushing across the ice
+      // the article's two maps (fire history, logging), lined up and alternating;
+      // top: true puts it across the top of the mosaic
+      { src: "img/tiles/legacy-tree-maps-loop.mp4", top: true }
+    ],
+    credit:      "Photos by Anthony Soufflé",
     awards:      []
   },
   {
@@ -307,10 +320,11 @@ const PROJECTS = [
     inBook:      false,
     description: "A guide to 13 of the best paddling routes in the Twin Cities. I scouted and " +
                  "authored guides to most of the routes, and mapped them all.",
-    images:      [
-      "img/tiles/urban-paddling-shore.webp",      // landing the canoe at dusk
-      "img/tiles/urban-paddling-river.webp"       // on the river (border trimmed off)
+    images:      [                                 // no full-size versions, so no full-size link
+      { src: "img/tiles/urban-paddling-shore.webp", full: false },   // landing the canoe at dusk
+      { src: "img/tiles/urban-paddling-river.webp", full: false }    // on the river (border trimmed off)
     ],
+    credit:      "Photos by Anthony Soufflé",
     awards:      [
       "Silver Medal for Story Page Design, Society for News Design, 2026. " +
       "Primary page design by Anna Boone."

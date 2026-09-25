@@ -154,7 +154,8 @@
     //   with a story     → still opens in the lightbox (whose link then says
     //                      "Go to story"), with its label under it linking there
     //   with full        → { src, full }: the lightbox shows src, and its
-    //                      "Open full-size map" link opens full (the original)
+    //                      "Open full-size map" link opens full (the original).
+    //                      full: false (photos, say) leaves that link out
     //   .mp4             → plays as a silent loop, with the .webp of the same
     //                      name (minus "-loop") as its still poster; not
     //                      clickable unless it has a link
@@ -164,7 +165,12 @@
     // beneath it, or all in one row, whichever shows them bigger (see
     // topIsBigger). All uncropped. 6 or more become even 4:3 thumbnails. The
     // whole group is kept within a set height (layoutMedia).
+    // top: true puts that picture across the top of a mosaic instead of the widest
     const shot = (entry) => {
+      const html = shotHTML(entry);
+      return entry.top ? html.replace(/^(\s*<\w+)/, '$1 data-top') : html;
+    };
+    const shotHTML = (entry) => {
       const { src, link, label, story, full } = typeof entry === 'string' ? { src: entry } : entry;
       const isVideo = /\.mp4$/i.test(src);
       const media = isVideo
@@ -184,7 +190,9 @@
       }
       return isVideo
         ? `<div class="pvid">${media}</div>`
-        : `<a href="${esc(full || src)}" data-lb="${esc(src)}" data-title="${esc(p.title)}"${full ? ` data-full="${esc(full)}"` : ''}>${media}</a>`;
+        : `<a href="${esc(full || src)}" data-lb="${esc(src)}" data-title="${esc(p.title)}"` +
+          (full === false ? ' data-full="none"' : full ? ` data-full="${esc(full)}"` : '') +
+          (p.credit ? ` data-credit="${esc(p.credit)}"` : '') + `>${media}</a>`;
     };
     const count = hasImages ? p.images.length : 0;
     const kind = count >= 4 && count <= 5 ? ' mosaic many'      // .many: the lower row wraps on phones
@@ -217,7 +225,7 @@
                 ${(mainLink || bookLink) ? `<div class="plinks">${mainLink}${bookLink}</div>` : ''}
               </div>` : ''}
             </div>
-            ${hasImages ? `<div class="pmedia">${shots}</div>` : ''}
+            ${hasImages ? `<div class="pmedia">${shots}${p.credit ? `<p class="pcredit">${esc(p.credit)}</p>` : ''}</div>` : ''}
           </div>
         </div>
       </div>`;
@@ -339,7 +347,8 @@
       return w && h ? w / h : 0;
     });
     if (ratios.some((r) => !r)) return null;           // still waiting on one to load
-    const widest = top && items.length >= 3 ? ratios.indexOf(Math.max(...ratios)) : -1;
+    const chosen = items.findIndex((el) => el.hasAttribute('data-top'));   // top: true in projects.js
+    const widest = top && items.length >= 3 ? (chosen >= 0 ? chosen : ratios.indexOf(Math.max(...ratios))) : -1;
     items.forEach((el, i) => {
       el.style.setProperty('--ar', ratios[i].toFixed(4));
       el.classList.toggle('wide', i === widest);
@@ -391,7 +400,10 @@
     // with 3 or more, use whichever arrangement shows the pictures bigger here.
     // Captioned pictures (a story each) always keep one row, in their order.
     const captioned = mosaic && mosaic.querySelector('.pshot');
-    if (ratios && ratios.length >= 3 && (captioned || !topIsBigger(ratios, width, limit, 12))) fitShots(mosaic, false);
+    // A picture marked top: true always keeps its place across the top.
+    const chosenTop = mosaic && mosaic.querySelector('[data-top]');
+    if (ratios && ratios.length >= 3 && !chosenTop &&
+        (captioned || !topIsBigger(ratios, width, limit, 12))) fitShots(mosaic, false);
     for (let pass = 0; pass < 3; pass++) {             // a few passes, since gaps don't scale
       box.style.width = width + 'px';
       const kids = [...box.children];
@@ -545,14 +557,16 @@
 
   // story: if given, the caption links to that story instead of the full-size file
   // full:  the full-size original to link to, if it isn't src itself
-  function openLightbox(src, title, story, full) {
+  // full:   "none" when there's no full-size version: no link at all
+  // credit: shown after the title, e.g. "Photos by …"
+  function openLightbox(src, title, story, full, credit) {
     focusBeforeLightbox = document.activeElement;
     lbImg.src = src;
     lbImg.alt = title;
-    const link = story
-      ? `<a href="${esc(story)}" target="_blank" rel="noopener">Go to story &#8599;</a>`
+    const link = story ? `<a href="${esc(story)}" target="_blank" rel="noopener">Go to story &#8599;</a>`
+      : full === 'none' ? ''
       : `<a href="${esc(full || src)}" target="_blank" rel="noopener">Open full-size map &#8599;</a>`;
-    lbCap.innerHTML = `${esc(title)} &middot; ${link}`;
+    lbCap.innerHTML = [esc(title), credit ? esc(credit) : '', link].filter(Boolean).join(' &middot; ');
     lb.hidden = false;
     lbClose.focus();
   }
@@ -577,7 +591,7 @@
       return;
     }
     const lbLink = e.target.closest('[data-lb]');
-    if (lbLink) { e.preventDefault(); openLightbox(lbLink.dataset.lb, lbLink.dataset.title, lbLink.dataset.story, lbLink.dataset.full); return; }
+    if (lbLink) { e.preventDefault(); openLightbox(lbLink.dataset.lb, lbLink.dataset.title, lbLink.dataset.story, lbLink.dataset.full, lbLink.dataset.credit); return; }
 
     const tile = e.target.closest('.gcard');
     if (tile) openPanel(tile.dataset.slug);
