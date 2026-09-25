@@ -13,7 +13,7 @@
      id:    what you type in a project's tags list (lowercase, no spaces)
      label: what visitors see on the pill and under each tile
    To add a tag, add a line here, then use its id on any projects.
-   Selecting several pills narrows the grid to projects that have ALL of them.
+   Visitors pick one pill at a time, which shows the projects with that tag.
    ----------------------------------------------------------------------------- */
 const TAGS = [
   { id: "print", label: "Print" },
@@ -60,6 +60,8 @@ const TAGS = [
                                                //   unframed and slightly tilted, in rows filling
                                                //   the width (for cut-out art on a clear
                                                //   background, like 22, A Map's glyphs)
+     mediaFull:   false,                       // optional: true puts the pictures under the text,
+                                               //   across the whole panel (for a wide map)
      mediaHalf:   false,                       // optional: true gives the pictures exactly half
                                                //   of a 3-column panel, filling it (no height limit)
      images:      [],                          // extra pictures for the panel, e.g.
@@ -178,9 +180,10 @@ const PROJECTS = [
     inBook:      true,
     description: "The landscape of smells — or, smellscape — of the Minnesota State Fair, " +
                  "where the aroma of roasting corn is as prominent as any mountain.",
+    mediaFull:   true,                            // the map spans the panel, under the text
     images:      [
       { src: "img/tiles/state-fair-smellscape-full.webp",   // a lighter copy to preview…
-        full: "img/smellscape.png" }                         // …"Open full-size map" opens the original
+        full: "img/smellscape-fair.jpg" }                    // …"Open full-size map" opens the full-size map
     ],
     awards:      []
   },

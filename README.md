@@ -60,6 +60,8 @@ That's all: the tile, its filter tags and its panel are built automatically.
 - `scatter: true` — the panel's pictures are laid out loosely: no frames,
   uncropped, slightly tilted, in rows filling the width. For cut-out art on
   a clear background (see 22, A Map's glyphs).
+- `mediaFull: true` — the pictures go under the text, across the whole panel
+  (see the State Fair Smellscape's wide map).
 - `mediaHalf: true` — in a 3-column panel, the text and the pictures each
   get half, and the pictures fill their half rather than keeping within the
   height limit (see Where is Uptown?).
@@ -108,9 +110,9 @@ That's all: the tile, its filter tags and its panel are built automatically.
 
 The filter pills come from `TAGS` at the top of `js/projects.js`. To add one,
 add `{ id: "maps-of-lakes", label: "Lakes" }` there and use the id in any
-project's `tags`. Selecting several pills shows only projects that have **all**
-of them. The selection is kept in the address bar
-(`index.html?tags=3d,outdoors`), so a filtered view can be shared as a link.
+project's `tags`. Visitors pick one pill at a time; picking it again shows
+everything. The selection is kept in the address bar
+(`index.html?tags=outdoors`), so a filtered view can be shared as a link.
 
 ## Things that are copied onto every page
 

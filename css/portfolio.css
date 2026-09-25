@@ -332,6 +332,11 @@ body { overflow-anchor: none; }
   .panel:not([data-cols]) .panel-body.half { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .panel:not([data-cols]) .half > .pmedia { justify-self: stretch; }
 
+  /* mediaFull: true in projects.js: the pictures go under the text, across
+     the whole panel */
+  .panel:not([data-cols]) .panel-body.full { grid-template-columns: minmax(0, 1fr); }
+  .panel:not([data-cols]) .full > .pmedia { justify-self: stretch; padding-block: 0; }
+
   /* .split (splitBelow in js/portfolio.js, e.g. The Legacy Tree): the top
      picture sits at the right edge (js sizes it: sizeSplitMedia), and the
      other pictures (.pmedia-below) fill the width beside it, under the text,

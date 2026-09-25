@@ -3,11 +3,11 @@
 
    It reads TAGS and PROJECTS from js/projects.js (which must load first) and:
      1. makes a filter pill for every tag
-     2. draws a tile for every project that matches the selected tags
+     2. draws a tile for every project that matches the selected tag
      3. unfolds a detail panel under a tile's row when it's clicked
      4. plays video tiles only while they're on screen
      5. shows full-size maps in a lightbox
-     6. keeps the selected tags in the address bar (?tags=3d,outdoors), so a
+     6. keeps the selected tag in the address bar (?tags=outdoors), so a
         filtered view can be shared as a link
 
    To add or change work, edit js/projects.js — not this file.
@@ -22,7 +22,7 @@
   const emptyEl  = document.getElementById('empty');       // "No projects match…"
   const clearBtn = document.getElementById('clear');       // "Clear filters"
 
-  const selected = new Set();   // tag ids currently switched on
+  const selected = new Set();   // the tag id switched on (only one at a time)
   let openSlug = null;          // slug of the project whose panel is open, if any
 
   // Where the "In the book" button in a panel goes
@@ -44,7 +44,7 @@
   // tag id -> visible label, e.g. "3d" -> "3D"
   const tagLabel = (id) => (TAGS.find((t) => t.id === id) || { label: id }).label;
 
-  // A project matches if it has EVERY selected tag. Nothing selected = show all.
+  // A project matches if it has the selected tag. Nothing selected = show all.
   const matches = (p) => [...selected].every((id) => p.tags.includes(id));
 
 
@@ -58,9 +58,14 @@
     pill.dataset.tag = tag.id;
     pill.textContent = tag.label;
     pill.setAttribute('aria-pressed', 'false');
+    // One tag at a time: picking a pill switches off any other; picking the
+    // one that's on switches it off, showing everything again.
     pill.addEventListener('click', () => {
-      selected.has(tag.id) ? selected.delete(tag.id) : selected.add(tag.id);
-      pill.setAttribute('aria-pressed', String(selected.has(tag.id)));
+      const wasOn = selected.has(tag.id);
+      selected.clear();
+      if (!wasOn) selected.add(tag.id);
+      pillsEl.querySelectorAll('.pill').forEach((p) =>
+        p.setAttribute('aria-pressed', String(selected.has(p.dataset.tag))));
       render();
     });
     pillsEl.insertBefore(pill, clearBtn);   // pills sit before the Clear button
@@ -252,7 +257,7 @@
     return `
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
         <div class="panel-in">
-          <div class="panel-body${hasImages ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}">
+          <div class="panel-body${hasImages ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}${p.mediaFull ? ' full' : ''}">
             <button class="close" type="button" data-close="${esc(p.slug)}">Close &#215;</button>
             <div class="panel-main">
               <div class="ptop">
@@ -442,8 +447,9 @@
     const wide = window.matchMedia('(min-width: 721px)').matches;
     const ratios = mosaic ? fitShots(mosaic, true) : null;
     if (!wide) return;                                 // phones: full width, widest on top
-    // mediaHalf: true in projects.js — fill the picture half, however tall
-    if (box.parentElement.classList.contains('half') && !box.closest('.panel[data-cols]')) {
+    // mediaHalf / mediaFull: true in projects.js — fill that space, however tall
+    const body = box.parentElement.classList;
+    if ((body.contains('half') || body.contains('full')) && !box.closest('.panel[data-cols]')) {
       box.style.width = '100%'; return;
     }
     // the picture column's width, as the grid has worked it out ("544px 700px")
@@ -750,6 +756,7 @@
     (new URLSearchParams(location.search).get('tags') || '')
       .split(',')
       .filter((id) => known.has(id))                   // ignore misspelled or retired tags
+      .slice(0, 1)                                     // one tag at a time (an old link may list several)
       .forEach((id) => selected.add(id));
     pillsEl.querySelectorAll('.pill').forEach((p) =>
       p.setAttribute('aria-pressed', String(selected.has(p.dataset.tag))));
