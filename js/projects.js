@@ -272,18 +272,23 @@ const PROJECTS = [
     awards:      []
   },
   {
-    title:       "2024 Election in Minnesota",
+    title:       "Election Results",
     slug:        "2024-election-in-minnesota",
-    year:        "",
-    panelCols:   3,
+    year:        "2023–2026",
+    panelCols:   2,
     tile:        "img/tiles/2024-election-in-minnesota.webp",
     video:       "img/tiles/2024-election-in-minnesota.mp4",
-    link:        "img/Strib_election.pdf",
+    link:        "",                              // no button: the pictures link to the full-size files
     linkType:    "file",
-    tags:        ["print", "news"],
+    tags:        ["news", "print", "interactive"],
     inBook:      false,
-    description: "",
-    images:      [],
+    description: "Mapping the results of local, state and national elections for the Star Tribune.",
+    images:      [
+      { src: "img/tiles/election-results-page.webp",      // the 2024 presidential results page
+        full: "img/Strib_election.pdf" },                  // "Open full-size map" opens the PDF
+      { src: "img/tiles/election-results-st-paul.webp",   // 2025 Minneapolis and St. Paul mayoral races
+        full: "img/st_paul_election.png" }
+    ],
     awards:      []
   },
   {
@@ -304,7 +309,7 @@ const PROJECTS = [
                  "authored guides to most of the routes, and mapped them all.",
     images:      [],
     awards:      [
-      "Silver Medal for Story Page Design, Society for News Design, May 2026. " +
+      "Silver Medal for Story Page Design, Society for News Design, 2026. " +
       "Primary page design by Anna Boone."
     ]
   },
