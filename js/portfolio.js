@@ -493,20 +493,25 @@
   }
 
   // The viewport follows the panels: scroll smoothly so the stretch from
-  // top to bottom (page positions) is on screen, below the sticky header. If
-  // it's too tall to fit, its top goes just under the header. Nothing moves
+  // top to bottom (page positions) is on screen, below the sticky header.
+  // If it's too tall to fit, the bottom part wins: scroll down until its
+  // bottom is on screen, but never past keepTop (for a panel: its own top,
+  // so the tile scrolls away before the panel's title does). Nothing moves
   // if it's already in view.
   const FOLLOW_MARGIN = 16;                            // breathing room above and below, in px
   const pageTop = (el) => el.getBoundingClientRect().top + window.scrollY;
   const pageBottom = (el) => el.getBoundingClientRect().bottom + window.scrollY;
 
-  function reveal(top, bottom) {
+  function reveal(top, bottom, keepTop = top) {
     const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headH')) || 0;
     const viewTop = window.scrollY + head + FOLLOW_MARGIN;
     const viewBottom = window.scrollY + window.innerHeight - FOLLOW_MARGIN;
+    const toBottom = bottom - window.innerHeight + FOLLOW_MARGIN;   // bottom just on screen
+    const toTop = (y) => y - head - FOLLOW_MARGIN;                   // y just under the header
     let target = null;
-    if (bottom - top > viewBottom - viewTop || top < viewTop) target = top - head - FOLLOW_MARGIN;
-    else if (bottom > viewBottom) target = bottom - window.innerHeight + FOLLOW_MARGIN;
+    if (bottom - top > viewBottom - viewTop) target = Math.min(toBottom, toTop(keepTop));
+    else if (top < viewTop) target = toTop(top);
+    else if (bottom > viewBottom) target = toBottom;
     if (target === null) return;
     window.scrollTo({ top: Math.max(0, target), behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
   }
@@ -575,7 +580,10 @@
     // loading can make the panel taller, so once they've all arrived (within
     // a couple of seconds), follow once more.
     const openedAt = Date.now();
-    const follow = () => { if (openSlug === slug) reveal(pageTop(tile), pageBottom(panel.querySelector('.panel-body'))); };
+    const follow = () => { if (openSlug === slug) {
+      const body = panel.querySelector('.panel-body');
+      reveal(pageTop(tile), pageBottom(body), pageTop(body));
+    } };
     const closingAbove = [...gridEl.querySelectorAll('.panel.closing')]
       .some((old) => old.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING);
     if (closingAbove && !prefersReducedMotion()) setTimeout(follow, 360); else follow();
