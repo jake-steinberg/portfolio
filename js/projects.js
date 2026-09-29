@@ -128,9 +128,9 @@ const TAGS = [
    ----------------------------------------------------------------------------- */
 const PROJECTS = [
   {
-    // The tile video crossfades the four stories' sharing images, each shown
-    // whole and padded to 5:4 (black behind the frame-by-frame analysis), with
-    // the ICE chart drawing itself in at double speed. The stories show as cards with their sharing images (links: … image:);
+    // The tile video crossfades three of the stories' sharing images (not the
+    // ICE chart), each shown whole and padded to 5:4, black behind the
+    // frame-by-frame analysis (tools/crossfade-loop.sh). The stories show as cards with their sharing images (links: … image:);
     // the last one's image is an animated chart, so it's a loop.
     title:       "Operation Metro Surge",
     slug:        "operation-metro-surge",
