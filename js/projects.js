@@ -22,7 +22,7 @@ const TAGS = [
   { id: "3d", label: "3D" },
   { id: "illustrated", label: "Illustrated" },
   { id: "news", label: "News" },
-  { id: "remote-sensing", label: "Remote sensing" },
+  // { id: "remote-sensing", label: "Remote sensing" },   // off for now; to bring it back, remove the // and re-tag Emily Ford's Iditarod
   { id: "outdoors", label: "Outdoors" },
   { id: "climate", label: "Climate" }
 ];
@@ -307,7 +307,7 @@ const PROJECTS = [
     video:       "",
     link:        "https://www.startribune.com/duluths-emily-ford-faces-her-toughest-winter-adventure-yet-alaskas-famed-iditarod/601225462",
     linkType:    "story",
-    tags:        ["news", "outdoors", "remote-sensing"],
+    tags:        ["news", "outdoors"],
     inBook:      false,
     description: "A map that conjures the icy Alaska faced by Minnesotan Emily Ford during " +
                  "the 2025 Iditarod dog sled race. Built from a MODIS image.",
