@@ -168,7 +168,8 @@ const PROJECTS = [
   },
   {
     // Two looping maps from the stories, each captioned with a link to it. The
-    // tile plays the fire growth, then the smoke, cropped to 5:4 and looping.
+    // fire growth is cropped to 5:4 around the four big fires (1060x848 from
+    // 416,0 of the 1920x1080 original). The tile plays it, then the smoke.
     title:       "Wildfire coverage",
     slug:        "wildfire-coverage",
     year:        "2026",
