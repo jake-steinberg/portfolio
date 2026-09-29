@@ -314,7 +314,7 @@ const PROJECTS = [
     panelCols:   2,
     tile:        "img/tiles/rincon-mountains.webp",
     video:       "",
-    link:        "img/rincon.png",
+    link:        "",                              // no button: clicking the rendering opens it full size
     linkType:    "file",
     tags:        ["print", "3d", "outdoors"],
     inBook:      false,
