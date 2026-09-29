@@ -550,6 +550,7 @@ body { overflow-anchor: none; }
   border: 1px solid var(--stroke);
 }
 .basemap-note[hidden] { display: none; }
+.basemap-state { display: flex; align-items: center; justify-content: center; color: #333; }
 .styleinfo { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--rule); }
 .stylename {
   font-family: var(--display); font-weight: 400; font-size: 1.15rem; line-height: 1.25;

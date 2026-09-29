@@ -67,6 +67,26 @@ const Basemaps = (function () {
       ${links ? `<p class="inwild">In the wild</p><ul class="storylinks">${links}</ul>` : ''}`;
   }
 
+  // A button under + and − that zooms out to the whole state: as far as the
+  // tiles reach (bounds: in projects.js). Its icon is a small outline of Minnesota.
+  const MN_ICON = '<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="' +
+    'M1.9 2.2L6.3 2.2L6.3 1.1L6.7 1.1L6.9 1.3L7.2 2.6L7.8 3.1L9.1 3.7L9.8 3.6L10.6 3.3L11.6 3.9L12.1 4.6' +
+    'L14.1 5.1L15.3 4.7L17 5L18.2 5.2L16.4 6L14.4 7.4L13.6 8.3L12.7 9L12.3 9.4L12.3 11.1L11.3 12.7L11.3 14.1' +
+    'L11.2 15.2L12.3 15.8L13.7 17.4L14.5 19L3.5 19L3.5 13.5L3.3 11.6L3.2 9.5L2.7 6.8L2.4 5.3Z"/></svg>';
+  function statewideControl(bounds) {
+    let box;
+    return {
+      onAdd(map) {
+        box = document.createElement('div');
+        box.className = 'maplibregl-ctrl maplibregl-ctrl-group';
+        box.innerHTML = `<button type="button" class="basemap-state" title="Zoom out to all of Minnesota" aria-label="Zoom out to all of Minnesota">${MN_ICON}</button>`;
+        box.firstChild.addEventListener('click', () => map.fitBounds(bounds));
+        return box;
+      },
+      onRemove() { box.remove(); }
+    };
+  }
+
   // A note over the map, e.g. while loading or when a style isn't uploaded yet
   function note(panel, text) {
     const el = panel.querySelector('.basemap-note');
@@ -89,16 +109,20 @@ const Basemaps = (function () {
     }
     if (token !== panel.basemapToken || !panel.isConnected) return;
     note(panel, '');
-    if (panel.basemap) { panel.basemap.setStyle(style); return; }
+    // diff: false loads the new style whole; patching one style into another
+    // can leave some of the old one's colors behind
+    if (panel.basemap) { panel.basemap.setStyle(style, { diff: false }); return; }
     panel.basemap = new maplibregl.Map({
       container: panel.querySelector('.basemap'),
       style,
       center: config.center,
       zoom: config.zoom,
+      maxBounds: config.bounds,           // never show past the edge of the tiles
       cooperativeGestures: true,          // page scrolling isn't hijacked: ctrl/⌘ + scroll, or two fingers, to zoom
       attributionControl: { compact: true }
     });
     panel.basemap.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    if (config.bounds) panel.basemap.addControl(statewideControl(config.bounds), 'top-right');
   }
 
   function start(panel, project) {

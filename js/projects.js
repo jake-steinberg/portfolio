@@ -143,8 +143,11 @@ const PROJECTS = [
       // the vector tiles every style draws on; any style source named
       // "protomaps" is pointed here
       pmtiles:   "https://static.startribune.com/protomaps/mn_0-22_20260428.pmtiles",
-      center:    [-93.24, 44.96],                 // where the map opens: [longitude, latitude]
-      zoom:      10.5,
+      center:    [-93.0165, 44.9398],             // where the map opens: [longitude, latitude]
+      zoom:      12.5,                            //   (Battle Creek Regional Park, St. Paul)
+      // where the tiles exist (from the .pmtiles file): the map can't be dragged
+      // or zoomed out past it, and the Minnesota button zooms out to it
+      bounds:    [[-97.415, 43.44], [-89.439, 49.414]],
       initial:   "Outdoors",                      // the style it opens with (a name below)
       // name: the button. title, about, links: shown for the chosen style.
       // style: the MapLibre style file (until it's there, the map says so)
