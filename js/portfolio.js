@@ -90,7 +90,7 @@
       : `<img src="${esc(p.tile)}" alt="${esc(p.title)}" loading="lazy" decoding="async">`;
 
     return `
-      <button class="gcard" type="button" aria-expanded="false" data-slug="${esc(p.slug)}">
+      <button class="gcard${p.size === 'large' ? ' big' : ''}" type="button" aria-expanded="false" data-slug="${esc(p.slug)}">
         <span class="gframe">
           ${p.inBook ? '<span class="marker">In the book</span>' : ''}
           ${media}
@@ -104,6 +104,7 @@
   function render() {
     const visible = PROJECTS.filter(matches);
     openSlug = null;                                   // re-rendering closes any open panel
+    gridEl.querySelectorAll('.panel').forEach((panel) => Basemaps.stop(panel));
     dim(false);
     gridEl.innerHTML = visible.map(tileHTML).join('');
     emptyEl.hidden = visible.length > 0;
@@ -257,10 +258,20 @@
     const joined = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : names[0];
     const creditLine = p.credit || (names.length ? `${credited.length > 1 ? 'Photos' : 'Photo'} by ${joined}` : '');
     const creditHTML = creditLine ? `<p class="pcredit">${esc(creditLine)}</p>` : '';
+
+    // basemaps: { … } — a live map with a button per style (js/basemaps.js).
+    // The chosen style's name, description and stories go under the text.
+    const maps = p.basemaps;
+    const mapHTML = maps ? `<div class="pmedia pmap">
+              <div class="styleswitch" role="group" aria-label="Map style">${maps.styles.map((st, i) =>
+                `<button class="pill" type="button" data-style="${i}" aria-pressed="${i === 0}">${esc(st.name)}</button>`).join('')}</div>
+              <div class="basemap-wrap"><div class="basemap"></div><p class="basemap-note" hidden></p></div>
+            </div>` : '';
+    const hasMedia = hasImages || !!maps;
     return `
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
         <div class="panel-in">
-          <div class="panel-body${hasImages ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}${p.mediaFull ? ' full' : ''}">
+          <div class="panel-body${hasMedia ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}${p.mediaFull ? ' full' : ''}">
             <button class="close" type="button" data-close="${esc(p.slug)}">Close &#215;</button>
             <div class="panel-main">
               <div class="ptop">
@@ -268,12 +279,14 @@
                 ${meta ? `<div class="tags pmeta">${meta}</div>` : ''}
                 ${description}
                 ${awards}
+                ${maps ? '<div class="styleinfo" aria-live="polite"></div>' : ''}
               </div>
               ${foot ? `<div class="pfoot">
                 ${storyLinks}
                 ${(mainLink || bookLink) ? `<div class="plinks">${mainLink}${bookLink}</div>` : ''}
               </div>` : ''}
             </div>
+            ${mapHTML}
             ${hasImages ? `<div class="pmedia">${shots}${splitBelow ? '' : creditHTML}</div>` : ''}
             ${splitBelow ? `<div class="pmedia pmedia-below">${belowShots}</div>${creditHTML}` : ''}
           </div>
@@ -302,8 +315,8 @@
     const grid = getComputedStyle(gridEl);
     const tracks = grid.gridTemplateColumns.split(' ').map(parseFloat);    // each column's width
     const gap = parseFloat(grid.columnGap);
-    const i = [...gridEl.querySelectorAll('.gcard')].findIndex((t) => t.dataset.slug === slug);
-    const start = Math.min(i % cols, cols - span);                        // keep it on the grid
+    const start = Math.min(columnOf(gridEl.querySelector(`.gcard[data-slug="${slug}"]`), tracks, gap),
+                           cols - span);                                  // keep it on the grid
     const left = tracks.slice(0, start).reduce((sum, w) => sum + w + gap, 0);
     const width = tracks.slice(start, start + span).reduce((sum, w) => sum + w, 0) + gap * (span - 1);
     body.style.marginLeft = left + 'px';
@@ -311,39 +324,71 @@
     panel.dataset.cols = span;                         // see [data-cols] in portfolio.css
   }
 
-  // How far to pull the panel up: from the bottom of the open tile's picture
-  // to the bottom of its row (the title and tags it hides, and any taller
-  // captions beside it). Sets --pull, used in portfolio.css. The tiles in
-  // that row the panel reaches up over get .hush, which fades their title
-  // and tags out rather than half-covering them.
+  // Which grid column a tile starts in (0 = the first), from where it sits
+  function columnOf(tile, tracks, gap) {
+    const x = tile.getBoundingClientRect().left - gridEl.getBoundingClientRect().left;
+    let edge = 0;
+    for (let i = 0; i < tracks.length; i++) {
+      if (x < edge + tracks[i] / 2) return i;
+      edge += tracks[i] + gap;
+    }
+    return tracks.length - 1;
+  }
+
+  // The band of rows a tile sits in: its own row, plus any row a large tile
+  // beside it also spans (a large tile is two rows tall). The panel goes
+  // under the whole band, so nothing beside a large tile is split off.
+  function bandOf(tile) {
+    const tiles = [...gridEl.querySelectorAll('.gcard')];
+    const rect = (t) => t.getBoundingClientRect();
+    let { top, bottom } = rect(tile);
+    let band = [], grew = true;
+    while (grew) {
+      grew = false;
+      band = tiles.filter((t) => rect(t).top < bottom - 1 && rect(t).bottom > top + 1);   // overlaps the band
+      band.forEach((t) => {
+        const r = rect(t);
+        if (r.top < top - 1) { top = r.top; grew = true; }
+        if (r.bottom > bottom + 1) { bottom = r.bottom; grew = true; }
+      });
+    }
+    return { band, bottom };
+  }
+
+  // How far to pull the panel up: from the bottom of the lowest picture above
+  // it to the bottom of its band (the titles and tags it hides, and any
+  // taller captions beside them). Sets --pull, used in portfolio.css. The
+  // clicked tile, and any tile whose title the panel reaches up over, get
+  // .hush, which fades their title and tags out rather than half-covering them.
   const unhush = () => gridEl.querySelectorAll('.gcard.hush').forEach((t) => t.classList.remove('hush'));
 
   function pullPanel(panel, tile) {
     unhush();
-    const top = tile.getBoundingClientRect().top;
-    const row = [...gridEl.querySelectorAll('.gcard')]
-      .filter((t) => Math.abs(t.getBoundingClientRect().top - top) < 2);        // same row
-    const frame = tile.querySelector('.gframe').getBoundingClientRect();
-    const rowBottom = Math.max(...row.map((t) => t.getBoundingClientRect().bottom));
-    panel.style.setProperty('--pull', Math.max(0, Math.round(rowBottom - frame.bottom)) + 'px');
+    const { band, bottom } = bandOf(tile);
+    const body = panel.querySelector('.panel-body').getBoundingClientRect();
+    const above = band.filter((t) => {                                     // the tiles over the panel
+      const r = t.getBoundingClientRect();
+      return r.right > body.left + 1 && r.left < body.right - 1;
+    });
+    const frameBottom = Math.max(...above.map((t) => t.querySelector('.gframe').getBoundingClientRect().bottom));
+    panel.style.setProperty('--pull', Math.max(0, Math.round(bottom - frameBottom)) + 'px');
     // the panel's top edge lines up with the top of the tile's title, so the
     // title is covered the moment the panel appears (and until it's gone)
-    const title = tile.querySelector('.cap').getBoundingClientRect();
-    panel.style.setProperty('--panel-gap', Math.max(0, Math.floor(title.top - frame.bottom)) + 'px');
-    const body = panel.querySelector('.panel-body').getBoundingClientRect();
-    row.forEach((t) => {
-      const r = t.getBoundingClientRect();
-      if (r.right > body.left + 1 && r.left < body.right - 1) t.classList.add('hush');   // under the panel
+    const frame = tile.querySelector('.gframe').getBoundingClientRect();
+    const gap = Math.max(0, Math.floor(tile.querySelector('.cap').getBoundingClientRect().top - frame.bottom));
+    panel.style.setProperty('--panel-gap', gap + 'px');
+    const panelTop = frameBottom + gap;
+    above.forEach((t) => {
+      if (t === tile || t.querySelector('.tags').getBoundingClientRect().bottom > panelTop) t.classList.add('hush');
     });
   }
 
-  // The last tile in the same row as the tile with this slug
+  // The last tile in the band of rows the tile with this slug is in
   function rowEnd(slug) {
-    const tiles = [...gridEl.querySelectorAll('.gcard')];
-    const i = tiles.findIndex((t) => t.dataset.slug === slug);
-    if (i < 0) return null;
-    const cols = columnCount();
-    return tiles[Math.min(Math.ceil((i + 1) / cols) * cols - 1, tiles.length - 1)];
+    const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
+    if (!tile) return null;
+    const { band } = bandOf(tile);
+    return band[band.length - 1];
   }
 
   // The open panel. A panel that's still animating closed can sit in the
@@ -380,7 +425,7 @@
     if (!panel) return;
     panel.classList.add('closing');                    // so currentPanel() skips it from now on
     panel.dataset.open = 'false';                      // starts the closing animation
-    const remove = () => panel.remove();
+    const remove = () => { Basemaps.stop(panel); panel.remove(); };
     if (prefersReducedMotion()) remove();
     else { panel.addEventListener('transitionend', remove, { once: true }); setTimeout(remove, 430); }
   }
@@ -439,6 +484,7 @@
   // resized.
   function sizeMediaBox(box) {
     box.style.width = '';
+    if (box.classList.contains('pmap')) return;         // the live map fills its column (see .pmap)
     // a tall picture with a column beside it fills the whole width it's given,
     // cropped to fit, rather than keeping within the height limit
     const tall = box.querySelector('.pshots.tallmix');
@@ -597,6 +643,7 @@
     pullPanel(panel, tile);
     watchVideos();                                     // so any loops in the panel play too
     watchPanel(panel);
+    if (project.basemaps) Basemaps.start(panel, project);
     panel.querySelectorAll('.pmedia img, .pmedia video').forEach((m) =>
       m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => layoutMedia(panel), { once: true }));
     layoutMedia(panel);

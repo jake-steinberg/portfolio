@@ -177,6 +177,22 @@ body { overflow-anchor: none; }
   background: none; border: 0;
 }
 
+/* a large tile (size: "large" in projects.js): two columns wide and two
+   rows tall. Its picture fills the height of both rows, so its bottom and
+   its title line up with the tiles beside it; the picture is cropped to fit
+   (a little taller than 5:4). Where nothing sits beside it (a two-column
+   phone grid) it's simply 5:4, and on a one-column grid it's an ordinary tile. */
+.gcard.big {
+  grid-column: span 2; grid-row: span 2; align-self: stretch;
+  display: flex; flex-direction: column;
+}
+.gcard.big .gframe { flex: 1 0 auto; }     /* at least 5:4, taller to fill both rows */
+.gcard.big .gframe img,
+.gcard.big .gframe video { position: absolute; inset: 0; }
+@media (max-width: 343px) {
+  .gcard.big { grid-column: auto; grid-row: auto; display: block; }
+}
+
 /* the picture frame: 5:4, hairline black stroke */
 .gframe {
   display: block;                /* must be block: aspect-ratio is ignored on inline elements */
@@ -515,6 +531,36 @@ body { overflow-anchor: none; }
 /* a picture that's only shown, not clickable (zoom: false in projects.js) */
 .pstill { display: block; position: relative; min-width: 0; }
 .pshots:not(.scatter) .pstill { border: 1px solid var(--stroke); background: var(--bg); }
+
+/* the live map (basemaps: in projects.js; js/basemaps.js): a button per
+   style above it, then the map, filling the picture column. The chosen
+   style's name, description and stories show under the panel's text. */
+.pmap { width: 100%; justify-self: stretch; }
+.styleswitch { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+.basemap-wrap { position: relative; }
+.basemap {
+  width: 100%; aspect-ratio: 4 / 3; max-height: 72vh;
+  border: 1px solid var(--stroke); background: var(--bg);
+}
+.basemap-note {                        /* "Loading…", or a style that isn't uploaded yet */
+  position: absolute; inset: 0; margin: 0; padding: 20px;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  font-family: var(--mono); font-size: 12px; color: var(--muted);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  border: 1px solid var(--stroke);
+}
+.basemap-note[hidden] { display: none; }
+.styleinfo { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--rule); }
+.stylename {
+  font-family: var(--display); font-weight: 400; font-size: 1.15rem; line-height: 1.25;
+  margin: 0 0 8px;
+}
+.styleabout { font-size: 15px; line-height: 1.55; margin: 0 0 16px; max-width: var(--measure); }
+.inwild {
+  margin: 0 0 8px;
+  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
+}
 
 /* credit under a panel's pictures (credit: in projects.js), e.g. "Photos by …" */
 .pcredit {

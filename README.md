@@ -7,7 +7,7 @@ file and pushing to `main` publishes it.
 
 | Page | Markup | Styles | Scripts |
 |---|---|---|---|
-| Portfolio (homepage) | `index.html` | `css/site.css` + `css/portfolio.css` | `js/projects.js`, `js/portfolio.js`, `js/site.js` |
+| Portfolio (homepage) | `index.html` | `css/site.css` + `css/portfolio.css` | `js/projects.js`, `js/basemaps.js`, `js/portfolio.js`, `js/site.js` |
 | Resume | `resume.html` | `css/site.css` + `css/resume.css` | `js/site.js`, `js/resume.js` |
 | Bespoke project pages: `22map.html`, `pipeline.html`, `golf.html` | as is | `css/style.css`, Bootstrap, `css/scrollmap.css` | `js/scrollmap.js` |
 
@@ -60,6 +60,15 @@ That's all: the tile, its filter tags and its panel are built automatically.
 - `scatter: true` — the panel's pictures are laid out loosely: no frames,
   uncropped, slightly tilted, in one line across the width. For cut-out art on
   a clear background (see 22, A Map's glyphs).
+- `size: "large"` — the tile is two columns wide and two rows tall, its
+  picture filling both rows (a little taller than 5:4). It works best first
+  in the list. Tiles beside it open their panels under both rows.
+- `basemaps: { … }` — the panel holds a live MapLibre map with a button for
+  each style (see Star Tribune basemap styles). Each style's file goes in
+  `maps/` under the name given in its `style:`; until it's there, the map says
+  it isn't uploaded yet. A vector source named `protomaps` in a style file is
+  pointed at the `pmtiles:` address, so the files don't each need it. The map
+  code is in `js/basemaps.js`, and only downloads when that panel opens.
 - `mediaFull: true` — the pictures go under the text and fill the panel's
   whole width, rather than keeping within the height limit (see Rincon
   Mountains).
