@@ -128,6 +128,44 @@ const TAGS = [
    ----------------------------------------------------------------------------- */
 const PROJECTS = [
   {
+    // The tile video crossfades the four stories' sharing images, each shown
+    // whole and padded to 5:4 (tools/crossfade-loop.sh). The stories show as cards with their sharing images (links: … image:);
+    // the last one's image is an animated chart, so it's a loop.
+    title:       "Operation Metro Surge",
+    slug:        "operation-metro-surge",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/operation-metro-surge.webp",
+    video:       "img/tiles/operation-metro-surge.mp4",
+    link:        "",                              // no button: the stories are the cards below
+    linkType:    "story",
+    tags:        ["news", "interactive", "scrollytelling"],
+    inBook:      false,
+    description: "Provided authoritative visual journalism on the unprecedented and rapidly " +
+                 "unfolding immigration operation that ultimately left two U.S. citizens dead " +
+                 "and ignited a protest movement watched by the world.",
+    images:      [],
+    links:       [
+      { label: "Breaking down the videos: A close examination of the shooting of Renee Good",
+        url:   "https://www.startribune.com/breaking-down-the-videos-a-close-examination-of-the-shooting-of-renee-good/601560158",
+        image: "img/tiles/metro-surge-1.webp" },
+      { label: "How 3,000 federal agents would compare to 10 largest Twin Cities police forces",
+        url:   "https://www.startribune.com/how-ice-numbers-compare-to-twin-cities-largest-police-forces/601562617",
+        image: "img/tiles/metro-surge-2.webp" },
+      { label: "A chaotic confrontation, a gun and 10 shots: A frame-by-frame analysis of the fatal shooting of Alex Pretti",
+        url:   "https://www.startribune.com/a-chaotic-confrontation-a-gun-and-10-shots-a-frame-by-frame-analysis-of-the-fatal-shooting-of-alex-pretti/601570463",
+        image: "img/tiles/metro-surge-3.webp" },
+      { label: "Is ICE really leaving Minnesota? The data is complicated.",
+        url:   "https://www.startribune.com/is-ice-really-pulling-out-of-minnesota-observer-data-tells-a-complicated-story/601580496",
+        image: "img/tiles/metro-surge-4-loop.mp4" }
+    ],
+    awards:      [
+      "Winner, Breaking News, Large Newsroom, from the Online News Association’s " +
+      "<a href=\"https://awards.journalists.org/winners/2026/\" target=\"_blank\" rel=\"noopener\">Online Journalism Awards 2026</a>. " +
+      "Finalist for the Knight Award for Public Service."
+    ]
+  },
+  {
     // The panel holds a live MapLibre map with a button for each style; see
     // js/basemaps.js. Each style's file goes in maps/ with the name below.
     // (For a tile two columns wide and two rows tall, add size: "large".)
@@ -216,44 +254,6 @@ const PROJECTS = [
         label: "Cougars return" }
     ],
     awards:      []
-  },
-  {
-    // The tile is the frame-by-frame analysis's sharing image, cropped to 5:4.
-    // The stories show as cards with their sharing images (links: … image:);
-    // the last one's image is an animated chart, so it's a loop.
-    title:       "Operation Metro Surge",
-    slug:        "operation-metro-surge",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/operation-metro-surge.webp",
-    video:       "",
-    link:        "",                              // no button: the stories are the cards below
-    linkType:    "story",
-    tags:        ["news", "interactive", "scrollytelling"],
-    inBook:      false,
-    description: "Provided authoritative visual journalism on the unprecedented and rapidly " +
-                 "unfolding immigration operation that ultimately left two U.S. citizens dead " +
-                 "and ignited a protest movement watched by the world.",
-    images:      [],
-    links:       [
-      { label: "Breaking down the videos: A close examination of the shooting of Renee Good",
-        url:   "https://www.startribune.com/breaking-down-the-videos-a-close-examination-of-the-shooting-of-renee-good/601560158",
-        image: "img/tiles/metro-surge-1.webp" },
-      { label: "How 3,000 federal agents would compare to 10 largest Twin Cities police forces",
-        url:   "https://www.startribune.com/how-ice-numbers-compare-to-twin-cities-largest-police-forces/601562617",
-        image: "img/tiles/metro-surge-2.webp" },
-      { label: "A chaotic confrontation, a gun and 10 shots: A frame-by-frame analysis of the fatal shooting of Alex Pretti",
-        url:   "https://www.startribune.com/a-chaotic-confrontation-a-gun-and-10-shots-a-frame-by-frame-analysis-of-the-fatal-shooting-of-alex-pretti/601570463",
-        image: "img/tiles/metro-surge-3.webp" },
-      { label: "Is ICE really leaving Minnesota? The data is complicated.",
-        url:   "https://www.startribune.com/is-ice-really-pulling-out-of-minnesota-observer-data-tells-a-complicated-story/601580496",
-        image: "img/tiles/metro-surge-4-loop.mp4" }
-    ],
-    awards:      [
-      "Winner, Breaking News, Large Newsroom, from the Online Journalism Association’s " +
-      "<a href=\"https://awards.journalists.org/winners/2026/\" target=\"_blank\" rel=\"noopener\">Online Journalism Awards 2026</a>. " +
-      "Finalist for the Knight Award for Public Service."
-    ]
   },
   {
     title:       "Rincon Mountains",
