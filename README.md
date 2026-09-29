@@ -108,7 +108,9 @@ That's all: the tile, its filter tags and its panel are built automatically.
   `MEDIA_MAX_PX` at the top of the panel section of `js/portfolio.js`). The
   text column takes the rest of the width.
 - `links` — a list of stories, for a project that spans several (see *Work for the
-  Wall Street Journal*). Set `link: ""` to drop the single main button.
+  Wall Street Journal*). Give every one an `image` (its sharing picture, or an
+  `.mp4` loop with a `.webp` poster of the same name minus `-loop`) and they
+  show as a grid of cards, two to a row (see *Operation Metro Surge*). Set `link: ""` to drop the single main button.
 - `linkType: "file"` opens the full-size image (or PDF) in a new tab.
 - `awards` — each is a line with a star. To add the judges' words in a quote
   box beneath it, write it as `{ award: "…", quote: "“…”", quoteBy: "Judge’s comments" }`.

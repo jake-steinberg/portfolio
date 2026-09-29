@@ -144,14 +144,28 @@
     // links: [{ label, url }] — a list of stories, for projects that span several.
     // A project that's also in the book gets "In the book" as the list's last
     // item, looking like the rest; without a list, it's a button instead.
+    // When every story has an image: { label, url, image } (its sharing
+    // picture, or an .mp4 loop with a .webp poster), they're a grid of cards
+    // instead: the picture with the headline under it, two to a row.
     const hasList = p.links && p.links.length;
-    const listed = hasList ? [...p.links, ...(p.inBook ? [{ label: 'In the book', url: BOOK_URL }] : [])] : [];
-    const storyLinks = hasList
+    const cards = hasList && p.links.every((l) => l.image);
+    const cardMedia = (src) => /\.mp4$/i.test(src)
+      ? `<video src="${esc(src)}" poster="${esc(src.replace(/(-loop)?\.mp4$/i, '.webp'))}" muted loop playsinline preload="metadata" aria-hidden="true"></video>`
+      : `<img src="${esc(src)}" alt="" loading="lazy" decoding="async">`;
+    const textList = hasList && !cards;
+    const listed = textList ? [...p.links, ...(p.inBook ? [{ label: 'In the book', url: BOOK_URL }] : [])] : [];
+    const storyLinks = cards
+      ? `<ul class="storycards">${p.links.map((l) =>
+          `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">
+            <span class="scard-img">${cardMedia(l.image)}</span>
+            <span class="scard-ttl"><span>${esc(l.label)}&nbsp;&#8599;</span></span>
+          </a></li>`).join('')}</ul>`
+      : textList
       ? `<ul class="storylinks">${listed.map((l) =>
           `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}<span aria-hidden="true"> &#8599;</span></a></li>`).join('')}</ul>`
       : '';
 
-    const bookLink = p.inBook && !hasList
+    const bookLink = p.inBook && !textList
       ? `<a href="${BOOK_URL}" target="_blank" rel="noopener">In the book &#8599;</a>`
       : '';
 

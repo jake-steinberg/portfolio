@@ -109,6 +109,9 @@ const TAGS = [
                                                //   one line under them ("Photos by A and B")
      links:       [],                          // optional list of stories, for a project that
                                                //   spans several. Each: { label: "…", url: "…" }.
+                                               //   Give every one an image: "img/…" (its sharing
+                                               //   picture, or an .mp4 loop) to show them as a
+                                               //   grid of cards, two to a row
                                                //   Set link: "" to drop the single main button
      basemaps:    null,                        // optional: an interactive map in the panel with a
                                                //   button for each style (see Star Tribune basemap
@@ -213,6 +216,44 @@ const PROJECTS = [
         label: "Cougars return" }
     ],
     awards:      []
+  },
+  {
+    // The tile is the frame-by-frame analysis's sharing image, cropped to 5:4.
+    // The stories show as cards with their sharing images (links: … image:);
+    // the last one's image is an animated chart, so it's a loop.
+    title:       "Operation Metro Surge",
+    slug:        "operation-metro-surge",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/operation-metro-surge.webp",
+    video:       "",
+    link:        "",                              // no button: the stories are the cards below
+    linkType:    "story",
+    tags:        ["news", "interactive", "scrollytelling"],
+    inBook:      false,
+    description: "Provided authoritative visual journalism on the unprecedented and rapidly " +
+                 "unfolding immigration operation that ultimately left two U.S. citizens dead " +
+                 "and ignited a protest movement watched by the world.",
+    images:      [],
+    links:       [
+      { label: "Breaking down the videos: A close examination of the shooting of Renee Good",
+        url:   "https://www.startribune.com/breaking-down-the-videos-a-close-examination-of-the-shooting-of-renee-good/601560158",
+        image: "img/tiles/metro-surge-1.webp" },
+      { label: "How 3,000 federal agents would compare to 10 largest Twin Cities police forces",
+        url:   "https://www.startribune.com/how-ice-numbers-compare-to-twin-cities-largest-police-forces/601562617",
+        image: "img/tiles/metro-surge-2.webp" },
+      { label: "A chaotic confrontation, a gun and 10 shots: A frame-by-frame analysis of the fatal shooting of Alex Pretti",
+        url:   "https://www.startribune.com/a-chaotic-confrontation-a-gun-and-10-shots-a-frame-by-frame-analysis-of-the-fatal-shooting-of-alex-pretti/601570463",
+        image: "img/tiles/metro-surge-3.webp" },
+      { label: "Is ICE really leaving Minnesota? The data is complicated.",
+        url:   "https://www.startribune.com/is-ice-really-pulling-out-of-minnesota-observer-data-tells-a-complicated-story/601580496",
+        image: "img/tiles/metro-surge-4-loop.mp4" }
+    ],
+    awards:      [
+      "Winner, Breaking News, Large Newsroom, from the Online Journalism Association’s " +
+      "<a href=\"https://awards.journalists.org/winners/2026/\" target=\"_blank\" rel=\"noopener\">Online Journalism Awards 2026</a>. " +
+      "Finalist for the Knight Award for Public Service."
+    ]
   },
   {
     title:       "Rincon Mountains",
