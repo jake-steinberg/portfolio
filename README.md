@@ -81,8 +81,8 @@ That's all: the tile, its filter tags and its panel are built automatically.
 - `images` — extra pictures for the panel. One shows uncropped. Two sit side
   by side at matching heights. Three or five make a mosaic: the widest across
   the top and the rest sharing a row beneath it, or all in one row, whichever
-  shows them bigger in the space. Four sit in two rows of two. All are uncropped. Six or more show
-  as even thumbnails. Clicking a picture opens it full size in a new tab;
+  shows them bigger in the space. Four sit in two rows of two. Six or more make a grid,
+  three to a row (two on phones). All are uncropped. Clicking a picture opens it full size in a new tab;
   write an entry as `{ src, link, label }` to open a story instead, or as
   `{ src, story, label }` to caption it with its label underneath linking to
   the story (with no `story`, the label is a plain caption). Captioned pictures always sit in one row, in the order listed.

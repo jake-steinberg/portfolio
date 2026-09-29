@@ -191,7 +191,8 @@
     // 1 picture shows uncropped. 2 sit side by side at matching heights. 3 or 5
     // make a mosaic: the widest across the top and the rest sharing a row
     // beneath it, or all in one row, whichever shows them bigger (see
-    // topIsBigger). 4 sit in two rows of two (.pairs). All uncropped. 6 or more become even 4:3 thumbnails. The
+    // topIsBigger). 4 sit in two rows of two (.pairs). 6 or more make a grid,
+    // three to a row (two on phones). All uncropped. The
     // whole group is kept within a set height (layoutMedia).
     // top: true puts that picture across the top of a mosaic instead of the widest.
     // tall: true gives that picture the full height on the left, with the
@@ -246,7 +247,8 @@
         const ordered = [...tall.slice(0, 1), ...imgs.filter((img) => img !== tall[0])];
         return `<div class="pshots tallmix" style="--rest:${n - 1}">${ordered.map(shot).join('')}</div>`;   // fitTall sizes it
       }
-      const kind = n === 4 ? ' mosaic many pairs'         // .pairs: two rows of two
+      const kind = n >= 6 ? ' grid'                       // .grid: three to a row, uncropped
+                 : n === 4 ? ' mosaic many pairs'         // .pairs: two rows of two
                  : n === 5 ? ' mosaic many'               // .many: the lower row wraps on phones
                  : n >= 2 && n <= 3 ? ' mosaic' : '';
       return `<div class="pshots${kind}">${imgs.map(shot).join('')}</div>`;

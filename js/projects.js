@@ -72,8 +72,9 @@ const TAGS = [
                                                //   matching heights. 3 or 5 make a mosaic: the
                                                //   widest on top and the rest in a row under it,
                                                //   or all in one row, whichever shows them
-                                               //   bigger. 4 sit in two rows of two. All uncropped. 6 or more show as even 4:3
-                                               //   thumbnails. The pictures are kept within a set
+                                               //   bigger. 4 sit in two rows of two. 6 or more
+                                               //   make a grid, three to a row. All uncropped.
+                                               //   The pictures are kept within a set
                                                //   height (MEDIA_MAX_HEIGHT in js/portfolio.js).
                                                //   Clicking a picture opens it full size, in a
                                                //   new tab. To open a
@@ -128,22 +129,30 @@ const TAGS = [
    ----------------------------------------------------------------------------- */
 const PROJECTS = [
   {
-    // The tile video crossfades six of the story's 3D mountain renders
+    // The tile video crossfades six of the story's 3D mountain renders, unlabeled
     // (tools/crossfade-loop.sh, at CRF 31 to keep the detailed renders light).
-    // Panel pictures to come.
+    // The panel shows the six labeled maps under the text, three to a row.
     title:       "Lindsey Vonn’s Mountains",
     slug:        "lindsey-vonns-mountains",
     year:        "2026",
     panelCols:   3,
     tile:        "img/tiles/lindsey-vonns-mountains.webp",
     video:       "img/tiles/lindsey-vonns-mountains.mp4",
-    link:        "",
+    link:        "https://www.startribune.com/five-mountains-and-one-notable-hill-that-defined-lindsey-vonns-career-and-comeback/601559700",
     linkType:    "story",
     tags:        ["news", "3d", "outdoors"],
     inBook:      false,
     description: "A biography of Lindsey Vonn published in the run-up to the 2026 Winter " +
                  "Olympics, told by the mountains that made her.",
-    images:      [],
+    mediaFull:   true,                            // the six maps across the whole panel
+    images:      [                                 // a light copy each; clicking opens the original
+      { src: "img/tiles/vonn-lake-louise.webp", full: "img/vonn-lake-louise.jpg" },
+      { src: "img/tiles/vonn-are.webp",         full: "img/vonn-are.jpg" },
+      { src: "img/tiles/vonn-buck-hill.webp",   full: "img/vonn-buck-hill.jpg" },
+      { src: "img/tiles/vonn-cortina.webp",     full: "img/vonn-cortina.jpg" },
+      { src: "img/tiles/vonn-schladming.webp",  full: "img/vonn-schladming.jpg" },
+      { src: "img/tiles/vonn-whistler.webp",    full: "img/vonn-whistler.jpg" }
+    ],
     awards:      []
   },
   {

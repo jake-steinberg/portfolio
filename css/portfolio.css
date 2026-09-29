@@ -488,6 +488,11 @@ body { overflow-anchor: none; }
 .pshots a:hover { transform: rotate(.8deg); }
 /* several pictures: even 4:3 thumbnails (click one to see it uncropped, full size) */
 .pshots img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+/* 6 or more (js adds .grid): three to a row, uncropped (best when they share
+   a shape, like Lindsey Vonn's Mountains); two to a row on phones */
+.pshots.grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--shot-gap); }
+.pshots.grid img { aspect-ratio: auto; height: auto; object-fit: fill; }
+@media (max-width: 720px) { .pshots.grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 /* a single picture (or a lone video, e.g. a map split into its own .pmedia
    above splitBelow's photos) gets the whole column, shown uncropped */
 .pshots a:only-child,
