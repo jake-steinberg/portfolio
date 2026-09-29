@@ -190,6 +190,26 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // The tile video pans slowly down the unlabeled cougar map
+    // (img/cougars-base.jpg) and back up, 16s.
+    title:       "Illustrated stories",
+    slug:        "illustrated-stories",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/illustrated-stories.webp",
+    video:       "img/tiles/illustrated-stories.mp4",
+    link:        "",
+    linkType:    "story",
+    tags:        ["news", "illustrated", "outdoors"],
+    inBook:      false,
+    description: "Hand-drawn cartography for the Star Tribune.",
+    images:      [
+      { src: "img/tiles/illustrated-camino.webp", full: "img/camino-de-santiago.jpg" },   // Camino de Santiago
+      { src: "img/tiles/illustrated-cougars.webp", full: "img/cougars.jpg" }              // cougars' paths to Minnesota
+    ],
+    awards:      []
+  },
+  {
     title:       "Rincon Mountains",
     slug:        "rincon-mountains",
     year:        "2024",
