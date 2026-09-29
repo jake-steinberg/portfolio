@@ -137,7 +137,7 @@ const PROJECTS = [
     year:        "2026",
     panelCols:   2,
     tile:        "img/tiles/operation-metro-surge.webp",
-    video:       "img/tiles/operation-metro-surge.mp4",
+    video:       "img/tiles/operation-metro-surge-v2.mp4",   // new name so browsers drop the old loop
     link:        "",                              // no button: the stories are the cards below
     linkType:    "story",
     tags:        ["news", "interactive", "scrollytelling"],
