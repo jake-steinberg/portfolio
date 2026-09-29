@@ -103,12 +103,16 @@ const Basemaps = (function () {
 
   function start(panel, project) {
     const config = project.basemaps;
-    panel.querySelectorAll('.styleswitch button').forEach((b) =>
-      b.addEventListener('click', () => choose(panel, config, Number(b.dataset.style))));
-    showInfo(panel, config.styles[0]);
+    // initial: "Outdoors" in projects.js picks the style it opens with; else the first
+    const first = Math.max(0, config.styles.findIndex((st) => st.name === config.initial));
+    panel.querySelectorAll('.styleswitch button').forEach((b) => {
+      b.setAttribute('aria-pressed', String(Number(b.dataset.style) === first));
+      b.addEventListener('click', () => choose(panel, config, Number(b.dataset.style)));
+    });
+    showInfo(panel, config.styles[first]);
     note(panel, 'Loading the map…');
     loadLibs()
-      .then(() => { if (panel.isConnected) choose(panel, config, 0); })
+      .then(() => { if (panel.isConnected) choose(panel, config, first); })
       .catch(() => note(panel, 'The map couldn’t load. Check your connection and open it again.'));
   }
 

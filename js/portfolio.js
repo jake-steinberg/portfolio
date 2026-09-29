@@ -264,7 +264,7 @@
     const maps = p.basemaps;
     const mapHTML = maps ? `<div class="pmedia pmap">
               <div class="styleswitch" role="group" aria-label="Map style">${maps.styles.map((st, i) =>
-                `<button class="pill" type="button" data-style="${i}" aria-pressed="${i === 0}">${esc(st.name)}</button>`).join('')}</div>
+                `<button class="pill" type="button" data-style="${i}" aria-pressed="false">${esc(st.name)}</button>`).join('')}</div>
               <div class="basemap-wrap"><div class="basemap"></div><p class="basemap-note" hidden></p></div>
             </div>` : '';
     const hasMedia = hasImages || !!maps;

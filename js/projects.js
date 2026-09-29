@@ -124,13 +124,12 @@ const TAGS = [
    ----------------------------------------------------------------------------- */
 const PROJECTS = [
   {
-    // The tile is two columns wide and two rows tall (size: "large"). The
-    // panel holds a live MapLibre map with a button for each style; see
+    // The panel holds a live MapLibre map with a button for each style; see
     // js/basemaps.js. Each style's file goes in maps/ with the name below.
+    // (For a tile two columns wide and two rows tall, add size: "large".)
     title:       "Star Tribune basemap styles",
     slug:        "strib-basemaps",
     year:        "2025–2026",
-    size:        "large",
     panelCols:   3,
     tile:        "img/tiles/strib-basemaps.webp",   // PLACEHOLDER until the tile GIF arrives
     video:       "",
@@ -146,6 +145,7 @@ const PROJECTS = [
       pmtiles:   "https://static.startribune.com/protomaps/mn_0-22_20260428.pmtiles",
       center:    [-93.24, 44.96],                 // where the map opens: [longitude, latitude]
       zoom:      10.5,
+      initial:   "Outdoors",                      // the style it opens with (a name below)
       // name: the button. title, about, links: shown for the chosen style.
       // style: the MapLibre style file (until it's there, the map says so)
       styles:    [
@@ -162,14 +162,6 @@ const PROJECTS = [
             { label: "Vance Boelter", url: "https://www.startribune.com/vance-boelters-43-hours-on-the-run-expose-mistakes-in-law-enforcement-response/601546404" }
           ] },
         { name: "Outdoors", title: "Strib Outdoors", style: "maps/strib-outdoors.json",
-          about: "A style for outdoor adventure featuring topographic contours and seasonal variations.",
-          links: [
-            { label: "Spring hikes", url: "https://www.startribune.com/eight-minnesota-hikes-that-sing-of-spring/601637574" },
-            { label: "Fall hikes", url: "https://www.startribune.com/8-minnesota-hikes-to-fall-for-this-autumn/601883249" },
-            { label: "Jessie Diggins’s favorite ski trails", url: "https://www.startribune.com/you-too-can-ski-on-jessie-diggins-favorite-trails-in-the-upper-midwest/601561307" }
-          ] },
-        // shares Outdoors' description and stories; give it its own if you like
-        { name: "Outdoors Winter", title: "Strib Outdoors Winter", style: "maps/strib-outdoors-winter.json",
           about: "A style for outdoor adventure featuring topographic contours and seasonal variations.",
           links: [
             { label: "Spring hikes", url: "https://www.startribune.com/eight-minnesota-hikes-that-sing-of-spring/601637574" },
