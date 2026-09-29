@@ -309,14 +309,14 @@ const PROJECTS = [
   },
   {
     // WORKING TITLE — rename, and add tags, a year, a link and a description.
-    // The tile video is a screen recording of the story scrolling through its
-    // four vehicles, cropped to 5:4, its end crossfading back to its start.
+    // The tile video is a screen recording of the story, cropped to just the
+    // strip its four vehicles drive through, on white, its end crossfading back.
     title:       "Commute costs",
     slug:        "commute-costs",
     year:        "",
     panelCols:   2,
     tile:        "img/tiles/commute-costs.webp",
-    video:       "img/tiles/commute-costs.mp4",
+    video:       "img/tiles/commute-costs-drive.mp4",
     link:        "",
     linkType:    "story",
     tags:        [],
