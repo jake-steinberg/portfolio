@@ -308,20 +308,20 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // WORKING TITLE — rename, and add tags, a year, a link and a description.
     // The tile video is a screen recording of the story, cropped to just the
     // strip its four vehicles drive through, on white, its end crossfading back.
-    title:       "Commute costs",
+    title:       "Cost of the commute",
     slug:        "commute-costs",
-    year:        "",
-    panelCols:   2,
+    year:        "2026",
+    panelCols:   1,
     tile:        "img/tiles/commute-costs.webp",
     video:       "img/tiles/commute-costs-drive.mp4",
-    link:        "",
+    link:        "https://www.startribune.com/highest-gas-prices-in-4-years-force-minnesotans-to-rethink-the-commute-if-they-can/601838626",
     linkType:    "story",
-    tags:        [],
+    tags:        ["news", "scrollytelling"],
     inBook:      false,
-    description: "",
+    description: "A visual story about how high gas prices caused by the war with Iran " +
+                 "are squeezing commuters.",
     images:      [],
     awards:      []
   },
