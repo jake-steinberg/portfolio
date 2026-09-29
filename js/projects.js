@@ -128,6 +128,25 @@ const TAGS = [
    ----------------------------------------------------------------------------- */
 const PROJECTS = [
   {
+    // The tile video crossfades six of the story's 3D mountain renders
+    // (tools/crossfade-loop.sh, at CRF 31 to keep the detailed renders light).
+    // Panel pictures to come.
+    title:       "Lindsey Vonn’s Mountains",
+    slug:        "lindsey-vonns-mountains",
+    year:        "2026",
+    panelCols:   3,
+    tile:        "img/tiles/lindsey-vonns-mountains.webp",
+    video:       "img/tiles/lindsey-vonns-mountains.mp4",
+    link:        "",
+    linkType:    "story",
+    tags:        ["news", "3d", "outdoors"],
+    inBook:      false,
+    description: "A biography of Lindsey Vonn published in the run-up to the 2026 Winter " +
+                 "Olympics, told by the mountains that made her.",
+    images:      [],
+    awards:      []
+  },
+  {
     // The tile video crossfades three of the stories' sharing images (not the
     // ICE chart), each shown whole and padded to 5:4, black behind the
     // frame-by-frame analysis (tools/crossfade-loop.sh). The stories show as cards with their sharing images (links: … image:);
