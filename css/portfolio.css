@@ -351,13 +351,13 @@ body { overflow-anchor: none; }
      the panel's whole width (js lifts the height limit) */
   .panel .panel-body.full:not(.solo) { grid-template-columns: minmax(0, 1fr); }
   .panel .full > .pmedia { justify-self: stretch; align-self: start; padding-block: 0; }
-  /* on a 3-column panel the text runs the whole width, so its button sits to
-     the right of the description rather than under it */
+  /* on a 3-column panel the text runs the whole width, so its button sits at
+     the right edge, level with the end of the description, rather than under it */
   .panel:not([data-cols]) .panel-body.full .panel-main {
-    display: grid; grid-template-columns: minmax(0, var(--measure)) auto;
-    justify-content: start; align-items: end; column-gap: 44px;
+    display: grid; grid-template-columns: minmax(0, var(--measure)) minmax(0, 1fr);
+    align-items: end; column-gap: 44px;
   }
-  .panel:not([data-cols]) .panel-body.full .pfoot { padding-top: 0; }
+  .panel:not([data-cols]) .panel-body.full .pfoot { padding-top: 0; justify-self: end; }
   .panel:not([data-cols]) .panel-body.full .pfoot .plinks { margin-top: 0; }
 
   /* .split (splitBelow in js/portfolio.js, e.g. The Legacy Tree): the top
