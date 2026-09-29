@@ -131,8 +131,10 @@ const PROJECTS = [
     slug:        "strib-basemaps",
     year:        "2025–2026",
     panelCols:   3,
-    tile:        "img/tiles/strib-basemaps.webp",   // PLACEHOLDER until the tile GIF arrives
-    video:       "",
+    // The tile video crossfades through the five styles over the same Twin
+    // Cities view, labels hidden (tools/crossfade-loop.sh); the still is Light.
+    tile:        "img/tiles/strib-basemaps.webp",
+    video:       "img/tiles/strib-basemaps.mp4",
     link:        "",                              // no button: the stories are listed under each style
     linkType:    "story",
     tags:        ["news", "interactive", "outdoors"],
