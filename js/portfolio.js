@@ -160,7 +160,8 @@
     // { src, story, label } to caption it with a link to its story.
     //   picture, no link → clicking opens it full size, in a new tab
     //   with a story     → the picture still opens full size; its label under
-    //                      it links to the story
+    //                      it links to the story. A label with no story or
+    //                      link is a plain caption (add story: once it's out)
     //   zoom: false      → shown, but not clickable and no hover effect
     //   with inBook      → { src, inBook: true }: the "In the book" corner
     //                      marker on the picture (e.g. its book version)
@@ -196,11 +197,15 @@
         ? `<video src="${esc(src)}" poster="${esc(src.replace(/(-loop)?\.mp4$/i, '.webp'))}" muted loop playsinline preload="metadata" aria-hidden="true"></video>`
         : `<img src="${esc(src)}" alt="" decoding="async">`;
       const cls = isVideo ? ' class="pvid"' : '';
-      if (story && !isVideo) {
+      // a caption under the picture: a link to its story, or plain text with a label only
+      if ((story || (label && !link)) && !isVideo) {
         const name = esc(label || p.title);
+        const caption = story
+          ? `<a class="pcap" href="${esc(story)}" target="_blank" rel="noopener">${name}<span aria-hidden="true">&nbsp;&#8599;</span></a>`
+          : name;
         return `<figure class="pshot">
             <a href="${big}" target="_blank" rel="noopener"${tip}>${media}</a>
-            <figcaption><a class="pcap" href="${esc(story)}" target="_blank" rel="noopener">${name}<span aria-hidden="true">&nbsp;&#8599;</span></a></figcaption>
+            <figcaption>${caption}</figcaption>
           </figure>`;
       }
       if (zoom === false && !link) return `<div class="pstill"${tip}>${marker}${media}</div>`;   // just shown

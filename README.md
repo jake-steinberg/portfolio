@@ -85,7 +85,7 @@ That's all: the tile, its filter tags and its panel are built automatically.
   as even thumbnails. Clicking a picture opens it full size in a new tab;
   write an entry as `{ src, link, label }` to open a story instead, or as
   `{ src, story, label }` to caption it with its label underneath linking to
-  the story. Captioned pictures always sit in one row, in the order listed.
+  the story (with no `story`, the label is a plain caption). Captioned pictures always sit in one row, in the order listed.
   To show a light WebP but have clicking open the original, write
   `{ src, full }`; use `zoom: false` for a picture that shouldn't open at all
   (no click, no hover). Write

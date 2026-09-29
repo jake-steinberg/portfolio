@@ -82,6 +82,7 @@ const TAGS = [
                                                //   Or caption it, with its label under it
                                                //   linking to its story:
                                                //   { src: "img/…", story: "https://…", label: "Fall 2024" }
+                                               //   (a label with no story is a plain caption)
                                                //   To open a bigger original than the one shown:
                                                //   { src: "img/…webp", full: "img/….jpg" }
                                                //   zoom: false shows it but doesn't open it
@@ -204,8 +205,12 @@ const PROJECTS = [
     inBook:      false,
     description: "Hand-drawn cartography for the Star Tribune.",
     images:      [
-      { src: "img/tiles/illustrated-camino.webp", full: "img/camino-de-santiago.jpg" },   // Camino de Santiago
-      { src: "img/tiles/illustrated-cougars.webp", full: "img/cougars.jpg" }              // cougars' paths to Minnesota
+      { src: "img/tiles/illustrated-camino.webp", full: "img/camino-de-santiago.jpg",
+        label: "Camino de Santiago",
+        story: "https://www.startribune.com/resilience-enlightenment-and-bed-bugs-on-the-camino-de-santiago/601528801" },
+      // not published yet: the label is a plain caption until story: is added
+      { src: "img/tiles/illustrated-cougars.webp", full: "img/cougars.jpg",
+        label: "Cougars return" }
     ],
     awards:      []
   },
