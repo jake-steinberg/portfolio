@@ -167,6 +167,28 @@ const PROJECTS = [
     ]
   },
   {
+    // Two looping maps from the stories, each captioned with a link to it. The
+    // tile plays the fire growth, then the smoke, cropped to 5:4 and looping.
+    title:       "Wildfire coverage",
+    slug:        "wildfire-coverage",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/wildfire-coverage.webp",
+    video:       "img/tiles/wildfire-coverage.mp4",
+    link:        "",                              // no button: the captions link to the stories
+    linkType:    "story",
+    tags:        ["news", "scrollytelling", "climate"],
+    inBook:      false,
+    description: "Mapping the causes and consequences of Minnesota’s worst wildfire season in a generation.",
+    images:      [
+      { src: "img/tiles/wildfire-growth-loop.mp4", label: "Primed to burn",       // the fires spreading
+        story: "https://www.startribune.com/drought-and-dead-wood-stacked-the-deck-for-the-boundary-waters-wildfires/601870740" },
+      { src: "img/tiles/wildfire-smoke-loop.mp4", label: "Smoke",                 // the smoke forecast
+        story: "https://www.startribune.com/wildfire-smoke-is-arriving-in-the-twin-cities-and-central-minnesota-here-is-what-to-expect/601868148" }
+    ],
+    awards:      []
+  },
+  {
     // The panel holds a live MapLibre map with a button for each style; see
     // js/basemaps.js. Each style's file goes in maps/ with the name below.
     // (For a tile two columns wide and two rows tall, add size: "large".)

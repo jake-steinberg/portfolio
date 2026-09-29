@@ -212,13 +212,17 @@
         : `<img src="${esc(src)}" alt="" decoding="async">`;
       const cls = isVideo ? ' class="pvid"' : '';
       // a caption under the picture: a link to its story, or plain text with a label only
-      if ((story || (label && !link)) && !isVideo) {
+      // (a looping video with a story links there too; with only a label, it's just shown)
+      if (story || (label && !link)) {
         const name = esc(label || p.title);
         const caption = story
           ? `<a class="pcap" href="${esc(story)}" target="_blank" rel="noopener">${name}<span aria-hidden="true">&nbsp;&#8599;</span></a>`
           : name;
+        const pic = !isVideo ? `<a href="${big}" target="_blank" rel="noopener"${tip}>${media}</a>`
+          : story ? `<a class="pvid" href="${esc(story)}" target="_blank" rel="noopener" tabindex="-1">${media}</a>`
+          : `<div class="pvid">${media}</div>`;
         return `<figure class="pshot">
-            <a href="${big}" target="_blank" rel="noopener"${tip}>${media}</a>
+            ${pic}
             <figcaption>${caption}</figcaption>
           </figure>`;
       }
