@@ -536,6 +536,59 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // One tile for both Uptown stories: the call-out where readers drew their
+    // boundaries, and the results. The tile video shows the drawing animation
+    // at full width, with the basemap's gray (#EDEDED) above and below to make it 5:4.
+    title:       "Where is Uptown?",
+    slug:        "where-is-uptown",
+    year:        "2025",
+    panelCols:   3,
+    mediaHalf:   true,                            // the pictures take half the panel and fill it
+    tile:        "img/tiles/where-is-uptown.webp",
+    video:       "img/tiles/where-is-uptown.mp4",
+    link:        "",
+    linkType:    "story",
+    tags:        ["news", "interactive", "print"],
+    inBook:      true,
+    description: "A crowdsourced community geography story about Minneapolis’s most " +
+                 "argued-over district. Or, neighborhood? Maybe vibe?",
+    images:      [
+      { src: "img/tiles/uptown-results-full.webp", label: "Uptown results",
+        link: "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699" },
+      { src: "img/tiles/uptown-book.webp", inBook: true }   // the book version (from img/uptown.jpg)
+    ],
+    links:       [
+      { label: "Where is Uptown?", url: "https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173" },
+      { label: "Uptown results", url: "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699" }
+    ],
+    awards:      [
+      "Awards of Excellence in Infographics; Line of Coverage; and Use of Multimedia " +
+      "and Design Elements, Society for News Design, 2026. It contributed to a " +
+      "portfolio Bronze Medal for my excellent editor, C.J. Sinner."
+    ]
+  },
+  {
+    // The tile is a 5:4 crop of the 2020 map without its legend. The panel
+    // shows the 1940 and 2020 maps side by side.
+    title:       "Immigration in the Twin Cities",
+    slug:        "immigration",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/immigration.webp",
+    video:       "",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "Dot density maps that create a mosaic of immigrant communities in the " +
+                 "Twin Cities at two points in history.",
+    images:      [
+      { src: "img/tiles/immigration-1940.webp", full: "img/immigration-1940.png" },
+      { src: "img/tiles/immigration-2020.webp", full: "img/immigration-2020.jpg" }
+    ],
+    awards:      []
+  },
+  {
     // The tile video scrolls rightward across the St. Paul spread, then the
     // Minneapolis one, then starts over (tools/endless-scroll.sh on the two
     // side by side). From the CMYK print files (50 Maps/Maps/Interstates/).
@@ -584,36 +637,24 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // One tile for both Uptown stories: the call-out where readers drew their
-    // boundaries, and the results. The tile video shows the drawing animation
-    // at full width, with the basemap's gray (#EDEDED) above and below to make it 5:4.
-    title:       "Where is Uptown?",
-    slug:        "where-is-uptown",
-    year:        "2025",
-    panelCols:   3,
-    mediaHalf:   true,                            // the pictures take half the panel and fill it
-    tile:        "img/tiles/where-is-uptown.webp",
-    video:       "img/tiles/where-is-uptown.mp4",
-    link:        "",
-    linkType:    "story",
-    tags:        ["news", "interactive", "print"],
-    inBook:      true,
-    description: "A crowdsourced community geography story about Minneapolis’s most " +
-                 "argued-over district. Or, neighborhood? Maybe vibe?",
+    title:       "Election results",
+    slug:        "2024-election-in-minnesota",
+    year:        "2023–2026",
+    panelCols:   2,
+    tile:        "img/tiles/2024-election-in-minnesota.webp",
+    video:       "img/tiles/2024-election-in-minnesota.mp4",
+    link:        "",                              // no button: the pictures link to the full-size files
+    linkType:    "file",
+    tags:        ["news", "print", "interactive"],
+    inBook:      false,
+    description: "Mapping the results of local, state and national elections for the Star Tribune.",
     images:      [
-      { src: "img/tiles/uptown-results-full.webp", label: "Uptown results",
-        link: "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699" },
-      { src: "img/tiles/uptown-book.webp", inBook: true }   // the book version (from img/uptown.jpg)
+      { src: "img/tiles/election-results-page.webp",      // the 2024 presidential results page
+        full: "img/Strib_election.pdf" },                  // clicking it opens the PDF
+      { src: "img/tiles/election-results-st-paul.webp",   // 2025 Minneapolis and St. Paul mayoral races
+        full: "img/st_paul_election.png" }
     ],
-    links:       [
-      { label: "Where is Uptown?", url: "https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173" },
-      { label: "Uptown results", url: "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699" }
-    ],
-    awards:      [
-      "Awards of Excellence in Infographics; Line of Coverage; and Use of Multimedia " +
-      "and Design Elements, Society for News Design, 2026. It contributed to a " +
-      "portfolio Bronze Medal for my excellent editor, C.J. Sinner."
-    ]
+    awards:      []
   },
   {
     // The tile video is the fox and coyote tracking animation, zoomed in to 5:4
@@ -640,47 +681,6 @@ const PROJECTS = [
     ],
     links:       [                                 // "In the book" is added after these
       { label: "Backyard battle for survival", url: "https://www.startribune.com/its-foxes-versus-coyotes-in-a-backyard-battle-for-survival/601504496" }
-    ],
-    awards:      []
-  },
-  {
-    title:       "Election results",
-    slug:        "2024-election-in-minnesota",
-    year:        "2023–2026",
-    panelCols:   2,
-    tile:        "img/tiles/2024-election-in-minnesota.webp",
-    video:       "img/tiles/2024-election-in-minnesota.mp4",
-    link:        "",                              // no button: the pictures link to the full-size files
-    linkType:    "file",
-    tags:        ["news", "print", "interactive"],
-    inBook:      false,
-    description: "Mapping the results of local, state and national elections for the Star Tribune.",
-    images:      [
-      { src: "img/tiles/election-results-page.webp",      // the 2024 presidential results page
-        full: "img/Strib_election.pdf" },                  // clicking it opens the PDF
-      { src: "img/tiles/election-results-st-paul.webp",   // 2025 Minneapolis and St. Paul mayoral races
-        full: "img/st_paul_election.png" }
-    ],
-    awards:      []
-  },
-  {
-    // The tile is a 5:4 crop of the 2020 map without its legend. The panel
-    // shows the 1940 and 2020 maps side by side.
-    title:       "Immigration in the Twin Cities",
-    slug:        "immigration",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/immigration.webp",
-    video:       "",
-    link:        "",                              // just the "In the book" button
-    linkType:    "story",
-    tags:        ["print"],
-    inBook:      true,
-    description: "Dot density maps that create a mosaic of immigrant communities in the " +
-                 "Twin Cities at two points in history.",
-    images:      [
-      { src: "img/tiles/immigration-1940.webp", full: "img/immigration-1940.png" },
-      { src: "img/tiles/immigration-2020.webp", full: "img/immigration-2020.jpg" }
     ],
     awards:      []
   },
