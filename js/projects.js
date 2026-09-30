@@ -85,6 +85,7 @@ const TAGS = [
                                                //   linking to its story:
                                                //   { src: "img/…", story: "https://…", label: "Fall 2024" }
                                                //   (a label with no story is a plain caption)
+                                               //   captionAbove: true puts the caption over it
                                                //   To open a bigger original than the one shown:
                                                //   { src: "img/…webp", full: "img/….jpg" }
                                                //   zoom: false shows it but doesn't open it
@@ -622,7 +623,7 @@ const PROJECTS = [
     images:      [
       { src: "img/tiles/east-river-map.webp", full: "img/east-river-flood-map.jpg" },   // the map (3300px full size)
       { src: "img/tiles/east-river-evers.webp", full: "img/east-river-evers.jpg",
-        label: "Wisconsin Gov. Tony Evers photographed admiring my maps." }
+        label: "Wisconsin Gov. Tony Evers photographed admiring my maps.", captionAbove: true }
     ],
     awards:      []
   },
