@@ -373,12 +373,12 @@ const PROJECTS = [
   },
   {
     // WORKING TITLE — rename, and add a year, tags, a link, a description and
-    // panel pictures. The tile is a center 5:4 crop of the thumbnail.
+    // panel pictures. The tile is a 5:4 crop of the tighter thumbnail.
     title:       "Neighborhood access",
     slug:        "neighborhood-access",
     year:        "",
     panelCols:   2,
-    tile:        "img/tiles/neighborhood-access.webp",
+    tile:        "img/tiles/neighborhood-access-v2.webp",
     video:       "",
     link:        "",
     linkType:    "story",
