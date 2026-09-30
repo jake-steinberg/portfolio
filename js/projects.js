@@ -308,15 +308,15 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // The tile video pans slowly across the spread, from the hill profiles to
-    // the map and back (20s), converted from the CMYK print file
+    // The tile video scrolls rightward across the spread without end, a 60px
+    // white gap between copies (about 24s a loop), converted from the CMYK print file
     // (50 Maps/Maps/St. Paul hills/hills.jpg). The panel shows the whole spread.
     title:       "Cycling St. Paul’s Hills",
     slug:        "st-paul-hills",
     year:        "2026",
     panelCols:   2,
     tile:        "img/tiles/st-paul-hills.webp",
-    video:       "img/tiles/st-paul-hills.mp4",
+    video:       "img/tiles/st-paul-hills-scroll.mp4",
     link:        "",                              // just the "In the book" button
     linkType:    "story",
     tags:        ["print"],
@@ -331,14 +331,15 @@ const PROJECTS = [
   {
     // WORKING TITLE — rename, and add a year, tags, a description and panel pictures.
     // The tile video scrolls rightward across the spread without end: the
-    // spread repeats side by side and the loop ends where it began (30s).
+    // spread repeats with a 60px white gap between copies, and the loop ends
+    // where it began (about 24s).
     // Converted from the CMYK print file (50 Maps/Maps/Geology/geology.jpg).
     title:       "Geology",
     slug:        "geology",
     year:        "",
     panelCols:   2,
     tile:        "img/tiles/geology.webp",
-    video:       "img/tiles/geology.mp4",
+    video:       "img/tiles/geology-scroll.mp4",
     link:        "",
     linkType:    "story",
     tags:        [],
