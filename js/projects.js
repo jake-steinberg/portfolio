@@ -221,6 +221,26 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // The tile is a 5:4 crop of the detail page's viewshed (50 Maps/Maps/
+    // Cathedral/cathdral_thumb.jpeg); the panel shows the whole spread,
+    // converted from the CMYK print file (cathdral.jpg).
+    title:       "The Cathedral of Saint Paul",
+    slug:        "cathedral",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/cathedral.webp",
+    video:       "",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "A divinely inspired GIS viewshed analysis that appears in my book.",
+    images:      [
+      { src: "img/tiles/cathedral-spread.webp", full: "img/cathedral.jpg" }   // the whole spread
+    ],
+    awards:      []
+  },
+  {
     // Two looping maps from the stories, each captioned with a link to it. The
     // fire growth is cropped to 5:4 around the four big fires (1060x848 from
     // 416,0 of the 1920x1080 original). The tile plays it, then the smoke.
@@ -240,26 +260,6 @@ const PROJECTS = [
         story: "https://www.startribune.com/drought-and-dead-wood-stacked-the-deck-for-the-boundary-waters-wildfires/601870740" },
       { src: "img/tiles/wildfire-smoke-loop.mp4", label: "Smoke",                 // the smoke forecast
         story: "https://www.startribune.com/wildfire-smoke-is-arriving-in-the-twin-cities-and-central-minnesota-here-is-what-to-expect/601868148" }
-    ],
-    awards:      []
-  },
-  {
-    // The tile is a 5:4 crop of the detail page's viewshed (50 Maps/Maps/
-    // Cathedral/cathdral_thumb.jpeg); the panel shows the whole spread,
-    // converted from the CMYK print file (cathdral.jpg).
-    title:       "The Cathedral of Saint Paul",
-    slug:        "cathedral",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/cathedral.webp",
-    video:       "",
-    link:        "",                              // just the "In the book" button
-    linkType:    "story",
-    tags:        ["print"],
-    inBook:      true,
-    description: "A divinely inspired GIS viewshed analysis that appears in my book.",
-    images:      [
-      { src: "img/tiles/cathedral-spread.webp", full: "img/cathedral.jpg" }   // the whole spread
     ],
     awards:      []
   },
@@ -330,6 +330,26 @@ const PROJECTS = [
     awards:      []
   },
   {
+    title:       "Rincon Mountains",
+    slug:        "rincon-mountains",
+    year:        "2024",
+    panelCols:   2,
+    tile:        "img/tiles/rincon-mountains.webp",
+    video:       "",
+    link:        "",                              // no button: clicking the rendering opens it full size
+    linkType:    "file",
+    tags:        ["print", "3d", "outdoors"],
+    inBook:      false,
+    description: "A golden hour rendering of Saguaro National Park’s Rincon Mountains made " +
+                 "to commemorate a trip with an old friend.",
+    mediaFull:   true,                            // the rendering across the whole panel
+    images:      [
+      { src: "img/tiles/rincon-mountains-full.webp",   // a lighter copy to preview…
+        full: "img/rincon.png" }                        // …clicking it opens the original
+    ],
+    awards:      []
+  },
+  {
     // The tile video scrolls rightward across the spread without end, one copy
     // running straight into the next (about 24s a loop), converted from the CMYK print file
     // (50 Maps/Maps/St. Paul hills/hills.jpg). The panel shows the whole spread.
@@ -347,26 +367,6 @@ const PROJECTS = [
                  "cyclists who wish to traverse the capitol city.",
     images:      [
       { src: "img/tiles/st-paul-hills-spread.webp", full: "img/st-paul-hills.jpg" }   // the whole spread
-    ],
-    awards:      []
-  },
-  {
-    title:       "Rincon Mountains",
-    slug:        "rincon-mountains",
-    year:        "2024",
-    panelCols:   2,
-    tile:        "img/tiles/rincon-mountains.webp",
-    video:       "",
-    link:        "",                              // no button: clicking the rendering opens it full size
-    linkType:    "file",
-    tags:        ["print", "3d", "outdoors"],
-    inBook:      false,
-    description: "A golden hour rendering of Saguaro National Park’s Rincon Mountains made " +
-                 "to commemorate a trip with an old friend.",
-    mediaFull:   true,                            // the rendering across the whole panel
-    images:      [
-      { src: "img/tiles/rincon-mountains-full.webp",   // a lighter copy to preview…
-        full: "img/rincon.png" }                        // …clicking it opens the original
     ],
     awards:      []
   },
