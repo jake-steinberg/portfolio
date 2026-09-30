@@ -372,20 +372,22 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // WORKING TITLE — rename, and add a year, tags, a link, a description and
-    // panel pictures. The tile is a 5:4 crop of the tighter thumbnail.
-    title:       "Neighborhood access",
+    // The tile is a 5:4 crop of a close-up of the map; the panel shows the
+    // whole spread (50 Maps/Maps/15-minute/15-minute.jpg).
+    title:       "15-minute neighborhoods",
     slug:        "neighborhood-access",
-    year:        "",
+    year:        "2026",
     panelCols:   2,
     tile:        "img/tiles/neighborhood-access-v2.webp",
     video:       "",
-    link:        "",
+    link:        "",                              // just the "In the book" button
     linkType:    "story",
-    tags:        [],
-    inBook:      false,
-    description: "",
-    images:      [],
+    tags:        ["print"],
+    inBook:      true,
+    description: "An analysis of where in the Twin Cities you can live comfortably without a car.",
+    images:      [
+      { src: "img/tiles/fifteen-minute-spread.webp", full: "img/fifteen-minute.jpg" }   // the whole spread
+    ],
     awards:      []
   },
   {
