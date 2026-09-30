@@ -287,6 +287,24 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // WORKING TITLE — rename, and add tags, a year, a link and a description.
+    // The tile video crossfades four elevation renders, each cropped to 5:4
+    // (tools/crossfade-loop.sh).
+    title:       "Elevation renders",
+    slug:        "elevation",
+    year:        "",
+    panelCols:   2,
+    tile:        "img/tiles/elevation.webp",
+    video:       "img/tiles/elevation-loop-v2.mp4",
+    link:        "",
+    linkType:    "story",
+    tags:        [],
+    inBook:      false,
+    description: "",
+    images:      [],
+    awards:      []
+  },
+  {
     // The tile video pans slowly down the unlabeled cougar map
     // (img/cougars-base.jpg) and back up, 16s.
     title:       "Illustrated stories",
@@ -776,24 +794,6 @@ const PROJECTS = [
       { src: "img/tiles/hikes-fall-2026.webp", label: "Fall 2026",
         story: "https://www.startribune.com/8-minnesota-hikes-to-fall-for-this-autumn/601883249" }
     ],
-    awards:      []
-  },
-  {
-    // WORKING TITLE — rename, and add tags, a year, a link and a description.
-    // The tile video crossfades five elevation renders, each cropped to 5:4
-    // (tools/crossfade-loop.sh). Move this block to wherever it belongs.
-    title:       "Elevation renders",
-    slug:        "elevation",
-    year:        "",
-    panelCols:   2,
-    tile:        "img/tiles/elevation.webp",
-    video:       "img/tiles/elevation-loop.mp4",
-    link:        "",
-    linkType:    "story",
-    tags:        [],
-    inBook:      false,
-    description: "",
-    images:      [],
     awards:      []
   }
 ];
