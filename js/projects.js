@@ -287,21 +287,24 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // WORKING TITLE — rename, and add tags, a year, a link and a description.
-    // The tile video crossfades four elevation renders, each cropped to 5:4
-    // (tools/crossfade-loop.sh).
-    title:       "Elevation renders",
-    slug:        "elevation",
-    year:        "",
+    // The tile video crossfades four of the spread's inset renders, each cropped
+    // to 5:4 (tools/crossfade-loop.sh). The panel shows the whole spread,
+    // converted from the CMYK print file (50 Maps/Maps/REM/floodplain.jpg).
+    title:       "A Restless River",
+    slug:        "restless-river",
+    year:        "2026",
     panelCols:   2,
-    tile:        "img/tiles/elevation.webp",
-    video:       "img/tiles/elevation-loop-v2.mp4",
-    link:        "",
+    tile:        "img/tiles/restless-river-tile.webp",
+    video:       "img/tiles/restless-river-loop.mp4",
+    link:        "",                              // just the "In the book" button
     linkType:    "story",
-    tags:        [],
-    inBook:      false,
-    description: "",
-    images:      [],
+    tags:        ["print"],
+    inBook:      true,
+    description: "A 2-page spread in my book that exposes the writhing and rambling of " +
+                 "the Minnesota River.",
+    images:      [
+      { src: "img/tiles/restless-river.webp", full: "img/restless-river.jpg" }   // the whole spread
+    ],
     awards:      []
   },
   {
