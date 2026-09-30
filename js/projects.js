@@ -308,15 +308,15 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // The tile video scrolls rightward across the spread without end, a 60px
-    // gap in the spread's cream color between copies (about 24s a loop), converted from the CMYK print file
+    // The tile video scrolls rightward across the spread without end, one copy
+    // running straight into the next (about 24s a loop), converted from the CMYK print file
     // (50 Maps/Maps/St. Paul hills/hills.jpg). The panel shows the whole spread.
     title:       "Cycling St. Paul’s Hills",
     slug:        "st-paul-hills",
     year:        "2026",
     panelCols:   2,
     tile:        "img/tiles/st-paul-hills.webp",
-    video:       "img/tiles/st-paul-hills-scroll-v2.mp4",
+    video:       "img/tiles/st-paul-hills-scroll-v3.mp4",
     link:        "",                              // just the "In the book" button
     linkType:    "story",
     tags:        ["print"],
