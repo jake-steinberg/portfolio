@@ -568,6 +568,26 @@ const PROJECTS = [
     ]
   },
   {
+    title:       "Election results",
+    slug:        "2024-election-in-minnesota",
+    year:        "2023–2026",
+    panelCols:   2,
+    tile:        "img/tiles/2024-election-in-minnesota.webp",
+    video:       "img/tiles/2024-election-in-minnesota.mp4",
+    link:        "",                              // no button: the pictures link to the full-size files
+    linkType:    "file",
+    tags:        ["news", "print", "interactive"],
+    inBook:      false,
+    description: "Mapping the results of local, state and national elections for the Star Tribune.",
+    images:      [
+      { src: "img/tiles/election-results-page.webp",      // the 2024 presidential results page
+        full: "img/Strib_election.pdf" },                  // clicking it opens the PDF
+      { src: "img/tiles/election-results-st-paul.webp",   // 2025 Minneapolis and St. Paul mayoral races
+        full: "img/st_paul_election.png" }
+    ],
+    awards:      []
+  },
+  {
     // The tile is a 5:4 crop of the 2020 map without its legend. The panel
     // shows the 1940 and 2020 maps side by side.
     title:       "Immigration in the Twin Cities",
@@ -633,26 +653,6 @@ const PROJECTS = [
       // not published yet: the label is a plain caption until story: is added
       { src: "img/tiles/illustrated-cougars.webp", full: "img/cougars.jpg",
         label: "Cougars return" }
-    ],
-    awards:      []
-  },
-  {
-    title:       "Election results",
-    slug:        "2024-election-in-minnesota",
-    year:        "2023–2026",
-    panelCols:   2,
-    tile:        "img/tiles/2024-election-in-minnesota.webp",
-    video:       "img/tiles/2024-election-in-minnesota.mp4",
-    link:        "",                              // no button: the pictures link to the full-size files
-    linkType:    "file",
-    tags:        ["news", "print", "interactive"],
-    inBook:      false,
-    description: "Mapping the results of local, state and national elections for the Star Tribune.",
-    images:      [
-      { src: "img/tiles/election-results-page.webp",      // the 2024 presidential results page
-        full: "img/Strib_election.pdf" },                  // clicking it opens the PDF
-      { src: "img/tiles/election-results-st-paul.webp",   // 2025 Minneapolis and St. Paul mayoral races
-        full: "img/st_paul_election.png" }
     ],
     awards:      []
   },
