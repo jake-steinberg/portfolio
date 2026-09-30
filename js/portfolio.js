@@ -28,7 +28,8 @@
   const BOOK_URL = 'https://beltpublishing.com/products/the-twin-cities-in-50-maps';
 
   // Text on each panel's main button, by linkType
-  const LINK_LABEL = { story: 'Read the story', page: 'Open the project', file: 'View the full map' };
+  const LINK_LABEL = { story: 'Read the story', page: 'Open the project', file: 'View the full map',
+                       project: 'View the project' };   // project: someone else's site, in a new tab
 
   // Shown in a panel when a project's description is still blank
   const PLACEHOLDER = 'Description goes here &mdash; a sentence or two on what the map shows ' +

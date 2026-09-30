@@ -52,6 +52,7 @@ const TAGS = [
      linkType:    "story",                     // "story" — a published story (opens in a new tab)
                                                // "page"  — one of your own pages, e.g. "22map.html"
                                                // "file"  — a full-size image or PDF, opened in a new tab
+                                               // "project" — "View the project": a client's site, in a new tab
      tags:        ["print", "news"],           // any number of ids from TAGS above
      inBook:      false,                       // true adds the "In the book" corner marker
      description: "",                          // a sentence or two for the panel.
@@ -598,6 +599,29 @@ const PROJECTS = [
       { label: "Ice climbing", url: "https://www.startribune.com/flying-shards-and-screaming-barfies-ice-climbing-is-thrilling-and-excruciating/601208711" },
       { label: "The Legacy Tree", url: "https://www2.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/" },
       { label: "Midwest Mountaineering", url: "https://www.startribune.com/midwest-mountaineering-was-more-than-just-a-store-and-losing-it-matters/600314102" }
+    ],
+    awards:      []
+  },
+  {
+    // All images come from the CMYK print map (OneDrive: Personal/Portfolio/
+    // east_river_website.jpg), converted to screen colors with its SWOP profile.
+    // The tile is a 5:4 crop around the flood area along the East River.
+    title:       "East River Flood Study",
+    slug:        "east-river-flood-study",
+    year:        "2022",
+    panelCols:   2,
+    tile:        "img/tiles/east-river-flood-study.webp",
+    video:       "",
+    link:        "https://east-river-collaborative.tnc.org/pages/maps-data",
+    linkType:    "project",
+    tags:        ["print", "climate"],
+    inBook:      false,
+    description: "I designed a series of 9 maps for The Nature Conservancy and Wisconsin Sea " +
+                 "Grant to communicate about flood risk in the Green Bay area.",
+    images:      [
+      { src: "img/tiles/east-river-map.webp", full: "img/east-river-flood-map.jpg" },   // the map (3300px full size)
+      { src: "img/tiles/east-river-evers.webp", full: "img/east-river-evers.jpg",
+        label: "Wisconsin Gov. Tony Evers photographed admiring my maps." }
     ],
     awards:      []
   },
