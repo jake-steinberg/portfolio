@@ -326,6 +326,24 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // WORKING TITLE — rename, and add tags, a year, a link and a description.
+    // The tile video is the fox and coyote tracking animation, cropped to 5:4
+    // (1800x1440 from 300,10 of the 2414x1454 recording), its end crossfading back.
+    title:       "Fox vs. coyote",
+    slug:        "fox-coyote",
+    year:        "",
+    panelCols:   2,
+    tile:        "img/tiles/fox-coyote.webp",
+    video:       "img/tiles/fox-coyote.mp4",
+    link:        "",
+    linkType:    "story",
+    tags:        [],
+    inBook:      false,
+    description: "",
+    images:      [],
+    awards:      []
+  },
+  {
     title:       "Rincon Mountains",
     slug:        "rincon-mountains",
     year:        "2024",
