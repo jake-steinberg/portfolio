@@ -610,7 +610,7 @@ const PROJECTS = [
     title:       "East River Flood Study",
     slug:        "east-river-flood-study",
     year:        "2022",
-    panelCols:   3,
+    panelCols:   2,
     tile:        "img/tiles/east-river-flood-study.webp",
     video:       "",
     link:        "https://east-river-collaborative.tnc.org/pages/maps-data",
@@ -619,9 +619,10 @@ const PROJECTS = [
     inBook:      false,
     description: "I designed a series of 9 maps for The Nature Conservancy and Wisconsin Sea " +
                  "Grant to communicate about flood risk in the Green Bay area.",
-    mediaFull:   true,                            // the map and photo across the whole panel, under the text
     images:      [
-      { src: "img/tiles/east-river-map.webp", full: "img/east-river-flood-map.jpg" },   // the map (3300px full size)
+      // a crop of the map around the flood area, the same shape as the photo so
+      // the two show at the same size; clicking opens the whole map (3300px)
+      { src: "img/tiles/east-river-map-crop.webp", full: "img/east-river-flood-map.jpg" },
       { src: "img/tiles/east-river-evers.webp", full: "img/east-river-evers.jpg",
         label: "Wisconsin Gov. Tony Evers photographed admiring my maps.", captionAbove: true }
     ],
