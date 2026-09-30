@@ -492,6 +492,10 @@ body { overflow-anchor: none; }
 .pshots a:hover { transform: rotate(.8deg); }
 /* several pictures: even 4:3 thumbnails (click one to see it uncropped, full size) */
 .pshots img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+/* stack: true in projects.js: the pictures one above the other, each the
+   full width, uncropped (What the Interstates Destroyed) */
+.pshots.stack { grid-template-columns: minmax(0, 1fr); gap: var(--shot-gap); }
+.pshots.stack img { aspect-ratio: auto; height: auto; object-fit: fill; }
 /* 6 or more (js adds .grid): three to a row, uncropped (best when they share
    a shape, like Lindsey Vonn's Mountains); two to a row on phones */
 .pshots.grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--shot-gap); }

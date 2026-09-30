@@ -243,6 +243,8 @@
       const n = imgs.length;
       // scatter: true → loose, unframed rows filling the width (see .scatter in portfolio.css)
       if (p.scatter) return `<div class="pshots scatter">${imgs.map(shot).join('')}</div>`;
+      // stack: true → one above the other, each the full width (see .stack in portfolio.css)
+      if (p.stack) return `<div class="pshots stack">${imgs.map(shot).join('')}</div>`;
       // tall: true → the tall picture first, then the rest in a column beside it,
       // as many rows as there are other pictures (--rest; see .tallmix in portfolio.css)
       const tall = imgs.filter((img) => typeof img !== 'string' && img.tall);

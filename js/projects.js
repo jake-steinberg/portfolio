@@ -59,6 +59,8 @@ const TAGS = [
                                                //   Left "" → the panel shows a placeholder.
                                                //   HTML is allowed, e.g. a link:
                                                //   <a href=\"https://…\" target=\"_blank\">text</a>
+     stack:       false,                       // optional: true puts the pictures one above the
+                                               //   other, each the full width (use with mediaFull)
      scatter:     false,                       // optional: true lays the pictures out loosely,
                                                //   unframed and slightly tilted, in one line
                                                //   across the width (for cut-out art on a clear
@@ -387,6 +389,72 @@ const PROJECTS = [
     description: "An analysis of where in the Twin Cities you can live comfortably without a car.",
     images:      [
       { src: "img/tiles/fifteen-minute-spread.webp", full: "img/fifteen-minute.jpg" }   // the whole spread
+    ],
+    awards:      []
+  },
+  {
+    // The tile video scrolls rightward across the spread without end
+    // (tools/endless-scroll.sh); the panel shows the whole spread. Both come
+    // from the CMYK print file (50 Maps/Maps/Live v work/live v work.jpg).
+    title:       "Where we live and where we work",
+    slug:        "live-work",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/live-work.webp",
+    video:       "img/tiles/live-work-scroll.mp4",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "A 2-page spread in my book that explores the geography of employment and " +
+                 "residency across the Twin Cities.",
+    images:      [
+      { src: "img/tiles/live-work-spread.webp", full: "img/live-work.jpg" }   // the whole spread
+    ],
+    awards:      []
+  },
+  {
+    // The tile video scrolls rightward across the St. Paul spread, then the
+    // Minneapolis one, then starts over (tools/endless-scroll.sh on the two
+    // side by side). From the CMYK print files (50 Maps/Maps/Interstates/).
+    title:       "What the Interstates Destroyed",
+    slug:        "interstates",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/interstates.webp",
+    video:       "img/tiles/interstates-scroll.mp4",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "Two deeply researched maps that document the neighborhoods that were " +
+                 "demolished to build highways through the Twin Cities.",
+    mediaFull:   true,                            // the two maps the full width, no height limit…
+    stack:       true,                            // …one above the other
+    images:      [
+      { src: "img/tiles/interstates-st-paul.webp",    full: "img/interstates-st-paul.jpg" },     // I-94 through Rondo
+      { src: "img/tiles/interstates-minneapolis.webp", full: "img/interstates-minneapolis.jpg" } // A Collar of Asphalt
+    ],
+    awards:      []
+  },
+  {
+    // The tile is a 5:4 crop of the 2020 map without its legend. The panel
+    // shows the 1940 and 2020 maps side by side.
+    title:       "Immigration in the Twin Cities",
+    slug:        "immigration",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/immigration.webp",
+    video:       "",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "Dot density maps that create a mosaic of immigrant communities in the " +
+                 "Twin Cities at two points in history.",
+    images:      [
+      { src: "img/tiles/immigration-1940.webp", full: "img/immigration-1940.png" },
+      { src: "img/tiles/immigration-2020.webp", full: "img/immigration-2020.jpg" }
     ],
     awards:      []
   },
