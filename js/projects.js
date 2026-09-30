@@ -372,13 +372,13 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // The tile is a 5:4 crop of a close-up of the map; the panel shows the
+    // The tile is a 5:4 crop of the spread centered on downtown; the panel shows the
     // whole spread (50 Maps/Maps/15-minute/15-minute.jpg).
     title:       "15-minute neighborhoods",
     slug:        "neighborhood-access",
     year:        "2026",
     panelCols:   2,
-    tile:        "img/tiles/fifteen-minute-tile.webp",
+    tile:        "img/tiles/fifteen-minute-tile-v2.webp",
     video:       "",
     link:        "",                              // just the "In the book" button
     linkType:    "story",
