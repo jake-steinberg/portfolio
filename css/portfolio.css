@@ -606,11 +606,11 @@ body { overflow-anchor: none; }
 .pshots > .pshot:only-child { grid-column: 1 / -1; }
 .pshot img { aspect-ratio: auto; height: auto; object-fit: fill; }
 .pshot figcaption { margin-top: 8px; font-size: 14.5px; line-height: 1.35; }
-/* a caption over its picture (captionAbove: true in projects.js); the row
-   lines up at the bottom, so the pictures still match edge to edge */
-.pshot.cap-above { display: flex; flex-direction: column; }
-.pshot.cap-above figcaption { order: -1; margin: 0 0 8px; }
-.pshots.mosaic:has(.cap-above) { align-items: flex-end; }
+/* a caption over its picture (captionAbove: true in projects.js). It takes
+   no room of its own: it rises into the space above the row of pictures, so
+   the row sits as close under the text and buttons as usual */
+.pshot.cap-above { position: relative; }
+.pshot.cap-above figcaption { position: absolute; left: 0; right: 0; bottom: 100%; margin: 0 0 8px; }
 .pshots a.pcap {
   display: inline; overflow: visible; background: none;
   border: 0; border-bottom: 2px solid var(--accent-soft);
