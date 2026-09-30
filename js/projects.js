@@ -372,6 +372,23 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // WORKING TITLE — rename, and add a year, tags, a link, a description and
+    // panel pictures. The tile is a center 5:4 crop of the thumbnail.
+    title:       "Neighborhood access",
+    slug:        "neighborhood-access",
+    year:        "",
+    panelCols:   2,
+    tile:        "img/tiles/neighborhood-access.webp",
+    video:       "",
+    link:        "",
+    linkType:    "story",
+    tags:        [],
+    inBook:      false,
+    description: "",
+    images:      [],
+    awards:      []
+  },
+  {
     // The tile video pans slowly down the unlabeled cougar map
     // (img/cougars-base.jpg) and back up, 16s.
     title:       "Illustrated stories",
