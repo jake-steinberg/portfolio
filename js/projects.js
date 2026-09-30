@@ -609,7 +609,7 @@ const PROJECTS = [
     title:       "East River Flood Study",
     slug:        "east-river-flood-study",
     year:        "2022",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/east-river-flood-study.webp",
     video:       "",
     link:        "https://east-river-collaborative.tnc.org/pages/maps-data",
@@ -618,6 +618,7 @@ const PROJECTS = [
     inBook:      false,
     description: "I designed a series of 9 maps for The Nature Conservancy and Wisconsin Sea " +
                  "Grant to communicate about flood risk in the Green Bay area.",
+    mediaFull:   true,                            // the map and photo across the whole panel, under the text
     images:      [
       { src: "img/tiles/east-river-map.webp", full: "img/east-river-flood-map.jpg" },   // the map (3300px full size)
       { src: "img/tiles/east-river-evers.webp", full: "img/east-river-evers.jpg",
