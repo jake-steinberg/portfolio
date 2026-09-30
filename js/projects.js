@@ -326,23 +326,29 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // WORKING TITLE — rename, and add tags, a year, a link and a description.
     // The tile video is the fox and coyote tracking animation, zoomed in to 5:4
     // on where their trails meet (1270x1016 from 743,176 of the 2414x1454
     // recording), its end crossfading back. A wider version, showing more of the
     // coyote trails, is img/tiles/fox-coyote.mp4 / .webp.
-    title:       "Fox vs. coyote",
+    title:       "Urban foxes and coyotes",
     slug:        "fox-coyote",
-    year:        "",
-    panelCols:   2,
+    year:        "2026",
+    panelCols:   1,
     tile:        "img/tiles/fox-coyote-zoom.webp",
     video:       "img/tiles/fox-coyote-zoom.mp4",
-    link:        "",
+    link:        "",                              // no button: the story and the book are listed
     linkType:    "story",
-    tags:        [],
-    inBook:      false,
-    description: "",
-    images:      [],
+    tags:        ["news", "scrollytelling", "print"],
+    inBook:      true,
+    description: "Stories about backyard foxes and coyotes eking out a life in the margins of the metro.",
+    images:      [
+      // "A Year in the Life of an Urban Coyote" (the print page), white margin
+      // trimmed; clicking opens the full image
+      { src: "img/tiles/urban-coyote.webp", full: "img/urban-coyote.jpg" }
+    ],
+    links:       [                                 // "In the book" is added after these
+      { label: "Backyard battle for survival", url: "https://www.startribune.com/its-foxes-versus-coyotes-in-a-backyard-battle-for-survival/601504496" }
+    ],
     awards:      []
   },
   {
