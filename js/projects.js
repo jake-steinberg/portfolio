@@ -329,6 +329,25 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // WORKING TITLE — rename, and add a year, tags, a description and panel pictures.
+    // The tile video scrolls rightward across the spread without end: the
+    // spread repeats side by side and the loop ends where it began (30s).
+    // Converted from the CMYK print file (50 Maps/Maps/Geology/geology.jpg).
+    title:       "Geology",
+    slug:        "geology",
+    year:        "",
+    panelCols:   2,
+    tile:        "img/tiles/geology.webp",
+    video:       "img/tiles/geology.mp4",
+    link:        "",
+    linkType:    "story",
+    tags:        [],
+    inBook:      true,
+    description: "",
+    images:      [],
+    awards:      []
+  },
+  {
     // The tile video pans slowly down the unlabeled cougar map
     // (img/cougars-base.jpg) and back up, 16s.
     title:       "Illustrated stories",
