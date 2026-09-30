@@ -310,20 +310,22 @@ const PROJECTS = [
   {
     // The tile video pans slowly across the spread, from the hill profiles to
     // the map and back (20s), converted from the CMYK print file
-    // (50 Maps/Maps/St. Paul hills/hills.jpg). Add a year, tags, a
-    // description and panel pictures.
+    // (50 Maps/Maps/St. Paul hills/hills.jpg). The panel shows the whole spread.
     title:       "Cycling St. Paul’s Hills",
     slug:        "st-paul-hills",
-    year:        "",
+    year:        "2026",
     panelCols:   2,
     tile:        "img/tiles/st-paul-hills.webp",
     video:       "img/tiles/st-paul-hills.mp4",
     link:        "",                              // just the "In the book" button
     linkType:    "story",
-    tags:        [],
+    tags:        ["print"],
     inBook:      true,
-    description: "",
-    images:      [],
+    description: "A 2-page spread in my book that visually compares the hills that await " +
+                 "cyclists who wish to traverse the capitol city.",
+    images:      [
+      { src: "img/tiles/st-paul-hills-spread.webp", full: "img/st-paul-hills.jpg" }   // the whole spread
+    ],
     awards:      []
   },
   {
