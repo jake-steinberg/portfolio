@@ -352,6 +352,26 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // The tile is a 5:4 crop of the detail page's viewshed (50 Maps/Maps/
+    // Cathedral/cathdral_thumb.jpeg); the panel shows the whole spread,
+    // converted from the CMYK print file (cathdral.jpg).
+    title:       "The Cathedral of Saint Paul",
+    slug:        "cathedral",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/cathedral.webp",
+    video:       "",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "A divinely inspired GIS viewshed analysis that appears in my book.",
+    images:      [
+      { src: "img/tiles/cathedral-spread.webp", full: "img/cathedral.jpg" }   // the whole spread
+    ],
+    awards:      []
+  },
+  {
     // The tile video pans slowly down the unlabeled cougar map
     // (img/cougars-base.jpg) and back up, 16s.
     title:       "Illustrated stories",
