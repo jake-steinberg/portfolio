@@ -391,23 +391,24 @@ const PROJECTS = [
     ]
   },
   {
-    // The video scrolls down the full-size map and back up (48s loop), zoomed
-    // 3x on the middle third of the map's width, stopping short of the bottom
-    // 10%. The tile is its first frame.
-    // The old static thumbnail is still at img/tiles/the-driftless-area.webp
-    // if you'd rather go back to it.
-    title:       "Driftless Area",
-    slug:        "the-driftless-area",
-    year:        "2023",
-    panelCols:   1,
-    tile:        "img/tiles/the-driftless-area-scroll.webp",
-    video:       "img/tiles/the-driftless-area-scroll.mp4",
-    link:        "img/driftless-website.jpg",
-    linkType:    "file",
+    // The tile is a 5:4 crop of the 2020 map without its legend. The panel
+    // shows the 1940 and 2020 maps side by side.
+    title:       "Immigration in the Twin Cities",
+    slug:        "immigration",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/immigration.webp",
+    video:       "",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
     tags:        ["print"],
-    inBook:      false,
-    description: "Stylized land cover and elevation data for a sweeping wall map of the Driftless Area.",
-    images:      [],
+    inBook:      true,
+    description: "Dot density maps that create a mosaic of immigrant communities in the " +
+                 "Twin Cities at two points in history.",
+    images:      [
+      { src: "img/tiles/immigration-1940.webp", full: "img/immigration-1940.png" },
+      { src: "img/tiles/immigration-2020.webp", full: "img/immigration-2020.jpg" }
+    ],
     awards:      []
   },
   {
@@ -588,24 +589,23 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // The tile is a 5:4 crop of the 2020 map without its legend. The panel
-    // shows the 1940 and 2020 maps side by side.
-    title:       "Immigration in the Twin Cities",
-    slug:        "immigration",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/immigration.webp",
-    video:       "",
-    link:        "",                              // just the "In the book" button
-    linkType:    "story",
+    // The video scrolls down the full-size map and back up (48s loop), zoomed
+    // 3x on the middle third of the map's width, stopping short of the bottom
+    // 10%. The tile is its first frame.
+    // The old static thumbnail is still at img/tiles/the-driftless-area.webp
+    // if you'd rather go back to it.
+    title:       "Driftless Area",
+    slug:        "the-driftless-area",
+    year:        "2023",
+    panelCols:   1,
+    tile:        "img/tiles/the-driftless-area-scroll.webp",
+    video:       "img/tiles/the-driftless-area-scroll.mp4",
+    link:        "img/driftless-website.jpg",
+    linkType:    "file",
     tags:        ["print"],
-    inBook:      true,
-    description: "Dot density maps that create a mosaic of immigrant communities in the " +
-                 "Twin Cities at two points in history.",
-    images:      [
-      { src: "img/tiles/immigration-1940.webp", full: "img/immigration-1940.png" },
-      { src: "img/tiles/immigration-2020.webp", full: "img/immigration-2020.jpg" }
-    ],
+    inBook:      false,
+    description: "Stylized land cover and elevation data for a sweeping wall map of the Driftless Area.",
+    images:      [],
     awards:      []
   },
   {
