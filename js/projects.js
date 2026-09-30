@@ -378,7 +378,7 @@ const PROJECTS = [
     slug:        "neighborhood-access",
     year:        "2026",
     panelCols:   2,
-    tile:        "img/tiles/neighborhood-access-v2.webp",
+    tile:        "img/tiles/fifteen-minute-tile.webp",
     video:       "",
     link:        "",                              // just the "In the book" button
     linkType:    "story",
