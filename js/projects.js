@@ -134,33 +134,6 @@ const TAGS = [
    ----------------------------------------------------------------------------- */
 const PROJECTS = [
   {
-    // The tile video crossfades six of the story's 3D mountain renders, unlabeled
-    // (tools/crossfade-loop.sh, at CRF 31 to keep the detailed renders light).
-    // The panel shows the six labeled maps under the text, three to a row.
-    title:       "Lindsey Vonn’s Mountains",
-    slug:        "lindsey-vonns-mountains",
-    year:        "2026",
-    panelCols:   3,
-    tile:        "img/tiles/lindsey-vonns-mountains.webp",
-    video:       "img/tiles/lindsey-vonns-mountains.mp4",
-    link:        "https://www.startribune.com/five-mountains-and-one-notable-hill-that-defined-lindsey-vonns-career-and-comeback/601559700",
-    linkType:    "story",
-    tags:        ["news", "3d", "outdoors"],
-    inBook:      false,
-    description: "A biography of Lindsey Vonn published in the run-up to the 2026 Winter " +
-                 "Olympics, told by the mountains that made her.",
-    mediaFull:   true,                            // the six maps across the whole panel
-    images:      [                                 // a light copy each; clicking opens the original
-      { src: "img/tiles/vonn-lake-louise.webp", full: "img/vonn-lake-louise.jpg" },
-      { src: "img/tiles/vonn-are.webp",         full: "img/vonn-are.jpg" },
-      { src: "img/tiles/vonn-buck-hill.webp",   full: "img/vonn-buck-hill.jpg" },
-      { src: "img/tiles/vonn-cortina.webp",     full: "img/vonn-cortina.jpg" },
-      { src: "img/tiles/vonn-schladming.webp",  full: "img/vonn-schladming.jpg" },
-      { src: "img/tiles/vonn-whistler.webp",    full: "img/vonn-whistler.jpg" }
-    ],
-    awards:      []
-  },
-  {
     // The tile video crossfades three of the stories' sharing images (not the
     // ICE chart), each shown whole and padded to 5:4, black behind the
     // frame-by-frame analysis (tools/crossfade-loop.sh). The stories show as cards with their sharing images (links: … image:);
@@ -200,6 +173,54 @@ const PROJECTS = [
     ]
   },
   {
+    // The tile video crossfades six of the story's 3D mountain renders, unlabeled
+    // (tools/crossfade-loop.sh, at CRF 31 to keep the detailed renders light).
+    // The panel shows the six labeled maps under the text, three to a row.
+    title:       "Lindsey Vonn’s Mountains",
+    slug:        "lindsey-vonns-mountains",
+    year:        "2026",
+    panelCols:   3,
+    tile:        "img/tiles/lindsey-vonns-mountains.webp",
+    video:       "img/tiles/lindsey-vonns-mountains.mp4",
+    link:        "https://www.startribune.com/five-mountains-and-one-notable-hill-that-defined-lindsey-vonns-career-and-comeback/601559700",
+    linkType:    "story",
+    tags:        ["news", "3d", "outdoors"],
+    inBook:      false,
+    description: "A biography of Lindsey Vonn published in the run-up to the 2026 Winter " +
+                 "Olympics, told by the mountains that made her.",
+    mediaFull:   true,                            // the six maps across the whole panel
+    images:      [                                 // a light copy each; clicking opens the original
+      { src: "img/tiles/vonn-lake-louise.webp", full: "img/vonn-lake-louise.jpg" },
+      { src: "img/tiles/vonn-are.webp",         full: "img/vonn-are.jpg" },
+      { src: "img/tiles/vonn-buck-hill.webp",   full: "img/vonn-buck-hill.jpg" },
+      { src: "img/tiles/vonn-cortina.webp",     full: "img/vonn-cortina.jpg" },
+      { src: "img/tiles/vonn-schladming.webp",  full: "img/vonn-schladming.jpg" },
+      { src: "img/tiles/vonn-whistler.webp",    full: "img/vonn-whistler.jpg" }
+    ],
+    awards:      []
+  },
+  {
+    // The tile video crossfades four of the spread's inset renders, each cropped
+    // to 5:4 (tools/crossfade-loop.sh). The panel shows the whole spread,
+    // converted from the CMYK print file (50 Maps/Maps/REM/floodplain.jpg).
+    title:       "A Restless River",
+    slug:        "restless-river",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/restless-river-tile.webp",
+    video:       "img/tiles/restless-river-loop.mp4",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "A 2-page spread in my book that exposes the writhing and rambling of " +
+                 "the Minnesota River.",
+    images:      [
+      { src: "img/tiles/restless-river.webp", full: "img/restless-river.jpg" }   // the whole spread
+    ],
+    awards:      []
+  },
+  {
     // Two looping maps from the stories, each captioned with a link to it. The
     // fire growth is cropped to 5:4 around the four big fires (1060x848 from
     // 416,0 of the 1920x1080 original). The tile plays it, then the smoke.
@@ -219,6 +240,26 @@ const PROJECTS = [
         story: "https://www.startribune.com/drought-and-dead-wood-stacked-the-deck-for-the-boundary-waters-wildfires/601870740" },
       { src: "img/tiles/wildfire-smoke-loop.mp4", label: "Smoke",                 // the smoke forecast
         story: "https://www.startribune.com/wildfire-smoke-is-arriving-in-the-twin-cities-and-central-minnesota-here-is-what-to-expect/601868148" }
+    ],
+    awards:      []
+  },
+  {
+    // The tile is a 5:4 crop of the detail page's viewshed (50 Maps/Maps/
+    // Cathedral/cathdral_thumb.jpeg); the panel shows the whole spread,
+    // converted from the CMYK print file (cathdral.jpg).
+    title:       "The Cathedral of Saint Paul",
+    slug:        "cathedral",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/cathedral.webp",
+    video:       "",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "A divinely inspired GIS viewshed analysis that appears in my book.",
+    images:      [
+      { src: "img/tiles/cathedral-spread.webp", full: "img/cathedral.jpg" }   // the whole spread
     ],
     awards:      []
   },
@@ -289,27 +330,6 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // The tile video crossfades four of the spread's inset renders, each cropped
-    // to 5:4 (tools/crossfade-loop.sh). The panel shows the whole spread,
-    // converted from the CMYK print file (50 Maps/Maps/REM/floodplain.jpg).
-    title:       "A Restless River",
-    slug:        "restless-river",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/restless-river-tile.webp",
-    video:       "img/tiles/restless-river-loop.mp4",
-    link:        "",                              // just the "In the book" button
-    linkType:    "story",
-    tags:        ["print"],
-    inBook:      true,
-    description: "A 2-page spread in my book that exposes the writhing and rambling of " +
-                 "the Minnesota River.",
-    images:      [
-      { src: "img/tiles/restless-river.webp", full: "img/restless-river.jpg" }   // the whole spread
-    ],
-    awards:      []
-  },
-  {
     // The tile video scrolls rightward across the spread without end, one copy
     // running straight into the next (about 24s a loop), converted from the CMYK print file
     // (50 Maps/Maps/St. Paul hills/hills.jpg). The panel shows the whole spread.
@@ -327,204 +347,6 @@ const PROJECTS = [
                  "cyclists who wish to traverse the capitol city.",
     images:      [
       { src: "img/tiles/st-paul-hills-spread.webp", full: "img/st-paul-hills.jpg" }   // the whole spread
-    ],
-    awards:      []
-  },
-  {
-    // The tile video scrolls rightward across the spread without end: the
-    // spread repeats with a 60px white gap between copies, and the loop ends
-    // where it began (about 24s).
-    // Converted from the CMYK print file (50 Maps/Maps/Geology/geology.jpg);
-    // the panel shows the whole spread.
-    title:       "Twin Cities Geology",
-    slug:        "geology",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/geology.webp",
-    video:       "img/tiles/geology-scroll.mp4",
-    link:        "",                              // just the "In the book" button
-    linkType:    "story",
-    tags:        ["print"],
-    inBook:      true,
-    description: "A 2-page spread in my book that tells the story of the subterranean " +
-                 "world beneath the Twin Cities.",
-    images:      [
-      { src: "img/tiles/geology-spread.webp", full: "img/geology.jpg" }   // the whole spread
-    ],
-    awards:      []
-  },
-  {
-    // The tile is a 5:4 crop of the detail page's viewshed (50 Maps/Maps/
-    // Cathedral/cathdral_thumb.jpeg); the panel shows the whole spread,
-    // converted from the CMYK print file (cathdral.jpg).
-    title:       "The Cathedral of Saint Paul",
-    slug:        "cathedral",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/cathedral.webp",
-    video:       "",
-    link:        "",                              // just the "In the book" button
-    linkType:    "story",
-    tags:        ["print"],
-    inBook:      true,
-    description: "A divinely inspired GIS viewshed analysis that appears in my book.",
-    images:      [
-      { src: "img/tiles/cathedral-spread.webp", full: "img/cathedral.jpg" }   // the whole spread
-    ],
-    awards:      []
-  },
-  {
-    // The tile is a 5:4 crop of the spread centered on downtown; the panel shows the
-    // whole spread (50 Maps/Maps/15-minute/15-minute.jpg).
-    title:       "15-minute neighborhoods",
-    slug:        "neighborhood-access",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/fifteen-minute-tile-v2.webp",
-    video:       "",
-    link:        "",                              // just the "In the book" button
-    linkType:    "story",
-    tags:        ["print"],
-    inBook:      true,
-    description: "An analysis of where in the Twin Cities you can live comfortably without a car.",
-    images:      [
-      { src: "img/tiles/fifteen-minute-spread.webp", full: "img/fifteen-minute.jpg" }   // the whole spread
-    ],
-    awards:      []
-  },
-  {
-    // The tile video scrolls rightward across the spread without end
-    // (tools/endless-scroll.sh); the panel shows the whole spread. Both come
-    // from the CMYK print file (50 Maps/Maps/Live v work/live v work.jpg).
-    title:       "Where we live and where we work",
-    slug:        "live-work",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/live-work.webp",
-    video:       "img/tiles/live-work-scroll.mp4",
-    link:        "",                              // just the "In the book" button
-    linkType:    "story",
-    tags:        ["print"],
-    inBook:      true,
-    description: "A 2-page spread in my book that explores the geography of employment and " +
-                 "residency across the Twin Cities.",
-    images:      [
-      { src: "img/tiles/live-work-spread.webp", full: "img/live-work.jpg" }   // the whole spread
-    ],
-    awards:      []
-  },
-  {
-    // The tile video scrolls rightward across the St. Paul spread, then the
-    // Minneapolis one, then starts over (tools/endless-scroll.sh on the two
-    // side by side). From the CMYK print files (50 Maps/Maps/Interstates/).
-    title:       "What the Interstates Destroyed",
-    slug:        "interstates",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/interstates.webp",
-    video:       "img/tiles/interstates-scroll.mp4",
-    link:        "",                              // just the "In the book" button
-    linkType:    "story",
-    tags:        ["print"],
-    inBook:      true,
-    description: "Two deeply researched maps that document the neighborhoods that were " +
-                 "demolished to build highways through the Twin Cities.",
-    mediaFull:   true,                            // the two maps the full width, no height limit…
-    stack:       true,                            // …one above the other
-    images:      [
-      { src: "img/tiles/interstates-st-paul.webp",    full: "img/interstates-st-paul.jpg" },     // I-94 through Rondo
-      { src: "img/tiles/interstates-minneapolis.webp", full: "img/interstates-minneapolis.jpg" } // A Collar of Asphalt
-    ],
-    awards:      []
-  },
-  {
-    // The tile is a 5:4 crop of the 2020 map without its legend. The panel
-    // shows the 1940 and 2020 maps side by side.
-    title:       "Immigration in the Twin Cities",
-    slug:        "immigration",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/immigration.webp",
-    video:       "",
-    link:        "",                              // just the "In the book" button
-    linkType:    "story",
-    tags:        ["print"],
-    inBook:      true,
-    description: "Dot density maps that create a mosaic of immigrant communities in the " +
-                 "Twin Cities at two points in history.",
-    images:      [
-      { src: "img/tiles/immigration-1940.webp", full: "img/immigration-1940.png" },
-      { src: "img/tiles/immigration-2020.webp", full: "img/immigration-2020.jpg" }
-    ],
-    awards:      []
-  },
-  {
-    // The tile video pans slowly down the unlabeled cougar map
-    // (img/cougars-base.jpg) and back up, 16s.
-    title:       "Illustrated stories",
-    slug:        "illustrated-stories",
-    year:        "2026",
-    panelCols:   2,
-    tile:        "img/tiles/illustrated-stories.webp",
-    video:       "img/tiles/illustrated-stories.mp4",
-    link:        "",
-    linkType:    "story",
-    tags:        ["news", "illustrated", "outdoors"],
-    inBook:      false,
-    description: "Hand-drawn cartography for the Star Tribune.",
-    images:      [
-      { src: "img/tiles/illustrated-camino.webp", full: "img/camino-de-santiago.jpg",
-        label: "Camino de Santiago",
-        story: "https://www.startribune.com/resilience-enlightenment-and-bed-bugs-on-the-camino-de-santiago/601528801" },
-      // not published yet: the label is a plain caption until story: is added
-      { src: "img/tiles/illustrated-cougars.webp", full: "img/cougars.jpg",
-        label: "Cougars return" }
-    ],
-    awards:      []
-  },
-  {
-    // The tile video is a screen recording of the story, cropped to just the
-    // strip its four vehicles drive through, on white, its end crossfading back.
-    title:       "Cost of the commute",
-    slug:        "commute-costs",
-    year:        "2026",
-    panelCols:   1,
-    tile:        "img/tiles/commute-costs.webp",
-    video:       "img/tiles/commute-costs-drive.mp4",
-    link:        "https://www.startribune.com/highest-gas-prices-in-4-years-force-minnesotans-to-rethink-the-commute-if-they-can/601838626",
-    linkType:    "story",
-    tags:        ["news", "scrollytelling"],
-    inBook:      false,
-    description: "A visual story about how high gas prices caused by the war with Iran " +
-                 "are squeezing commuters.",
-    images:      [],
-    awards:      []
-  },
-  {
-    // The tile video is the fox and coyote tracking animation, zoomed in to 5:4
-    // on where their trails meet (1270x1016 from 743,176 of the 2414x1454
-    // recording), its end crossfading back. A wider version, showing more of the
-    // coyote trails, is img/tiles/fox-coyote.mp4 / .webp.
-    title:       "Urban foxes and coyotes",
-    slug:        "fox-coyote",
-    year:        "2026",
-    panelCols:   3,
-    tile:        "img/tiles/fox-coyote-zoom.webp",
-    video:       "img/tiles/fox-coyote-zoom.mp4",
-    link:        "",                              // no button: the story and the book are listed
-    linkType:    "story",
-    tags:        ["news", "scrollytelling", "print"],
-    inBook:      true,
-    description: "Stories about backyard foxes and coyotes eking out a life in the margins of the metro.",
-    images:      [
-      // "A Year in the Life of an Urban Coyote", converted from the CMYK print
-      // original (50 Maps/Maps/Coyotes/coyote.jpg) to screen colors, white
-      // margin trimmed, and just its left page shown; clicking opens the whole
-      // spread at full resolution
-      { src: "img/tiles/urban-coyote-left.webp", full: "img/urban-coyote.jpg" }
-    ],
-    links:       [                                 // "In the book" is added after these
-      { label: "Backyard battle for survival", url: "https://www.startribune.com/its-foxes-versus-coyotes-in-a-backyard-battle-for-survival/601504496" }
     ],
     awards:      []
   },
@@ -549,67 +371,6 @@ const PROJECTS = [
     awards:      []
   },
   {
-    title:       "Emily Ford’s Iditarod",
-    slug:        "2025-iditarod",
-    year:        "2025",
-    panelCols:   2,
-    tile:        "img/tiles/2025-iditarod.webp",
-    video:       "",
-    link:        "https://www.startribune.com/duluths-emily-ford-faces-her-toughest-winter-adventure-yet-alaskas-famed-iditarod/601225462",
-    linkType:    "story",
-    tags:        ["news", "outdoors"],
-    inBook:      false,
-    description: "A map that conjures the icy Alaska faced by Minnesotan Emily Ford during " +
-                 "the 2025 Iditarod dog sled race. Built from a MODIS image.",
-    mediaFull:   true,                            // the map across the whole panel
-    images:      [
-      { src: "img/tiles/2025-iditarod-full.webp",   // a lighter copy to preview…
-        full: "img/ford.jpg" }                       // …clicking it opens the original
-    ],
-    awards:      []
-  },
-  {
-    // The video scrolls down the full-size map and back up (48s loop), zoomed
-    // 3x on the middle third of the map's width, stopping short of the bottom
-    // 10%. The tile is its first frame.
-    // The old static thumbnail is still at img/tiles/the-driftless-area.webp
-    // if you'd rather go back to it.
-    title:       "Driftless Area",
-    slug:        "the-driftless-area",
-    year:        "2023",
-    panelCols:   1,
-    tile:        "img/tiles/the-driftless-area-scroll.webp",
-    video:       "img/tiles/the-driftless-area-scroll.mp4",
-    link:        "img/driftless-website.jpg",
-    linkType:    "file",
-    tags:        ["print"],
-    inBook:      false,
-    description: "Stylized land cover and elevation data for a sweeping wall map of the Driftless Area.",
-    images:      [],
-    awards:      []
-  },
-  {
-    title:       "Minnesota State Fair Smellscape",
-    slug:        "state-fair-smellscape",
-    year:        "2025",
-    panelCols:   2,
-    tile:        "img/tiles/state-fair-smellscape.webp",
-    video:       "",
-    link:        "https://www.startribune.com/smells-of-the-minnesota-state-fair-create-a-festival-for-the-nose/601443971?utm_source=gift",
-    linkType:    "story",
-    tags:        ["print", "illustrated"],
-    inBook:      true,
-    description: "The landscape of smells — or, smellscape — of the Minnesota State Fair, " +
-                 "where the aroma of roasting corn is as prominent as any mountain.",
-    images:      [
-      // both made from the CMYK original, img/smellscape.jpg, converted to screen
-      // colors: the preview has its white margins cropped off; the full size is whole
-      { src: "img/tiles/state-fair-smellscape-full.webp",
-        full: "img/smellscape-fair.jpg" }                    // clicking it opens this
-    ],
-    awards:      []
-  },
-  {
     title:       "Slivers of an Ancient Forest",
     slug:        "slivers-of-an-ancient-forest",
     year:        "2021",
@@ -630,27 +391,23 @@ const PROJECTS = [
     ]
   },
   {
-    title:       "22, A Map",
-    slug:        "22-a-map",
-    year:        "2022",
-    panelCols:   2,
-    tile:        "img/tiles/22-a-map.webp",
-    video:       "img/tiles/22-a-map.mp4",
-    link:        "22map.html",
-    linkType:    "page",
-    tags:        ["interactive", "scrollytelling"],
+    // The video scrolls down the full-size map and back up (48s loop), zoomed
+    // 3x on the middle third of the map's width, stopping short of the bottom
+    // 10%. The tile is its first frame.
+    // The old static thumbnail is still at img/tiles/the-driftless-area.webp
+    // if you'd rather go back to it.
+    title:       "Driftless Area",
+    slug:        "the-driftless-area",
+    year:        "2023",
+    panelCols:   1,
+    tile:        "img/tiles/the-driftless-area-scroll.webp",
+    video:       "img/tiles/the-driftless-area-scroll.mp4",
+    link:        "img/driftless-website.jpg",
+    linkType:    "file",
+    tags:        ["print"],
     inBook:      false,
-    description: "A Mapbox-inspired journey through the aesthetic universe of Bon Iver’s " +
-                 "<em>22, A Million</em>.",
-    scatter:     true,                            // the glyphs, loosely scattered rather than framed
-    images:      [                                 // the glyphs between the story's sections, in order
-      { src: "img/dude-01.svg", zoom: false },
-      { src: "img/fireball-01.svg", zoom: false },
-      { src: "img/weed-01.svg", zoom: false },
-      { src: "img/twoface-01.svg", zoom: false },
-      { src: "img/fingers-01.svg", zoom: false },
-      { src: "img/turnblue-01.svg", zoom: false }
-    ],
+    description: "Stylized land cover and elevation data for a sweeping wall map of the Driftless Area.",
+    images:      [],
     awards:      []
   },
   {
@@ -691,6 +448,142 @@ const PROJECTS = [
     awards:      []
   },
   {
+    title:       "22, A Map",
+    slug:        "22-a-map",
+    year:        "2022",
+    panelCols:   2,
+    tile:        "img/tiles/22-a-map.webp",
+    video:       "img/tiles/22-a-map.mp4",
+    link:        "22map.html",
+    linkType:    "page",
+    tags:        ["interactive", "scrollytelling"],
+    inBook:      false,
+    description: "A Mapbox-inspired journey through the aesthetic universe of Bon Iver’s " +
+                 "<em>22, A Million</em>.",
+    scatter:     true,                            // the glyphs, loosely scattered rather than framed
+    images:      [                                 // the glyphs between the story's sections, in order
+      { src: "img/dude-01.svg", zoom: false },
+      { src: "img/fireball-01.svg", zoom: false },
+      { src: "img/weed-01.svg", zoom: false },
+      { src: "img/twoface-01.svg", zoom: false },
+      { src: "img/fingers-01.svg", zoom: false },
+      { src: "img/turnblue-01.svg", zoom: false }
+    ],
+    awards:      []
+  },
+  {
+    title:       "Emily Ford’s Iditarod",
+    slug:        "2025-iditarod",
+    year:        "2025",
+    panelCols:   2,
+    tile:        "img/tiles/2025-iditarod.webp",
+    video:       "",
+    link:        "https://www.startribune.com/duluths-emily-ford-faces-her-toughest-winter-adventure-yet-alaskas-famed-iditarod/601225462",
+    linkType:    "story",
+    tags:        ["news", "outdoors"],
+    inBook:      false,
+    description: "A map that conjures the icy Alaska faced by Minnesotan Emily Ford during " +
+                 "the 2025 Iditarod dog sled race. Built from a MODIS image.",
+    mediaFull:   true,                            // the map across the whole panel
+    images:      [
+      { src: "img/tiles/2025-iditarod-full.webp",   // a lighter copy to preview…
+        full: "img/ford.jpg" }                       // …clicking it opens the original
+    ],
+    awards:      []
+  },
+  {
+    title:       "The Legacy Tree",
+    slug:        "legacy-tree",
+    year:        "2024",
+    panelCols:   3,
+    tile:        "img/tiles/legacy-tree.webp",
+    video:       "img/tiles/legacy-tree.mp4",
+    link:        "https://www.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/",
+    linkType:    "story",
+    tags:        ["news", "climate"],
+    inBook:      false,
+    description: "A quest through time in a warming wilderness to find the oldest living tree in Minnesota.",
+    images:      [                                 // clicking a photo opens it on its own
+      { src: "img/tiles/legacy-tree-cedar.webp" },   // the cedar
+      { src: "img/tiles/legacy-tree-dogs.webp" },    // sled dogs
+      { src: "img/tiles/legacy-tree-sled.webp" },    // mushing across the ice
+      // the article's two maps (fire history, logging), lined up and alternating;
+      // top: true puts it across the top of the mosaic
+      { src: "img/tiles/legacy-tree-maps-loop.mp4", top: true }
+    ],
+    credit:      "Photos by Anthony Soufflé",
+    awards:      []
+  },
+  {
+    title:       "Minnesota State Fair Smellscape",
+    slug:        "state-fair-smellscape",
+    year:        "2025",
+    panelCols:   2,
+    tile:        "img/tiles/state-fair-smellscape.webp",
+    video:       "",
+    link:        "https://www.startribune.com/smells-of-the-minnesota-state-fair-create-a-festival-for-the-nose/601443971?utm_source=gift",
+    linkType:    "story",
+    tags:        ["print", "illustrated"],
+    inBook:      true,
+    description: "The landscape of smells — or, smellscape — of the Minnesota State Fair, " +
+                 "where the aroma of roasting corn is as prominent as any mountain.",
+    images:      [
+      // both made from the CMYK original, img/smellscape.jpg, converted to screen
+      // colors: the preview has its white margins cropped off; the full size is whole
+      { src: "img/tiles/state-fair-smellscape-full.webp",
+        full: "img/smellscape-fair.jpg" }                    // clicking it opens this
+    ],
+    awards:      []
+  },
+  {
+    // The tile video scrolls rightward across the St. Paul spread, then the
+    // Minneapolis one, then starts over (tools/endless-scroll.sh on the two
+    // side by side). From the CMYK print files (50 Maps/Maps/Interstates/).
+    title:       "What the Interstates Destroyed",
+    slug:        "interstates",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/interstates.webp",
+    video:       "img/tiles/interstates-scroll.mp4",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "Two deeply researched maps that document the neighborhoods that were " +
+                 "demolished to build highways through the Twin Cities.",
+    mediaFull:   true,                            // the two maps the full width, no height limit…
+    stack:       true,                            // …one above the other
+    images:      [
+      { src: "img/tiles/interstates-st-paul.webp",    full: "img/interstates-st-paul.jpg" },     // I-94 through Rondo
+      { src: "img/tiles/interstates-minneapolis.webp", full: "img/interstates-minneapolis.jpg" } // A Collar of Asphalt
+    ],
+    awards:      []
+  },
+  {
+    // The tile video pans slowly down the unlabeled cougar map
+    // (img/cougars-base.jpg) and back up, 16s.
+    title:       "Illustrated stories",
+    slug:        "illustrated-stories",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/illustrated-stories.webp",
+    video:       "img/tiles/illustrated-stories.mp4",
+    link:        "",
+    linkType:    "story",
+    tags:        ["news", "illustrated", "outdoors"],
+    inBook:      false,
+    description: "Hand-drawn cartography for the Star Tribune.",
+    images:      [
+      { src: "img/tiles/illustrated-camino.webp", full: "img/camino-de-santiago.jpg",
+        label: "Camino de Santiago",
+        story: "https://www.startribune.com/resilience-enlightenment-and-bed-bugs-on-the-camino-de-santiago/601528801" },
+      // not published yet: the label is a plain caption until story: is added
+      { src: "img/tiles/illustrated-cougars.webp", full: "img/cougars.jpg",
+        label: "Cougars return" }
+    ],
+    awards:      []
+  },
+  {
     // One tile for both Uptown stories: the call-out where readers drew their
     // boundaries, and the results. The tile video shows the drawing animation
     // at full width, with the basemap's gray (#EDEDED) above and below to make it 5:4.
@@ -723,26 +616,72 @@ const PROJECTS = [
     ]
   },
   {
-    title:       "The Legacy Tree",
-    slug:        "legacy-tree",
-    year:        "2024",
+    // The tile video is the fox and coyote tracking animation, zoomed in to 5:4
+    // on where their trails meet (1270x1016 from 743,176 of the 2414x1454
+    // recording), its end crossfading back. A wider version, showing more of the
+    // coyote trails, is img/tiles/fox-coyote.mp4 / .webp.
+    title:       "Urban foxes and coyotes",
+    slug:        "fox-coyote",
+    year:        "2026",
     panelCols:   3,
-    tile:        "img/tiles/legacy-tree.webp",
-    video:       "img/tiles/legacy-tree.mp4",
-    link:        "https://www.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/",
+    tile:        "img/tiles/fox-coyote-zoom.webp",
+    video:       "img/tiles/fox-coyote-zoom.mp4",
+    link:        "",                              // no button: the story and the book are listed
     linkType:    "story",
-    tags:        ["news", "climate"],
-    inBook:      false,
-    description: "A quest through time in a warming wilderness to find the oldest living tree in Minnesota.",
-    images:      [                                 // clicking a photo opens it on its own
-      { src: "img/tiles/legacy-tree-cedar.webp" },   // the cedar
-      { src: "img/tiles/legacy-tree-dogs.webp" },    // sled dogs
-      { src: "img/tiles/legacy-tree-sled.webp" },    // mushing across the ice
-      // the article's two maps (fire history, logging), lined up and alternating;
-      // top: true puts it across the top of the mosaic
-      { src: "img/tiles/legacy-tree-maps-loop.mp4", top: true }
+    tags:        ["news", "scrollytelling", "print"],
+    inBook:      true,
+    description: "Stories about backyard foxes and coyotes eking out a life in the margins of the metro.",
+    images:      [
+      // "A Year in the Life of an Urban Coyote", converted from the CMYK print
+      // original (50 Maps/Maps/Coyotes/coyote.jpg) to screen colors, white
+      // margin trimmed, and just its left page shown; clicking opens the whole
+      // spread at full resolution
+      { src: "img/tiles/urban-coyote-left.webp", full: "img/urban-coyote.jpg" }
     ],
-    credit:      "Photos by Anthony Soufflé",
+    links:       [                                 // "In the book" is added after these
+      { label: "Backyard battle for survival", url: "https://www.startribune.com/its-foxes-versus-coyotes-in-a-backyard-battle-for-survival/601504496" }
+    ],
+    awards:      []
+  },
+  {
+    title:       "Election results",
+    slug:        "2024-election-in-minnesota",
+    year:        "2023–2026",
+    panelCols:   2,
+    tile:        "img/tiles/2024-election-in-minnesota.webp",
+    video:       "img/tiles/2024-election-in-minnesota.mp4",
+    link:        "",                              // no button: the pictures link to the full-size files
+    linkType:    "file",
+    tags:        ["news", "print", "interactive"],
+    inBook:      false,
+    description: "Mapping the results of local, state and national elections for the Star Tribune.",
+    images:      [
+      { src: "img/tiles/election-results-page.webp",      // the 2024 presidential results page
+        full: "img/Strib_election.pdf" },                  // clicking it opens the PDF
+      { src: "img/tiles/election-results-st-paul.webp",   // 2025 Minneapolis and St. Paul mayoral races
+        full: "img/st_paul_election.png" }
+    ],
+    awards:      []
+  },
+  {
+    // The tile is a 5:4 crop of the 2020 map without its legend. The panel
+    // shows the 1940 and 2020 maps side by side.
+    title:       "Immigration in the Twin Cities",
+    slug:        "immigration",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/immigration.webp",
+    video:       "",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "Dot density maps that create a mosaic of immigrant communities in the " +
+                 "Twin Cities at two points in history.",
+    images:      [
+      { src: "img/tiles/immigration-1940.webp", full: "img/immigration-1940.png" },
+      { src: "img/tiles/immigration-2020.webp", full: "img/immigration-2020.jpg" }
+    ],
     awards:      []
   },
   {
@@ -777,47 +716,25 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // All images come from the CMYK print map (OneDrive: Personal/Portfolio/
-    // east_river_website.jpg), converted to screen colors with its SWOP profile.
-    // The tile is a 5:4 crop around the flood area along the East River.
-    title:       "East River Flood Study",
-    slug:        "east-river-flood-study",
-    year:        "2022",
+    // The tile video scrolls rightward across the spread without end: the
+    // spread repeats with a 60px white gap between copies, and the loop ends
+    // where it began (about 24s).
+    // Converted from the CMYK print file (50 Maps/Maps/Geology/geology.jpg);
+    // the panel shows the whole spread.
+    title:       "Twin Cities geology",
+    slug:        "geology",
+    year:        "2026",
     panelCols:   2,
-    tile:        "img/tiles/east-river-flood-study.webp",
-    video:       "",
-    link:        "https://east-river-collaborative.tnc.org/pages/maps-data",
-    linkType:    "project",
-    tags:        ["print", "climate"],
-    inBook:      false,
-    description: "I designed a series of 9 maps for The Nature Conservancy and Wisconsin Sea " +
-                 "Grant to communicate about flood risk in the Green Bay area.",
+    tile:        "img/tiles/geology.webp",
+    video:       "img/tiles/geology-scroll.mp4",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "A 2-page spread in my book that tells the story of the subterranean " +
+                 "world beneath the Twin Cities.",
     images:      [
-      // a crop of the map around the flood area, the same shape as the photo so
-      // the two show at the same size; clicking opens the whole map (3300px)
-      { src: "img/tiles/east-river-map-crop.webp", full: "img/east-river-flood-map.jpg" },
-      { src: "img/tiles/east-river-evers.webp", full: "img/east-river-evers.jpg",
-        label: "Wisconsin Gov. Tony Evers photographed admiring my maps.", captionAbove: true, captionStar: true }
-    ],
-    awards:      []
-  },
-  {
-    title:       "Election Results",
-    slug:        "2024-election-in-minnesota",
-    year:        "2023–2026",
-    panelCols:   2,
-    tile:        "img/tiles/2024-election-in-minnesota.webp",
-    video:       "img/tiles/2024-election-in-minnesota.mp4",
-    link:        "",                              // no button: the pictures link to the full-size files
-    linkType:    "file",
-    tags:        ["news", "print", "interactive"],
-    inBook:      false,
-    description: "Mapping the results of local, state and national elections for the Star Tribune.",
-    images:      [
-      { src: "img/tiles/election-results-page.webp",      // the 2024 presidential results page
-        full: "img/Strib_election.pdf" },                  // clicking it opens the PDF
-      { src: "img/tiles/election-results-st-paul.webp",   // 2025 Minneapolis and St. Paul mayoral races
-        full: "img/st_paul_election.png" }
+      { src: "img/tiles/geology-spread.webp", full: "img/geology.jpg" }   // the whole spread
     ],
     awards:      []
   },
@@ -825,7 +742,7 @@ const PROJECTS = [
     // The video pans slowly down the full page (img/urban_paddling.jpg) and
     // back up, like the Driftless tile. The old static thumbnail is still at
     // img/tiles/urban-paddling-guide.webp
-    title:       "Urban Paddling Guide",
+    title:       "Urban paddling guide",
     slug:        "urban-paddling-guide",
     year:        "2025",
     panelCols:   2,
@@ -851,6 +768,31 @@ const PROJECTS = [
     ]
   },
   {
+    // All images come from the CMYK print map (OneDrive: Personal/Portfolio/
+    // east_river_website.jpg), converted to screen colors with its SWOP profile.
+    // The tile is a 5:4 crop around the flood area along the East River.
+    title:       "East River flood study",
+    slug:        "east-river-flood-study",
+    year:        "2022",
+    panelCols:   2,
+    tile:        "img/tiles/east-river-flood-study.webp",
+    video:       "",
+    link:        "https://east-river-collaborative.tnc.org/pages/maps-data",
+    linkType:    "project",
+    tags:        ["print", "climate"],
+    inBook:      false,
+    description: "I designed a series of 9 maps for The Nature Conservancy and Wisconsin Sea " +
+                 "Grant to communicate about flood risk in the Green Bay area.",
+    images:      [
+      // a crop of the map around the flood area, the same shape as the photo so
+      // the two show at the same size; clicking opens the whole map (3300px)
+      { src: "img/tiles/east-river-map-crop.webp", full: "img/east-river-flood-map.jpg" },
+      { src: "img/tiles/east-river-evers.webp", full: "img/east-river-evers.jpg",
+        label: "Wisconsin Gov. Tony Evers photographed admiring my maps.", captionAbove: true, captionStar: true }
+    ],
+    awards:      []
+  },
+  {
     title:       "The Life and Death of the Great Lakes Pipeline",
     slug:        "great-lakes-pipeline",
     year:        "2023",
@@ -869,6 +811,64 @@ const PROJECTS = [
     awards:      [
       "Best student map, Wisconsin Land Information Association, 2023"
     ]
+  },
+  {
+    // The tile video scrolls rightward across the spread without end
+    // (tools/endless-scroll.sh); the panel shows the whole spread. Both come
+    // from the CMYK print file (50 Maps/Maps/Live v work/live v work.jpg).
+    title:       "Where we live and where we work",
+    slug:        "live-work",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/live-work.webp",
+    video:       "img/tiles/live-work-scroll.mp4",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "A 2-page spread in my book that explores the geography of employment and " +
+                 "residency across the Twin Cities.",
+    images:      [
+      { src: "img/tiles/live-work-spread.webp", full: "img/live-work.jpg" }   // the whole spread
+    ],
+    awards:      []
+  },
+  {
+    // The tile is a 5:4 crop of the spread centered on downtown; the panel shows the
+    // whole spread (50 Maps/Maps/15-minute/15-minute.jpg).
+    title:       "15-minute neighborhoods",
+    slug:        "neighborhood-access",
+    year:        "2026",
+    panelCols:   2,
+    tile:        "img/tiles/fifteen-minute-tile-v2.webp",
+    video:       "",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        ["print"],
+    inBook:      true,
+    description: "An analysis of where in the Twin Cities you can live comfortably without a car.",
+    images:      [
+      { src: "img/tiles/fifteen-minute-spread.webp", full: "img/fifteen-minute.jpg" }   // the whole spread
+    ],
+    awards:      []
+  },
+  {
+    // The tile video is a screen recording of the story, cropped to just the
+    // strip its four vehicles drive through, on white, its end crossfading back.
+    title:       "Cost of the commute",
+    slug:        "commute-costs",
+    year:        "2026",
+    panelCols:   1,
+    tile:        "img/tiles/commute-costs.webp",
+    video:       "img/tiles/commute-costs-drive.mp4",
+    link:        "https://www.startribune.com/highest-gas-prices-in-4-years-force-minnesotans-to-rethink-the-commute-if-they-can/601838626",
+    linkType:    "story",
+    tags:        ["news", "scrollytelling"],
+    inBook:      false,
+    description: "A visual story about how high gas prices caused by the war with Iran " +
+                 "are squeezing commuters.",
+    images:      [],
+    awards:      []
   },
   {
     title:       "How does 2024’s weather compare with your childhood’s?",
@@ -908,7 +908,7 @@ const PROJECTS = [
     awards:      []
   },
   {
-    title:       "Projection Trading Card",
+    title:       "Projection trading card",
     slug:        "projection-trading-card",
     year:        "2022",
     panelCols:   1,
