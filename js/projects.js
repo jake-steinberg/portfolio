@@ -308,6 +308,25 @@ const PROJECTS = [
     awards:      []
   },
   {
+    // The tile video pans slowly across the spread, from the hill profiles to
+    // the map and back (20s), converted from the CMYK print file
+    // (50 Maps/Maps/St. Paul hills/hills.jpg). Add a year, tags, a
+    // description and panel pictures.
+    title:       "Cycling St. Paul’s Hills",
+    slug:        "st-paul-hills",
+    year:        "",
+    panelCols:   2,
+    tile:        "img/tiles/st-paul-hills.webp",
+    video:       "img/tiles/st-paul-hills.mp4",
+    link:        "",                              // just the "In the book" button
+    linkType:    "story",
+    tags:        [],
+    inBook:      true,
+    description: "",
+    images:      [],
+    awards:      []
+  },
+  {
     // The tile video pans slowly down the unlabeled cougar map
     // (img/cougars-base.jpg) and back up, 16s.
     title:       "Illustrated stories",
