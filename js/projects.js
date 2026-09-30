@@ -327,14 +327,16 @@ const PROJECTS = [
   },
   {
     // WORKING TITLE — rename, and add tags, a year, a link and a description.
-    // The tile video is the fox and coyote tracking animation, cropped to 5:4
-    // (1800x1440 from 300,10 of the 2414x1454 recording), its end crossfading back.
+    // The tile video is the fox and coyote tracking animation, zoomed in to 5:4
+    // on where their trails meet (1270x1016 from 743,176 of the 2414x1454
+    // recording), its end crossfading back. A wider version, showing more of the
+    // coyote trails, is img/tiles/fox-coyote.mp4 / .webp.
     title:       "Fox vs. coyote",
     slug:        "fox-coyote",
     year:        "",
     panelCols:   2,
-    tile:        "img/tiles/fox-coyote.webp",
-    video:       "img/tiles/fox-coyote.mp4",
+    tile:        "img/tiles/fox-coyote-zoom.webp",
+    video:       "img/tiles/fox-coyote-zoom.mp4",
     link:        "",
     linkType:    "story",
     tags:        [],
