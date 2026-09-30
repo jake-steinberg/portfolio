@@ -611,6 +611,12 @@ body { overflow-anchor: none; }
    the row sits as close under the text and buttons as usual */
 .pshot.cap-above { position: relative; }
 .pshot.cap-above figcaption { position: absolute; left: 0; right: 0; bottom: 100%; margin: 0 0 8px; }
+/* a caption styled like an award line, with its star (captionStar: true) */
+.pshot figcaption.starred { font-size: 13.5px; line-height: 1.55; padding-left: 21px; }
+.pshot:not(.cap-above) figcaption.starred { position: relative; }   /* holds the star */
+.pshot figcaption.starred::before {
+  content: "\2605"; position: absolute; left: 0; color: var(--accent); font-size: 12px; line-height: 1.8;
+}
 .pshots a.pcap {
   display: inline; overflow: visible; background: none;
   border: 0; border-bottom: 2px solid var(--accent-soft);

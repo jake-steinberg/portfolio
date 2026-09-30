@@ -179,6 +179,7 @@
     //                      link is a plain caption (add story: once it's out)
     //   zoom: false      → shown, but not clickable and no hover effect
     //   captionAbove     → { src, label, captionAbove: true }: its caption over it
+    //   captionStar      → captionStar: true styles the caption like an award line, with a star
     //   with inBook      → { src, inBook: true }: the "In the book" corner
     //                      marker on the picture (e.g. its book version)
     //   with credit      → { src, credit: "Photo by …" }: a tooltip on the
@@ -205,7 +206,7 @@
       return flags ? html.replace(/^(\s*<\w+)/, '$1' + flags) : html;
     };
     const shotHTML = (entry) => {
-      const { src, link, label, story, full, credit, inBook, zoom, captionAbove } = typeof entry === 'string' ? { src: entry } : entry;
+      const { src, link, label, story, full, credit, inBook, zoom, captionAbove, captionStar } = typeof entry === 'string' ? { src: entry } : entry;
       const marker = inBook ? '<span class="marker">In the book</span>' : '';   // like the tiles'
       const big = esc(full || src);                    // what clicking the picture opens
       const tip = credit ? ` title="${esc(credit)}"` : '';
@@ -226,7 +227,7 @@
           : `<div class="pvid">${media}</div>`;
         return `<figure class="pshot${captionAbove ? ' cap-above' : ''}">
             ${pic}
-            <figcaption>${caption}</figcaption>
+            <figcaption${captionStar ? ' class="starred"' : ''}>${caption}</figcaption>
           </figure>`;
       }
       if (zoom === false && !link) return `<div class="pstill"${tip}>${marker}${media}</div>`;   // just shown
