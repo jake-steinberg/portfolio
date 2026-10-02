@@ -132,14 +132,16 @@ everything. The selection is kept in the address bar
 
 The **header** and **footer** markup is repeated in each page, since there's no
 build step to share it. If you change one, change it in `index.html` and
-`resume.html` (and later `about.html` / `freelance.html`):
+`resume.html` (and later `about.html`):
 
 - **Nav:** the current page's link gets `aria-current="page"`.
 - **"Last updated":** update the text and the `datetime` attribute when you
   publish, e.g. `<time datetime="2026-10">October 2026</time>`.
 
-About Me (`about.html`) and Freelance (`freelance.html`) are linked in the nav
-but not built yet.
+About Me (`about.html`) is linked in the nav but not built yet. Freelance isn't
+a page of its own: the "freelance commissions" link in the homepage intro goes
+to `about.html#contact`, so give the About Me page's contact section
+`id="contact"`.
 
 ## Preview locally
 
