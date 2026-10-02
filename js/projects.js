@@ -387,10 +387,10 @@ const PROJECTS = [
     description: "The Northwoods are as fundamental to the cultural identity of the Upper Midwest as lakes and mosquitos. I made this National Geographic-inspired poster map for GEOG 370: Intro to Cartography. It tells the story of what the Northwoods used to be, as well as what they might one day become.",
     images:      ["img/tiles/slivers-of-an-ancient-forest-full.webp"],   // the whole map, uncropped
     awards:      [
-      "CaGIS Arthur Robinson Award for best print map, 2021",
+      "CaGIS Arthur Robinson Award for best print map, 2022",
       "Featured in the NACIS <em>Atlas of Design</em>, Vol. VI",
       "Winner in Research, NACIS Student Map &amp; Poster Competition, 2022",
-      "Barbara Petchenik Award, best graduate student map, UW&ndash;Madison, 2021&ndash;22"
+      "Barbara Petchenik Award, best graduate student map, UW&ndash;Madison, 2022"
     ]
   },
   {
