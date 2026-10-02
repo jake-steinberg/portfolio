@@ -10,7 +10,7 @@
      2. Section layout + sticky section names
      3. Toolkit (three groups)
      4. Entry rows — Experience, Education (organization / role / dates)
-     5. Year rows — Awards, Talks
+     5. Year rows — Awards
    ============================================================================= */
 
 :root {
@@ -152,10 +152,6 @@
 
 .line .what  { margin: 0; max-width: var(--measure); font-size: 14.5px; line-height: 1.5; }
 .line .who   { display: block; margin-top: 3px; color: var(--muted); font-size: 12.5px; }     /* collaborators */
-.line .venue {                                                                                /* NICAR, NACIS… */
-  display: block; margin-top: 4px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);
-}
 
 
 /* -----------------------------------------------------------------------------
