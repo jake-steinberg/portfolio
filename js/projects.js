@@ -968,7 +968,7 @@ const PROJECTS = [
     tags:        ["print", "3d", "outdoors"],
     inBook:      false,
     onlyWhen:    ["3d", "outdoors"],
-    description: "",
+    description: "A gift given to friends I shared a great trip with.",
     mediaFull:   true,
     images:      [
       { src: "img/tiles/cloud-peak-map.webp", full: "img/cloud-peak-wilderness.jpg" }
