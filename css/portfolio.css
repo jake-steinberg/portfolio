@@ -127,6 +127,39 @@ body { overflow-anchor: none; }
    3. "SELECTED WORK" HEADING + TAG FILTERS
    The pills are generated from TAGS in js/projects.js.
    ----------------------------------------------------------------------------- */
+/* -- ABOUT ME ---------------------------------------------------------------
+   A short bio, then a row of five 3:4 photos the full width of the page.
+   On phones the photos become a strip you swipe sideways. */
+.about { padding-block: clamp(30px, 4vw, 56px); border-bottom: 1px solid var(--rule); }
+.about h2 {
+  font-family: var(--display); font-weight: 400; margin: 0 0 14px;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.85rem);
+}
+.about-bio { max-width: var(--measure); }
+.about-bio p { margin: 0 0 14px; font-size: 16.5px; line-height: 1.6; }
+.aphotos {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px;
+  margin-top: clamp(18px, 2.6vw, 30px);
+}
+.aph {
+  display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover;
+  border: 1px solid var(--stroke);
+}
+/* an empty slot, until its photo goes in */
+.aph.empty {
+  display: flex; align-items: center; justify-content: center;
+  border: 1px dashed var(--rule); background: var(--plate);
+  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
+}
+@media (max-width: 720px) {
+  .aphotos {
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 58%;
+    overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px;
+  }
+  .aph { scroll-snap-align: start; }
+}
+
 .sec-head {
   display: flex; flex-wrap: wrap; gap: 10px 20px;
   align-items: baseline; justify-content: space-between;
