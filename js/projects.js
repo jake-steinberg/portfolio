@@ -55,6 +55,9 @@ const TAGS = [
                                                // "project" — "View the project": a client's site, in a new tab
      tags:        ["print", "news"],           // any number of ids from TAGS above
      inBook:      false,                       // true adds the "In the book" corner marker
+     onlyWhen:    null,                        // optional: ["3d", "outdoors"] keeps the tile out of
+                                               //   the full grid; it appears only while one of
+                                               //   these tags is selected (see Cloud Peak Wilderness)
      description: "",                          // a sentence or two for the panel.
                                                //   Left "" → the panel shows a placeholder.
                                                //   HTML is allowed, e.g. a link:
@@ -947,6 +950,28 @@ const PROJECTS = [
         story: "https://www.startribune.com/eight-minnesota-hikes-that-sing-of-spring/601637574" },
       { src: "img/tiles/hikes-fall-2026.webp", label: "Fall 2026",
         story: "https://www.startribune.com/8-minnesota-hikes-to-fall-for-this-autumn/601883249" }
+    ],
+    awards:      []
+  },
+  {
+    // Shown only when 3D or Outdoors is selected (onlyWhen), not in the full
+    // grid. The tile is a 5:4 crop of img/bighorns-website.png; the panel shows
+    // the whole map, with a lighter full-size copy (img/cloud-peak-wilderness.jpg).
+    title:       "Cloud Peak Wilderness",
+    slug:        "cloud-peak-wilderness",
+    year:        "2024",
+    panelCols:   2,
+    tile:        "img/tiles/cloud-peak-wilderness.webp",
+    video:       "",
+    link:        "",
+    linkType:    "story",
+    tags:        ["print", "3d", "outdoors"],
+    inBook:      false,
+    onlyWhen:    ["3d", "outdoors"],
+    description: "",
+    mediaFull:   true,
+    images:      [
+      { src: "img/tiles/cloud-peak-map.webp", full: "img/cloud-peak-wilderness.jpg" }
     ],
     awards:      []
   }

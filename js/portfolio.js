@@ -44,8 +44,14 @@
   // tag id -> visible label, e.g. "3d" -> "3D"
   const tagLabel = (id) => (TAGS.find((t) => t.id === id) || { label: id }).label;
 
-  // A project matches if it has the selected tag. Nothing selected = show all.
-  const matches = (p) => [...selected].every((id) => p.tags.includes(id));
+  // A project matches if it has the selected tag. Nothing selected = show all,
+  // except projects with onlyWhen: [tags] in projects.js — those stay out of the
+  // full grid and appear only while one of their onlyWhen tags is selected.
+  const matches = (p) => {
+    const ids = [...selected];
+    if (p.onlyWhen && !ids.some((id) => p.onlyWhen.includes(id))) return false;
+    return ids.every((id) => p.tags.includes(id));
+  };
 
 
   /* ---------------------------------------------------------------------------

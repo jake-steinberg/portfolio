@@ -114,6 +114,8 @@ That's all: the tile, its filter tags and its panel are built automatically.
 - `linkType: "file"` opens the full-size image (or PDF) in a new tab.
 - `awards` — each is a line with a star. To add the judges' words in a quote
   box beneath it, write it as `{ award: "…", quote: "“…”", quoteBy: "Judge’s comments" }`.
+- `onlyWhen: ["3d", "outdoors"]` — keeps a tile out of the full grid; it shows
+  up only while one of those tags is selected (see Cloud Peak Wilderness).
 - `inBook: true` adds the "In the book" marker to the tile and an "In the book"
   button to the panel. To mark one of the panel's pictures too (say, the book
   version of a map), write it as `{ src, inBook: true }`.
