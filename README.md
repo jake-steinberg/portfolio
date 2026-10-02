@@ -9,6 +9,7 @@ file and pushing to `main` publishes it.
 |---|---|---|---|
 | Portfolio (homepage) | `index.html` | `css/site.css` + `css/portfolio.css` | `js/projects.js`, `js/basemaps.js`, `js/portfolio.js`, `js/site.js` |
 | Resume | `resume.html` | `css/site.css` + `css/resume.css` | `js/site.js`, `js/resume.js` |
+| Contact | `contact.html` | `css/site.css` + `css/contact.css` | `js/site.js`, `js/contact.js` |
 | Bespoke project pages: `22map.html`, `pipeline.html`, `golf.html` | as is | `css/style.css`, Bootstrap, `css/scrollmap.css` | `js/scrollmap.js` |
 
 - **`css/site.css`** holds everything shared by the redesigned pages: the color
@@ -131,17 +132,24 @@ everything. The selection is kept in the address bar
 ## Things that are copied onto every page
 
 The **header** and **footer** markup is repeated in each page, since there's no
-build step to share it. If you change one, change it in `index.html` and
-`resume.html` (and later `about.html`):
+build step to share it. If you change one, change it in `index.html`,
+`resume.html` and `contact.html`:
 
 - **Nav:** the current page's link gets `aria-current="page"`.
 - **"Last updated":** update the text and the `datetime` attribute when you
   publish, e.g. `<time datetime="2026-10">October 2026</time>`.
 
-About Me (`about.html`) is linked in the nav but not built yet. Freelance isn't
-a page of its own: the "freelance commissions" link in the homepage intro goes
-to `about.html#contact`, so give the About Me page's contact section
-`id="contact"`.
+## The contact form
+
+The message box on `contact.html` sends through [Formspree](https://formspree.io),
+which emails each message to you. The form's `action` is
+`https://formspree.io/f/FORMSPREE_ID`: replace `FORMSPREE_ID` with your form's
+ID from the Formspree dashboard (the part after `/f/`). Until then, the form
+says it isn't connected and asks people to email instead. The free plan covers
+50 messages a month.
+
+Freelance commissions are a section of the Contact page (`contact.html#freelance`),
+which the homepage intro links to.
 
 ## Preview locally
 

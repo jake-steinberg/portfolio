@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contact · Jake Makes Maps</title>
+  <meta property="og:title" content="Contact · Jake Makes Maps">
+  <meta name="author" content="Jake Steinberg">
+  <meta name="description"
+    content="Get in touch with Jake Steinberg, a cartographer and data journalist in Minneapolis, about freelance map commissions or anything else.">
+  <!-- icons — copied from index.html; see the note there -->
+  <link rel="icon" type="image/png" sizes="64x64" href="img/favicon-64-clear.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="img/favicon-192-clear.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+  <!-- site.css is shared by every page; contact.css is just for this page -->
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/contact.css">
+</head>
+
+<body>
+  <span id="top" tabindex="-1"></span>
+
+  <!-- ===================================================================
+       SITE HEADER — copied from index.html. Keep them in sync.
+       aria-current="page" is on this page's own link (Contact).
+       =================================================================== -->
+  <header class="site" id="site">
+    <div class="wrap site-in">
+      <a class="brand" href="index.html">
+        <img class="mark" src="img/nameplate-v2.webp" alt="" width="29" height="36"> <!-- the JS nameplate (from img/nameplate-02-2.jpg) -->
+        <span class="brand-txt">
+          <span class="brand-name">Jake Steinberg</span>
+          <span class="brand-sub">Cartography&nbsp;&middot; Data&nbsp;visualization&nbsp;&middot; Journalism</span>
+        </span>
+      </a>
+      <nav aria-label="Main">
+        <a href="index.html">Portfolio</a>
+        <a href="resume.html">Resume</a>
+        <a href="contact.html" aria-current="page">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap cmain">
+
+    <!-- ================================================================
+         GET IN TOUCH — the message form, and the other ways to reach me
+         ================================================================ -->
+    <section class="csec" id="message">
+      <h1>Get in touch</h1>
+      <div class="cgrid">
+
+        <!-- The form sends through Formspree (formspree.io), which emails each
+             message to jakesteinberg96@gmail.com. FORMSPREE_ID below is your
+             form's ID from the Formspree dashboard — the part after /f/.
+             js/contact.js sends it without leaving the page and shows the
+             thank-you or error note; without JavaScript it still posts. -->
+        <form class="cform" id="cform" action="https://formspree.io/f/FORMSPREE_ID" method="POST">
+          <p class="lede">Have a question, a story idea or a map that needs making? Send me a note
+            and I&rsquo;ll get back to you.</p>
+          <label>Your name
+            <input type="text" name="name" autocomplete="name" required>
+          </label>
+          <label>Your email
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+          <label>Message
+            <textarea name="message" rows="7" required></textarea>
+          </label>
+          <!-- a hidden field only spam bots fill in; Formspree drops those messages -->
+          <input type="text" name="_gotcha" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="_subject" value="New message from jakesteinberg.com">
+          <button class="send" type="submit">Send message</button>
+          <p class="status" id="cstatus" role="status" aria-live="polite"></p>
+        </form>
+
+        <!-- other ways to reach me -->
+        <aside class="elsewhere" aria-label="Other ways to reach me">
+          <h2>Elsewhere</h2>
+          <ul>
+            <li><span class="lbl">Email</span>
+              <a href="mailto:jakesteinberg96@gmail.com">jakesteinberg96@gmail.com</a></li>
+            <li><span class="lbl">LinkedIn</span>
+              <a href="https://www.linkedin.com/in/jake-m-steinberg" target="_blank" rel="noopener">jake-m-steinberg&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>
+            <li><span class="lbl">Bluesky</span>
+              <a href="https://bsky.app/profile/jakesteinberg.com" target="_blank" rel="noopener">@jakesteinberg.com&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         FREELANCE — how commissions work (from the old freelance page draft)
+         ================================================================ -->
+    <section class="csec" id="freelance">
+      <h2>Freelance commissions</h2>
+      <div class="ftext">
+        <p>Alongside my job at the Star Tribune I take on a small number of freelance map
+          commissions each year. If you have something in mind, I&rsquo;d like to hear about it.</p>
+        <p class="kinds-lbl">The kind of work I take on:</p>
+        <ul class="kinds">
+          <li>Print reference and trail maps</li>
+          <li>Analytical and data-driven maps for reports and publications</li>
+          <li>Interactive and web maps</li>
+          <li>3D terrain and relief</li>
+          <li>Illustrated and hand-drawn maps</li>
+        </ul>
+        <p>To get started, send me a note describing the place, the audience and roughly when you
+          need it. I&rsquo;ll come back with a quote, a timeline and anything I need from you. Every
+          project starts with a short call and a written quote; rates depend on scope.</p>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SITE FOOTER — same on every redesigned page.
+         Update "Last updated" when you publish changes.
+         ================================================================ -->
+    <footer class="foot">
+      <span class="credit">
+        <span>Website designed by Jake Steinberg.</span>
+        <span>Last updated <time datetime="2026-10">October 2026</time></span>
+      </span>
+      <a class="totop" href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
+    </footer>
+  </main>
+
+  <script src="js/site.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+
+</html>

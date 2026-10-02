@@ -1,0 +1,117 @@
+/* =============================================================================
+   contact.css — the Contact page (contact.html) only.
+   Colors, fonts, the header and footer come from site.css.
+
+     1. Sections
+     2. The message form
+     3. Elsewhere (email, LinkedIn, Bluesky)
+     4. Freelance commissions
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   1. SECTIONS — a heading, then its content; side by side on wider screens
+   ----------------------------------------------------------------------------- */
+.csec {
+  padding-block: clamp(30px, 4vw, 60px);
+  border-top: 1px solid var(--rule-soft);
+}
+.csec:first-of-type { border-top: 0; }
+.csec h1, .csec > h2 {
+  margin: 0 0 clamp(18px, 2.4vw, 30px);
+  font-family: var(--display); font-weight: 400; line-height: 1.12;
+}
+.csec h1 { font-size: clamp(2rem, 1.4rem + 2.6vw, 3.4rem); }
+.csec > h2 { font-size: clamp(1.3rem, 1rem + 1.2vw, 1.9rem); }
+
+/* the form beside the other ways to reach me */
+.cgrid {
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  gap: clamp(30px, 4vw, 64px); align-items: start;
+}
+@media (min-width: 821px) {
+  .cgrid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+}
+
+
+/* -----------------------------------------------------------------------------
+   2. THE MESSAGE FORM
+   ----------------------------------------------------------------------------- */
+.cform { display: grid; gap: 16px; max-width: 620px; }
+.cform .lede { margin: 0 0 4px; font-size: 16.5px; line-height: 1.55; }
+.cform label {
+  display: grid; gap: 7px;
+  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
+}
+.cform input, .cform textarea {
+  width: 100%; padding: 11px 13px;
+  font: inherit; font-family: var(--text); font-size: 16px; letter-spacing: 0;
+  text-transform: none; color: var(--ink);
+  background: var(--plate); border: 1px solid var(--stroke); border-radius: 0;
+}
+.cform textarea { resize: vertical; min-height: 150px; line-height: 1.5; }
+.cform input:focus-visible, .cform textarea:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 1px;
+}
+.cform .trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+/* the Send button: the site's one solid button, in coral */
+.send {
+  justify-self: start; cursor: pointer;
+  padding: 11px 22px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
+  background: var(--accent); color: #fff; border: 1px solid var(--stroke);
+  transition: background .15s;
+}
+.send:hover { background: var(--accent-ink); }
+.send[disabled] { opacity: .6; cursor: progress; }
+
+/* "Thanks — your message is on its way" / "Something went wrong…" */
+.status { margin: 0; min-height: 1.5em; font-size: 15px; }
+.status.ok { color: var(--ink); }
+.status.err { color: var(--accent-ink); }
+
+
+/* -----------------------------------------------------------------------------
+   3. ELSEWHERE — email, LinkedIn, Bluesky. Links use the site's underline,
+   with the arrow nudging up and right on hover (as on the portfolio).
+   ----------------------------------------------------------------------------- */
+.elsewhere h2 {
+  margin: 0 0 14px;
+  font-family: var(--mono); font-size: var(--label); font-weight: 400;
+  letter-spacing: var(--track); text-transform: uppercase; color: var(--muted);
+}
+.elsewhere ul { list-style: none; margin: 0; padding: 0; }
+.elsewhere li {
+  display: grid; gap: 3px;
+  padding-block: 12px; border-top: 1px solid var(--rule-soft);
+}
+.elsewhere li:first-child { border-top: 0; padding-top: 0; }
+.elsewhere .lbl {
+  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
+}
+.elsewhere a, .ftext a {
+  justify-self: start; font-size: 16.5px; color: var(--ink); text-decoration: none;
+  border-bottom: 2px solid var(--accent-soft); transition: border-color .15s;
+  overflow-wrap: anywhere;
+}
+.elsewhere a:hover, .ftext a:hover { border-bottom-color: var(--accent); }
+.ar { display: inline-block; transition: transform .2s ease; }
+.elsewhere a:hover .ar { transform: translate(2px, -2px); }
+
+
+/* -----------------------------------------------------------------------------
+   4. FREELANCE COMMISSIONS
+   ----------------------------------------------------------------------------- */
+.ftext { max-width: var(--measure); }
+.ftext p { margin: 0 0 16px; font-size: 16.5px; line-height: 1.6; }
+.ftext .kinds-lbl { margin-bottom: 8px; }
+.kinds { margin: 0 0 20px; padding-left: 1.2em; font-size: 16.5px; line-height: 1.6; }
+.kinds li::marker { color: var(--accent); }
+
+
+@media (prefers-reduced-motion: reduce) {
+  .send, .elsewhere a, .ar { transition: none; }
+  .elsewhere a:hover .ar { transform: none; }
+}
