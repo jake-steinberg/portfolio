@@ -70,13 +70,12 @@ body { overflow-anchor: none; }
   box-shadow: var(--shadow-lift);
 }
 
-/* "OUT NOVEMBER 17 · PREORDERS OPEN" with a rule running off to the right */
+/* "OUT NOVEMBER 17 · PREORDERS OPEN" */
 .eyebrow {
   display: flex; align-items: center; gap: 10px;
   font-family: var(--mono); font-size: 12px; letter-spacing: var(--track);
   text-transform: uppercase; color: var(--accent-ink);
 }
-.eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
 
 .hero h1 {
   font-family: var(--display); font-weight: 400; line-height: 1.1;
