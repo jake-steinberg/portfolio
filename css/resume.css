@@ -10,8 +10,7 @@
      2. Section layout + sticky section names
      3. Toolkit (three groups)
      4. Entry rows — Experience, Education (organization / role / dates)
-     5. Year rows — Book & publications, Awards, Talks
-     6. Book entry
+     5. Year rows — Awards, Talks
    ============================================================================= */
 
 :root {
@@ -163,33 +162,12 @@
    Links inside resume text: ink color with a soft coral underline
    (same treatment as the homepage intro, so link-heavy lines stay calm)
    ----------------------------------------------------------------------------- */
-.rsec a:not(.pre) {
+.rsec a {
   color: inherit; text-decoration: none;
   border-bottom: 2px solid var(--accent-soft);
   transition: border-color .15s;
 }
-.rsec a:not(.pre):hover { border-bottom-color: var(--accent); }
-
-
-/* -----------------------------------------------------------------------------
-   6. BOOK ENTRY — cover thumbnail beside the details
-   ----------------------------------------------------------------------------- */
-.bookline {
-  display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 20px; align-items: start;
-  padding-bottom: 16px; border-bottom: 1px solid var(--rule-soft); margin-bottom: 5px;
-}
-.bookline img { border: 1px solid var(--stroke); box-shadow: var(--shadow); }
-.bookline h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 18px; line-height: 1.25; }
-.bookline .meta2 {
-  margin: 6px 0 0;
-  font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted);
-}
-.bookline p { margin: 9px 0 0; max-width: var(--measure); color: var(--muted); font-size: 14px; }
-.bookline a.pre {
-  display: inline-block; margin-top: 11px;
-  font-family: var(--mono); font-size: 11.5px;
-  color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid var(--accent);
-}
+.rsec a:hover { border-bottom-color: var(--accent); }
 
 
 @media (prefers-reduced-motion: reduce) {
