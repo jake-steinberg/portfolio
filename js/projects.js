@@ -605,7 +605,7 @@ const PROJECTS = [
     video:       "img/tiles/the-driftless-area-scroll.mp4",
     link:        "img/driftless-website.jpg",
     linkType:    "file",
-    tags:        ["print"],
+    tags:        ["print", "3d"],
     inBook:      false,
     description: "Stylized land cover and elevation data for a sweeping wall map of the Driftless Area.",
     images:      [],
