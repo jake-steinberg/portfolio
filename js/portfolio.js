@@ -140,7 +140,7 @@
     // project's own page opens in this one.
     // A project with link: "" gets no main button (e.g. one that lists several stories).
     const mainLink = !p.link ? ''
-      : `<a class="primary" href="${esc(p.link)}"${p.linkType === 'page' ? '' : ' target="_blank" rel="noopener"'}>${LINK_LABEL[p.linkType] || 'Open'} &#8599;</a>`;
+      : `<a class="primary" href="${esc(p.link)}"${p.linkType === 'page' ? '' : ' target="_blank" rel="noopener"'}>${LINK_LABEL[p.linkType] || 'Open'}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a>`;
 
     // links: [{ label, url }] — a list of stories, for projects that span several.
     // A project that's also in the book gets "In the book" as the list's last
@@ -159,15 +159,15 @@
       ? `<ul class="storycards">${p.links.map((l) =>
           `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">
             <span class="scard-img">${cardMedia(l.image)}</span>
-            <span class="scard-ttl"><span>${esc(l.label)}&nbsp;&#8599;</span></span>
+            <span class="scard-ttl"><span>${esc(l.label)}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></span></span>
           </a></li>`).join('')}</ul>`
       : textList
       ? `<ul class="storylinks">${listed.map((l) =>
-          `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}<span aria-hidden="true"> &#8599;</span></a></li>`).join('')}</ul>`
+          `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>`).join('')}</ul>`
       : '';
 
     const bookLink = p.inBook && !textList
-      ? `<a href="${BOOK_URL}" target="_blank" rel="noopener">In the book &#8599;</a>`
+      ? `<a href="${BOOK_URL}" target="_blank" rel="noopener">In the book&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a>`
       : '';
 
     // Panel pictures. Each entry in images: [] is either a path, or
@@ -220,7 +220,7 @@
       if (story || (label && !link)) {
         const name = esc(label || p.title);
         const caption = story
-          ? `<a class="pcap" href="${esc(story)}" target="_blank" rel="noopener">${name}<span aria-hidden="true">&nbsp;&#8599;</span></a>`
+          ? `<a class="pcap" href="${esc(story)}" target="_blank" rel="noopener">${name}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a>`
           : name;
         const pic = !isVideo ? `<a href="${big}" target="_blank" rel="noopener"${tip}>${media}</a>`
           : story ? `<a class="pvid" href="${esc(story)}" target="_blank" rel="noopener" tabindex="-1">${media}</a>`

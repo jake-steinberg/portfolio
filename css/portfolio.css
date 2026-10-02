@@ -92,15 +92,25 @@ body { overflow-anchor: none; }
 }
 .hero-meta span { white-space: nowrap; }
 
-/* the coral button ("Preorder the book") — reusable anywhere */
-.btn {
-  display: inline-block; margin-top: 20px;
-  font-family: var(--mono); font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
-  text-decoration: none; padding: 11px 22px;
-  background: var(--accent); color: #fff; border: 1px solid var(--stroke);
-  transition: transform .15s, background .15s;
+/* -- LINKS -------------------------------------------------------------------
+   Every link that leads somewhere looks the same: the Preorder link (.btn), a
+   panel's story and book links (.plinks), lists of stories (.storylinks),
+   picture captions (.pcap) and story cards (.scard-ttl). Text with a soft coral
+   underline; on hover the underline turns full coral and the ↗ arrow (.ar)
+   hops up and to the right. Change them all here. */
+.btn, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span {
+  color: var(--ink); text-decoration: none;
+  border-bottom: 2px solid var(--accent-soft);
+  transition: border-color .15s;
 }
-.btn:hover { transform: rotate(-.6deg); background: var(--accent-ink); }
+.btn:hover, .plinks a:hover, .storylinks a:hover, .pshots a.pcap:hover,
+.storycards a:hover .scard-ttl > span { border-bottom-color: var(--accent); }
+.ar { display: inline-block; transition: transform .2s ease; }
+.btn:hover .ar, .plinks a:hover .ar, .storylinks a:hover .ar,
+.pshots a.pcap:hover .ar, .storycards a:hover .ar { transform: translate(2px, -2px); }
+
+/* "Preorder the book" — a little larger than the other links */
+.btn { display: inline-block; margin-top: 20px; font-size: 17px; line-height: 1.4; }
 
 @media (max-width: 900px) {      /* tablet */
   .hero { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 28px; align-items: start; }
@@ -436,17 +446,9 @@ body { overflow-anchor: none; }
   text-transform: uppercase; color: var(--muted);
 }
 
-/* link buttons: "Read the story ↗", "In the book ↗" */
-.plinks { display: flex; flex-wrap: wrap; gap: 9px 12px; margin-top: 26px; }
-.plinks a {
-  font-family: var(--mono); font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase;
-  text-decoration: none; padding: 9px 15px;
-  border: 1px solid var(--stroke); color: var(--ink);
-  transition: background .15s, color .15s;
-}
-.plinks a:hover { background: var(--ink); color: var(--plate); }
-.plinks a.primary { background: var(--accent); color: #fff; }
-.plinks a.primary:hover { background: var(--accent-ink); }
+/* a panel's links: "Read the story ↗", "In the book ↗" (styled in LINKS above) */
+.plinks { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 26px; }
+.plinks a { font-size: 15px; line-height: 1.4; }
 
 /* stories as cards (links: [{ label, url, image }] in projects.js): each
    story's sharing picture at its 1.91:1 shape, headline underneath, two to a row */
@@ -462,9 +464,7 @@ body { overflow-anchor: none; }
 }
 .scard-img img, .scard-img video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .scard-ttl { display: block; margin-top: 8px; font-size: 14.5px; line-height: 1.4; }
-.scard-ttl > span { border-bottom: 2px solid var(--accent-soft); transition: border-color .15s; }
 .storycards a:hover .scard-img { transform: rotate(.8deg); }
-.storycards a:hover .scard-ttl > span { border-bottom-color: var(--accent); }
 
 /* list of stories (links: [] in projects.js), for projects that span several */
 .storylinks {
@@ -472,11 +472,7 @@ body { overflow-anchor: none; }
   display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px 22px;
   max-width: var(--measure);
 }
-.storylinks a {
-  font-size: 15px; line-height: 1.4; color: var(--ink); text-decoration: none;
-  border-bottom: 2px solid var(--accent-soft); transition: border-color .15s;
-}
-.storylinks a:hover { border-bottom-color: var(--accent); }
+.storylinks a { font-size: 15px; line-height: 1.4; }   /* styled in LINKS above */
 
 /* extra pictures (images: [] in projects.js), two per row; click one to open it full size */
 .pshots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start; }
@@ -620,11 +616,9 @@ body { overflow-anchor: none; }
 .pshot figcaption.starred::before {
   content: "\2605"; position: absolute; left: 0; color: var(--accent); font-size: 12px; line-height: 1.8;
 }
-.pshots a.pcap {
+.pshots a.pcap {                  /* undoes the picture frame; underline from LINKS above */
   display: inline; overflow: visible; background: none;
   border: 0; border-bottom: 2px solid var(--accent-soft);
-  color: var(--ink); text-decoration: none;
-  transition: border-color .15s;
 }
 .pshots a.pcap:hover { transform: none; border-bottom-color: var(--accent); }
 
@@ -669,5 +663,7 @@ body { overflow-anchor: none; }
   .dimmer { transition: none; }
   .gcard .cap, .gcard .tags { transition: none; }
   .gcard:hover .gframe { transform: none; box-shadow: var(--shadow-lift); }
-  .pshots a:hover, .btn:hover, .storycards a:hover .scard-img { transform: none; }
+  .pshots a:hover, .storycards a:hover .scard-img, .ar,
+  .btn:hover .ar, .plinks a:hover .ar, .storylinks a:hover .ar,
+  .pshots a.pcap:hover .ar, .storycards a:hover .ar { transform: none; }
 }

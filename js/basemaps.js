@@ -60,7 +60,7 @@ const Basemaps = (function () {
     const info = panel.querySelector('.styleinfo');
     if (!info) return;
     const links = (entry.links || []).map((l) =>
-      `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}<span aria-hidden="true"> &#8599;</span></a></li>`).join('');
+      `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>`).join('');
     info.innerHTML = `
       <h4 class="stylename">${esc(entry.title || entry.name)}</h4>
       ${entry.about ? `<p class="styleabout">${esc(entry.about)}</p>` : ''}
