@@ -791,7 +791,7 @@ const PROJECTS = [
       // the two show at the same size; clicking opens the whole map (3300px)
       { src: "img/tiles/east-river-map-crop.webp", full: "img/east-river-flood-map.jpg" },
       { src: "img/tiles/east-river-evers.webp", full: "img/east-river-evers.jpg",
-        label: "Wisconsin Gov. Tony Evers photographed admiring my maps.", captionAbove: true, captionStar: true }
+        label: "Wisconsin Gov. Tony Evers admiring my maps.", captionAbove: true, captionStar: true }
     ],
     awards:      []
   },
