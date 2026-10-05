@@ -124,37 +124,52 @@ body { overflow-anchor: none; }
 
 
 /* -- ABOUT ME ---------------------------------------------------------------
-   A short bio in a centered column, then a row of 3:2 photos the full width of the
-   page (however many there are share it). On phones the photos become a
-   strip you swipe sideways. */
-.about { padding-block: clamp(30px, 4vw, 56px); border-bottom: 1px solid var(--rule); }
+   The bio on the left, a photo on the right that crossfades between the
+   photos in a loop. On phones the photo goes under the text. */
+.about {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(24px, 4vw, 56px); align-items: center;
+  padding-block: clamp(30px, 4vw, 56px); border-bottom: 1px solid var(--rule);
+}
 .about h2 {
-  font-family: var(--display); font-weight: 400; margin: 0 0 14px; text-align: center;
+  font-family: var(--display); font-weight: 400; margin: 0 0 14px;
   font-size: clamp(1.25rem, 1rem + 1vw, 1.85rem);
 }
-.about-bio { max-width: var(--measure); margin-inline: auto; }   /* a centered column, text left-aligned */
+.about-bio { max-width: var(--measure); }
 .about-bio p { margin: 0 0 14px; font-size: 16.5px; line-height: 1.6; }
+.about-bio p:last-child { margin-bottom: 0; }
+@media (max-width: 720px) {
+  .about { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* The photos sit on top of each other in one 3:2 frame and take turns:
+   each fades in over about 1s, shows for about 5s, then fades out as the next
+   fades in. The cycle is 12s for two photos (6s each). Each photo starts
+   about 1s into its fade, so the first is already showing when the page
+   opens: delays are (turn × 6s) − 0.96s. For a third photo, set the cycle to
+   18s and give it animation-delay: 11.04s. */
 .aphotos {
-  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 10px;
-  margin-top: clamp(18px, 2.6vw, 30px);
+  position: relative; aspect-ratio: 3 / 2; overflow: hidden;
+  border: 1px solid var(--stroke); background: var(--plate);
 }
 .aph {
-  display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover;
-  border: 1px solid var(--stroke);
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; animation: aboutfade 12s infinite both;
 }
-/* an empty slot, until its photo goes in */
-.aph.empty {
-  display: flex; align-items: center; justify-content: center;
-  border: 1px dashed var(--rule); background: var(--plate);
-  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+.aph:nth-child(1) { animation-delay: -0.96s; }
+.aph:nth-child(2) { animation-delay: 5.04s; }
+@keyframes aboutfade {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }    /* fade in, 0.96s */
+  50%  { opacity: 1; }
+  58%  { opacity: 0; }    /* fade out while the next fades in */
+  100% { opacity: 0; }
 }
-@media (max-width: 720px) {
-  .aphotos {
-    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 86%;
-    overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px;
-  }
-  .aph { scroll-snap-align: start; }
+/* reduced motion: just the first photo, no fading */
+@media (prefers-reduced-motion: reduce) {
+  .aph { animation: none; }
+  .aph:first-child { opacity: 1; }
+  .aph:not(:first-child) { display: none; }
 }
 
 

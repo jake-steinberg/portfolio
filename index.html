@@ -104,16 +104,17 @@
     </section>
 
     <!-- ================================================================
-         ABOUT ME — a short bio, centered, then a row of photos.
+         ABOUT ME — the bio on the left; on the right, one frame that
+         crossfades between the photos in a loop (css/portfolio.css, ABOUT ME).
          DRAFT bio: written from the resume and earlier drafts; rewrite it in
          your own words.
          Photos: 3:2 (landscape), about 1200×800, in img/about/. To swap one,
-         save over its file; to show fewer or more, remove or copy an
-         <img class="aph"> line — the row shares its width among however many.
+         save over its file. For a third photo, add another <img class="aph">
+         and see the note in the CSS about the timing.
          ================================================================ -->
     <section class="about" aria-labelledby="about-h">
-      <h2 id="about-h">About me</h2>
       <div class="about-bio">
+        <h2 id="about-h">About me</h2>
         <p>I came to cartography through journalism. I studied journalism at the University of
           Minnesota, reported in Tucson for Arizona Public Media and joined the News21 investigative
           team before earning a master&rsquo;s in cartography and GIS at UW&ndash;Madison, where my
@@ -123,8 +124,8 @@
           fly fishing &mdash; usually with Juneau, an American dingo.</p>
       </div>
       <div class="aphotos">
-        <img class="aph" src="img/about/about-bike.webp" alt="Jake Steinberg riding a loaded bike along a trail at dusk" width="1200" height="800" loading="lazy">
-        <img class="aph" src="img/about/about-canyon.webp" alt="Jake Steinberg watching the sunset from a canyon rim" width="1200" height="800" loading="lazy">
+        <img class="aph" src="img/about/about-bike.webp" alt="Jake Steinberg riding a loaded bike along a trail at dusk" width="1200" height="800">
+        <img class="aph" src="img/about/about-canyon.webp" alt="Jake Steinberg watching the sunset from a canyon rim" width="1200" height="800">
       </div>
     </section>
 
