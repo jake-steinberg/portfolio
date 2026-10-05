@@ -28,7 +28,7 @@
 }
 .csec > h2 { font-size: clamp(1.3rem, 1rem + 1.2vw, 1.9rem); }
 
-/* phones: one column, in page order (form, links, freelance).
+/* phones: one column, in page order (form, freelance, links).
    desktop: form left, freelance right, the links in a row across the bottom */
 .cgrid {
   display: grid; grid-template-columns: minmax(0, 1fr);
@@ -89,7 +89,7 @@
    3. ELSEWHERE — email, LinkedIn, Bluesky. Links use the site's underline,
    with the arrow nudging up and right on hover (as on the portfolio).
    ----------------------------------------------------------------------------- */
-/* on phones, a little extra room between the form and the links under it */
+/* on phones, a little extra room above the links */
 .elsewhere { margin-top: 10px; }
 
 .elsewhere ul { list-style: none; margin: 0; padding: 0; }
