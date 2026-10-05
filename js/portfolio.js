@@ -224,7 +224,7 @@
       // a caption under the picture: a link to its story, or plain text with a label only
       // (a looping video with a story links there too; with only a label, it's just shown)
       if (story || (label && !link)) {
-        const name = esc(label || p.title);
+        const name = esc(label || p.title).replace(/\n/g, '<br>');   // \n in a label starts a new line
         const caption = story
           ? `<a class="pcap" href="${esc(story)}" target="_blank" rel="noopener">${name}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a>`
           : name;
