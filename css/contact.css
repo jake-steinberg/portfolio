@@ -93,18 +93,14 @@
 .elsewhere { margin-top: 10px; }
 
 .elsewhere ul { list-style: none; margin: 0; padding: 0; }
-.elsewhere li {
-  display: grid; gap: 3px;
-  padding-block: 12px; border-top: 1px solid var(--rule-soft);
-}
-.elsewhere li:first-child { border-top: 0; padding-top: 0; }
-/* desktop: the three links side by side across the page, each under a
-   hairline rule, in place of the rules between them */
+/* each link under its small label; no rules between them */
+.elsewhere li { display: grid; gap: 3px; padding-block: 0 18px; }
+.elsewhere li:last-child { padding-bottom: 0; }
+/* desktop: the three links side by side across the page */
 @media (min-width: 821px) {
   .elsewhere { margin-top: 0; }
   .elsewhere ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
-  .elsewhere li,
-  .elsewhere li:first-child { padding-block: 14px 0; border-top: 1px solid var(--rule-soft); }
+  .elsewhere li { padding-bottom: 0; }
 }
 .elsewhere .lbl {
   font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
