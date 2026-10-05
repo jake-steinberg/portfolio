@@ -139,11 +139,17 @@ build step to share it. If you change one, change it in `index.html`,
 - **"Last updated":** update the text and the `datetime` attribute when you
   publish, e.g. `<time datetime="2026-10">October 2026</time>`.
 
-## The contact page
+## The contact form
 
-`contact.html` has the photos of me (a crossfading loop, `js/contact.js`), the
-email, LinkedIn and Bluesky links, and a Freelance commissions section
-(`contact.html#freelance`), which the homepage intro links to.
+The message box on `contact.html` sends through [Formspree](https://formspree.io),
+which emails each message to you. The form's `action` is
+`https://formspree.io/f/FORMSPREE_ID`: replace `FORMSPREE_ID` with your form's
+ID from the Formspree dashboard (the part after `/f/`). Until then, the form
+says it isn't connected and asks people to email instead. The free plan covers
+50 messages a month.
+
+Freelance commissions are a section of the Contact page (`contact.html#freelance`),
+which the homepage intro links to.
 
 ## Preview locally
 
