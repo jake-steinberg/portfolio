@@ -127,7 +127,7 @@ body { overflow-anchor: none; }
    The bio on the left, a photo on the right that crossfades between the
    photos in a loop. On phones the photo goes under the text. */
 .about {
-  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .85fr);   /* text | photo */
   gap: clamp(24px, 4vw, 56px); align-items: center;
   padding-block: clamp(30px, 4vw, 56px); border-bottom: 1px solid var(--rule);
 }
