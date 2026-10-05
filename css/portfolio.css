@@ -124,7 +124,7 @@ body { overflow-anchor: none; }
 
 
 /* -- ABOUT ME ---------------------------------------------------------------
-   A short bio in a centered column, then a row of 3:4 photos the full width of the
+   A short bio in a centered column, then a row of 3:2 photos the full width of the
    page (however many there are share it). On phones the photos become a
    strip you swipe sideways. */
 .about { padding-block: clamp(30px, 4vw, 56px); border-bottom: 1px solid var(--rule); }
@@ -139,7 +139,7 @@ body { overflow-anchor: none; }
   margin-top: clamp(18px, 2.6vw, 30px);
 }
 .aph {
-  display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover;
+  display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover;
   border: 1px solid var(--stroke);
 }
 /* an empty slot, until its photo goes in */
@@ -151,7 +151,7 @@ body { overflow-anchor: none; }
 }
 @media (max-width: 720px) {
   .aphotos {
-    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 58%;
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 86%;
     overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px;
   }
   .aph { scroll-snap-align: start; }
