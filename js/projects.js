@@ -667,7 +667,7 @@ const PROJECTS = [
     title:       "Urban foxes and coyotes",
     slug:        "fox-coyote",
     year:        "2026",
-    panelCols:   3,
+    panelCols:   2,
     tile:        "img/tiles/fox-coyote-zoom.webp",
     video:       "img/tiles/fox-coyote-zoom.mp4",
     link:        "",                              // no button: the story and the book are listed
