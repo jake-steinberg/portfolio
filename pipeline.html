@@ -7,7 +7,8 @@
     <link rel="icon" type="image/x-icon" href="img/favicon.png">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/scrollmap.css">    
+    <!-- the scrollytelling layout; a copy of scrollmap.css just for this page -->
+    <link rel="stylesheet" href="css/pipeline-scroll.css">
 </head>
 <body>
     <div class="body" id="pipeline">
@@ -25,10 +26,13 @@
             <a id="embed-anchor-top"></a>
             <div class="scroll-container">    
                 <!--background images-->
-                <div class="background-item pipeline">
-                    <!--data-slide property used to specify when the background should first-->
-                    <img src="img/ls-entry-01.jpg" data-slide="0" class="fit fade-in">
-                    <img src="img/pipeline-01.jpg" data-slide="3" class="fit hidden">
+                <!-- "tall": these maps are long and top-aligned; the last one scrolls
+                     up into view in full after the text. Images are WebP copies of the
+                     originals in img/ (1400 and 2000 px wide; the browser picks one). -->
+                <div class="background-item pipeline tall">
+                    <!--data-slide: the number of the text box (from 0) that brings the map in-->
+                    <img src="img/pipeline/ls-entry-2000.webp" srcset="img/pipeline/ls-entry-1400.webp 1400w, img/pipeline/ls-entry-2000.webp 2000w" sizes="100vw" width="2000" height="5314" decoding="async" data-slide="0" class="on fade-in">
+                    <img src="img/pipeline/pipeline-map-2000.webp" srcset="img/pipeline/pipeline-map-1400.webp 1400w, img/pipeline/pipeline-map-2000.webp 2000w" sizes="100vw" width="2000" height="5497" decoding="async" data-slide="3">
                     <!--ai2html version
                     <div style="background-color: blue;" data-slide="3" class="fit hidden">
                         <div id="g-pipeline-box" class="ai2html">
@@ -153,10 +157,11 @@
             </div>
             <div class="scroll-container">    
                 <!--background images-->
-                <div class="background-item fill">
-                    <img src="img/pipeline-size-1-01.jpg" data-slide="0" class="fit">
-                    <img src="img/pipeline-size-2-01.jpg" data-slide="1" class="fit hidden">
-                    <img src="img/pipeline-size-3-01.jpg" data-slide="2" class="fit hidden">
+                <!-- maps are fitted whole and centered on the screen (1400 / 2400 px WebP) -->
+                <div class="background-item">
+                    <img src="img/pipeline/pipeline-size-1-2400.webp" srcset="img/pipeline/pipeline-size-1-1400.webp 1400w, img/pipeline/pipeline-size-1-2400.webp 2400w" sizes="100vw" width="2400" height="1335" decoding="async" data-slide="0" class="on">
+                    <img src="img/pipeline/pipeline-size-2-2400.webp" srcset="img/pipeline/pipeline-size-2-1400.webp 1400w, img/pipeline/pipeline-size-2-2400.webp 2400w" sizes="100vw" width="2400" height="1335" decoding="async" data-slide="1">
+                    <img src="img/pipeline/pipeline-size-3-2400.webp" srcset="img/pipeline/pipeline-size-3-1400.webp 1400w, img/pipeline/pipeline-size-3-2400.webp 2400w" sizes="100vw" width="2400" height="1335" decoding="async" data-slide="2">
                 </div>
             <!--foreground text blocks-->
                 <div class="foreground-item no-event">
@@ -184,16 +189,17 @@
             </div>
             <div class="scroll-container">    
                 <!--background images-->
-                <div class="background-item fill">
-                    <img src="img/lake_superior-1-01.jpg" data-slide="0" class="fit">
-                    <img src="img/lake_superior-2-01.jpg" data-slide="2" class="fit hidden">
-                    <img src="img/lake_superior-7-01.jpg" data-slide="3" class="fit hidden">
-                    <img src="img/lake_superior-3-02.jpg" data-slide="4" class="fit hidden">
-                    <img src="img/lake_superior-4-02.jpg" data-slide="5" class="fit hidden">
-                    <img src="img/lake_superior-5-02.jpg" data-slide="6" class="fit hidden">
-                    <img src="img/lake_superior-6-02-04.jpg" data-slide="8" class="fit hidden">
-                    <img src="img/lake_superior-7-01.jpg" data-slide="9" class="fit hidden">
-                    <!--data-slide property used to specify when the background should first-->
+                <!-- maps are fitted whole and centered on the screen (1400 / 2400 px WebP) -->
+                <div class="background-item">
+                    <img src="img/pipeline/superior-1-2400.webp" srcset="img/pipeline/superior-1-1400.webp 1400w, img/pipeline/superior-1-2400.webp 2400w" sizes="100vw" width="2400" height="1287" decoding="async" data-slide="0" class="on">
+                    <img src="img/pipeline/superior-2-2400.webp" srcset="img/pipeline/superior-2-1400.webp 1400w, img/pipeline/superior-2-2400.webp 2400w" sizes="100vw" width="2400" height="1287" decoding="async" data-slide="2">
+                    <img src="img/pipeline/superior-7-2400.webp" srcset="img/pipeline/superior-7-1400.webp 1400w, img/pipeline/superior-7-2400.webp 2400w" sizes="100vw" width="2400" height="1287" decoding="async" data-slide="3">
+                    <img src="img/pipeline/superior-3-2400.webp" srcset="img/pipeline/superior-3-1400.webp 1400w, img/pipeline/superior-3-2400.webp 2400w" sizes="100vw" width="2400" height="1285" decoding="async" data-slide="4">
+                    <img src="img/pipeline/superior-4-2400.webp" srcset="img/pipeline/superior-4-1400.webp 1400w, img/pipeline/superior-4-2400.webp 2400w" sizes="100vw" width="2400" height="1285" decoding="async" data-slide="5">
+                    <img src="img/pipeline/superior-5-2400.webp" srcset="img/pipeline/superior-5-1400.webp 1400w, img/pipeline/superior-5-2400.webp 2400w" sizes="100vw" width="2400" height="1285" decoding="async" data-slide="6">
+                    <img src="img/pipeline/superior-6-2400.webp" srcset="img/pipeline/superior-6-1400.webp 1400w, img/pipeline/superior-6-2400.webp 2400w" sizes="100vw" width="2400" height="1285" decoding="async" data-slide="8">
+                    <img src="img/pipeline/superior-7-2400.webp" srcset="img/pipeline/superior-7-1400.webp 1400w, img/pipeline/superior-7-2400.webp 2400w" sizes="100vw" width="2400" height="1287" decoding="async" data-slide="9">
+                    <!--data-slide: the number of the text box (from 0) that brings the map in-->
                     <!--ai2html version
                     <div style="background-color: blue;" data-slide="0" class="fit hidden">
                         <div id="g-lake_superior-box" class="ai2html">
@@ -310,6 +316,8 @@
     
     </div>
 
-<script type="text/javascript" src="./js/scrollmap.js"></script>
+<!-- switches the background maps as the text scrolls; a reworked copy of
+     scrollmap.js just for this page (22map.html still uses the original) -->
+<script type="text/javascript" src="./js/pipeline-scroll.js"></script>
 </body>
 </html>
