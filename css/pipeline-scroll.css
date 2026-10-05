@@ -54,6 +54,21 @@ body{
     object-fit:initial;
 }
 
+/* style.css makes the opening section's box 100vw wide, which counts the
+   scrollbar too and let the page scroll sideways a few pixels. The page's
+   width (100%) is the same thing without the scrollbar. This file loads
+   after style.css, so it wins; style.css stays as it is for the other pages. */
+.background-item.pipeline{
+    width:100% !important;
+}
+/* Bootstrap gives every .row -12px side margins (meant for inside a
+   .container, which this page doesn't use), so each text row stuck out 12px
+   past the right edge and the page could scroll sideways. */
+.row{
+    margin-left:0;
+    margin-right:0;
+}
+
 @media (prefers-reduced-motion: reduce){
     .background-item > img{ transition:none; }
     .fade-in{ animation:none; }
