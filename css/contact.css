@@ -4,7 +4,7 @@
 
      1. Sections
      2. The message form
-     3. Elsewhere (email, LinkedIn, Bluesky)
+     3. Other ways to reach me (email, LinkedIn, Bluesky)
      4. Freelance commissions
    ============================================================================= */
 
@@ -92,11 +92,6 @@
 /* on phones, a little extra room between the form and the links under it */
 .elsewhere { margin-top: 10px; }
 
-.elsewhere h2 {
-  margin: 0 0 14px;
-  font-family: var(--mono); font-size: var(--label); font-weight: 400;
-  letter-spacing: var(--track); text-transform: uppercase; color: var(--muted);
-}
 .elsewhere ul { list-style: none; margin: 0; padding: 0; }
 .elsewhere li {
   display: grid; gap: 3px;
