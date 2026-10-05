@@ -54,11 +54,39 @@
     <h1 class="ctitle">Get in touch</h1>
 
     <!-- ================================================================
-         FREELANCE — how commissions work, the full width of the page
+         One section, two columns (one on phones): on the left, photos of
+         me and the ways to reach me; on the right, how freelance works.
          ================================================================ -->
-    <section class="csec" id="freelance">
-      <h2>Freelance commissions</h2>
-      <div class="ftext">
+    <section class="csec cgrid">
+
+      <aside class="elsewhere" aria-label="Ways to reach me">
+        <!-- Photos of me: they share one 3:2 frame and crossfade in a loop
+             (js/contact.js). 1200×800 each, in img/about/. They show in this
+             order, the first (class="aph on") when the page opens. To add
+             one, copy an <img class="aph"> line; to drop one, delete it. -->
+        <div class="aphotos">
+          <img class="aph on" src="img/about/about-bike.webp" alt="Jake Steinberg riding a loaded bike along a trail at dusk" width="1200" height="800">
+          <img class="aph" src="img/about/about-canyon.webp" alt="Jake Steinberg watching the sunset from a canyon rim" width="1200" height="800" loading="lazy">
+          <img class="aph" src="img/about/about-summit.webp" alt="Jake Steinberg and a companion on a mountain ridge" width="1200" height="800" loading="lazy">
+          <img class="aph" src="img/about/about-juneau.webp" alt="A dog in a plaid bandana grinning on a wooden staircase" width="1200" height="800" loading="lazy">
+          <img class="aph" src="img/about/about-boulder.webp" alt="Jake Steinberg climbing between two halves of a split boulder" width="1200" height="800" loading="lazy">
+          <img class="aph" src="img/about/about-sled.webp" alt="A dog sled team crossing a frozen lake at sunrise" width="1200" height="800" loading="lazy">
+          <img class="aph" src="img/about/about-map-v2.webp" alt="Jake Steinberg and a friend reading a map on a rocky summit" width="1200" height="800" loading="lazy">
+          <img class="aph" src="img/about/about-fishing.webp" alt="Jake Steinberg fly fishing at an alpine lake" width="1200" height="800" loading="lazy">
+        </div>
+        <h2>Elsewhere</h2>
+        <ul>
+          <li><span class="lbl">Email</span>
+            <a href="mailto:jakesteinberg96@gmail.com">jakesteinberg96@gmail.com</a></li>
+          <li><span class="lbl">LinkedIn</span>
+            <a href="https://www.linkedin.com/in/jake-m-steinberg" target="_blank" rel="noopener">jake-m-steinberg&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>
+          <li><span class="lbl">Bluesky</span>
+            <a href="https://bsky.app/profile/jakesteinberg.com" target="_blank" rel="noopener">@jakesteinberg.com&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>
+        </ul>
+      </aside>
+
+      <div class="freelance" id="freelance">
+        <h2>Freelance commissions</h2>
         <p>Alongside my job at the Star Tribune I take on a small number of freelance map
           commissions each year. If you have something in mind, I&rsquo;d like to hear about it.</p>
         <p class="kinds-lbl">The kind of work I take on:</p>
@@ -69,69 +97,12 @@
           <li>3D terrain and relief</li>
           <li>Illustrated and hand-drawn maps</li>
         </ul>
-        <p>To get started, send me a note describing the place, the audience and roughly when you
-          need it. I&rsquo;ll come back with a quote, a timeline and anything I need from you. Every
-          project starts with a short call and a written quote; rates depend on scope.</p>
+        <p>To get started, <a href="mailto:jakesteinberg96@gmail.com">send me a note</a> describing
+          the place, the audience and roughly when you need it. I&rsquo;ll come back with a quote, a
+          timeline and anything I need from you. Every project starts with a short call and a
+          written quote; rates depend on scope.</p>
       </div>
-    </section>
 
-    <!-- ================================================================
-         GET IN TOUCH — the message form, and the other ways to reach me
-         ================================================================ -->
-    <section class="csec" id="message">
-      <div class="cgrid">
-
-        <!-- The form sends through Formspree (formspree.io), which emails each
-             message to jakesteinberg96@gmail.com. FORMSPREE_ID below is your
-             form's ID from the Formspree dashboard — the part after /f/.
-             js/contact.js sends it without leaving the page and shows the
-             thank-you or error note; without JavaScript it still posts. -->
-        <form class="cform" id="cform" action="https://formspree.io/f/FORMSPREE_ID" method="POST">
-          <p class="lede">Have a question, a story idea or a map that needs making? Send me a note
-            and I&rsquo;ll get back to you.</p>
-          <label>Your name
-            <input type="text" name="name" autocomplete="name" required>
-          </label>
-          <label>Your email
-            <input type="email" name="email" autocomplete="email" required>
-          </label>
-          <label>Message
-            <textarea name="message" rows="7" required></textarea>
-          </label>
-          <!-- a hidden field only spam bots fill in; Formspree drops those messages -->
-          <input type="text" name="_gotcha" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <input type="hidden" name="_subject" value="New message from jakesteinberg.com">
-          <button class="send" type="submit">Send message</button>
-          <p class="status" id="cstatus" role="status" aria-live="polite"></p>
-        </form>
-
-        <!-- other ways to reach me -->
-        <aside class="elsewhere" aria-label="Other ways to reach me">
-          <!-- Photos of me: they share one 3:2 frame and crossfade in a loop
-               (js/contact.js). 1200×800 each, in img/about/. They show in this
-               order, the first (class="aph on") when the page opens. To add
-               one, copy an <img class="aph"> line; to drop one, delete it. -->
-          <div class="aphotos">
-          <img class="aph on" src="img/about/about-bike.webp" alt="Jake Steinberg riding a loaded bike along a trail at dusk" width="1200" height="800">
-          <img class="aph" src="img/about/about-canyon.webp" alt="Jake Steinberg watching the sunset from a canyon rim" width="1200" height="800" loading="lazy">
-          <img class="aph" src="img/about/about-summit.webp" alt="Jake Steinberg and a companion on a mountain ridge" width="1200" height="800" loading="lazy">
-          <img class="aph" src="img/about/about-juneau.webp" alt="A dog in a plaid bandana grinning on a wooden staircase" width="1200" height="800" loading="lazy">
-          <img class="aph" src="img/about/about-boulder.webp" alt="Jake Steinberg climbing between two halves of a split boulder" width="1200" height="800" loading="lazy">
-          <img class="aph" src="img/about/about-sled.webp" alt="A dog sled team crossing a frozen lake at sunrise" width="1200" height="800" loading="lazy">
-          <img class="aph" src="img/about/about-map-v2.webp" alt="Jake Steinberg and a friend reading a map on a rocky summit" width="1200" height="800" loading="lazy">
-          <img class="aph" src="img/about/about-fishing.webp" alt="Jake Steinberg fly fishing at an alpine lake" width="1200" height="800" loading="lazy">
-          </div>
-          <h2>Elsewhere</h2>
-          <ul>
-            <li><span class="lbl">Email</span>
-              <a href="mailto:jakesteinberg96@gmail.com">jakesteinberg96@gmail.com</a></li>
-            <li><span class="lbl">LinkedIn</span>
-              <a href="https://www.linkedin.com/in/jake-m-steinberg" target="_blank" rel="noopener">jake-m-steinberg&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>
-            <li><span class="lbl">Bluesky</span>
-              <a href="https://bsky.app/profile/jakesteinberg.com" target="_blank" rel="noopener">@jakesteinberg.com&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>
-          </ul>
-        </aside>
-      </div>
     </section>
 
     <!-- ================================================================
