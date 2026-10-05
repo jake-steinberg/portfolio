@@ -1,0 +1,332 @@
+# Jake Steinberg — cartographer, Minneapolis
+
+> Jake Steinberg is a cartographer, GIS analyst and data journalist in Minneapolis, Minnesota, and a graphics reporter at the Minnesota Star Tribune. He is the author of *The Twin Cities in 50 Maps* (Belt Publishing, 2026) and an editor of the *Atlas of Design*. He takes on a small number of freelance map commissions each year.
+
+<!-- This file is a plain-text summary of the site for AI tools (see llmstxt.org).
+     Edit the top part by hand. The "Selected work" list at the bottom is written by
+     tools/build-project-list.mjs from js/projects.js — run that script instead of
+     editing the list. -->
+
+## Freelance commissions
+
+Jake takes on freelance commissions alongside his job at the Star Tribune:
+
+- Print reference and trail maps
+- Wall, poster and trailhead maps
+- Analytical and data-driven maps for reports and publications
+- 3D terrain and relief
+- Illustrated and hand-drawn maps
+
+Every project starts with a short call and a written quote; rates depend on scope. To ask about one, email jakesteinberg96@gmail.com or use the form on the [contact page](https://www.jakesteinberg.com/contact.html).
+
+## About
+
+- Graphics reporter, Minnesota Star Tribune (2023–present): maps and data graphics for the news
+- Previously: graphics intern at The Wall Street Journal; cartographer and interim production manager at the UW Cartography Lab, making maps for clients such as The Nature Conservancy and Wisconsin Sea Grant
+- M.S. in Cartography and GIS, University of Wisconsin–Madison; B.A. in Journalism, University of Minnesota
+- Tools and skills: cartographic design, GIS analysis, data visualization, 3D terrain, illustrated maps, interactive and web maps
+
+## Pages
+
+- [Portfolio](https://www.jakesteinberg.com/): selected maps and graphics
+- [Resume](https://www.jakesteinberg.com/resume.html): experience, education, awards
+- [Contact](https://www.jakesteinberg.com/contact.html): freelance commissions and a message form
+- [The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps): the book, from Belt Publishing
+- [LinkedIn](https://www.linkedin.com/in/jake-m-steinberg) · [Bluesky](https://bsky.app/profile/jakesteinberg.com) · [Star Tribune author page](https://www.startribune.com/jake-steinberg/11166045)
+
+## Selected work
+
+<!-- WORK START — written by tools/build-project-list.mjs from js/projects.js -->
+
+### Operation Metro Surge (2026)
+
+Tags: News, Interactive, Scrollytelling
+
+Provided authoritative visual journalism on the unprecedented and rapidly unfolding immigration operation that ultimately left two U.S. citizens dead and ignited a protest movement watched by the world.
+
+Award: Winner, Breaking News, Large Newsroom, from the Online News Association’s Online Journalism Awards 2026. Finalist for the Knight Award for Public Service.
+
+- [Breaking down the videos: A close examination of the shooting of Renee Good](https://www.startribune.com/breaking-down-the-videos-a-close-examination-of-the-shooting-of-renee-good/601560158)
+- [How 3,000 federal agents would compare to 10 largest Twin Cities police forces](https://www.startribune.com/how-ice-numbers-compare-to-twin-cities-largest-police-forces/601562617)
+- [A chaotic confrontation, a gun and 10 shots: A frame-by-frame analysis of the fatal shooting of Alex Pretti](https://www.startribune.com/a-chaotic-confrontation-a-gun-and-10-shots-a-frame-by-frame-analysis-of-the-fatal-shooting-of-alex-pretti/601570463)
+- [Is ICE really leaving Minnesota? The data is complicated.](https://www.startribune.com/is-ice-really-pulling-out-of-minnesota-observer-data-tells-a-complicated-story/601580496)
+
+### Lindsey Vonn’s Mountains (2026)
+
+Tags: News, 3D, Outdoors
+
+A biography of Lindsey Vonn published in the run-up to the 2026 Winter Olympics, told by the mountains that made her.
+
+- [Read the story](https://www.startribune.com/five-mountains-and-one-notable-hill-that-defined-lindsey-vonns-career-and-comeback/601559700)
+
+### A Restless River (2026)
+
+Tags: Print
+
+A 2-page spread in my book that exposes the writhing and rambling of the Minnesota River.
+
+- [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### The Cathedral of Saint Paul (2026)
+
+Tags: Print
+
+A divinely inspired GIS viewshed analysis that appears in my book.
+
+- [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### Wildfire coverage (2026)
+
+Tags: News, Scrollytelling, Climate
+
+Mapping the causes and consequences of Minnesota’s worst wildfire season in a generation.
+
+### Star Tribune basemap styles (2025–2026)
+
+Tags: News, Interactive, Outdoors
+
+Designed a full suite of MapLibre basemap styles for use across the Star Tribune’s editorial coverage verticals.
+
+### Rincon Mountains (2024)
+
+Tags: Print, 3D, Outdoors
+
+A golden hour rendering of Saguaro National Park’s Rincon Mountains made to commemorate a trip with an old friend.
+
+### Cycling St. Paul’s Hills (2026)
+
+Tags: Print
+
+A 2-page spread in my book that visually compares the hills that await cyclists who wish to traverse the capitol city.
+
+- [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### Slivers of an Ancient Forest (2021)
+
+Tags: Print, Illustrated, Outdoors
+
+The Northwoods are as fundamental to the cultural identity of the Upper Midwest as lakes and mosquitos. I made this National Geographic-inspired poster map for GEOG 370: Intro to Cartography. It tells the story of what the Northwoods used to be, as well as what they might one day become.
+
+Award: CaGIS Arthur Robinson Award for best print map, 2022
+
+Award: Featured in the NACIS Atlas of Design, Vol. VI
+
+Award: Winner in Research, NACIS Student Map & Poster Competition, 2022
+
+Award: Barbara Petchenik Award, best graduate student map, UW–Madison, 2022
+
+- [View the full map](https://www.jakesteinberg.com/img/slivers-of-an-ancient-forest-sml.png)
+
+### Immigration in the Twin Cities (2026)
+
+Tags: Print
+
+Dot density maps that create a mosaic of immigrant communities in the Twin Cities at two points in history.
+
+- [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### Work for the Wall Street Journal (2023)
+
+Tags: News, Scrollytelling
+
+I designed 42 maps on deadline in collaboration with reporters and editors around the world, covering events such as the war in Ukraine, the Maui wildfires, and the Titan submersible.
+
+- [Maui wildfires](https://www.wsj.com/articles/why-maui-wildfires-hawaii-devastating-84651f12)
+- [Ring of Fire mining conflict](https://www.wsj.com/world/americas/minerals-nickel-batteries-canada-climate-carbon-376f11fd)
+- [Titan submersible search](https://www.wsj.com/articles/missing-titan-submersible-search-map-22c882f?mod=Searchresults_pos20&page=1)
+- [War in Ukraine](https://www.wsj.com/story/the-strategic-importance-of-the-russia-controlled-land-bridge-in-ukraine-832d0728?mod=hp_lead_pos7)
+- [Red Sea oil spill](https://www.wsj.com/articles/the-race-to-avert-an-oil-spill-that-could-cost-20-billion-to-fix-85a884ea)
+- [Mountain Valley Pipeline](https://www.wsj.com/articles/they-fought-a-pipeline-on-their-land-then-congress-got-involved-95c4870f?mod=Searchresults_pos1&page=1)
+- [Strait of Messina bridge](https://www.wsj.com/articles/italy-says-it-will-build-the-longest-suspension-bridge-in-the-world-dont-hold-your-breath-71b7cc86)
+- [Alaska LNG project](https://www.wsj.com/articles/u-s-allies-in-asia-snub-natural-gas-from-alaska-project-e54f754a?mod=Searchresults_pos1&page=1)
+
+### 22, A Map (2022)
+
+Tags: Interactive, Scrollytelling
+
+A Mapbox-inspired journey through the aesthetic universe of Bon Iver’s 22, A Million.
+
+- [Open the project](https://www.jakesteinberg.com/22map.html)
+
+### Emily Ford’s Iditarod (2025)
+
+Tags: News, Outdoors
+
+A map that conjures the icy Alaska faced by Minnesotan Emily Ford during the 2025 Iditarod dog sled race. Built from a MODIS image.
+
+- [Read the story](https://www.startribune.com/duluths-emily-ford-faces-her-toughest-winter-adventure-yet-alaskas-famed-iditarod/601225462)
+
+### The Legacy Tree (2024)
+
+Tags: News, Climate
+
+A quest through time in a warming wilderness to find the oldest living tree in Minnesota.
+
+- [Read the story](https://www.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/)
+
+### Minnesota State Fair Smellscape (2025)
+
+Tags: Print, Illustrated
+
+The landscape of smells — or, smellscape — of the Minnesota State Fair, where the aroma of roasting corn is as prominent as any mountain.
+
+- [Read the story](https://www.startribune.com/smells-of-the-minnesota-state-fair-create-a-festival-for-the-nose/601443971?utm_source=gift)
+- [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### Where is Uptown? (2025)
+
+Tags: News, Interactive, Print
+
+A crowdsourced community geography story about Minneapolis’s most argued-over district. Or, neighborhood? Maybe vibe?
+
+Award: Awards of Excellence in Infographics; Line of Coverage; and Use of Multimedia and Design Elements, Society for News Design, 2026. It contributed to a portfolio Bronze Medal for my excellent editor, C.J. Sinner.
+
+- [Where is Uptown?](https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173)
+- [Uptown results](https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699)
+- [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### Election results (2023–2026)
+
+Tags: News, Print, Interactive
+
+Mapping the results of local, state and national elections for the Star Tribune.
+
+### Driftless Area (2023)
+
+Tags: Print, 3D
+
+Stylized land cover and elevation data for a sweeping wall map of the Driftless Area.
+
+- [View the full map](https://www.jakesteinberg.com/img/driftless-website.jpg)
+
+### What the Interstates Destroyed (2026)
+
+Tags: Print
+
+Two deeply researched maps that document the neighborhoods that were demolished to build highways through the Twin Cities.
+
+- [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### Illustrated stories (2026)
+
+Tags: News, Illustrated, Outdoors
+
+Hand-drawn cartography for the Star Tribune.
+
+### Urban foxes and coyotes (2026)
+
+Tags: News, Scrollytelling, Print
+
+Stories about backyard foxes and coyotes eking out a life in the margins of the metro.
+
+- [Backyard battle for survival](https://www.startribune.com/its-foxes-versus-coyotes-in-a-backyard-battle-for-survival/601504496)
+- [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### Outdoor tales told in the Star Tribune (2023–2026)
+
+Tags: News, Scrollytelling, Outdoors
+
+Stories about the people and places of the North.
+
+- [Urban Paddling Guide](https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521)
+- [Ice climbing](https://www.startribune.com/flying-shards-and-screaming-barfies-ice-climbing-is-thrilling-and-excruciating/601208711)
+- [The Legacy Tree](https://www2.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/)
+- [Midwest Mountaineering](https://www.startribune.com/midwest-mountaineering-was-more-than-just-a-store-and-losing-it-matters/600314102)
+
+### Twin Cities geology (2026)
+
+Tags: Print
+
+A 2-page spread in my book that tells the story of the subterranean world beneath the Twin Cities.
+
+- [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### Urban paddling guide (2025)
+
+Tags: Print, Outdoors
+
+A guide to 13 of the best paddling routes in the Twin Cities. I scouted and authored guides to most of the routes, and mapped them all.
+
+Award: Silver Medal for Story Page Design, Society for News Design, 2026. Primary page design by Anna Boone.
+
+- [Read the story](https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift)
+
+### East River flood study (2022)
+
+Tags: Print, Climate
+
+I designed a series of 9 maps for The Nature Conservancy and Wisconsin Sea Grant to communicate about flood risk in the Green Bay area.
+
+- [View the project](https://east-river-collaborative.tnc.org/pages/maps-data)
+
+### The Life and Death of the Great Lakes Pipeline (2023)
+
+Tags: Scrollytelling, Climate
+
+Taking place in the all-too-near future, this piece of speculative fiction I made for Rob Roth’s Graphic Design in Cartography course tells the story of a pipeline that exports water from the Great Lakes to an increasingly thirsty world.
+
+Award: Best student map, Wisconsin Land Information Association, 2023
+
+- [Open the project](https://www.jakesteinberg.com/pipeline.html)
+
+### Where we live and where we work (2026)
+
+Tags: Print
+
+A 2-page spread in my book that explores the geography of employment and residency across the Twin Cities.
+
+- [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### 15-minute neighborhoods (2026)
+
+Tags: Print
+
+An analysis of where in the Twin Cities you can live comfortably without a car.
+
+- [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### Cost of the commute (2026)
+
+Tags: News, Scrollytelling
+
+A visual story about how high gas prices caused by the war with Iran are squeezing commuters.
+
+- [Read the story](https://www.startribune.com/highest-gas-prices-in-4-years-force-minnesotans-to-rethink-the-commute-if-they-can/601838626)
+
+### How does 2024’s weather compare with your childhood’s? (2025)
+
+Tags: News, Interactive, Climate
+
+An interactive story that puts data behind the feeling that 2024’s weather wasn’t like you remember it being when you were growing up.
+
+Award: Best Infographic/Data Visualization, Minnesota Society of Professional Journalists, 2026. Shared with Bryan Brussee and Mark Boswell.
+
+- [Read the story](https://www.startribune.com/how-does-2024s-weather-compare-with-your-childhood/601202878)
+
+### Snowfall Tracker (2023–2026)
+
+Tags: News, Interactive, Climate
+
+A seasonal data viz dashboard that tracks and compares annual snowfall accumulation.
+
+- [Read the story](https://www.startribune.com/see-how-much-snow-has-or-hasnt-fallen-this-winter/600339679/?refresh=true)
+
+### Projection trading card (2022)
+
+Tags: Print
+
+A retro video game design I contributed to Daniel Huffman’s Projection Collection.
+
+### Best places to hike (2024–2026)
+
+Tags: Interactive, Outdoors
+
+A seasonal feature for the Star Tribune spotlighting the best places to be outside.
+
+### Cloud Peak Wilderness (2024)
+
+Tags: Print, 3D, Outdoors
+
+A gift given to friends I shared a great trip with.
+
+<!-- WORK END -->

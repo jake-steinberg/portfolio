@@ -4,11 +4,101 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Jake Makes Maps</title>
-  <meta property="og:title" content="Jake Makes Maps">
-  <meta name="author" content="Jake Steinberg">
+  <title>Jake Steinberg, Minneapolis cartographer · Jake Makes Maps</title>
+  <!-- what search results and link previews show; canonical is the one true
+       address of this page (the www. one) -->
   <meta name="description"
-    content="Jake Steinberg is a journalist and cartographer who uses maps to tell stories and explain the news.">
+    content="Portfolio of Jake Steinberg, a Minneapolis cartographer and data journalist at the Minnesota Star Tribune and author of The Twin Cities in 50 Maps. Maps, GIS analysis and data visualization; available for freelance commissions.">
+  <link rel="canonical" href="https://www.jakesteinberg.com/">
+  <meta property="og:title" content="Jake Steinberg, Minneapolis cartographer · Jake Makes Maps">
+  <meta property="og:description" content="Portfolio of Jake Steinberg, a Minneapolis cartographer and data journalist at the Minnesota Star Tribune and author of The Twin Cities in 50 Maps. Maps, GIS analysis and data visualization; available for freelance commissions.">
+  <meta property="og:url" content="https://www.jakesteinberg.com/">
+  <meta property="og:type" content="website">
+  <meta name="author" content="Jake Steinberg">
+  <!-- Structured data (schema.org JSON-LD): tells search engines and AI tools,
+       in a form they read reliably, who I am and what the book is.
+       Keep it true to the page; edit the text between the quotes. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "Jake Makes Maps",
+        "url": "https://www.jakesteinberg.com/",
+        "author": {
+          "@id": "https://www.jakesteinberg.com/#jake"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.jakesteinberg.com/#jake",
+        "name": "Jake Steinberg",
+        "url": "https://www.jakesteinberg.com/",
+        "image": "https://www.jakesteinberg.com/img/about/about-bike.webp",
+        "jobTitle": "Graphics Reporter",
+        "description": "Cartographer, GIS analyst and data journalist in Minneapolis. Graphics reporter at the Minnesota Star Tribune, author of The Twin Cities in 50 Maps and an editor of the Atlas of Design. Available for freelance map commissions.",
+        "email": "mailto:jakesteinberg96@gmail.com",
+        "worksFor": {
+          "@type": "NewsMediaOrganization",
+          "name": "Minnesota Star Tribune",
+          "url": "https://www.startribune.com/"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Minneapolis",
+          "addressRegion": "MN",
+          "addressCountry": "US"
+        },
+        "alumniOf": [
+          {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Wisconsin–Madison"
+          },
+          {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Minnesota"
+          }
+        ],
+        "knowsAbout": [
+          "Cartography",
+          "GIS analysis",
+          "Data visualization",
+          "Data journalism",
+          "Print and trail maps",
+          "3D terrain and relief",
+          "Illustrated maps",
+          "Interactive web maps"
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/jake-m-steinberg",
+          "https://bsky.app/profile/jakesteinberg.com",
+          "https://www.startribune.com/jake-steinberg/11166045"
+        ]
+      },
+      {
+        "@type": "Book",
+        "name": "The Twin Cities in 50 Maps",
+        "author": {
+          "@id": "https://www.jakesteinberg.com/#jake"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Belt Publishing"
+        },
+        "datePublished": "2026-11-17",
+        "bookFormat": "https://schema.org/Hardcover",
+        "url": "https://beltpublishing.com/products/the-twin-cities-in-50-maps",
+        "offers": {
+          "@type": "Offer",
+          "price": "30.00",
+          "priceCurrency": "USD",
+          "url": "https://beltpublishing.com/products/the-twin-cities-in-50-maps"
+        }
+      }
+    ]
+  }
+  </script>
   <!-- icons, all from img/favicon_lg-03.jpg. The SVG is the browser tab icon: black letters,
        coral in dark mode. Browsers that can't use it (Safari) take the transparent PNGs;
        the iPhone home screen gets a white one, since iPhones don't allow transparent icons. -->
@@ -22,6 +112,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+  <!-- marks the page as running JavaScript, so the plain project list in the
+       grid (for crawlers and visitors without JavaScript) stays hidden while
+       js/portfolio.js builds the tiles -->
+  <script>document.documentElement.classList.add('js');</script>
 
   <!-- site.css is shared by every page; portfolio.css is just for this page -->
   <link rel="stylesheet" href="css/site.css">
@@ -121,7 +216,288 @@
     </div>
 
     <div class="grid" id="grid">
-      <!-- project tiles are inserted here -->
+      <!-- project tiles are inserted here by js/portfolio.js, replacing the
+           plain list below. That list is for search engines and AI tools,
+           which often don't run JavaScript. -->
+      <!-- PROJECT LIST START — written by tools/build-project-list.mjs from
+         js/projects.js. Don't edit by hand: run that script instead. -->
+      <ol class="plist">
+      <li>
+        <h3>Operation Metro Surge</h3>
+        <p>2026 · News, Interactive, Scrollytelling</p>
+        <p>Provided authoritative visual journalism on the unprecedented and rapidly unfolding immigration operation that ultimately left two U.S. citizens dead and ignited a protest movement watched by the world.</p>
+        <p>&#9733; Winner, Breaking News, Large Newsroom, from the Online News Association’s <a href="https://awards.journalists.org/winners/2026/" target="_blank" rel="noopener">Online Journalism Awards 2026</a>. Finalist for the Knight Award for Public Service.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/breaking-down-the-videos-a-close-examination-of-the-shooting-of-renee-good/601560158">Breaking down the videos: A close examination of the shooting of Renee Good</a></li>
+          <li><a href="https://www.startribune.com/how-ice-numbers-compare-to-twin-cities-largest-police-forces/601562617">How 3,000 federal agents would compare to 10 largest Twin Cities police forces</a></li>
+          <li><a href="https://www.startribune.com/a-chaotic-confrontation-a-gun-and-10-shots-a-frame-by-frame-analysis-of-the-fatal-shooting-of-alex-pretti/601570463">A chaotic confrontation, a gun and 10 shots: A frame-by-frame analysis of the fatal shooting of Alex Pretti</a></li>
+          <li><a href="https://www.startribune.com/is-ice-really-pulling-out-of-minnesota-observer-data-tells-a-complicated-story/601580496">Is ICE really leaving Minnesota? The data is complicated.</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Lindsey Vonn’s Mountains</h3>
+        <p>2026 · News, 3D, Outdoors</p>
+        <p>A biography of Lindsey Vonn published in the run-up to the 2026 Winter Olympics, told by the mountains that made her.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/five-mountains-and-one-notable-hill-that-defined-lindsey-vonns-career-and-comeback/601559700">Read the story</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>A Restless River</h3>
+        <p>2026 · Print</p>
+        <p>A 2-page spread in my book that exposes the writhing and rambling of the Minnesota River.</p>
+        <ul>
+          <li><a href="https://beltpublishing.com/products/the-twin-cities-in-50-maps">In the book: The Twin Cities in 50 Maps</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>The Cathedral of Saint Paul</h3>
+        <p>2026 · Print</p>
+        <p>A divinely inspired GIS viewshed analysis that appears in my book.</p>
+        <ul>
+          <li><a href="https://beltpublishing.com/products/the-twin-cities-in-50-maps">In the book: The Twin Cities in 50 Maps</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Wildfire coverage</h3>
+        <p>2026 · News, Scrollytelling, Climate</p>
+        <p>Mapping the causes and consequences of Minnesota’s worst wildfire season in a generation.</p>
+      </li>
+      <li>
+        <h3>Star Tribune basemap styles</h3>
+        <p>2025–2026 · News, Interactive, Outdoors</p>
+        <p>Designed a full suite of MapLibre basemap styles for use across the Star Tribune’s editorial coverage verticals.</p>
+      </li>
+      <li>
+        <h3>Rincon Mountains</h3>
+        <p>2024 · Print, 3D, Outdoors</p>
+        <p>A golden hour rendering of Saguaro National Park’s Rincon Mountains made to commemorate a trip with an old friend.</p>
+      </li>
+      <li>
+        <h3>Cycling St. Paul’s Hills</h3>
+        <p>2026 · Print</p>
+        <p>A 2-page spread in my book that visually compares the hills that await cyclists who wish to traverse the capitol city.</p>
+        <ul>
+          <li><a href="https://beltpublishing.com/products/the-twin-cities-in-50-maps">In the book: The Twin Cities in 50 Maps</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Slivers of an Ancient Forest</h3>
+        <p>2021 · Print, Illustrated, Outdoors</p>
+        <p>The Northwoods are as fundamental to the cultural identity of the Upper Midwest as lakes and mosquitos. I made this National Geographic-inspired poster map for GEOG 370: Intro to Cartography. It tells the story of what the Northwoods used to be, as well as what they might one day become.</p>
+        <p>&#9733; CaGIS Arthur Robinson Award for best print map, 2022</p>
+        <p>&#9733; Featured in the NACIS <em>Atlas of Design</em>, Vol. VI</p>
+        <p>&#9733; Winner in Research, NACIS Student Map &amp; Poster Competition, 2022</p>
+        <p>&#9733; Barbara Petchenik Award, best graduate student map, UW&ndash;Madison, 2022</p>
+        <ul>
+          <li><a href="img/slivers-of-an-ancient-forest-sml.png">View the full map</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Immigration in the Twin Cities</h3>
+        <p>2026 · Print</p>
+        <p>Dot density maps that create a mosaic of immigrant communities in the Twin Cities at two points in history.</p>
+        <ul>
+          <li><a href="https://beltpublishing.com/products/the-twin-cities-in-50-maps">In the book: The Twin Cities in 50 Maps</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Work for the Wall Street Journal</h3>
+        <p>2023 · News, Scrollytelling</p>
+        <p>I designed 42 maps on deadline in collaboration with reporters and editors around the world, covering events such as the war in Ukraine, the Maui wildfires, and the Titan submersible.</p>
+        <ul>
+          <li><a href="https://www.wsj.com/articles/why-maui-wildfires-hawaii-devastating-84651f12">Maui wildfires</a></li>
+          <li><a href="https://www.wsj.com/world/americas/minerals-nickel-batteries-canada-climate-carbon-376f11fd">Ring of Fire mining conflict</a></li>
+          <li><a href="https://www.wsj.com/articles/missing-titan-submersible-search-map-22c882f?mod=Searchresults_pos20&amp;page=1">Titan submersible search</a></li>
+          <li><a href="https://www.wsj.com/story/the-strategic-importance-of-the-russia-controlled-land-bridge-in-ukraine-832d0728?mod=hp_lead_pos7">War in Ukraine</a></li>
+          <li><a href="https://www.wsj.com/articles/the-race-to-avert-an-oil-spill-that-could-cost-20-billion-to-fix-85a884ea">Red Sea oil spill</a></li>
+          <li><a href="https://www.wsj.com/articles/they-fought-a-pipeline-on-their-land-then-congress-got-involved-95c4870f?mod=Searchresults_pos1&amp;page=1">Mountain Valley Pipeline</a></li>
+          <li><a href="https://www.wsj.com/articles/italy-says-it-will-build-the-longest-suspension-bridge-in-the-world-dont-hold-your-breath-71b7cc86">Strait of Messina bridge</a></li>
+          <li><a href="https://www.wsj.com/articles/u-s-allies-in-asia-snub-natural-gas-from-alaska-project-e54f754a?mod=Searchresults_pos1&amp;page=1">Alaska LNG project</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>22, A Map</h3>
+        <p>2022 · Interactive, Scrollytelling</p>
+        <p>A Mapbox-inspired journey through the aesthetic universe of Bon Iver’s <em>22, A Million</em>.</p>
+        <ul>
+          <li><a href="22map.html">Open the project</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Emily Ford’s Iditarod</h3>
+        <p>2025 · News, Outdoors</p>
+        <p>A map that conjures the icy Alaska faced by Minnesotan Emily Ford during the 2025 Iditarod dog sled race. Built from a MODIS image.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/duluths-emily-ford-faces-her-toughest-winter-adventure-yet-alaskas-famed-iditarod/601225462">Read the story</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>The Legacy Tree</h3>
+        <p>2024 · News, Climate</p>
+        <p>A quest through time in a warming wilderness to find the oldest living tree in Minnesota.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/">Read the story</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Minnesota State Fair Smellscape</h3>
+        <p>2025 · Print, Illustrated</p>
+        <p>The landscape of smells — or, smellscape — of the Minnesota State Fair, where the aroma of roasting corn is as prominent as any mountain.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/smells-of-the-minnesota-state-fair-create-a-festival-for-the-nose/601443971?utm_source=gift">Read the story</a></li>
+          <li><a href="https://beltpublishing.com/products/the-twin-cities-in-50-maps">In the book: The Twin Cities in 50 Maps</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Where is Uptown?</h3>
+        <p>2025 · News, Interactive, Print</p>
+        <p>A crowdsourced community geography story about Minneapolis’s most argued-over district. Or, neighborhood? Maybe vibe?</p>
+        <p>&#9733; Awards of Excellence in Infographics; Line of Coverage; and Use of Multimedia and Design Elements, Society for News Design, 2026. It contributed to a portfolio Bronze Medal for my excellent editor, C.J. Sinner.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173">Where is Uptown?</a></li>
+          <li><a href="https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699">Uptown results</a></li>
+          <li><a href="https://beltpublishing.com/products/the-twin-cities-in-50-maps">In the book: The Twin Cities in 50 Maps</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Election results</h3>
+        <p>2023–2026 · News, Print, Interactive</p>
+        <p>Mapping the results of local, state and national elections for the Star Tribune.</p>
+      </li>
+      <li>
+        <h3>Driftless Area</h3>
+        <p>2023 · Print, 3D</p>
+        <p>Stylized land cover and elevation data for a sweeping wall map of the Driftless Area.</p>
+        <ul>
+          <li><a href="img/driftless-website.jpg">View the full map</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>What the Interstates Destroyed</h3>
+        <p>2026 · Print</p>
+        <p>Two deeply researched maps that document the neighborhoods that were demolished to build highways through the Twin Cities.</p>
+        <ul>
+          <li><a href="https://beltpublishing.com/products/the-twin-cities-in-50-maps">In the book: The Twin Cities in 50 Maps</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Illustrated stories</h3>
+        <p>2026 · News, Illustrated, Outdoors</p>
+        <p>Hand-drawn cartography for the Star Tribune.</p>
+      </li>
+      <li>
+        <h3>Urban foxes and coyotes</h3>
+        <p>2026 · News, Scrollytelling, Print</p>
+        <p>Stories about backyard foxes and coyotes eking out a life in the margins of the metro.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/its-foxes-versus-coyotes-in-a-backyard-battle-for-survival/601504496">Backyard battle for survival</a></li>
+          <li><a href="https://beltpublishing.com/products/the-twin-cities-in-50-maps">In the book: The Twin Cities in 50 Maps</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Outdoor tales told in the Star Tribune</h3>
+        <p>2023–2026 · News, Scrollytelling, Outdoors</p>
+        <p>Stories about the people and places of the North.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521">Urban Paddling Guide</a></li>
+          <li><a href="https://www.startribune.com/flying-shards-and-screaming-barfies-ice-climbing-is-thrilling-and-excruciating/601208711">Ice climbing</a></li>
+          <li><a href="https://www2.startribune.com/ancient-legacy-tree-boundary-waters-minnesota-climate-change/600360250/">The Legacy Tree</a></li>
+          <li><a href="https://www.startribune.com/midwest-mountaineering-was-more-than-just-a-store-and-losing-it-matters/600314102">Midwest Mountaineering</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Twin Cities geology</h3>
+        <p>2026 · Print</p>
+        <p>A 2-page spread in my book that tells the story of the subterranean world beneath the Twin Cities.</p>
+        <ul>
+          <li><a href="https://beltpublishing.com/products/the-twin-cities-in-50-maps">In the book: The Twin Cities in 50 Maps</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Urban paddling guide</h3>
+        <p>2025 · Print, Outdoors</p>
+        <p>A guide to 13 of the best paddling routes in the Twin Cities. I scouted and authored guides to most of the routes, and mapped them all.</p>
+        <p>&#9733; Silver Medal for Story Page Design, Society for News Design, 2026. Primary page design by Anna Boone.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift">Read the story</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>East River flood study</h3>
+        <p>2022 · Print, Climate</p>
+        <p>I designed a series of 9 maps for The Nature Conservancy and Wisconsin Sea Grant to communicate about flood risk in the Green Bay area.</p>
+        <ul>
+          <li><a href="https://east-river-collaborative.tnc.org/pages/maps-data">View the project</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>The Life and Death of the Great Lakes Pipeline</h3>
+        <p>2023 · Scrollytelling, Climate</p>
+        <p>Taking place in the all-too-near future, this piece of speculative fiction I made for Rob Roth’s Graphic Design in Cartography course tells the story of a pipeline that exports water from the Great Lakes to an increasingly thirsty world.</p>
+        <p>&#9733; Best student map, Wisconsin Land Information Association, 2023</p>
+        <ul>
+          <li><a href="pipeline.html">Open the project</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Where we live and where we work</h3>
+        <p>2026 · Print</p>
+        <p>A 2-page spread in my book that explores the geography of employment and residency across the Twin Cities.</p>
+        <ul>
+          <li><a href="https://beltpublishing.com/products/the-twin-cities-in-50-maps">In the book: The Twin Cities in 50 Maps</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>15-minute neighborhoods</h3>
+        <p>2026 · Print</p>
+        <p>An analysis of where in the Twin Cities you can live comfortably without a car.</p>
+        <ul>
+          <li><a href="https://beltpublishing.com/products/the-twin-cities-in-50-maps">In the book: The Twin Cities in 50 Maps</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Cost of the commute</h3>
+        <p>2026 · News, Scrollytelling</p>
+        <p>A visual story about how high gas prices caused by the war with Iran are squeezing commuters.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/highest-gas-prices-in-4-years-force-minnesotans-to-rethink-the-commute-if-they-can/601838626">Read the story</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>How does 2024’s weather compare with your childhood’s?</h3>
+        <p>2025 · News, Interactive, Climate</p>
+        <p>An interactive story that puts data behind the feeling that 2024’s weather wasn’t like you remember it being when you were growing up.</p>
+        <p>&#9733; Best Infographic/Data Visualization, Minnesota Society of Professional Journalists, 2026. Shared with Bryan Brussee and Mark Boswell.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/how-does-2024s-weather-compare-with-your-childhood/601202878">Read the story</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Snowfall Tracker</h3>
+        <p>2023–2026 · News, Interactive, Climate</p>
+        <p>A seasonal data viz dashboard that tracks and compares annual snowfall accumulation.</p>
+        <ul>
+          <li><a href="https://www.startribune.com/see-how-much-snow-has-or-hasnt-fallen-this-winter/600339679/?refresh=true">Read the story</a></li>
+        </ul>
+      </li>
+      <li>
+        <h3>Projection trading card</h3>
+        <p>2022 · Print</p>
+        <p>A retro video game design I contributed to Daniel Huffman&rsquo;s <a href="https://somethingaboutmaps.wordpress.com/2023/09/26/the-projection-collection-returns/" target="_blank" rel="noopener">Projection Collection</a>.</p>
+      </li>
+      <li>
+        <h3>Best places to hike</h3>
+        <p>2024–2026 · Interactive, Outdoors</p>
+        <p>A seasonal feature for the Star Tribune spotlighting the best places to be outside.</p>
+      </li>
+      <li>
+        <h3>Cloud Peak Wilderness</h3>
+        <p>2024 · Print, 3D, Outdoors</p>
+        <p>A gift given to friends I shared a great trip with.</p>
+      </li>
+      </ol>
+      <!-- PROJECT LIST END -->
     </div>
     <div class="empty" id="empty" hidden>No projects match that combination.</div>
 

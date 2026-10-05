@@ -1,0 +1,12 @@
+# robots.txt — which crawlers may read the site. Everyone may, including the
+# AI search tools (OpenAI's GPTBot and OAI-SearchBot, Anthropic's ClaudeBot,
+# PerplexityBot, Google-Extended): a rule for "*" covers them all.
+# The two lines below just keep old scraps and templates out of search results.
+
+User-agent: *
+Allow: /
+Disallow: /cut_stuff.html
+Disallow: /page%20template.html
+Disallow: /tools/
+
+Sitemap: https://www.jakesteinberg.com/sitemap.xml

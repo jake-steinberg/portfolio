@@ -46,6 +46,14 @@ file and pushing to `main` publishes it.
    reduced motion.
 3. **Add an entry to `js/projects.js`.** There's a template with every field
    explained at the top of that file. The grid follows the order of the list.
+4. **Update the plain copy for search engines**, from the repo folder:
+
+   ```sh
+   node tools/build-project-list.mjs
+   ```
+
+   (See "Search engines and AI tools" below.) Do this whenever you change
+   `projects.js`, then commit `index.html` and `llms.txt` with it.
 
 That's all: the tile, its filter tags and its panel are built automatically.
 
@@ -150,6 +158,29 @@ says it isn't connected and asks people to email instead. The free plan covers
 
 Freelance commissions are a section of the Contact page (`contact.html#freelance`),
 which the homepage intro links to.
+
+## Search engines and AI tools
+
+Things that help Google, Bing and AI search tools (ChatGPT, Claude,
+Perplexity) find the site and understand it:
+
+- **The plain project list.** The grid is built by JavaScript, which many
+  crawlers don't run. `tools/build-project-list.mjs` writes every project from
+  `js/projects.js` into `index.html` as plain HTML (between the
+  `PROJECT LIST START` / `END` comments), which visitors never see. Rerun it
+  after editing `projects.js`.
+- **`llms.txt`** — a plain-text summary of you, your freelance work and your
+  projects, for AI tools. Edit the top by hand; the "Selected work" list is
+  written by the same script.
+- **Titles and descriptions.** Each page's `<title>` and
+  `<meta name="description">` are what search results show. The
+  `<link rel="canonical">` gives each page's one true address (the `www.` one).
+- **Structured data.** The `<script type="application/ld+json">` block in each
+  page's `<head>` describes you (and the book, and the freelance work) in a
+  standard form. If something changes, like a job title, change it there too.
+  It's repeated on all three pages.
+- **`robots.txt`** lets every crawler in and points to **`sitemap.xml`**, the
+  list of pages. Add a `<url>` line there when you add a page.
 
 ## Preview locally
 

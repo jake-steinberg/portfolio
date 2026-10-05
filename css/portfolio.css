@@ -291,6 +291,17 @@ body { overflow-anchor: none; }
 /* shown when no project has every selected tag */
 .empty { padding: 50px 0; text-align: center; color: var(--muted); font-family: var(--mono); font-size: 13px; }
 
+/* the plain list of projects inside the grid, written by
+   tools/build-project-list.mjs. It's for search engines, AI tools and anyone
+   without JavaScript; for everyone else (html.js) it's hidden, and
+   js/portfolio.js replaces it with the tiles. */
+.js .plist { display: none; }
+.plist { grid-column: 1 / -1; margin: 0; padding-left: 1.4em; max-width: 72ch; }
+.plist > li { margin-bottom: 28px; }
+.plist h3 { margin: 0 0 4px; font-family: var(--display); font-weight: 400; font-size: 1.2rem; }
+.plist p { margin: 0 0 8px; line-height: 1.55; }
+.plist ul { margin: 0; padding-left: 1.2em; }
+
 
 /* -----------------------------------------------------------------------------
    5. UNFOLDING PANEL

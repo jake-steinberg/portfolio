@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- sitemap.xml — every page you want search engines to find.
+     When you add a page, copy a <url> block. Update <lastmod> (year-month-day)
+     when a page changes a lot; it's optional. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.jakesteinberg.com/</loc><lastmod>2026-10-05</lastmod></url>
+  <url><loc>https://www.jakesteinberg.com/contact.html</loc><lastmod>2026-10-05</lastmod></url>
+  <url><loc>https://www.jakesteinberg.com/resume.html</loc><lastmod>2026-10-05</lastmod></url>
+  <url><loc>https://www.jakesteinberg.com/22map.html</loc><lastmod>2024-01-08</lastmod></url>
+  <url><loc>https://www.jakesteinberg.com/pipeline.html</loc><lastmod>2024-01-08</lastmod></url>
+</urlset>
