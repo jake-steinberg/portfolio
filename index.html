@@ -108,9 +108,9 @@
          crossfades between the photos in a loop (css/portfolio.css, ABOUT ME).
          DRAFT bio: written from the resume and earlier drafts; rewrite it in
          your own words.
-         Photos: 3:2 (landscape), about 1200×800, in img/about/. To swap one,
-         save over its file. For a third photo, add another <img class="aph">
-         and see the note in the CSS about the timing.
+         Photos: 3:2 (landscape), about 1200×800, in img/about/. They show in
+         this order, the first (class="aph on") when the page opens. To add one,
+         copy an <img class="aph"> line; to drop one, delete its line.
          ================================================================ -->
     <section class="about" aria-labelledby="about-h">
       <div class="about-bio">
@@ -124,8 +124,14 @@
           fly fishing &mdash; usually with Juneau, an American dingo.</p>
       </div>
       <div class="aphotos">
-        <img class="aph" src="img/about/about-bike.webp" alt="Jake Steinberg riding a loaded bike along a trail at dusk" width="1200" height="800">
-        <img class="aph" src="img/about/about-canyon.webp" alt="Jake Steinberg watching the sunset from a canyon rim" width="1200" height="800">
+        <img class="aph on" src="img/about/about-bike.webp" alt="Jake Steinberg riding a loaded bike along a trail at dusk" width="1200" height="800">
+        <img class="aph" src="img/about/about-canyon.webp" alt="Jake Steinberg watching the sunset from a canyon rim" width="1200" height="800" loading="lazy">
+        <img class="aph" src="img/about/about-summit.webp" alt="Jake Steinberg and a companion on a mountain ridge" width="1200" height="800" loading="lazy">
+        <img class="aph" src="img/about/about-juneau.webp" alt="A dog in a plaid bandana grinning on a wooden staircase" width="1200" height="800" loading="lazy">
+        <img class="aph" src="img/about/about-boulder.webp" alt="Jake Steinberg climbing between two halves of a split boulder" width="1200" height="800" loading="lazy">
+        <img class="aph" src="img/about/about-sled.webp" alt="A dog sled team crossing a frozen lake at sunrise" width="1200" height="800" loading="lazy">
+        <img class="aph" src="img/about/about-map.webp" alt="Jake Steinberg and a friend reading a map on a rocky summit" width="1200" height="800" loading="lazy">
+        <img class="aph" src="img/about/about-fishing.webp" alt="Jake Steinberg fly fishing at an alpine lake" width="1200" height="800" loading="lazy">
       </div>
     </section>
 
