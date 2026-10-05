@@ -28,13 +28,21 @@
 }
 .csec > h2 { font-size: clamp(1.3rem, 1rem + 1.2vw, 1.9rem); }
 
-/* the form and ways to reach me on the left, freelance on the right */
+/* phones: one column, in page order (form, links, freelance).
+   desktop: form left, freelance right, the links in a row across the bottom */
 .cgrid {
   display: grid; grid-template-columns: minmax(0, 1fr);
   gap: clamp(30px, 4vw, 64px); align-items: start;
 }
 @media (min-width: 821px) {
-  .cgrid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+  .cgrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    grid-template-areas: "form  free"
+                         "links links";
+  }
+  .cform      { grid-area: form; }
+  .freelance  { grid-area: free; }
+  .elsewhere  { grid-area: links; }
 }
 
 
@@ -81,8 +89,8 @@
    3. ELSEWHERE — email, LinkedIn, Bluesky. Links use the site's underline,
    with the arrow nudging up and right on hover (as on the portfolio).
    ----------------------------------------------------------------------------- */
-/* a gap between the form and the links under it */
-.elsewhere { margin-top: clamp(36px, 4vw, 52px); }
+/* on phones, a little extra room between the form and the links under it */
+.elsewhere { margin-top: 10px; }
 
 .elsewhere h2 {
   margin: 0 0 14px;
@@ -95,6 +103,14 @@
   padding-block: 12px; border-top: 1px solid var(--rule-soft);
 }
 .elsewhere li:first-child { border-top: 0; padding-top: 0; }
+/* desktop: the three links side by side across the page, each under a
+   hairline rule, in place of the rules between them */
+@media (min-width: 821px) {
+  .elsewhere { margin-top: 0; }
+  .elsewhere ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .elsewhere li,
+  .elsewhere li:first-child { padding-block: 14px 0; border-top: 1px solid var(--rule-soft); }
+}
 .elsewhere .lbl {
   font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--muted);

@@ -54,49 +54,47 @@
     <h1 class="ctitle">Get in touch</h1>
 
     <!-- ================================================================
-         One section, two columns (one on phones): on the left, the message
-         form and the other ways to reach me; on the right, how freelance works.
+         One section. On desktop: the message form on the left, how
+         freelance works on the right, and the other ways to reach me in a
+         row across the bottom. On phones, one column: form, links, freelance.
          ================================================================ -->
     <section class="csec cgrid">
 
-      <!-- left column: the message form, then the other ways to reach me -->
-      <div class="cleft">
-        <!-- The form sends through Formspree (formspree.io), which emails each
-             message to jakesteinberg96@gmail.com. FORMSPREE_ID below is your
-             form's ID from the Formspree dashboard — the part after /f/.
-             js/contact.js sends it without leaving the page and shows the
-             thank-you or error note; without JavaScript it still posts. -->
-        <form class="cform" id="cform" action="https://formspree.io/f/FORMSPREE_ID" method="POST">
-          <p class="lede">Have a question, a story idea or a map that needs making? Send me a note
-            and I&rsquo;ll get back to you.</p>
-          <label>Your name
-            <input type="text" name="name" autocomplete="name" required>
-          </label>
-          <label>Your email
-            <input type="email" name="email" autocomplete="email" required>
-          </label>
-          <label>Message
-            <textarea name="message" rows="7" required></textarea>
-          </label>
-          <!-- a hidden field only spam bots fill in; Formspree drops those messages -->
-          <input type="text" name="_gotcha" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <input type="hidden" name="_subject" value="New message from jakesteinberg.com">
-          <button class="send" type="submit">Send message</button>
-          <p class="status" id="cstatus" role="status" aria-live="polite"></p>
-        </form>
+      <!-- The form sends through Formspree (formspree.io), which emails each
+           message to jakesteinberg96@gmail.com. FORMSPREE_ID below is your
+           form's ID from the Formspree dashboard — the part after /f/.
+           js/contact.js sends it without leaving the page and shows the
+           thank-you or error note; without JavaScript it still posts. -->
+      <form class="cform" id="cform" action="https://formspree.io/f/FORMSPREE_ID" method="POST">
+        <p class="lede">Have a question, a story idea or a map that needs making? Send me a note
+          and I&rsquo;ll get back to you.</p>
+        <label>Your name
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label>Your email
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <label>Message
+          <textarea name="message" rows="7" required></textarea>
+        </label>
+        <!-- a hidden field only spam bots fill in; Formspree drops those messages -->
+        <input type="text" name="_gotcha" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="_subject" value="New message from jakesteinberg.com">
+        <button class="send" type="submit">Send message</button>
+        <p class="status" id="cstatus" role="status" aria-live="polite"></p>
+      </form>
 
-        <aside class="elsewhere" aria-label="Other ways to reach me">
-          <h2>Elsewhere</h2>
-          <ul>
-            <li><span class="lbl">Email</span>
-              <a href="mailto:jakesteinberg96@gmail.com">jakesteinberg96@gmail.com</a></li>
-            <li><span class="lbl">LinkedIn</span>
-              <a href="https://www.linkedin.com/in/jake-m-steinberg" target="_blank" rel="noopener">jake-m-steinberg&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>
-            <li><span class="lbl">Bluesky</span>
-              <a href="https://bsky.app/profile/jakesteinberg.com" target="_blank" rel="noopener">@jakesteinberg.com&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>
-          </ul>
-        </aside>
-      </div>
+      <aside class="elsewhere" aria-label="Other ways to reach me">
+        <h2>Elsewhere</h2>
+        <ul>
+          <li><span class="lbl">Email</span>
+            <a href="mailto:jakesteinberg96@gmail.com">jakesteinberg96@gmail.com</a></li>
+          <li><span class="lbl">LinkedIn</span>
+            <a href="https://www.linkedin.com/in/jake-m-steinberg" target="_blank" rel="noopener">jake-m-steinberg&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>
+          <li><span class="lbl">Bluesky</span>
+            <a href="https://bsky.app/profile/jakesteinberg.com" target="_blank" rel="noopener">@jakesteinberg.com&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>
+        </ul>
+      </aside>
 
       <div class="freelance" id="freelance">
         <h2>Freelance commissions</h2>
