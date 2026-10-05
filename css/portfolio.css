@@ -124,7 +124,7 @@ body { overflow-anchor: none; }
 
 
 /* -- ABOUT ME ---------------------------------------------------------------
-   A short bio, centered, then a row of 3:4 photos the full width of the
+   A short bio in a centered column, then a row of 3:4 photos the full width of the
    page (however many there are share it). On phones the photos become a
    strip you swipe sideways. */
 .about { padding-block: clamp(30px, 4vw, 56px); border-bottom: 1px solid var(--rule); }
@@ -132,7 +132,7 @@ body { overflow-anchor: none; }
   font-family: var(--display); font-weight: 400; margin: 0 0 14px; text-align: center;
   font-size: clamp(1.25rem, 1rem + 1vw, 1.85rem);
 }
-.about-bio { max-width: var(--measure); margin-inline: auto; text-align: center; }
+.about-bio { max-width: var(--measure); margin-inline: auto; }   /* a centered column, text left-aligned */
 .about-bio p { margin: 0 0 14px; font-size: 16.5px; line-height: 1.6; }
 .aphotos {
   display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 10px;
