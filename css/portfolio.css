@@ -52,13 +52,12 @@ body { overflow-anchor: none; }
    2. BOOK HERO
    Desktop: the cover flush with the page's left edge, the text running to its
    right edge, so the two have the same margin on either side. The cover's
-   column is --feature-w wide, shared with the About me photo below, which
-   mirrors this layout.
+   column is --feature-w wide.
    Tablet (641–900px): cover beside the text, top-aligned.
    Phone (≤640px): cover stacked above the text, full column width.
    ----------------------------------------------------------------------------- */
-/* the width of the book cover and the About me photo, and how far both
-   sections sit in from the page's edges — change both here */
+/* the width of the book cover, and how far the book section sits in from
+   the page's edges */
 .wrap { --feature-w: clamp(280px, 34vw, 440px); --feature-inset: clamp(0px, 5vw, 80px); }
 @media (max-width: 720px) { .wrap { --feature-inset: 0px; } }   /* phones use the full width */
 .hero {
@@ -128,42 +127,6 @@ body { overflow-anchor: none; }
   .hero { grid-template-columns: 1fr; gap: 22px; }
   .hero h1 { margin-top: 12px; }
 }
-
-
-/* -- ABOUT ME ---------------------------------------------------------------
-   The book hero in mirror image: the bio running from the page's left edge,
-   a photo (--feature-w wide, like the cover) flush with its right edge that
-   crossfades between the photos in a loop. On phones the photo goes under
-   the text. */
-.about {
-  display: grid; grid-template-columns: minmax(0, 1fr) var(--feature-w);   /* text | photo */
-  gap: clamp(24px, 4vw, 56px); align-items: center;
-  padding-block: clamp(30px, 4vw, 56px); padding-inline: var(--feature-inset);
-  border-bottom: 1px solid var(--rule);
-}
-.about h2 {
-  font-family: var(--display); font-weight: 400; margin: 0 0 14px;
-  font-size: clamp(1.25rem, 1rem + 1vw, 1.85rem);
-}
-.about-bio p { margin: 0 0 14px; font-size: 16.5px; line-height: 1.6; }
-.about-bio p:last-child { margin-bottom: 0; }
-@media (max-width: 720px) {
-  .about { grid-template-columns: minmax(0, 1fr); }
-}
-
-/* The photos sit on top of each other in one 3:2 frame. The one with .on
-   shows; js/portfolio.js (section 6) moves .on to the next every 5s, and the
-   opacity transition below makes that a 1s crossfade. */
-.aphotos {
-  position: relative; aspect-ratio: 3 / 2; overflow: hidden;
-  border: 1px solid var(--stroke); background: var(--plate);
-}
-.aph {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  opacity: 0; transition: opacity 1s ease;
-}
-.aph.on { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .aph { transition: none; } }
 
 
 /* -----------------------------------------------------------------------------

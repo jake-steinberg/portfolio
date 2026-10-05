@@ -4,7 +4,7 @@
 
      1. Sections
      2. The message form
-     3. Elsewhere (email, LinkedIn, Bluesky)
+     3. Elsewhere (photos of me, email, LinkedIn, Bluesky)
      4. Freelance commissions
    ============================================================================= */
 
@@ -76,6 +76,20 @@
    3. ELSEWHERE — email, LinkedIn, Bluesky. Links use the site's underline,
    with the arrow nudging up and right on hover (as on the portfolio).
    ----------------------------------------------------------------------------- */
+/* photos of me, stacked in one 3:2 frame; the one with .on shows.
+   js/contact.js moves .on to the next every 5s, and the opacity transition
+   makes that a 1s crossfade */
+.aphotos {
+  position: relative; aspect-ratio: 3 / 2; overflow: hidden; margin-bottom: 26px;
+  border: 1px solid var(--stroke); background: var(--plate);
+}
+.aph {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity 1s ease;
+}
+.aph.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .aph { transition: none; } }
+
 .elsewhere h2 {
   margin: 0 0 14px;
   font-family: var(--mono); font-size: var(--label); font-weight: 400;

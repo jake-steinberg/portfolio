@@ -8,7 +8,6 @@
      4. plays video tiles only while they're on screen
      5. keeps the selected tag in the address bar (?tags=outdoors), so a
         filtered view can be shared as a link
-     6. turns the About me photos over, one after another
 
    To add or change work, edit js/projects.js — not this file.
    ============================================================================= */
@@ -790,24 +789,6 @@
       .forEach((id) => selected.add(id));
     pillsEl.querySelectorAll('.pill').forEach((p) =>
       p.setAttribute('aria-pressed', String(selected.has(p.dataset.tag))));
-  }
-
-
-  /* ---------------------------------------------------------------------------
-     6. About me photos — they're stacked in one frame; every few seconds the
-        next one fades in (the fade itself is CSS: .aph and .aph.on). Works for
-        any number of photos. Visitors who prefer reduced motion keep the first.
-     ------------------------------------------------------------------------- */
-  const ABOUT_HOLD = 5000;                             // ms each photo shows before the next fades in
-  const aboutPhotos = [...document.querySelectorAll('.aphotos .aph')];
-  if (aboutPhotos.length > 1 && !prefersReducedMotion()) {
-    let shown = 0;
-    setInterval(() => {
-      if (document.hidden) return;                     // don't flip through unseen in a background tab
-      aboutPhotos[shown].classList.remove('on');
-      shown = (shown + 1) % aboutPhotos.length;
-      aboutPhotos[shown].classList.add('on');
-    }, ABOUT_HOLD);
   }
 
 
