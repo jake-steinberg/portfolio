@@ -57,14 +57,17 @@ body { overflow-anchor: none; }
    Tablet (641–900px): cover beside the text, top-aligned.
    Phone (≤640px): cover stacked above the text, full column width.
    ----------------------------------------------------------------------------- */
-/* the width of the book cover and the About me photo — change both here */
-.wrap { --feature-w: clamp(280px, 34vw, 440px); }
+/* the width of the book cover and the About me photo, and how far both
+   sections sit in from the page's edges — change both here */
+.wrap { --feature-w: clamp(280px, 34vw, 440px); --feature-inset: clamp(0px, 5vw, 80px); }
+@media (max-width: 720px) { .wrap { --feature-inset: 0px; } }   /* phones use the full width */
 .hero {
   display: grid;
   grid-template-columns: var(--feature-w) minmax(0, 1fr);
   gap: clamp(24px, 4vw, 56px);
   align-items: stretch;
   padding-block: clamp(30px, 4vw, 56px);
+  padding-inline: var(--feature-inset);
   border-bottom: 1px solid var(--rule);
 }
 .hero-cover { margin: 0; display: flex; align-items: center; }
@@ -135,7 +138,8 @@ body { overflow-anchor: none; }
 .about {
   display: grid; grid-template-columns: minmax(0, 1fr) var(--feature-w);   /* text | photo */
   gap: clamp(24px, 4vw, 56px); align-items: center;
-  padding-block: clamp(30px, 4vw, 56px); border-bottom: 1px solid var(--rule);
+  padding-block: clamp(30px, 4vw, 56px); padding-inline: var(--feature-inset);
+  border-bottom: 1px solid var(--rule);
 }
 .about h2 {
   font-family: var(--display); font-weight: 400; margin: 0 0 14px;
