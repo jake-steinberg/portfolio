@@ -11,16 +11,21 @@
 /* -----------------------------------------------------------------------------
    1. SECTIONS — a heading, then its content; side by side on wider screens
    ----------------------------------------------------------------------------- */
+/* the page title, above the sections */
+.ctitle {
+  margin: 0; padding-top: clamp(30px, 4vw, 60px);
+  font-family: var(--display); font-weight: 400; line-height: 1.12;
+  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.4rem);
+}
 .csec {
-  padding-block: clamp(30px, 4vw, 60px);
+  padding-block: clamp(26px, 3.4vw, 50px);
   border-top: 1px solid var(--rule-soft);
 }
 .csec:first-of-type { border-top: 0; }
-.csec h1, .csec > h2 {
-  margin: 0 0 clamp(18px, 2.4vw, 30px);
+.csec > h2 {
+  margin: 0 0 clamp(14px, 2vw, 22px);
   font-family: var(--display); font-weight: 400; line-height: 1.12;
 }
-.csec h1 { font-size: clamp(2rem, 1.4rem + 2.6vw, 3.4rem); }
 .csec > h2 { font-size: clamp(1.3rem, 1rem + 1.2vw, 1.9rem); }
 
 /* the form beside the other ways to reach me */
@@ -118,10 +123,11 @@
 /* -----------------------------------------------------------------------------
    4. FREELANCE COMMISSIONS
    ----------------------------------------------------------------------------- */
-.ftext { max-width: var(--measure); }
+.ftext { max-width: none; }                  /* the full width of the page */
 .ftext p { margin: 0 0 16px; font-size: 16.5px; line-height: 1.6; }
 .ftext .kinds-lbl { margin-bottom: 8px; }
 .kinds { margin: 0 0 20px; padding-left: 1.2em; font-size: 16.5px; line-height: 1.6; }
+@media (min-width: 821px) { .kinds { columns: 2; column-gap: 48px; } }   /* two columns on wider screens */
 .kinds li::marker { color: var(--accent); }
 
 
