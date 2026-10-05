@@ -153,7 +153,7 @@ a { color: inherit; }
 
 @media (max-width: 560px) {
   .site-in { padding-block: 12px; }
-  .site nav { gap: 4px 15px; width: 100%; }
+  .site nav { gap: 4px 15px; width: 100%; justify-content: space-between; }   /* links spread across the header */
   .site nav a { font-size: 11px; }
 }
 
