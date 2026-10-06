@@ -39,7 +39,7 @@ SEED = 2026
 
 # which colour tokens (from css/site.css) each kind of stroke is made in
 RULE_COLOURS = ['rule', 'rule-soft']
-FRAME_COLOURS = ['stroke', 'accent']
+FRAME_COLOURS = ['stroke']
 UNDERLINE_COLOURS = ['accent-soft', 'accent', 'rule', 'ink']
 
 STYLES = {
@@ -123,8 +123,8 @@ def main():
     for c in FRAME_COLOURS:
         write(f'frame-h-{c}.svg', svg(h_path, s['w'], s['h'], tokens[c], stretch=True))
         write(f'frame-v-{c}.svg', svg(v_path, s['w'], s['h'], tokens[c], vertical=True, stretch=True))
-    # (frame strokes and slivers may be drawn thicker than they're made, e.g.
-    # on an open tile, so they stretch to fit rather than keeping their shape)
+    # (frame strokes and slivers stretch to fit the size the CSS draws them
+    # at, rather than keeping their shape, in case they're drawn bolder)
     # the slivers outside each stroke's OUTER edge. The top and bottom of a
     # frame use the horizontal stroke (outside is above its top edge at the
     # top, below its bottom edge at the bottom); the sides use the vertical

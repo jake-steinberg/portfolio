@@ -166,7 +166,8 @@
 .gframe::after, .scard-img::after, .pshots:not(.scatter) a:not(.pcap)::after,
 .pshots:not(.scatter) .pstill::after, .pvid::after, .panel-body::after {
   content: "";
-  position: absolute; inset: 0; z-index: 1;
+  position: absolute; inset: 0;
+  z-index: 3;                                     /* above the "In the book" badge */
   pointer-events: none;
   background-image: var(--frame-strokes);
   background-repeat: var(--frame-repeat);
@@ -187,6 +188,23 @@
   /* the whole picture, minus the slivers (which are added together below it) */
   -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over;
           mask-composite: subtract, add, add, add, add;
+  /* measured from inside the (transparent) border, like the strokes */
+  -webkit-mask-origin: padding-box;               mask-origin: padding-box;
+}
+
+/* the "In the book" badge sits in a tile's top-left corner: the frame is
+   drawn over it, and it's clipped at the top and left lines like the picture */
+.gframe > .marker {
+  -webkit-mask-image: linear-gradient(#000 0 0),
+    url(../img/strokes/frame-outside-top.svg), url(../img/strokes/frame-outside-left.svg);
+          mask-image: linear-gradient(#000 0 0),
+    url(../img/strokes/frame-outside-top.svg), url(../img/strokes/frame-outside-left.svg);
+  -webkit-mask-repeat: no-repeat, repeat-x, repeat-y;        mask-repeat: no-repeat, repeat-x, repeat-y;
+  -webkit-mask-size: 100% 100%, 400px 3px, 3px 400px;        mask-size: 100% 100%, 400px 3px, 3px 400px;
+  /* the same starting points as the frame's top and left strokes */
+  -webkit-mask-position: 0 0, 0 0, 0 -91px;                 mask-position: 0 0, 0 0, 0 -91px;
+  -webkit-mask-composite: source-out, source-over, source-over;
+          mask-composite: subtract, add, add;
 }
 .gframe { background-color: transparent; }
 .gframe > :is(img, video) { background-color: var(--plate); }
@@ -209,18 +227,12 @@
 }
 .hero-cover img { box-shadow: none; filter: var(--ink-shadow-lift); }
 
-/* The open tile: instead of a straight coral border and ring, a bolder
-   hand-drawn coral frame. The strokes (and the clip, so they still line up)
-   are drawn 5px tall instead of 3px, which makes the line about 2px thick. */
+/* The open tile looks just like the others: same frame, same shadow (the
+   coral "+" chip shows which one is open) */
 .gcard[aria-expanded="true"] .gframe {
   border-color: transparent;
   box-shadow: none;
-  filter: var(--ink-shadow-lift);
-  --frame-strokes:
-    url(../img/strokes/frame-h-accent.svg), url(../img/strokes/frame-h-accent.svg),
-    url(../img/strokes/frame-v-accent.svg), url(../img/strokes/frame-v-accent.svg);
-  --frame-size: 400px 5px, 400px 5px, 5px 400px, 5px 400px;
-  --clip-size: 100% 100%, 400px 5px, 400px 5px, 5px 400px, 5px 400px;
+  filter: var(--ink-shadow);
 }
 
 /* the book cover is an <img>, which can't hold a layer: its frame is drawn in
