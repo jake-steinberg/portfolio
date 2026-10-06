@@ -22,8 +22,8 @@
      4. Pills — the tag filters and the resume's jump-bar buttons, outlined
         in two hand-drawn halves.
 
-   Left plain on purpose: keyboard focus rings, form fields, the Send and
-   Close buttons and the "+" chips, which read best crisp. Printing and the
+   Left plain on purpose: keyboard focus rings, form fields and the Send
+   button, which read best crisp. Printing and the
    "more contrast" setting also keep the plain lines (everything below only
    applies on screens, when no extra contrast is asked for).
    ============================================================================= */
@@ -281,6 +281,27 @@
 .gcard[aria-expanded="true"] .gframe {
   border-color: transparent;
   box-shadow: var(--shadow);
+}
+
+/* The tiles' "+" chip (it opens the detail view) and the panel's Close
+   button: the same four strokes, drawn as the button's own background, and
+   the button clipped at their outer edge so its fill doesn't show past the
+   line. Here the strokes start at the button's outer edge (border-box), so
+   the clip does too. */
+.chip, .gcard[aria-expanded="true"] .chip, .panel .close {
+  border-color: transparent;
+  background-image: var(--frame-strokes);
+  background-repeat: var(--frame-repeat);
+  background-size: var(--frame-size);
+  background-position: var(--frame-position);
+  background-origin: border-box;
+  -webkit-mask-image: var(--clip-image);         mask-image: var(--clip-image);
+  -webkit-mask-repeat: var(--clip-repeat);       mask-repeat: var(--clip-repeat);
+  -webkit-mask-size: var(--clip-size);           mask-size: var(--clip-size);
+  -webkit-mask-position: var(--clip-position);   mask-position: var(--clip-position);
+  -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over;
+          mask-composite: subtract, add, add, add, add;
+  -webkit-mask-origin: border-box;               mask-origin: border-box;
 }
 
 /* the book cover is an <img>, which can't hold a layer: its frame is drawn in
