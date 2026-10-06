@@ -108,6 +108,7 @@
   function apply(label) {
     var f = FONTS.filter(function (x) { return x[0] === label; })[0] || FONTS[0];
     if (f[1]) root.style.setProperty('--mono', f[1]); else root.style.removeProperty('--mono');
+    if (f[1]) root.dataset.hand = ''; else delete root.dataset.hand;   // see site.css, section 6
     current = f[0];
   }
   apply(current);

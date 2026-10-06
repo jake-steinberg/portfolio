@@ -257,6 +257,21 @@ body::before,
   font-weight: 400 700; font-display: swap; size-adjust: 82%;
 }
 
+/* While a handwritten font is being previewed (js/site.js sets data-hand on
+   <html>), the labels set in it are drawn in the darkest ink, --ink, instead
+   of their usual grey or coral. Labels on a coloured fill (a selected pill,
+   the jump bar's current section, the open tile's chip, the "In the book"
+   badge, the Send button) keep their white text, and the Close button keeps
+   its pale text while it's filled dark on hover. */
+:root[data-hand] :is(.brand-sub, .site nav a, .foot, .totop, .eyebrow, .hero-meta,
+  .pill, .fclear, .chip, .tag, .empty, .award .quote footer, .basemap-note, .inwild,
+  .pcredit, .panel .close, .jump a, .kit h3, .ent .meta, .line .yr, .cform label,
+  .elsewhere .lbl) {
+  color: var(--ink);
+}
+:root[data-hand] :is(.pill[aria-pressed="true"], .jump a.on, .gcard[aria-expanded="true"] .chip) { color: #fff; }
+:root[data-hand] .panel .close:hover { color: var(--plate); }
+
 
 /* -----------------------------------------------------------------------------
    Respect visitors who ask their device for less motion
