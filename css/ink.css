@@ -22,8 +22,9 @@
      4. Pills — the tag filters and the resume's jump-bar buttons, outlined
         in two hand-drawn halves.
 
-   Left plain on purpose: keyboard focus rings, form fields and the Send
-   button, which read best crisp. Printing and the
+   Left plain on purpose: keyboard focus rings, which read best crisp. (The
+   clip described in section 3 would cut a focus ring off, so it's lifted
+   while a clipped link or button has keyboard focus.) Printing and the
    "more contrast" setting also keep the plain lines (everything below only
    applies on screens, when no extra contrast is asked for).
    ============================================================================= */
@@ -283,12 +284,13 @@
   box-shadow: var(--shadow);
 }
 
-/* The tiles' "+" chip (it opens the detail view) and the panel's Close
-   button: the same four strokes, drawn as the button's own background, and
+/* The tiles' "+" chip (it opens the detail view), the panel's Close
+   button, and the contact form's fields and Send button: the same four strokes, drawn as the button's own background, and
    the button clipped at their outer edge so its fill doesn't show past the
    line. Here the strokes start at the button's outer edge (border-box), so
    the clip does too. */
-.chip, .gcard[aria-expanded="true"] .chip, .panel .close {
+.chip, .gcard[aria-expanded="true"] .chip, .panel .close,
+.cform input:not(.trap), .cform textarea, .send, .send:hover {
   border-color: transparent;
   background-image: var(--frame-strokes);
   background-repeat: var(--frame-repeat);
@@ -302,6 +304,13 @@
   -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over;
           mask-composite: subtract, add, add, add, add;
   -webkit-mask-origin: border-box;               mask-origin: border-box;
+}
+
+/* The clip would also cut off the focus ring drawn just outside a link or
+   button, so it's lifted while one has focus (keyboard focus; a form field
+   shows its ring whenever you're typing in it) */
+:is(.pshots:not(.scatter) a:not(.pcap), .panel .close, .send, .cform input, .cform textarea):focus-visible {
+  -webkit-mask: none; mask: none;
 }
 
 /* the book cover is an <img>, which can't hold a layer: its frame is drawn in
