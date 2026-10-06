@@ -38,6 +38,7 @@
   /* rules and dividers */
   --rule:        #D9D0BC;   /* section dividers */
   --rule-soft:   #E6DECC;   /* lighter dividers inside a section */
+  --rule-row:    #C8BFAB;   /* dividers between resume entries and lines */
   --rule-ink:    #8C8473;   /* hand-drawn section breaks and pill outlines (css/ink.css) */
 
   /* type: display serif / reading serif / mono for labels and data */

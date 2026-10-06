@@ -39,8 +39,8 @@
    ----------------------------------------------------------------------------- */
 :root {
   --rule-line:      url(../img/strokes/rule-rule.svg);
-  --rule-soft-line: url(../img/strokes/rule-rule-soft.svg);
   --section-line:   url(../img/strokes/section-rule-ink.svg);   /* bolder, darker */
+  --row-line:       url(../img/strokes/rule-rule-row.svg);      /* resume dividers */
 }
 
 /* rules along the BOTTOM edge */
@@ -52,7 +52,7 @@
   background-position: var(--ink-x, 0px) bottom;
   background-origin: border-box;
 }
-.jump { background-image: var(--rule-soft-line); }
+.jump, .kit h3 { background-image: var(--row-line); }
 
 /* rules along the TOP edge */
 .foot, .styleinfo, .rsec, .ent, .line, .csec {
@@ -63,7 +63,7 @@
   background-position: var(--ink-x, 0px) top;
   background-origin: border-box;
 }
-.rsec, .ent, .line, .csec { background-image: var(--rule-soft-line); }
+.ent, .line { background-image: var(--row-line); }
 
 /* the main section breaks, and the line under the header: bolder and
    darker, so they read as drawn */
