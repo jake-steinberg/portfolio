@@ -8,6 +8,7 @@
      3. Sticky header  — name, subtitle and nav; condenses on scroll (js/site.js)
      4. Footer         — credit, "Last updated", Back to top
      5. Paper texture  — the faint grain and mottling on the page background
+     6. Handwritten fonts — candidates to replace --mono (being compared)
 
    Page-specific styles live in their own files (portfolio.css, resume.css).
 
@@ -228,6 +229,32 @@ body::before,
 @media print, (prefers-contrast: more) {
   body::before, .site::before, .jump::before { display: none; }
   :root { --page: var(--bg); }            /* back to the plain cream */
+}
+
+
+/* -----------------------------------------------------------------------------
+   6. HANDWRITTEN FONTS — three candidates to replace IBM Plex Mono (--mono)
+   for the small labels: nav, tags, pills, dates and so on. Self-hosted from
+   css/fonts/edu/ (SIL Open Font License; the licences are in that folder).
+   Each is one variable file covering weights 400–700. A browser only
+   downloads a font when the page uses it, so these cost nothing until one
+   is picked. size-adjust scales each so it sits at about the same size as
+   Plex Mono did, without touching the sizes set elsewhere.
+   ----------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Edu NSW ACT Foundation";
+  src: url(fonts/edu/EduNSWACTFoundation-VariableFont_wght.ttf) format("truetype");
+  font-weight: 400 700; font-display: swap; size-adjust: 108%;
+}
+@font-face {
+  font-family: "Edu SA Beginner";
+  src: url(fonts/edu/EduSABeginner-VariableFont_wght.ttf) format("truetype");
+  font-weight: 400 700; font-display: swap; size-adjust: 108%;
+}
+@font-face {
+  font-family: "Edu SA Hand";
+  src: url(fonts/edu/EduSAHand-VariableFont_wght.ttf) format("truetype");
+  font-weight: 400 700; font-display: swap; size-adjust: 82%;
 }
 
 
