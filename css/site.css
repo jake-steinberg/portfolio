@@ -67,8 +67,8 @@
               Pairs that average to --bg #F1EBDD:
                 --paper .4 → --page #F5EFE1    --paper .7 → --page #F7F2E5
                 --paper 1  → --page #FAF6E8    --paper 0  → --page = --bg */
-  --paper: .7;
-  --page:  #F7F2E5;
+  --paper: .4;
+  --page:  #F5EFE1;
 }
 
 
