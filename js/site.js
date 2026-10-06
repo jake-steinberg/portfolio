@@ -45,3 +45,43 @@
   });
 })();
 
+
+
+/* =============================================================================
+   ⚠ TEMPORARY — hand-drawn-lines preview switch. Delete this whole block once
+   decided (and, to drop the lines, the css/ink.css <link> from each page).
+   A small panel in the bottom-left corner turns css/ink.css on and off; the
+   choice is remembered in this browser while you click between pages.
+   ============================================================================= */
+(function () {
+  var sheet = document.querySelector('link[href$="css/ink.css"]');
+  if (!sheet) return;
+  var KEY = 'ink-preview';
+  var on = true;
+  try { on = localStorage.getItem(KEY) !== 'off'; } catch (e) { /* no storage: fine */ }
+  sheet.disabled = !on;
+
+  var panel = document.createElement('div');
+  panel.setAttribute('aria-label', 'Hand-drawn lines preview');
+  panel.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:999;display:flex;gap:4px;align-items:center;' +
+    'padding:6px 6px 6px 10px;background:#fff;border:1px solid #22201C;font:11px/1 "IBM Plex Mono",monospace;' +
+    'box-shadow:0 4px 14px rgba(0,0,0,.15)';
+  panel.appendChild(document.createTextNode('Lines:'));
+  [['Plain', false], ['Hand-drawn', true]].forEach(function (opt) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = opt[0];
+    function paint() {
+      var active = (sheet.disabled ? false : true) === opt[1];
+      b.style.cssText = 'cursor:pointer;padding:6px 8px;border:1px solid #22201C;font:inherit;' +
+        (active ? 'background:#22201C;color:#fff' : 'background:#fff;color:#22201C');
+    }
+    b.addEventListener('click', function () {
+      sheet.disabled = !opt[1];
+      try { localStorage.setItem(KEY, opt[1] ? 'on' : 'off'); } catch (e) { /* ignore */ }
+      [].forEach.call(panel.querySelectorAll('button'), function (x) { x._paint(); });
+    });
+    b._paint = paint; paint();
+    panel.appendChild(b);
+  });
+  document.body.appendChild(panel);
+})();

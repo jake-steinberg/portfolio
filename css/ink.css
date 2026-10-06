@@ -1,0 +1,168 @@
+/* =============================================================================
+   ink.css — hand-drawn linework, after the pen-and-ink maps it's modelled on.
+   Loaded last on index.html, resume.html and contact.html, so it can replace
+   the plain lines the other stylesheets draw. Delete this one <link> from a
+   page and that page goes back to plain, even lines.
+
+   The lines are small SVG strokes in img/strokes/, drawn by
+   tools/make-strokes.py: their width swells and thins like a pen's, and
+   underlines taper at the ends. They're made in the colours from site.css;
+   if you change a colour there, run that script again.
+
+   How each kind is drawn:
+     1. Section breaks — a long stroke tiled across the element's width, in
+        place of its border (the border stays, transparent, to keep the
+        spacing exactly as it was).
+     2. Underlines — a short stroke stretched under each link (each line of a
+        link that wraps gets its own). Neighbouring links get different
+        strokes, and hovering swaps in the darker colour, as before.
+     3. Picture frames — four strokes, one per side, drawn on a layer over the
+        picture's edge.
+
+   Left plain on purpose: keyboard focus rings, form fields, buttons, the
+   filter pills and other controls, which read best crisp. Printing and the
+   "more contrast" setting also keep the plain lines (everything below only
+   applies on screens, when no extra contrast is asked for).
+   ============================================================================= */
+
+@media screen and (prefers-contrast: no-preference) {
+
+/* -----------------------------------------------------------------------------
+   1. SECTION BREAKS
+   Each element below had a 1px rule on one side. Its border keeps its width
+   (so nothing moves) but goes transparent, and the stroke is drawn as a
+   background along that edge. --ink-x shifts where the tiled stroke starts,
+   so stacked rules don't wobble in step.
+   ----------------------------------------------------------------------------- */
+:root {
+  --rule-line:      url(../img/strokes/rule-rule.svg);
+  --rule-soft-line: url(../img/strokes/rule-rule-soft.svg);
+}
+
+/* rules along the BOTTOM edge */
+.site, .trio, .hero, .kit h3, .jump {
+  border-bottom-color: transparent;
+  background-image: var(--rule-line);
+  background-repeat: repeat-x;
+  background-size: 400px 3px;
+  background-position: var(--ink-x, 0px) bottom;
+  background-origin: border-box;
+}
+.jump { background-image: var(--rule-soft-line); }
+
+/* rules along the TOP edge */
+.foot, .styleinfo, .rsec, .ent, .line, .csec {
+  border-top-color: transparent;
+  background-image: var(--rule-line);
+  background-repeat: repeat-x;
+  background-size: 400px 3px;
+  background-position: var(--ink-x, 0px) top;
+  background-origin: border-box;
+}
+.rsec, .ent, .line, .csec { background-image: var(--rule-soft-line); }
+
+/* ...except where those had no rule */
+.rsec:first-of-type, .ent:first-child, .line:first-child, .csec:first-of-type { background-image: none; }
+
+/* stagger the strokes */
+:is(.rsec, .ent, .line, .kit h3, .csec):nth-child(3n+2) { --ink-x: -137px; }
+:is(.rsec, .ent, .line, .kit h3, .csec):nth-child(3n)   { --ink-x: -271px; }
+.hero { --ink-x: -83px; }
+.foot { --ink-x: -199px; }
+
+
+/* -----------------------------------------------------------------------------
+   2. UNDERLINES
+   --ul is the stroke at rest, --ul-hover the darker one on hover; --ul-h is
+   how tall the stroke is drawn (about twice the old border's width, since
+   the stroke only fills about half its height).
+   ----------------------------------------------------------------------------- */
+.trio a, .btn, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span,
+.desc a, .award a, .rsec a, .elsewhere a, .freelance a {
+  --ul:       url(../img/strokes/underline-accent-soft-1.svg);
+  --ul-hover: url(../img/strokes/underline-accent-1.svg);
+  --ul-h: 4px;
+}
+.trio a { --ul-h: 6px; }                          /* the intro's thicker underline */
+
+/* neighbouring links get different strokes */
+:is(.trio a, .plinks a, .storylinks a, .desc a, .award a, .rsec a, .elsewhere a, .freelance a):nth-of-type(3n+2),
+:is(.storylinks, .plinks, .storycards, .elsewhere ul) > :nth-child(3n+2) :is(a, .scard-ttl > span) {
+  --ul:       url(../img/strokes/underline-accent-soft-2.svg);
+  --ul-hover: url(../img/strokes/underline-accent-2.svg);
+}
+:is(.trio a, .plinks a, .storylinks a, .desc a, .award a, .rsec a, .elsewhere a, .freelance a):nth-of-type(3n),
+:is(.storylinks, .plinks, .storycards, .elsewhere ul) > :nth-child(3n) :is(a, .scard-ttl > span) {
+  --ul:       url(../img/strokes/underline-accent-soft-3.svg);
+  --ul-hover: url(../img/strokes/underline-accent-3.svg);
+}
+
+/* draw them */
+.trio a, .btn, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span,
+.desc a, .award a, .rsec a, .elsewhere a, .freelance a,
+.site nav a, .totop {
+  border-bottom-color: transparent;
+  background-image: var(--ul, none);
+  background-repeat: no-repeat;
+  background-size: 100% var(--ul-h, 4px);
+  background-position: left bottom;
+  background-origin: border-box;
+  -webkit-box-decoration-break: clone;            /* a link that wraps gets a stroke per line */
+          box-decoration-break: clone;
+}
+.trio a:hover, .btn:hover, .plinks a:hover, .storylinks a:hover, .pshots a.pcap:hover,
+.storycards a:hover .scard-ttl > span, .desc a:hover, .award a:hover, .rsec a:hover,
+.elsewhere a:hover, .freelance a:hover {
+  border-bottom-color: transparent;
+  background-image: var(--ul-hover);
+}
+
+/* the header nav: the current page in coral; others get a pale stroke on hover */
+.site nav a:hover { border-bottom-color: transparent; --ul: url(../img/strokes/underline-rule-2.svg); }
+.site nav a[aria-current] { border-bottom-color: transparent; --ul: url(../img/strokes/underline-accent-3.svg); }
+
+/* Back to top: a thin coral stroke, ink on hover */
+.totop { --ul: url(../img/strokes/underline-accent-1.svg); --ul-h: 2.5px; }
+.totop:hover { border-bottom-color: transparent; --ul: url(../img/strokes/underline-ink-1.svg); }
+
+
+/* -----------------------------------------------------------------------------
+   3. PICTURE FRAMES
+   The frame's own border goes transparent, and a layer on top of the
+   picture (::after) draws four strokes along its edges. The layer ignores
+   the mouse, so clicks still reach the picture.
+   ----------------------------------------------------------------------------- */
+.gframe, .scard-img, .pshots:not(.scatter) a:not(.pcap), .pshots:not(.scatter) .pstill,
+.pvid, .panel-body {
+  border-color: transparent;
+  background-clip: padding-box;                   /* no sliver of background outside the stroke */
+}
+.scard-img, .pvid { position: relative; }
+
+.gframe::after, .scard-img::after, .pshots:not(.scatter) a:not(.pcap)::after,
+.pshots:not(.scatter) .pstill::after, .pvid::after, .panel-body::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  background-image:
+    url(../img/strokes/frame-h-stroke.svg), url(../img/strokes/frame-h-stroke.svg),
+    url(../img/strokes/frame-v-stroke.svg), url(../img/strokes/frame-v-stroke.svg);
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 400px 3px, 400px 3px, 3px 400px, 3px 400px;
+  /* top, bottom, left, right — each starting at a different point */
+  background-position: 0 0, -173px 100%, 0 -91px, 100% -229px;
+}
+
+/* the book cover is an <img>, which can't hold a layer: its frame is drawn in
+   a 2px band of padding around the picture instead */
+.hero-cover img {
+  border: 0; padding: 2px;
+  background-image:
+    url(../img/strokes/frame-h-stroke.svg), url(../img/strokes/frame-h-stroke.svg),
+    url(../img/strokes/frame-v-stroke.svg), url(../img/strokes/frame-v-stroke.svg);
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 400px 3px, 400px 3px, 3px 400px, 3px 400px;
+  background-position: 0 0, -173px 100%, 0 -91px, 100% -229px;
+}
+
+}  /* end @media */
