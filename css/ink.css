@@ -12,15 +12,18 @@
    How each kind is drawn:
      1. Section breaks — a long stroke tiled across the element's width, in
         place of its border (the border stays, transparent, to keep the
-        spacing exactly as it was).
+        spacing exactly as it was). The main breaks get a bolder stroke in
+        --rule-ink; minor dividers keep a fine, pale one.
      2. Underlines — a short stroke stretched under each link (each line of a
         link that wraps gets its own). Neighbouring links get different
         strokes, and hovering swaps in the darker colour, as before.
      3. Picture frames — four strokes, one per side, drawn on a layer over the
         picture's edge.
+     4. Pills — the tag filters and the resume's jump-bar buttons, outlined
+        in two hand-drawn halves.
 
-   Left plain on purpose: keyboard focus rings, form fields, buttons, the
-   filter pills and other controls, which read best crisp. Printing and the
+   Left plain on purpose: keyboard focus rings, form fields, the Send and
+   Close buttons and the "+" chips, which read best crisp. Printing and the
    "more contrast" setting also keep the plain lines (everything below only
    applies on screens, when no extra contrast is asked for).
    ============================================================================= */
@@ -37,6 +40,7 @@
 :root {
   --rule-line:      url(../img/strokes/rule-rule.svg);
   --rule-soft-line: url(../img/strokes/rule-rule-soft.svg);
+  --section-line:   url(../img/strokes/section-rule-ink.svg);   /* bolder, darker */
 }
 
 /* rules along the BOTTOM edge */
@@ -60,6 +64,12 @@
   background-origin: border-box;
 }
 .rsec, .ent, .line, .csec { background-image: var(--rule-soft-line); }
+
+/* the main section breaks: bolder and darker, so they read as drawn */
+.trio, .hero, .foot, .rsec, .csec {
+  background-image: var(--section-line);
+  background-size: 400px 4px;
+}
 
 /* ...except where those had no rule */
 .rsec:first-of-type, .ent:first-child, .line:first-child, .csec:first-of-type { background-image: none; }
@@ -245,6 +255,30 @@
   background-repeat: var(--frame-repeat);
   background-size: var(--frame-size);
   background-position: var(--frame-position);
+}
+
+/* -----------------------------------------------------------------------------
+   4. PILLS — the tag filters (.pill) and the resume's jump bar (.jump a).
+   Each outline is two images, the left and right halves, each a rounded end
+   with a long straight run. Each is shown over half the button and scaled to
+   its height, so the ends stay round whatever the pill's size; the straight
+   runs meet in the middle. Pale ink at rest, dark on hover, coral when on.
+   ----------------------------------------------------------------------------- */
+.pill, .jump a {
+  border-color: transparent;
+  background-image: url(../img/strokes/pill-left-rule-ink.svg), url(../img/strokes/pill-right-rule-ink.svg);
+  background-repeat: no-repeat;
+  background-size: 50% 100%;
+  background-position: left center, right center;
+  background-origin: border-box;
+}
+.pill:hover, .jump a:hover {
+  border-color: transparent;
+  background-image: url(../img/strokes/pill-left-stroke.svg), url(../img/strokes/pill-right-stroke.svg);
+}
+.pill[aria-pressed="true"], .jump a.on {
+  border-color: transparent;
+  background-image: url(../img/strokes/pill-left-accent-ink.svg), url(../img/strokes/pill-right-accent-ink.svg);
 }
 
 }  /* end @media */

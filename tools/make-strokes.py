@@ -13,7 +13,13 @@ palette. If you change a colour there, run this again:
 It writes small SVG files to img/strokes/:
 
   rule-<colour>.svg         a long, seamless horizontal stroke (400 x 3 px)
-                            that tiles across section breaks of any width
+                            that tiles across minor dividers of any width
+  section-<colour>.svg      the same, bolder, for the main section breaks
+                            (400 x 4 px)
+  pill-left-<colour>.svg    the outline of a pill-shaped button, in two halves
+  pill-right-<colour>.svg   (each a rounded end plus a long straight run); the
+                            CSS shows each over half the button, scaled to its
+                            height, so the ends stay round at any size
   frame-h-<colour>.svg      the same, for the top and bottom of picture frames
   frame-v-<colour>.svg      ...and the left and right sides (3 x 400 px)
   frame-outside-<side>.svg  the thin sliver OUTSIDE each frame stroke's outer
@@ -39,6 +45,8 @@ SEED = 2026
 
 # which colour tokens (from css/site.css) each kind of stroke is made in
 RULE_COLOURS = ['rule', 'rule-soft']
+SECTION_COLOURS = ['rule-ink']
+PILL_COLOURS = ['rule-ink', 'stroke', 'accent-ink']
 FRAME_COLOURS = ['stroke']
 UNDERLINE_COLOURS = ['accent-soft', 'accent', 'rule', 'ink']
 
@@ -47,6 +55,10 @@ STYLES = {
     #               (px)    (px)    (avg, px)     (±%)    (±px)    (ends)
     'rule':      dict(w=400, h=3,  thick=1.1,  swell=.45, drift=.30, taper=0),
     'frame':     dict(w=400, h=3,  thick=1.25, swell=.50, drift=.30, taper=0),
+    'section':   dict(w=400, h=4,  thick=1.45, swell=.55, drift=.35, taper=0),
+    # pills are drawn 28 units tall (about a pill's height in px), so these
+    # are roughly px too
+    'pill':      dict(w=400, h=28, thick=1.3,  swell=.45, drift=.15, taper=0),
     # underlines are drawn in a 200 x 10 box and stretched by the CSS (to the
     # link's width, and to 2.5–6 px tall), so their numbers are in box units:
     # a thickness of 5 is half the height they're drawn at
@@ -92,13 +104,46 @@ def path(pts):
     return 'M' + ' L'.join(f'{x:.2f} {y:.2f}' for x, y in pts) + ' Z'
 
 
-def svg(path, w, h, colour, vertical=False, stretch=False):
+def pill_half(rng, style, side):
+    """Half a pill outline: a straight run along the top from the far end, a
+    rounded end, and a straight run back along the bottom. Drawn as a filled
+    shape that swells and thins, like the other strokes."""
+    w, h = style['w'], style['h']
+    r = h / 2 - 1                                   # 1 unit in from the edges
+    cx, cy = h / 2, h / 2
+    centre = [(x, 1.0) for x in range(w, int(cx), -2)]
+    for i in range(41):                             # the round end, top to bottom
+        a = math.radians(270 - 180 * i / 40)
+        centre.append((cx + r * math.cos(a), cy + r * math.sin(a)))
+    centre += [(x, h - 1.0) for x in range(int(cx) + 2, w + 1, 2)]
+    lengths = [0.0]
+    for (x0, y0), (x1, y1) in zip(centre, centre[1:]):
+        lengths.append(lengths[-1] + math.hypot(x1 - x0, y1 - y0))
+    total = lengths[-1]
+    width_at, drift_at = wave(rng, total, False), wave(rng, total, False, n=3)
+    outer, inner = [], []
+    for i, ((x, y), s) in enumerate(zip(centre, lengths)):
+        (xa, ya), (xb, yb) = centre[max(i - 1, 0)], centre[min(i + 1, len(centre) - 1)]
+        tx, ty = xb - xa, yb - ya
+        n = math.hypot(tx, ty) or 1
+        nx, ny = -ty / n, tx / n                    # unit normal
+        half = style['thick'] / 2 * (1 + style['swell'] * width_at(s))
+        d = style['drift'] * drift_at(s)
+        outer.append((x + nx * (d + half), y + ny * (d + half)))
+        inner.append((x + nx * (d - half), y + ny * (d - half)))
+    pts = outer + inner[::-1]
+    if side == 'right':                             # mirror it for the right end
+        pts = [(w - x, y) for x, y in pts]
+    return path(pts)
+
+
+def svg(path, w, h, colour, vertical=False, stretch=False, fit=None):
     if vertical:          # draw it sideways: swap x and y
         nums = path.replace('M', '').replace('Z', '').split(' L')
         swapped = [' '.join(reversed(p.strip().split(' '))) for p in nums]
         path = 'M' + ' L'.join(swapped) + ' Z'
         w, h = h, w
-    aspect = ' preserveAspectRatio="none"' if stretch else ''
+    aspect = ' preserveAspectRatio="none"' if stretch else (f' preserveAspectRatio="{fit}"' if fit else '')
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" '
             f'viewBox="0 0 {w} {h}"{aspect}><path fill="{colour}" d="{path}"/></svg>\n')
 
@@ -142,6 +187,20 @@ def main():
     for c in UNDERLINE_COLOURS:
         for n, p in enumerate(paths, 1):
             write(f'underline-{c}-{n}.svg', svg(p, s['w'], s['h'], tokens[c], stretch=True))
+
+    # (made last, so the strokes above keep their shapes from earlier runs)
+    s = STYLES['section']
+    section_path = stroke_path(rng, s, periodic=True)[0]
+    for c in SECTION_COLOURS:
+        write(f'section-{c}.svg', svg(section_path, s['w'], s['h'], tokens[c]))
+
+    s = STYLES['pill']
+    # each half keeps its shape and fills the button's height; the rest of its
+    # long straight run is cut off at the middle ("slice")
+    left, right = pill_half(rng, s, 'left'), pill_half(rng, s, 'right')
+    for c in PILL_COLOURS:
+        write(f'pill-left-{c}.svg', svg(left, s['w'], s['h'], tokens[c], fit='xMinYMid slice'))
+        write(f'pill-right-{c}.svg', svg(right, s['w'], s['h'], tokens[c], fit='xMaxYMid slice'))
 
     print(f'Wrote {len(written)} strokes to img/strokes/')
 
