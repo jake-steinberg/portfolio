@@ -16,6 +16,10 @@ It writes small SVG files to img/strokes/:
                             that tiles across section breaks of any width
   frame-h-<colour>.svg      the same, for the top and bottom of picture frames
   frame-v-<colour>.svg      ...and the left and right sides (3 x 400 px)
+  frame-outside-<side>.svg  the thin sliver OUTSIDE each frame stroke's outer
+                            edge (top, bottom, left, right). css/ink.css cuts
+                            these away from a picture, so it stops exactly at
+                            its hand-drawn frame
   underline-<colour>-N.svg  a short stroke with tapered ends, stretched under
                             a link's text; N = 1, 2, 3 are different
                             variants, so neighbouring links don't match
@@ -35,7 +39,7 @@ SEED = 2026
 
 # which colour tokens (from css/site.css) each kind of stroke is made in
 RULE_COLOURS = ['rule', 'rule-soft']
-FRAME_COLOURS = ['stroke']
+FRAME_COLOURS = ['stroke', 'accent']
 UNDERLINE_COLOURS = ['accent-soft', 'accent', 'rule', 'ink']
 
 STYLES = {
@@ -81,7 +85,10 @@ def stroke_path(rng, style, periodic):
         y = h / 2 + style['drift'] * drift_at(x)
         top.append((x, y - half))
         bottom.append((x, y + half))
-    pts = top + bottom[::-1]
+    return path(top + bottom[::-1]), top, bottom
+
+
+def path(pts):
     return 'M' + ' L'.join(f'{x:.2f} {y:.2f}' for x, y in pts) + ' Z'
 
 
@@ -107,18 +114,31 @@ def main():
         written.append(name)
 
     s = STYLES['rule']
-    rule_path = stroke_path(rng, s, periodic=True)
+    rule_path = stroke_path(rng, s, periodic=True)[0]
     for c in RULE_COLOURS:
         write(f'rule-{c}.svg', svg(rule_path, s['w'], s['h'], tokens[c]))
 
     s = STYLES['frame']
-    h_path, v_path = stroke_path(rng, s, True), stroke_path(rng, s, True)
+    (h_path, h_top, h_bottom), (v_path, v_top, v_bottom) = stroke_path(rng, s, True), stroke_path(rng, s, True)
     for c in FRAME_COLOURS:
-        write(f'frame-h-{c}.svg', svg(h_path, s['w'], s['h'], tokens[c]))
-        write(f'frame-v-{c}.svg', svg(v_path, s['w'], s['h'], tokens[c], vertical=True))
+        write(f'frame-h-{c}.svg', svg(h_path, s['w'], s['h'], tokens[c], stretch=True))
+        write(f'frame-v-{c}.svg', svg(v_path, s['w'], s['h'], tokens[c], vertical=True, stretch=True))
+    # (frame strokes and slivers may be drawn thicker than they're made, e.g.
+    # on an open tile, so they stretch to fit rather than keeping their shape)
+    # the slivers outside each stroke's OUTER edge. The top and bottom of a
+    # frame use the horizontal stroke (outside is above its top edge at the
+    # top, below its bottom edge at the bottom); the sides use the vertical
+    # one, drawn sideways, so "above" becomes left and "below" right.
+    w, h = s['w'], s['h']
+    above_top = path([(0, 0), (w, 0)] + h_top[::-1])
+    below_bottom = path(h_bottom + [(w, h), (0, h)])
+    write('frame-outside-top.svg', svg(above_top, w, h, '#000', stretch=True))
+    write('frame-outside-bottom.svg', svg(below_bottom, w, h, '#000', stretch=True))
+    write('frame-outside-left.svg', svg(path([(0, 0), (w, 0)] + v_top[::-1]), w, h, '#000', vertical=True, stretch=True))
+    write('frame-outside-right.svg', svg(path(v_bottom + [(w, h), (0, h)]), w, h, '#000', vertical=True, stretch=True))
 
     s = STYLES['underline']
-    paths = [stroke_path(rng, s, periodic=False) for _ in range(3)]
+    paths = [stroke_path(rng, s, periodic=False)[0] for _ in range(3)]
     for c in UNDERLINE_COLOURS:
         for n, p in enumerate(paths, 1):
             write(f'underline-{c}-{n}.svg', svg(p, s['w'], s['h'], tokens[c], stretch=True))

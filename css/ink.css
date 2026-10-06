@@ -131,7 +131,31 @@
    The frame's own border goes transparent, and a layer on top of the
    picture (::after) draws four strokes along its edges. The layer ignores
    the mouse, so clicks still reach the picture.
+   The picture is then clipped to the strokes' outer edge, so it never shows
+   outside its hand-drawn frame where the line thins or wanders in: the mask
+   starts with the whole picture and cuts away the thin sliver outside each
+   stroke (img/strokes/frame-outside-*.svg, drawn from the same shapes). The
+   --frame-* values are shared by the strokes and the clip, so the two always
+   line up.
    ----------------------------------------------------------------------------- */
+:root {
+  --frame-strokes:
+    url(../img/strokes/frame-h-stroke.svg), url(../img/strokes/frame-h-stroke.svg),
+    url(../img/strokes/frame-v-stroke.svg), url(../img/strokes/frame-v-stroke.svg);
+  --frame-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  --frame-size: 400px 3px, 400px 3px, 3px 400px, 3px 400px;
+  /* top, bottom, left, right — each starting at a different point */
+  --frame-position: 0 0, -173px 100%, 0 -91px, 100% -229px;
+
+  /* the clip: the whole picture (the first layer) minus the four slivers
+     outside the strokes (the rest, added together first) */
+  --clip-image: linear-gradient(#000 0 0),
+    url(../img/strokes/frame-outside-top.svg), url(../img/strokes/frame-outside-bottom.svg),
+    url(../img/strokes/frame-outside-left.svg), url(../img/strokes/frame-outside-right.svg);
+  --clip-repeat: no-repeat, var(--frame-repeat);
+  --clip-size: 100% 100%, var(--frame-size);
+  --clip-position: 0 0, var(--frame-position);
+}
 .gframe, .scard-img, .pshots:not(.scatter) a:not(.pcap), .pshots:not(.scatter) .pstill,
 .pvid, .panel-body {
   border-color: transparent;
@@ -144,25 +168,69 @@
   content: "";
   position: absolute; inset: 0; z-index: 1;
   pointer-events: none;
-  background-image:
-    url(../img/strokes/frame-h-stroke.svg), url(../img/strokes/frame-h-stroke.svg),
-    url(../img/strokes/frame-v-stroke.svg), url(../img/strokes/frame-v-stroke.svg);
-  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-  background-size: 400px 3px, 400px 3px, 3px 400px, 3px 400px;
-  /* top, bottom, left, right — each starting at a different point */
-  background-position: 0 0, -173px 100%, 0 -91px, 100% -229px;
+  background-image: var(--frame-strokes);
+  background-repeat: var(--frame-repeat);
+  background-size: var(--frame-size);
+  background-position: var(--frame-position);
+}
+
+/* clip each picture to its frame. The tiles keep their drop shadow, which a
+   clip would cut off, so on a tile it's the picture inside (and the tile's
+   pale background moves onto the picture) that gets clipped. */
+.gframe > :is(img, video),
+.scard-img, .pshots:not(.scatter) a:not(.pcap), .pshots:not(.scatter) .pstill,
+.pvid, .panel-body {
+  -webkit-mask-image: var(--clip-image);         mask-image: var(--clip-image);
+  -webkit-mask-repeat: var(--clip-repeat);       mask-repeat: var(--clip-repeat);
+  -webkit-mask-size: var(--clip-size);           mask-size: var(--clip-size);
+  -webkit-mask-position: var(--clip-position);   mask-position: var(--clip-position);
+  /* the whole picture, minus the slivers (which are added together below it) */
+  -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over;
+          mask-composite: subtract, add, add, add, add;
+}
+.gframe { background-color: transparent; }
+.gframe > :is(img, video) { background-color: var(--plate); }
+
+/* Shadows. A box-shadow is drawn around the old, straight edge, which would
+   leave a pale gap outside the drawn line; drop-shadow follows the picture's
+   actual (clipped) outline instead. Same depth as --shadow and --shadow-lift
+   in site.css. */
+:root {
+  --ink-shadow:      drop-shadow(0 1px 2px rgba(34,32,28,.06)) drop-shadow(0 6px 18px rgba(34,32,28,.05));
+  --ink-shadow-lift: drop-shadow(0 3px 6px rgba(34,32,28,.10)) drop-shadow(0 18px 40px rgba(34,32,28,.14));
+}
+.gframe {
+  box-shadow: none;
+  filter: var(--ink-shadow);
+  transition: transform .22s cubic-bezier(.2,.7,.3,1), filter .22s;
+}
+@media (hover: hover) {
+  .gcard:hover .gframe { box-shadow: none; filter: var(--ink-shadow-lift); }
+}
+.hero-cover img { box-shadow: none; filter: var(--ink-shadow-lift); }
+
+/* The open tile: instead of a straight coral border and ring, a bolder
+   hand-drawn coral frame. The strokes (and the clip, so they still line up)
+   are drawn 5px tall instead of 3px, which makes the line about 2px thick. */
+.gcard[aria-expanded="true"] .gframe {
+  border-color: transparent;
+  box-shadow: none;
+  filter: var(--ink-shadow-lift);
+  --frame-strokes:
+    url(../img/strokes/frame-h-accent.svg), url(../img/strokes/frame-h-accent.svg),
+    url(../img/strokes/frame-v-accent.svg), url(../img/strokes/frame-v-accent.svg);
+  --frame-size: 400px 5px, 400px 5px, 5px 400px, 5px 400px;
+  --clip-size: 100% 100%, 400px 5px, 400px 5px, 5px 400px, 5px 400px;
 }
 
 /* the book cover is an <img>, which can't hold a layer: its frame is drawn in
    a 2px band of padding around the picture instead */
 .hero-cover img {
   border: 0; padding: 2px;
-  background-image:
-    url(../img/strokes/frame-h-stroke.svg), url(../img/strokes/frame-h-stroke.svg),
-    url(../img/strokes/frame-v-stroke.svg), url(../img/strokes/frame-v-stroke.svg);
-  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-  background-size: 400px 3px, 400px 3px, 3px 400px, 3px 400px;
-  background-position: 0 0, -173px 100%, 0 -91px, 100% -229px;
+  background-image: var(--frame-strokes);
+  background-repeat: var(--frame-repeat);
+  background-size: var(--frame-size);
+  background-position: var(--frame-position);
 }
 
 }  /* end @media */
