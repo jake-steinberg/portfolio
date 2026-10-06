@@ -44,3 +44,41 @@
     if (top) top.focus({ preventScroll: true });
   });
 })();
+
+
+/* =============================================================================
+   ⚠ TEMPORARY — paper-texture preview switch. Delete this whole block once a
+   strength is chosen, and set --paper in css/site.css to the chosen value.
+   A small panel in the bottom-left corner sets the texture's strength; the
+   choice is remembered in this browser while you click between pages.
+   ============================================================================= */
+(function () {
+  var LEVELS = [['Off', 0], ['Faint', .4], ['Subtle', .7], ['Strong', 1]];
+  var KEY = 'paper-preview';
+  var root = document.documentElement;
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) { /* no storage: fine */ }
+  if (saved !== null) root.style.setProperty('--paper', saved);
+
+  var panel = document.createElement('div');
+  panel.setAttribute('aria-label', 'Paper texture preview');
+  panel.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:999;display:flex;gap:4px;' +
+    'padding:6px;background:#fff;border:1px solid #22201C;font:11px/1 "IBM Plex Mono",monospace;' +
+    'box-shadow:0 4px 14px rgba(0,0,0,.15)';
+  var current = getComputedStyle(root).getPropertyValue('--paper').trim();
+  LEVELS.forEach(function (l) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = l[0];
+    var on = String(l[1]) === current || parseFloat(current) === l[1];
+    b.style.cssText = 'cursor:pointer;padding:6px 8px;border:1px solid #22201C;font:inherit;' +
+      'background:' + (on ? '#22201C;color:#fff' : '#fff;color:#22201C');
+    b.addEventListener('click', function () {
+      root.style.setProperty('--paper', l[1]);
+      try { localStorage.setItem(KEY, l[1]); } catch (e) { /* ignore */ }
+      [].forEach.call(panel.children, function (x) { x.style.background = '#fff'; x.style.color = '#22201C'; });
+      b.style.background = '#22201C'; b.style.color = '#fff';
+    });
+    panel.appendChild(b);
+  });
+  document.body.appendChild(panel);
+})();

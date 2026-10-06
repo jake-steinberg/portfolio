@@ -7,6 +7,7 @@
      2. Base styles    — page background, text, images, links, focus rings
      3. Sticky header  — name, subtitle and nav; condenses on scroll (js/site.js)
      4. Footer         — credit, "Last updated", Back to top
+     5. Paper texture  — the faint grain and mottling on the page background
 
    Page-specific styles live in their own files (portfolio.css, resume.css).
 
@@ -56,6 +57,9 @@
   /* Height of the sticky header. js/site.js keeps this updated with the
      header's real height, so anything that sticks beneath it lines up. */
   --headH: 46px;
+
+  /* Strength of the paper texture (section 5): 0 = none, 1 = full */
+  --paper: .7;
 }
 
 
@@ -182,6 +186,37 @@ a { color: inherit; }
   transition: transform .15s, color .15s;
 }
 .totop:hover { color: var(--ink); border-bottom-color: var(--ink); transform: translateY(-2px); }
+
+
+/* -----------------------------------------------------------------------------
+   5. PAPER TEXTURE — a faint grain and mottling on the page, like printed paper.
+   Two seamless images, both warm brown on transparent, layered over --bg:
+     img/paper-grain.webp   fine speckle and short fibres, a 512px tile
+     img/paper-mottle.webp  soft uneven blotches; a small file stretched to
+                            1280px, so its repeat never lines up with the grain's
+   They're drawn on a layer behind the page's content, so pictures, the white
+   mats around them and the panels (which have their own backgrounds) stay
+   clean. --paper (section 1) sets how strong it is.
+   The sticky header (and the resume's jump bar) get their own copy, since
+   they cover the page as it scrolls under them.
+   ----------------------------------------------------------------------------- */
+body { position: relative; }               /* so the layer below spans the whole page */
+
+body::before,
+.site::before,
+.jump::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  pointer-events: none;
+  background-image: url(../img/paper-grain.webp), url(../img/paper-mottle.webp);
+  background-size: 512px 512px, 1280px 1280px;
+  opacity: var(--paper);
+}
+
+/* no texture when printing, or for visitors who ask for more contrast */
+@media print, (prefers-contrast: more) {
+  body::before, .site::before, .jump::before { display: none; }
+}
 
 
 /* -----------------------------------------------------------------------------
