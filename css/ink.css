@@ -65,11 +65,15 @@
 }
 .rsec, .ent, .line, .csec { background-image: var(--rule-soft-line); }
 
-/* the main section breaks: bolder and darker, so they read as drawn */
-.trio, .hero, .foot, .rsec, .csec {
+/* the main section breaks, and the line under the header: bolder and
+   darker, so they read as drawn */
+.site, .trio, .hero, .foot, .rsec, .csec {
   background-image: var(--section-line);
   background-size: 400px 4px;
 }
+/* once the header sticks, site.css adds a straight 1px line to its shadow;
+   keep just the soft shadow, so the drawn line is the only one */
+.site.stuck { box-shadow: 0 6px 18px rgba(34,32,28,.06); }
 
 /* ...except where those had no rule */
 .rsec:first-of-type, .ent:first-child, .line:first-child, .csec:first-of-type { background-image: none; }
