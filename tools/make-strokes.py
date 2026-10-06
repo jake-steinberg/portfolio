@@ -46,7 +46,7 @@ OUT = os.path.join(ROOT, 'img', 'strokes')
 SEED = 2026
 
 # which colour tokens (from css/site.css) each kind of stroke is made in
-RULE_COLOURS = ['rule', 'rule-row']
+RULE_COLOURS = ['rule', 'rule-soft', 'rule-row']
 SECTION_COLOURS = ['rule-ink']
 PILL_COLOURS = ['rule-ink', 'stroke', 'accent-ink']
 FRAME_COLOURS = ['stroke']

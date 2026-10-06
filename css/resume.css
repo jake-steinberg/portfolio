@@ -138,7 +138,7 @@
   grid-template-columns: 62px minmax(0, 1fr);
   gap: 6px 18px;
   padding-block: 11px;
-  border-top: 1px solid var(--rule-row);
+  border-top: 1px solid var(--rule-soft);
 }
 .line:first-child { border-top: 0; }
 

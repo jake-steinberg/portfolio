@@ -41,6 +41,7 @@
   --rule-line:      url(../img/strokes/rule-rule.svg);
   --section-line:   url(../img/strokes/section-rule-ink.svg);   /* bolder, darker */
   --row-line:       url(../img/strokes/rule-rule-row.svg);      /* resume dividers */
+  --rule-soft-line: url(../img/strokes/rule-rule-soft.svg);     /* awards: paler */
 }
 
 /* rules along the BOTTOM edge */
@@ -63,7 +64,8 @@
   background-position: var(--ink-x, 0px) top;
   background-origin: border-box;
 }
-.ent, .line { background-image: var(--row-line); }
+.ent { background-image: var(--row-line); }
+.line { background-image: var(--rule-soft-line); }       /* Awards & honors keeps the pale line */
 
 /* the main section breaks, and the line under the header: bolder and
    darker, so they read as drawn */
