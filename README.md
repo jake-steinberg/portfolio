@@ -183,11 +183,20 @@ Perplexity) find the site and understand it:
 
 ## Preview locally
 
-Use VS Code's Live Server (set to port 5501 in `.vscode/settings.json`), or, from the
-repo folder:
+From the repo folder:
 
 ```sh
-python3 -m http.server
+python3 tools/serve.py
 ```
 
-Then open http://localhost:8000.
+Then open http://localhost:8000. Use this rather than `python3 -m http.server`
+or VS Code's Live Server: the site links to short addresses (`/resume`,
+`/contact`), which GitHub Pages and this script understand but those don't.
+
+## Page addresses
+
+Pages are linked without `.html`: `/` for the portfolio, `/resume`, `/contact`.
+GitHub Pages serves `resume.html` at `/resume` automatically, and the old
+`.html` addresses keep working too. When you link to one of these pages, use
+the short form; each page's `<link rel="canonical">` tells search engines
+which address is the real one.
