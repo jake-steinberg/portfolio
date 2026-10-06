@@ -151,10 +151,9 @@ build step to share it. If you change one, change it in `index.html`,
 
 The message box on `contact.html` sends through [Formspree](https://formspree.io),
 which emails each message to you. The form's `action` is
-`https://formspree.io/f/FORMSPREE_ID`: replace `FORMSPREE_ID` with your form's
-ID from the Formspree dashboard (the part after `/f/`). Until then, the form
-says it isn't connected and asks people to email instead. The free plan covers
-50 messages a month.
+`https://formspree.io/f/xoejqgoo`, where `xoejqgoo` is the form's ID from the
+Formspree dashboard (the part after `/f/`). To switch to a different Formspree
+form, replace that ID. The free plan covers 50 messages a month.
 
 Freelance commissions are a section of the Contact page (`contact.html#freelance`),
 which the homepage intro links to.
