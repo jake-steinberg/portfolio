@@ -55,10 +55,10 @@ STYLES = {
     #               (px)    (px)    (avg, px)     (±%)    (±px)    (ends)
     'rule':      dict(w=400, h=3,  thick=1.1,  swell=.45, drift=.30, taper=0),
     'frame':     dict(w=400, h=3,  thick=1.25, swell=.50, drift=.30, taper=0),
-    'section':   dict(w=400, h=4,  thick=1.45, swell=.55, drift=.35, taper=0),
+    'section':   dict(w=400, h=4,  thick=1.15, swell=.55, drift=.35, taper=0),
     # pills are drawn 28 units tall (about a pill's height in px), so these
     # are roughly px too
-    'pill':      dict(w=400, h=28, thick=1.3,  swell=.45, drift=.15, taper=0),
+    'pill':      dict(w=400, h=28, thick=1.05, swell=.45, drift=.15, taper=0),
     # underlines are drawn in a 200 x 10 box and stretched by the CSS (to the
     # link's width, and to 2.5–6 px tall), so their numbers are in box units:
     # a thickness of 5 is half the height they're drawn at
