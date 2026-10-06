@@ -16,6 +16,8 @@ It writes small SVG files to img/strokes/:
                             that tiles across minor dividers of any width
   section-<colour>.svg      the same, bolder, for the main section breaks
                             (400 x 4 px)
+  rule-outside-bottom.svg,  the sliver below each of those, used to clip the
+  section-outside-bottom.svg  sticky header and jump bar right at their line
   pill-left-<colour>.svg    the outline of a pill-shaped button, in two halves
   pill-right-<colour>.svg   (each a rounded end plus a long straight run); the
                             CSS shows each over half the button, scaled to its
@@ -159,9 +161,11 @@ def main():
         written.append(name)
 
     s = STYLES['rule']
-    rule_path = stroke_path(rng, s, periodic=True)[0]
+    rule_path, _, rule_bottom = stroke_path(rng, s, periodic=True)
     for c in RULE_COLOURS:
         write(f'rule-{c}.svg', svg(rule_path, s['w'], s['h'], tokens[c]))
+    # the sliver below it, for clipping a sticky bar's background at its line
+    write('rule-outside-bottom.svg', svg(path(rule_bottom + [(s['w'], s['h']), (0, s['h'])]), s['w'], s['h'], '#000'))
 
     s = STYLES['frame']
     (h_path, h_top, h_bottom), (v_path, v_top, v_bottom) = stroke_path(rng, s, True), stroke_path(rng, s, True)
@@ -190,9 +194,10 @@ def main():
 
     # (made last, so the strokes above keep their shapes from earlier runs)
     s = STYLES['section']
-    section_path = stroke_path(rng, s, periodic=True)[0]
+    section_path, _, section_bottom = stroke_path(rng, s, periodic=True)
     for c in SECTION_COLOURS:
         write(f'section-{c}.svg', svg(section_path, s['w'], s['h'], tokens[c]))
+    write('section-outside-bottom.svg', svg(path(section_bottom + [(s['w'], s['h']), (0, s['h'])]), s['w'], s['h'], '#000'))
 
     s = STYLES['pill']
     # each half keeps its shape and fills the button's height; the rest of its

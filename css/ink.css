@@ -71,9 +71,39 @@
   background-image: var(--section-line);
   background-size: 400px 4px;
 }
-/* once the header sticks, site.css adds a straight 1px line to its shadow;
-   keep just the soft shadow, so the drawn line is the only one */
-.site.stuck { box-shadow: 0 6px 18px rgba(34,32,28,.06); }
+/* The sticky bars (the header, and the resume's jump bar under it) have a
+   background, to hide the page scrolling beneath them. It's cut away below
+   their drawn line, so the page shows right up to the line rather than
+   stopping at a straight edge under it: the mask is the whole bar minus the
+   sliver beneath the stroke (drawn from the same shape, in the same place).
+   That would also cut off the stuck header's shadow, so it has none: the
+   drawn line does the separating. */
+.site, .jump {
+  -webkit-mask-image: linear-gradient(#000 0 0), var(--bar-outside);
+          mask-image: linear-gradient(#000 0 0), var(--bar-outside);
+  -webkit-mask-repeat: no-repeat, repeat-x;      mask-repeat: no-repeat, repeat-x;
+  -webkit-mask-size: 100% 100%, var(--bar-line); mask-size: 100% 100%, var(--bar-line);
+  -webkit-mask-position: 0 0, var(--ink-x, 0px) bottom;
+          mask-position: 0 0, var(--ink-x, 0px) bottom;
+  -webkit-mask-composite: source-out, source-over;
+          mask-composite: subtract, add;
+}
+.site { --bar-outside: url(../img/strokes/section-outside-bottom.svg); --bar-line: 400px 4px; }
+.jump { --bar-outside: url(../img/strokes/rule-outside-bottom.svg);    --bar-line: 400px 3px; }
+.site, .site.stuck { box-shadow: none; }
+/* On the resume the jump bar sits right under the header, so the strip cut
+   away under the header's line would show the page scrolling between the
+   two. The jump bar tucks 4px up beneath the header instead (the header is
+   drawn on top), and fills that strip with its own background. Its buttons
+   stay where they were: 4px more padding on top makes up for it. */
+.jump {
+  top: calc(env(safe-area-inset-top, 0px) + var(--headH) - 4px);
+  margin-top: -4px;
+  padding-top: 18px;
+}
+/* --jumpH (measured by js/resume.js) now includes those 4px, which already
+   sit under the header, so sections stop in the same place as before */
+.rsec { scroll-margin-top: calc(var(--headH) + var(--jumpH) + 4px); }
 
 /* ...except where those had no rule */
 .rsec:first-of-type, .ent:first-child, .line:first-child, .csec:first-of-type { background-image: none; }
