@@ -9,6 +9,7 @@
      4. Footer         — credit, "Last updated", Back to top
      5. Paper texture  — the faint grain and mottling on the page background
      6. Handwritten fonts — candidates to replace --mono (being compared)
+     7. Outfit           — a candidate to replace --display (being compared)
 
    Page-specific styles live in their own files (portfolio.css, resume.css).
 
@@ -292,6 +293,27 @@ body::before,
 :root[data-hand] .trio h2                               { letter-spacing: .04em; }   /* was .01em */
 :root[data-hand] :is(.foot, .hero-meta, .fclear, .chip, .empty, .basemap-note)
                                                         { letter-spacing: .03em; }   /* was none */
+
+
+/* -----------------------------------------------------------------------------
+   7. OUTFIT — a candidate to replace Inknut Antiqua (--display) for the
+   headings: a geometric sans, set heavy, after the bold mid-century lettering
+   of the map titles it's modelled on. Self-hosted from css/fonts/outfit/
+   (SIL Open Font License; the licence is in that folder). One variable file
+   covers every weight. While it's being previewed (js/site.js sets
+   data-display on <html>), headings are set at 600 and the name in the
+   header at 700, instead of Inknut's 400 and 700.
+   ----------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Outfit";
+  src: url(fonts/outfit/Outfit-VariableFont_wght.ttf) format("truetype");
+  font-weight: 100 900; font-display: swap;
+}
+:root[data-display] :is(.hero h1, .sec-head h2, .cap .ttl, .plist h3, .panel h3, .stylename,
+  .rsec > h2, .ent .org, .ctitle, .csec > h2, .freelance h2) {
+  font-weight: 600;
+}
+:root[data-display] .brand-name { font-weight: 700; }
 
 
 /* -----------------------------------------------------------------------------

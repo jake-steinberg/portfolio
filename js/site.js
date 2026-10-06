@@ -137,3 +137,53 @@
   });
   document.body.appendChild(panel);
 })();
+
+
+/* =============================================================================
+   ⚠ TEMPORARY — heading-font preview switch. Delete this whole block once
+   decided (and, to keep Outfit, set --display in css/site.css to it and
+   fold section 7's weights into the page stylesheets).
+   A panel above the other switches sets the headings' font (--display):
+   Inknut Antiqua as now, or Outfit (section 7 of site.css).
+   ============================================================================= */
+(function () {
+  var FONTS = [
+    ['Inknut', ''],
+    ['Outfit', '"Outfit", system-ui, sans-serif']
+  ];
+  var KEY = 'display-preview';
+  var root = document.documentElement;
+  var current = 'Inknut';
+  try { current = localStorage.getItem(KEY) || 'Inknut'; } catch (e) { /* no storage: fine */ }
+  function apply(label) {
+    var f = FONTS.filter(function (x) { return x[0] === label; })[0] || FONTS[0];
+    if (f[1]) root.style.setProperty('--display', f[1]); else root.style.removeProperty('--display');
+    if (f[1]) root.dataset.display = ''; else delete root.dataset.display;   // see site.css, section 7
+    current = f[0];
+  }
+  apply(current);
+
+  var panel = document.createElement('div');
+  panel.setAttribute('aria-label', 'Heading font preview');
+  panel.style.cssText = 'position:fixed;left:12px;bottom:100px;z-index:999;display:flex;gap:4px;align-items:center;' +
+    'padding:6px 6px 6px 10px;background:#fff;border:1px solid #22201C;font:11px/1 "IBM Plex Mono",monospace;' +
+    'box-shadow:0 4px 14px rgba(0,0,0,.15)';
+  panel.appendChild(document.createTextNode('Headings:'));
+  FONTS.forEach(function (f) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = f[0];
+    b._paint = function () {
+      var on = current === f[0];
+      b.style.cssText = 'cursor:pointer;padding:6px 8px;border:1px solid #22201C;font:inherit;' +
+        (on ? 'background:#22201C;color:#fff' : 'background:#fff;color:#22201C');
+    };
+    b.addEventListener('click', function () {
+      apply(f[0]);
+      try { localStorage.setItem(KEY, f[0]); } catch (e) { /* ignore */ }
+      [].forEach.call(panel.querySelectorAll('button'), function (x) { x._paint(); });
+    });
+    b._paint();
+    panel.appendChild(b);
+  });
+  document.body.appendChild(panel);
+})();
