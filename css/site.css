@@ -258,16 +258,14 @@ body::before,
 }
 
 /* While a handwritten font is being previewed (js/site.js sets data-hand on
-   <html>), the labels set in it that were grey are drawn in the darkest ink,
-   --ink. The coral ones (the current page in the nav, the book's "Out
-   November 17", Clear filters, Back to top, the resume's toolkit headings
-   and award years) stay coral, and labels on a coloured fill (a selected
-   pill, the jump bar's current section, the open tile's chip, the "In the
-   book" badge, the Send button) keep their white text. */
-:root[data-hand] :is(.brand-sub, .foot, .hero-meta, .pill, .chip, .tag, .empty,
-  .award .quote footer, .basemap-note, .inwild, .pcredit, .panel .close, .jump a,
-  .ent .meta, .cform label, .elsewhere .lbl) {
-  color: var(--ink);
+   <html>), the labels set in it that were grey take the tone of the drawn
+   section breaks and pill outlines, --rule-ink. The black ones stay black,
+   the coral ones (the current page in the nav, the book's "Out November 17",
+   Clear filters, Back to top, the resume's toolkit headings and award years)
+   stay coral, and labels on a coloured fill keep their white text. */
+:root[data-hand] :is(.brand-sub, .foot, .hero-meta, .tag, .empty, .award .quote footer,
+  .basemap-note, .inwild, .pcredit, .ent .meta, .cform label, .elsewhere .lbl) {
+  color: var(--rule-ink);
 }
 :root[data-hand] :is(.pill[aria-pressed="true"], .jump a.on, .gcard[aria-expanded="true"] .chip) { color: #fff; }
 :root[data-hand] .panel .close:hover { color: var(--plate); }
