@@ -271,6 +271,13 @@ body::before,
 }
 :root[data-hand] :is(.pill[aria-pressed="true"], .jump a.on, .gcard[aria-expanded="true"] .chip) { color: #fff; }
 :root[data-hand] .panel .close:hover { color: var(--plate); }
+/* ...and every label set in the handwritten font is in capitals */
+:root[data-hand] :is(.brand-sub, .site nav a, .foot, .totop, .trio h2, .eyebrow, .hero-meta,
+  .pill, .fclear, .chip, .marker, .tag, .empty, .award .quote footer, .basemap-note,
+  .inwild, .pcredit, .panel .close, .jump a, .kit h3, .ent .meta, .line .yr,
+  .cform label, .send, .elsewhere .lbl) {
+  text-transform: uppercase;
+}
 
 
 /* -----------------------------------------------------------------------------
