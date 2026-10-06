@@ -155,8 +155,8 @@ which emails each message to you. The form's `action` is
 Formspree dashboard (the part after `/f/`). To switch to a different Formspree
 form, replace that ID. The free plan covers 50 messages a month.
 
-Freelance commissions are a section of the Contact page (`contact.html#freelance`),
-which the homepage intro links to.
+Freelance commissions are a section of the Contact page, which the homepage
+intro links to.
 
 ## Search engines and AI tools
 
