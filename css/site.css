@@ -58,8 +58,17 @@
      header's real height, so anything that sticks beneath it lines up. */
   --headH: 46px;
 
-  /* Strength of the paper texture (section 5): 0 = none, 1 = full */
+  /* The paper texture (section 5).
+     --paper: its strength, 0 = none, 1 = full.
+     --page:  the colour under it, on the page, header and resume jump bar. The
+              texture only ever adds darker flecks, so --page is a little lighter
+              than --bg: together they average out to --bg, and flat boxes that
+              use --bg (quotes, chips, picture mats) still match the page.
+              Pairs that average to --bg #F1EBDD:
+                --paper .4 → --page #F5EFE1    --paper .7 → --page #F7F2E5
+                --paper 1  → --page #FAF6E8    --paper 0  → --page = --bg */
   --paper: .7;
+  --page:  #F7F2E5;
 }
 
 
@@ -70,7 +79,7 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  background: var(--page);
   color: var(--ink);
   font-family: var(--text);
   font-size: 16px;
@@ -104,7 +113,7 @@ a { color: inherit; }
   position: sticky;
   top: env(safe-area-inset-top, 0px);
   z-index: 50;
-  background: var(--bg);
+  background: var(--page);
   border-bottom: 1px solid var(--rule);
 }
 .site.stuck { box-shadow: 0 1px 0 var(--rule), 0 6px 18px rgba(34,32,28,.06); }
@@ -216,6 +225,7 @@ body::before,
 /* no texture when printing, or for visitors who ask for more contrast */
 @media print, (prefers-contrast: more) {
   body::before, .site::before, .jump::before { display: none; }
+  :root { --page: var(--bg); }            /* back to the plain cream */
 }
 
 

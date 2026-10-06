@@ -53,12 +53,17 @@
    choice is remembered in this browser while you click between pages.
    ============================================================================= */
 (function () {
-  var LEVELS = [['Off', 0], ['Faint', .4], ['Subtle', .7], ['Strong', 1]];
+  // [label, --paper, --page]: each --page keeps the page's average at --bg
+  var LEVELS = [['Off', 0, '#F1EBDD'], ['Faint', .4, '#F5EFE1'], ['Subtle', .7, '#F7F2E5'], ['Strong', 1, '#FAF6E8']];
+  function apply(l) {
+    root.style.setProperty('--paper', l[1]);
+    root.style.setProperty('--page', l[2]);
+  }
   var KEY = 'paper-preview';
   var root = document.documentElement;
   var saved = null;
   try { saved = localStorage.getItem(KEY); } catch (e) { /* no storage: fine */ }
-  if (saved !== null) root.style.setProperty('--paper', saved);
+  LEVELS.forEach(function (l) { if (saved !== null && String(l[1]) === saved) apply(l); });
 
   var panel = document.createElement('div');
   panel.setAttribute('aria-label', 'Paper texture preview');
@@ -73,7 +78,7 @@
     b.style.cssText = 'cursor:pointer;padding:6px 8px;border:1px solid #22201C;font:inherit;' +
       'background:' + (on ? '#22201C;color:#fff' : '#fff;color:#22201C');
     b.addEventListener('click', function () {
-      root.style.setProperty('--paper', l[1]);
+      apply(l);
       try { localStorage.setItem(KEY, l[1]); } catch (e) { /* ignore */ }
       [].forEach.call(panel.children, function (x) { x.style.background = '#fff'; x.style.color = '#22201C'; });
       b.style.background = '#22201C'; b.style.color = '#fff';

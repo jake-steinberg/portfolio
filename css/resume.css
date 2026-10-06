@@ -31,7 +31,7 @@
   z-index: 20;
   display: flex; flex-wrap: wrap; gap: 7px;
   padding-block: 14px;
-  background: var(--bg);
+  background: var(--page);
   border-bottom: 1px solid var(--rule-soft);
 }
 .jump a {
