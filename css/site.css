@@ -8,7 +8,7 @@
      3. Sticky header  — name, subtitle and nav; condenses on scroll (js/site.js)
      4. Footer         — credit, "Last updated", Back to top
      5. Paper texture  — the faint grain and mottling on the page background
-     6. Handwritten fonts — the two used for labels (--hand, --hand-sa)
+     6. Handwritten font — Edu SA Hand, for labels (--hand)
      7. Headings font  — Outfit, self-hosted
      8. Rough headings — hand-drawn wobble on every Outfit heading
 
@@ -51,8 +51,7 @@
   --display: "Outfit", system-ui, sans-serif;   /* headings: a heavy geometric sans (section 7) */
   --text:    "Source Serif 4", Georgia, serif;
   --mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;   /* not used now: labels are --hand; Plex Mono isn't loaded */
-  --hand:    "Edu NSW ACT Foundation", "IBM Plex Mono", cursive;   /* handwritten labels (section 6) */
-  --hand-sa: "Edu SA Hand", "IBM Plex Mono", cursive;              /* a looser handwriting, for the intro headings */
+  --hand:    "Edu SA Hand", cursive;   /* handwritten labels and the intro headings (section 6) */
 
   --label: 11px;            /* size of small uppercase mono labels */
   --track: .1em;            /* letter-spacing for those labels */
@@ -240,21 +239,15 @@ body::before,
 
 
 /* -----------------------------------------------------------------------------
-   6. HANDWRITTEN FONTS — for labels, in place of IBM Plex Mono (--mono):
-     Edu NSW ACT Foundation (--hand): the header subtitle, nav, the book's
-       release line and details, tags and filter pills
-     Edu SA Hand (--hand-sa): the intro headings ("Howdy!" etc.)
-   Other labels (footer, form labels, resume dates…) are still in --mono.
-   Self-hosted from css/fonts/edu/ (SIL Open Font License; the licences are
-   in that folder). Each is one variable file covering weights 400–700.
-   size-adjust scales each so it sits at about the same size as Plex Mono,
-   so the font sizes set elsewhere read as they did.
+   6. HANDWRITTEN FONT — Edu SA Hand (--hand), for the labels in place of a
+   monospace: the header subtitle, nav, tags and filter pills, the book's
+   release line and details, the footer, buttons, badges, form labels, the
+   resume's jump bar, dates and years — and the intro headings ("Howdy!" etc.).
+   Self-hosted from css/fonts/edu/ (SIL Open Font License; the licence is in
+   that folder). One variable file covers weights 400–700. size-adjust scales
+   it down so its tall capitals sit at about the size the labels were drawn
+   for, without touching the font sizes set elsewhere.
    ----------------------------------------------------------------------------- */
-@font-face {
-  font-family: "Edu NSW ACT Foundation";
-  src: url(fonts/edu/EduNSWACTFoundation-VariableFont_wght.ttf) format("truetype");
-  font-weight: 400 700; font-display: swap; size-adjust: 108%;
-}
 @font-face {
   font-family: "Edu SA Hand";
   src: url(fonts/edu/EduSAHand-VariableFont_wght.ttf) format("truetype");

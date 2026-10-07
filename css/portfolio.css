@@ -26,7 +26,7 @@ body { overflow-anchor: none; }
   border-bottom: 1px solid var(--rule);
 }
 .trio h2 {                       /* the small handwritten headings: "Howdy!" etc. */
-  font-family: var(--hand-sa); font-weight: 500; font-size: 19.5px; letter-spacing: .04em;
+  font-family: var(--hand); font-weight: 500; font-size: 19.5px; letter-spacing: .04em;
   margin: 0 0 10px; color: var(--ink);
 }
 .trio p {
