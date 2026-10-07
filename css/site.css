@@ -192,7 +192,7 @@ a { color: inherit; }
   border-top: 1px solid var(--rule);
   display: flex; flex-wrap: wrap; gap: 10px 26px;
   justify-content: space-between; align-items: baseline;
-  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 11px; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 600; font-size: 11px; color: var(--label-ink);
 }
 .foot .credit { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 
