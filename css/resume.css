@@ -118,7 +118,7 @@
 .ent:first-child { border-top: 0; padding-top: 0; }
 @media (max-width: 560px) { .ent { grid-template-columns: 1fr; gap: 5px; } }
 
-.ent .org  { margin: 0; font-family: var(--display); font-weight: 800; font-size: 16px; line-height: 1.3;
+.ent .org  { margin: 0; font-family: var(--display); font-weight: 800; font-size: 18px; line-height: 1.3;
              letter-spacing: .06em; color: var(--head); }
 .ent .role { margin: 3px 0 0; color: var(--muted); font-size: 14.5px; }
 .ent .meta {
