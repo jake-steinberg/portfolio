@@ -265,6 +265,7 @@ body::before,
      data-lcase="caps"  every label in capitals
      data-lw  + --lw    the labels' weight
      data-lt  + --lt    extra letter-spacing, added to each label's usual amount
+     data-ls  + --ls    a size multiplier, on each label's usual size
      data-lc  + --lc    the colour of the labels that are normally grey (the
                         black and coral ones keep theirs; labels on a coloured
                         fill keep their white text) */
@@ -295,6 +296,17 @@ body::before,
 :root[data-lt] .line .yr                        { letter-spacing: calc(.03em + var(--lt)); }
 :root[data-lt] .trio h2                         { letter-spacing: calc(.01em + var(--lt)); }
 :root[data-lt] :is(.foot, .hero-meta, .fclear, .chip, .empty, .basemap-note) { letter-spacing: var(--lt); }
+/* size: each label's usual size times --ls, grouped by usual size */
+:root[data-ls] :is(.brand-sub, .foot, .fclear, .marker, .tag, .award .quote footer, .inwild,
+  .pcredit, .panel .close, .kit h3, .ent .meta, .cform label, .elsewhere .lbl) { font-size: calc(11px * var(--ls)); }
+:root[data-ls] :is(.totop, .pill, .jump a, .line .yr)                          { font-size: calc(11.5px * var(--ls)); }
+:root[data-ls] :is(.site nav a, .eyebrow, .hero-meta, .basemap-note, .send)    { font-size: calc(12px * var(--ls)); }
+:root[data-ls] .empty   { font-size: calc(13px * var(--ls)); }
+:root[data-ls] .chip    { font-size: calc(14px * var(--ls)); }
+:root[data-ls] .trio h2 { font-size: calc(15px * var(--ls)); }
+@media (max-width: 560px) {                                    /* the nav is larger on phones */
+  :root[data-ls] .site nav a { font-size: calc(14px * var(--ls)); }
+}
 
 
 /* -----------------------------------------------------------------------------

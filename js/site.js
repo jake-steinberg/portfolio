@@ -92,7 +92,7 @@
    set the chosen font, case, weight, spacing and colour on the labels
    (--mono in css/site.css, and the label rules in each stylesheet).
    Rows: the labels' font (--mono: IBM Plex Mono, or one of the handwritten
-   candidates in section 6 of site.css), and their case, weight, extra
+   candidates in section 6 of site.css), and their case, weight, size, extra
    letter-spacing and colour (the colour of the normally grey labels). The
    last four apply to whichever font is chosen. Each choice is remembered in
    this browser between pages.
@@ -108,6 +108,8 @@
       ['As set', ''], ['All caps', 'caps'] ] },
     { key: 'weight', label: 'Weight:', store: 'label-weight', def: '500', options: [
       ['400', '400'], ['500', '500'], ['600', '600'], ['700', '700'] ] },
+    { key: 'size', label: 'Size:', store: 'label-size', def: 'Usual', options: [
+      ['90%', '0.9'], ['Usual', ''], ['110%', '1.1'], ['120%', '1.2'], ['130%', '1.3'] ] },
     { key: 'track', label: 'Tracking:', store: 'label-track', def: '+.03', options: [
       ['Usual', ''], ['+.03', '0.03em'], ['+.06', '0.06em'], ['+.10', '0.1em'] ] },
     { key: 'colour', label: 'Colour:', store: 'label-colour', def: 'Label ink', swatches: true, options: [
@@ -136,6 +138,7 @@
     if (value('case')) root.dataset.lcase = value('case'); else delete root.dataset.lcase;
     set('--lw', 'lw', value('weight'));
     set('--lt', 'lt', value('track'));
+    set('--ls', 'ls', value('size'));
     set('--lc', 'lc', value('colour'));
   }
   apply();
