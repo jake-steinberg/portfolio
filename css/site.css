@@ -163,7 +163,7 @@ a { color: inherit; }
 /* nav — the current page gets aria-current="page", which draws the coral underline */
 .site nav { display: flex; flex-wrap: wrap; gap: 6px 22px; }
 .site nav a {
-  font-family: var(--mono); font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
+  font-family: var(--hand); font-weight: 600; font-size: 12px; letter-spacing: .17em; text-transform: uppercase;
   text-decoration: none; padding: 3px 0;
   border-bottom: 2px solid transparent;
   transition: color .15s, border-color .15s;
@@ -268,17 +268,17 @@ body::before,
      data-lt  + --lt    extra letter-spacing, added to each label's usual amount
      data-ls  + --ls    a size multiplier, on each label's usual size
      (Labels already decided are left out of these lists, so the panel
-     doesn't change them: the header subtitle.)
+     doesn't change them: the header subtitle and nav.)
      data-lc  + --lc    the colour of the labels that are normally grey (the
                         black and coral ones keep theirs; labels on a coloured
                         fill keep their white text) */
-:root[data-lcase="caps"] :is(.site nav a, .foot, .totop, .trio h2, .eyebrow, .hero-meta,
+:root[data-lcase="caps"] :is(.foot, .totop, .trio h2, .eyebrow, .hero-meta,
   .pill, .fclear, .chip, .marker, .tag, .empty, .award .quote footer, .basemap-note,
   .inwild, .pcredit, .panel .close, .jump a, .kit h3, .ent .meta, .line .yr,
   .cform label, .send, .elsewhere .lbl) {
   text-transform: uppercase;
 }
-:root[data-lw] :is(.site nav a, .foot, .totop, .trio h2, .eyebrow, .hero-meta,
+:root[data-lw] :is(.foot, .totop, .trio h2, .eyebrow, .hero-meta,
   .pill, .fclear, .chip, .marker, .tag, .empty, .award .quote footer, .basemap-note,
   .inwild, .pcredit, .panel .close, .jump a, .kit h3, .ent .meta, .line .yr,
   .cform label, .send, .elsewhere .lbl) {
@@ -291,7 +291,7 @@ body::before,
 /* tracking: each label's usual letter-spacing plus --lt. Most use --track;
    the rest set their own, listed here with their usual amount */
 :root[data-lt] { --track: calc(.1em + var(--lt)); }
-:root[data-lt] :is(.site nav a, .totop, .send)  { letter-spacing: calc(.07em + var(--lt)); }
+:root[data-lt] :is(.totop, .send)               { letter-spacing: calc(.07em + var(--lt)); }
 :root[data-lt] :is(.pill, .jump a)              { letter-spacing: calc(.04em + var(--lt)); }
 :root[data-lt] :is(.panel .close, .ent .meta)   { letter-spacing: calc(.05em + var(--lt)); }
 :root[data-lt] .marker                          { letter-spacing: calc(.1em + var(--lt)); }
@@ -303,13 +303,10 @@ body::before,
 :root[data-ls] :is(.foot, .fclear, .marker, .tag, .award .quote footer, .inwild,
   .pcredit, .panel .close, .kit h3, .ent .meta, .cform label, .elsewhere .lbl) { font-size: calc(11px * var(--ls)); }
 :root[data-ls] :is(.totop, .pill, .jump a, .line .yr)                          { font-size: calc(11.5px * var(--ls)); }
-:root[data-ls] :is(.site nav a, .eyebrow, .hero-meta, .basemap-note, .send)    { font-size: calc(12px * var(--ls)); }
+:root[data-ls] :is(.eyebrow, .hero-meta, .basemap-note, .send)                { font-size: calc(12px * var(--ls)); }
 :root[data-ls] .empty   { font-size: calc(13px * var(--ls)); }
 :root[data-ls] .chip    { font-size: calc(14px * var(--ls)); }
 :root[data-ls] .trio h2 { font-size: calc(15px * var(--ls)); }
-@media (max-width: 560px) {                                    /* the nav is larger on phones */
-  :root[data-ls] .site nav a { font-size: calc(14px * var(--ls)); }
-}
 
 
 /* -----------------------------------------------------------------------------
