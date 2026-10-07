@@ -100,7 +100,7 @@
   font-size: var(--label); letter-spacing: var(--track); text-transform: uppercase;
   color: var(--accent-ink);
 }
-.kit ul { list-style: none; margin: 0; padding: 0; font-size: 14px; line-height: 1.85; }
+.kit ul { list-style: none; margin: 0; padding: 0; font-size: 15.5px; line-height: 1.8; }
 
 
 /* -----------------------------------------------------------------------------
@@ -120,15 +120,15 @@
 
 .ent .org  { margin: 0; font-family: var(--display); font-weight: 800; font-size: 18px; line-height: 1.3;
              letter-spacing: .06em; color: var(--head); }
-.ent .role { margin: 3px 0 0; color: var(--muted); font-size: 14.5px; }
+.ent .role { margin: 3px 0 0; color: var(--muted); font-size: 16px; }
 .ent .meta {
-  font-family: var(--hand); font-weight: 600; font-size: 11px; letter-spacing: .05em; text-transform: uppercase;
+  font-family: var(--hand); font-weight: 600; font-size: 12.5px; letter-spacing: .05em; text-transform: uppercase;
   color: var(--label-ink); text-align: right; line-height: 1.7;
   font-variant-numeric: tabular-nums;
 }
 @media (max-width: 560px) { .ent .meta { text-align: left; } }
 
-.ent .note { grid-column: 1; margin: 9px 0 0; max-width: var(--measure); color: var(--muted); font-size: 14px; }
+.ent .note { grid-column: 1; margin: 9px 0 0; max-width: var(--measure); color: var(--muted); font-size: 15.5px; line-height: 1.55; }
 .ent .note + .note { margin-top: 7px; }
 
 
