@@ -22,6 +22,13 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 
 
 class CleanURLHandler(SimpleHTTPRequestHandler):
+    def end_headers(self):
+        # ask the browser to check for a newer copy every time, so an edited
+        # stylesheet always shows on reload (never an old copy mixed with a
+        # new one)
+        self.send_header('Cache-Control', 'no-cache')
+        super().end_headers()
+
     def translate_path(self, path):
         local = super().translate_path(path)
         # /resume → resume.html, when there's no file or folder called "resume"
