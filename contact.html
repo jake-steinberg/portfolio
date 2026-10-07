@@ -148,6 +148,31 @@
 </head>
 
 <body>
+  <!-- the "rough" filters for the headings (css/site.css, section 8). Keep
+       these the same in index.html, resume.html and contact.html.
+       baseFrequency: how long the wobbles are (smaller = longer, gentler);
+       scale: how far edges move, in px; the blur and alpha curve after it
+       smooth the edge again. -->
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <filter id="rough-lg" x="-3%" y="-15%" width="106%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="1" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.6" result="b"/>
+      <feComponentTransfer in="b"><feFuncA type="linear" slope="2.4" intercept="-0.7"/></feComponentTransfer>
+    </filter>
+    <filter id="rough-md" x="-3%" y="-15%" width="106%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="1" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.5" result="b"/>
+      <feComponentTransfer in="b"><feFuncA type="linear" slope="2.4" intercept="-0.7"/></feComponentTransfer>
+    </filter>
+    <filter id="rough-sm" x="-3%" y="-15%" width="106%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="1" seed="3" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.1" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.35" result="b"/>
+      <feComponentTransfer in="b"><feFuncA type="linear" slope="2.4" intercept="-0.7"/></feComponentTransfer>
+    </filter>
+  </svg>
   <span id="top" tabindex="-1"></span>
 
   <!-- ===================================================================

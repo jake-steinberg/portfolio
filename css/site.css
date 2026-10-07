@@ -10,7 +10,7 @@
      5. Paper texture  — the faint grain and mottling on the page background
      6. Handwritten fonts — the two used for labels (--hand, --hand-sa)
      7. Headings font  — Outfit, self-hosted
-     8. Rough headings — ⚠ prototype: hand-drawn wobble on the big headings
+     8. Rough headings — hand-drawn wobble on every Outfit heading
 
    Page-specific styles live in their own files (portfolio.css, resume.css).
 
@@ -278,34 +278,26 @@ body::before,
 
 
 /* -----------------------------------------------------------------------------
-   8. ROUGH HEADINGS — ⚠ PROTOTYPE, being compared (js/site.js sets
-   data-rough on <html>: "edges", or "letters" for edges plus letters).
-   Edges: an SVG filter (added to the page by js/site.js) pushes the outlines
-   of the big headings a pixel or two with smooth noise, so straight strokes
-   and curves wobble like hand lettering. The two page titles get a stronger
-   version than the rest.
-   Letters: js/site.js also wraps each letter of those headings in a span
-   (.rl) with its own small lean, nudge and width (--r, --y, --x), so no two
-   letters are quite the same.
+   8. ROUGH HEADINGS — every heading set in Outfit gets slightly wobbly,
+   hand-lettered edges, like the map titles the site's look is drawn from.
+   An SVG filter pushes each heading's outline a pixel or two with smooth
+   noise, then softens and re-sharpens it so the edge stays clean. The
+   filters are in each page, just inside <body> (an SVG block with three
+   <filter>s), because a CSS filter can only point at one in the same page.
+   Three strengths, by size:
+     rough-lg  the page titles ("The Twin Cities in 50 Maps", "Get in touch")
+     rough-md  the name in the header, section headings, panel titles
+     rough-sm  small headings: tile titles, resume entries, basemap styles
+   To tune the wobble, edit the numbers in the <filter>s (they're the same in
+   all three pages): baseFrequency sets how long the waves are (smaller =
+   longer and gentler), scale how far the edges move, in px.
    ----------------------------------------------------------------------------- */
-:root[data-rough] :is(.brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2) {
-  filter: url(#rough-md);
-}
-:root[data-rough] :is(.hero h1, .ctitle) {
-  filter: url(#rough-lg);
-}
-.rw { display: inline-block; white-space: nowrap; }      /* a word: lines still break between words */
-.sr-only {                                               /* read by screen readers, not shown */
-  position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip-path: inset(50%); white-space: nowrap;
-}
-.rl {                                                    /* a letter */
-  display: inline-block;
-  transform: translateY(var(--y, 0)) rotate(var(--r, 0deg)) scaleX(var(--x, 1));
-  transform-origin: 50% 80%;
-}
-@media print, (prefers-contrast: more) {
-  :root[data-rough] :is(.brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2, .hero h1, .ctitle) { filter: none; }
+:is(.hero h1, .ctitle) { filter: url(#rough-lg); }
+:is(.brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2, .panel h3) { filter: url(#rough-md); }
+:is(.cap .ttl, .ent .org, .stylename, .plist h3) { filter: url(#rough-sm); }
+@media print, (prefers-contrast: more) {        /* crisp type for print and high contrast */
+  :is(.hero h1, .ctitle, .brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2,
+      .panel h3, .cap .ttl, .ent .org, .stylename, .plist h3) { filter: none; }
 }
 
 
