@@ -88,52 +88,88 @@
 
 
 /* =============================================================================
-   ⚠ TEMPORARY — label-font preview switch. Delete this whole block once a font
-   is chosen, and set --mono in css/site.css to it.
-   A panel above the lines switch sets the font for the small labels (--mono):
-   IBM Plex Mono as now, or one of the three handwritten candidates in
-   section 6 of site.css. Remembered in this browser between pages.
+   ⚠ TEMPORARY — label preview panel. Delete this whole block once decided, and
+   set the chosen font, case, weight, spacing and colour on the labels
+   (--mono in css/site.css, and the label rules in each stylesheet).
+   Rows: the labels' font (--mono: IBM Plex Mono, or one of the handwritten
+   candidates in section 6 of site.css), and their case, weight, extra
+   letter-spacing and colour (the colour of the normally grey labels). The
+   last four apply to whichever font is chosen. Each choice is remembered in
+   this browser between pages.
    ============================================================================= */
 (function () {
-  var FONTS = [
-    ['Mono', ''],
-    ['NSW ACT', '"Edu NSW ACT Foundation", "IBM Plex Mono", cursive'],
-    ['SA Beginner', '"Edu SA Beginner", "IBM Plex Mono", cursive'],
-    ['SA Hand', '"Edu SA Hand", "IBM Plex Mono", cursive']
+  var ROWS = [
+    { key: 'font', label: 'Labels:', store: 'font-preview', def: 'Mono', options: [
+      ['Mono', ''],
+      ['NSW ACT', '"Edu NSW ACT Foundation", "IBM Plex Mono", cursive'],
+      ['SA Beginner', '"Edu SA Beginner", "IBM Plex Mono", cursive'],
+      ['SA Hand', '"Edu SA Hand", "IBM Plex Mono", cursive'] ] },
+    { key: 'case', label: 'Case:', store: 'label-case', def: 'All caps', options: [
+      ['As set', ''], ['All caps', 'caps'] ] },
+    { key: 'weight', label: 'Weight:', store: 'label-weight', def: '500', options: [
+      ['400', '400'], ['500', '500'], ['600', '600'], ['700', '700'] ] },
+    { key: 'track', label: 'Tracking:', store: 'label-track', def: '+.03', options: [
+      ['Usual', ''], ['+.03', '0.03em'], ['+.06', '0.06em'], ['+.10', '0.1em'] ] },
+    { key: 'colour', label: 'Colour:', store: 'label-colour', def: 'Label ink', swatches: true, options: [
+      ['Grey (usual)', ''], ['Label ink', '#706A5C'], ['Umber', '#4A3324'],
+      ['Black', '#22201C'], ['Coral ink', '#A34527'] ] }
   ];
-  var KEY = 'font-preview';
   var root = document.documentElement;
-  var current = 'Mono';
-  try { current = localStorage.getItem(KEY) || 'Mono'; } catch (e) { /* no storage: fine */ }
-  function apply(label) {
-    var f = FONTS.filter(function (x) { return x[0] === label; })[0] || FONTS[0];
-    if (f[1]) root.style.setProperty('--mono', f[1]); else root.style.removeProperty('--mono');
-    if (f[1]) root.dataset.hand = ''; else delete root.dataset.hand;   // see site.css, section 6
-    current = f[0];
+  var state = {};
+  ROWS.forEach(function (r) {
+    var v = null;
+    try { v = localStorage.getItem(r.store); } catch (e) { /* no storage: fine */ }
+    state[r.key] = r.options.some(function (o) { return o[0] === v; }) ? v : r.def;
+  });
+
+  function value(key) {
+    var r = ROWS.filter(function (x) { return x.key === key; })[0];
+    return r.options.filter(function (o) { return o[0] === state[key]; })[0][1];
   }
-  apply(current);
+  function set(prop, attr, v) {          // a custom property + a data- flag, or neither
+    if (v) { root.style.setProperty(prop, v); root.dataset[attr] = ''; }
+    else { root.style.removeProperty(prop); delete root.dataset[attr]; }
+  }
+  function apply() {
+    var f = value('font');
+    if (f) root.style.setProperty('--mono', f); else root.style.removeProperty('--mono');
+    if (value('case')) root.dataset.lcase = value('case'); else delete root.dataset.lcase;
+    set('--lw', 'lw', value('weight'));
+    set('--lt', 'lt', value('track'));
+    set('--lc', 'lc', value('colour'));
+  }
+  apply();
 
   var panel = document.createElement('div');
-  panel.setAttribute('aria-label', 'Label font preview');
-  panel.style.cssText = 'position:fixed;left:12px;bottom:56px;z-index:999;display:flex;gap:4px;align-items:center;' +
-    'padding:6px 6px 6px 10px;background:#fff;border:1px solid #22201C;font:11px/1 "IBM Plex Mono",monospace;' +
+  panel.setAttribute('aria-label', 'Label preview');
+  panel.style.cssText = 'position:fixed;left:12px;bottom:56px;z-index:999;display:grid;gap:5px;' +
+    'padding:7px 8px 7px 10px;background:#fff;border:1px solid #22201C;font:11px/1 "IBM Plex Mono",monospace;' +
     'box-shadow:0 4px 14px rgba(0,0,0,.15)';
-  panel.appendChild(document.createTextNode('Labels:'));
-  FONTS.forEach(function (f) {
-    var b = document.createElement('button');
-    b.type = 'button'; b.textContent = f[0];
-    b._paint = function () {
-      var on = current === f[0];
-      b.style.cssText = 'cursor:pointer;padding:6px 8px;border:1px solid #22201C;font:inherit;' +
-        (on ? 'background:#22201C;color:#fff' : 'background:#fff;color:#22201C');
-    };
-    b.addEventListener('click', function () {
-      apply(f[0]);
-      try { localStorage.setItem(KEY, f[0]); } catch (e) { /* ignore */ }
-      [].forEach.call(panel.querySelectorAll('button'), function (x) { x._paint(); });
+  ROWS.forEach(function (r) {
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:4px;align-items:center';
+    var l = document.createElement('span'); l.textContent = r.label; l.style.width = '66px';
+    row.appendChild(l);
+    r.options.forEach(function (o) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.title = o[0];
+      if (!r.swatches) b.textContent = o[0];
+      b._paint = function () {
+        var on = state[r.key] === o[0];
+        b.style.cssText = 'cursor:pointer;font:inherit;border:1px solid #22201C;' + (r.swatches
+          ? 'width:22px;height:22px;padding:0;background:' + (o[1] || '#6B6355') + ';' +
+            'box-shadow:' + (on ? '0 0 0 2px #fff, 0 0 0 3px #22201C' : 'none')
+          : 'padding:6px 7px;' + (on ? 'background:#22201C;color:#fff' : 'background:#fff;color:#22201C'));
+      };
+      b.addEventListener('click', function () {
+        state[r.key] = o[0]; apply();
+        try { localStorage.setItem(r.store, o[0]); } catch (e) { /* ignore */ }
+        [].forEach.call(row.querySelectorAll('button'), function (x) { x._paint(); });
+      });
+      b._paint();
+      row.appendChild(b);
     });
-    b._paint();
-    panel.appendChild(b);
+    panel.appendChild(row);
   });
   document.body.appendChild(panel);
 })();

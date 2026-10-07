@@ -260,40 +260,41 @@ body::before,
   font-weight: 400 700; font-display: swap; size-adjust: 82%;
 }
 
-/* While a handwritten font is being previewed (js/site.js sets data-hand on
-   <html>), the labels set in it that were grey take the tone of the drawn
-   section breaks and pill outlines: --label-ink, a darker shade of --rule-ink
-   so the small text stays readable. The black ones stay black,
-   the coral ones (the current page in the nav, the book's "Out November 17",
-   Clear filters, Back to top, the resume's toolkit headings and award years)
-   stay coral, and labels on a coloured fill keep their white text. */
-:root[data-hand] :is(.brand-sub, .foot, .hero-meta, .tag, .empty, .award .quote footer,
-  .basemap-note, .inwild, .pcredit, .ent .meta, .cform label, .elsewhere .lbl) {
-  color: var(--label-ink);
-}
-:root[data-hand] :is(.pill[aria-pressed="true"], .jump a.on, .gcard[aria-expanded="true"] .chip) { color: #fff; }
-:root[data-hand] .panel .close:hover { color: var(--plate); }
-/* ...every label set in the handwritten font is in capitals, at weight 500
-   or more (the thin strokes of 400 get lost at these small sizes)... */
-:root[data-hand] :is(.brand-sub, .site nav a, .foot, .totop, .trio h2, .eyebrow, .hero-meta,
+/* Label styling, being compared (for whichever label font is chosen).
+   js/site.js sets these on <html> from the Labels panel:
+     data-lcase="caps"  every label in capitals
+     data-lw  + --lw    the labels' weight
+     data-lt  + --lt    extra letter-spacing, added to each label's usual amount
+     data-lc  + --lc    the colour of the labels that are normally grey (the
+                        black and coral ones keep theirs; labels on a coloured
+                        fill keep their white text) */
+:root[data-lcase="caps"] :is(.brand-sub, .site nav a, .foot, .totop, .trio h2, .eyebrow, .hero-meta,
   .pill, .fclear, .chip, .marker, .tag, .empty, .award .quote footer, .basemap-note,
   .inwild, .pcredit, .panel .close, .jump a, .kit h3, .ent .meta, .line .yr,
   .cform label, .send, .elsewhere .lbl) {
   text-transform: uppercase;
-  font-weight: 500;
 }
-/* ...and a little more widely spaced: each label's usual letter-spacing plus
-   .03em. Most use --track; the rest set their own. */
-:root[data-hand] { --track: .13em; }                       /* was .1em */
-:root[data-hand] :is(.site nav a, .totop, .send)       { letter-spacing: .10em; }   /* was .07em */
-:root[data-hand] :is(.pill, .jump a)                    { letter-spacing: .07em; }   /* was .04em */
-:root[data-hand] :is(.panel .close, .ent .meta)         { letter-spacing: .08em; }   /* was .05em */
-:root[data-hand] .marker                                { letter-spacing: .13em; }   /* was .1em */
-:root[data-hand] .tag                                   { letter-spacing: .11em; }   /* was .08em */
-:root[data-hand] .line .yr                              { letter-spacing: .06em; }   /* was .03em */
-:root[data-hand] .trio h2                               { letter-spacing: .04em; }   /* was .01em */
-:root[data-hand] :is(.foot, .hero-meta, .fclear, .chip, .empty, .basemap-note)
-                                                        { letter-spacing: .03em; }   /* was none */
+:root[data-lw] :is(.brand-sub, .site nav a, .foot, .totop, .trio h2, .eyebrow, .hero-meta,
+  .pill, .fclear, .chip, .marker, .tag, .empty, .award .quote footer, .basemap-note,
+  .inwild, .pcredit, .panel .close, .jump a, .kit h3, .ent .meta, .line .yr,
+  .cform label, .send, .elsewhere .lbl) {
+  font-weight: var(--lw);
+}
+:root[data-lc] :is(.brand-sub, .foot, .hero-meta, .tag, .empty, .award .quote footer,
+  .basemap-note, .inwild, .pcredit, .ent .meta, .cform label, .elsewhere .lbl) {
+  color: var(--lc);
+}
+/* tracking: each label's usual letter-spacing plus --lt. Most use --track;
+   the rest set their own, listed here with their usual amount */
+:root[data-lt] { --track: calc(.1em + var(--lt)); }
+:root[data-lt] :is(.site nav a, .totop, .send)  { letter-spacing: calc(.07em + var(--lt)); }
+:root[data-lt] :is(.pill, .jump a)              { letter-spacing: calc(.04em + var(--lt)); }
+:root[data-lt] :is(.panel .close, .ent .meta)   { letter-spacing: calc(.05em + var(--lt)); }
+:root[data-lt] .marker                          { letter-spacing: calc(.1em + var(--lt)); }
+:root[data-lt] .tag                             { letter-spacing: calc(.08em + var(--lt)); }
+:root[data-lt] .line .yr                        { letter-spacing: calc(.03em + var(--lt)); }
+:root[data-lt] .trio h2                         { letter-spacing: calc(.01em + var(--lt)); }
+:root[data-lt] :is(.foot, .hero-meta, .fclear, .chip, .empty, .basemap-note) { letter-spacing: var(--lt); }
 
 
 /* -----------------------------------------------------------------------------
