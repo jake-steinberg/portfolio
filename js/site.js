@@ -144,12 +144,18 @@
    decided (and, to keep Outfit, set --display in css/site.css to it and
    fold section 7's weights into the page stylesheets).
    A panel above the other switches sets the headings' font (--display):
-   Inknut Antiqua as now, or Outfit (section 7 of site.css).
+   Inknut Antiqua as now, or one of Outfit's variants (section 7 of
+   site.css: regular, heavy, light, caps, italic).
    ============================================================================= */
 (function () {
-  var FONTS = [
-    ['Inknut', ''],
-    ['Outfit', '"Outfit", system-ui, sans-serif']
+  var OUTFIT = '"Outfit", system-ui, sans-serif';
+  var FONTS = [            // [button label, font, variant name for site.css]
+    ['Inknut', '', ''],
+    ['Outfit', OUTFIT, 'regular'],
+    ['Heavy', OUTFIT, 'heavy'],
+    ['Light', OUTFIT, 'light'],
+    ['Caps', OUTFIT, 'caps'],
+    ['Italic', OUTFIT, 'italic']
   ];
   var KEY = 'display-preview';
   var root = document.documentElement;
@@ -158,7 +164,7 @@
   function apply(label) {
     var f = FONTS.filter(function (x) { return x[0] === label; })[0] || FONTS[0];
     if (f[1]) root.style.setProperty('--display', f[1]); else root.style.removeProperty('--display');
-    if (f[1]) root.dataset.display = ''; else delete root.dataset.display;   // see site.css, section 7
+    if (f[1]) root.dataset.display = f[2]; else delete root.dataset.display;   // see site.css, section 7
     current = f[0];
   }
   apply(current);

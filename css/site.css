@@ -300,20 +300,40 @@ body::before,
    headings: a geometric sans, set heavy, after the bold mid-century lettering
    of the map titles it's modelled on. Self-hosted from css/fonts/outfit/
    (SIL Open Font License; the licence is in that folder). One variable file
-   covers every weight. While it's being previewed (js/site.js sets
-   data-display on <html>), headings are set at 600 and the name in the
-   header at 700, instead of Inknut's 400 and 700.
+   covers every weight. While it's being previewed, js/site.js sets
+   data-display on <html> to one of these variants:
+     regular  headings 600, the name in the header 700
+     heavy    800 / 900
+     light    400 / 600
+     caps     700 / 800, in capitals and a little more widely spaced, like
+              the map's title lettering
+     italic   600 / 700, slanted. Outfit has no italic of its own, so this
+              is the upright letters slanted by the browser
+   (Inknut, for comparison, is 400 with the name at 700.)
    ----------------------------------------------------------------------------- */
 @font-face {
   font-family: "Outfit";
   src: url(fonts/outfit/Outfit-VariableFont_wght.ttf) format("truetype");
   font-weight: 100 900; font-display: swap;
 }
+:root[data-display]           { --head-weight: 600; --name-weight: 700; }
+:root[data-display="heavy"]   { --head-weight: 800; --name-weight: 900; }
+:root[data-display="light"]   { --head-weight: 400; --name-weight: 600; }
+:root[data-display="caps"]    { --head-weight: 700; --name-weight: 800; }
 :root[data-display] :is(.hero h1, .sec-head h2, .cap .ttl, .plist h3, .panel h3, .stylename,
   .rsec > h2, .ent .org, .ctitle, .csec > h2, .freelance h2) {
-  font-weight: 600;
+  font-weight: var(--head-weight);
 }
-:root[data-display] .brand-name { font-weight: 700; }
+:root[data-display] .brand-name { font-weight: var(--name-weight); }
+:root[data-display="caps"] :is(.brand-name, .hero h1, .sec-head h2, .cap .ttl, .plist h3,
+  .panel h3, .stylename, .rsec > h2, .ent .org, .ctitle, .csec > h2, .freelance h2) {
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+:root[data-display="italic"] :is(.brand-name, .hero h1, .sec-head h2, .cap .ttl, .plist h3,
+  .panel h3, .stylename, .rsec > h2, .ent .org, .ctitle, .csec > h2, .freelance h2) {
+  font-style: italic;
+}
 
 
 /* -----------------------------------------------------------------------------
