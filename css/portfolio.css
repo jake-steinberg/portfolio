@@ -25,8 +25,8 @@ body { overflow-anchor: none; }
   padding-block: clamp(28px, 3.5vw, 48px);
   border-bottom: 1px solid var(--rule);
 }
-.trio h2 {                       /* the small mono headings: "Hi, I'm Jake." etc. */
-  font-family: var(--mono); font-weight: 500; font-size: 15px; letter-spacing: .01em;
+.trio h2 {                       /* the small handwritten headings: "Howdy!" etc. */
+  font-family: var(--hand-sa); font-weight: 500; font-size: 19.5px; letter-spacing: .04em;
   margin: 0 0 10px; color: var(--ink);
 }
 .trio p {
