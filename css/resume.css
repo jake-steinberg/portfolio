@@ -77,7 +77,7 @@
   margin: 0;
   font-family: var(--display); font-weight: 800; line-height: 1.15;
   letter-spacing: .06em; color: var(--head);
-  font-size: clamp(1.15rem, .9rem + .9vw, 1.6rem);
+  font-size: clamp(1.3rem, 1rem + 1vw, 1.8rem);     /* the longest name, "Experience", fills ~90% of the 186px column */
   text-wrap: balance;
 }
 
