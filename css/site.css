@@ -269,23 +269,24 @@ body::before,
      data-lt  + --lt    extra letter-spacing, added to each label's usual amount
      data-ls  + --ls    a size multiplier, on each label's usual size
      (Labels already decided are left out of these lists, so the panel
-     doesn't change them: the header subtitle, nav and intro headings.)
+     doesn't change them: the header subtitle, nav, intro headings, and the
+     book's release line and details.)
      data-lc  + --lc    the colour of the labels that are normally grey (the
                         black and coral ones keep theirs; labels on a coloured
                         fill keep their white text) */
-:root[data-lcase="caps"] :is(.foot, .totop, .eyebrow, .hero-meta,
+:root[data-lcase="caps"] :is(.foot, .totop,
   .pill, .fclear, .chip, .marker, .tag, .empty, .award .quote footer, .basemap-note,
   .inwild, .pcredit, .panel .close, .jump a, .kit h3, .ent .meta, .line .yr,
   .cform label, .send, .elsewhere .lbl) {
   text-transform: uppercase;
 }
-:root[data-lw] :is(.foot, .totop, .eyebrow, .hero-meta,
+:root[data-lw] :is(.foot, .totop,
   .pill, .fclear, .chip, .marker, .tag, .empty, .award .quote footer, .basemap-note,
   .inwild, .pcredit, .panel .close, .jump a, .kit h3, .ent .meta, .line .yr,
   .cform label, .send, .elsewhere .lbl) {
   font-weight: var(--lw);
 }
-:root[data-lc] :is(.foot, .hero-meta, .tag, .empty, .award .quote footer,
+:root[data-lc] :is(.foot, .tag, .empty, .award .quote footer,
   .basemap-note, .inwild, .pcredit, .ent .meta, .cform label, .elsewhere .lbl) {
   color: var(--lc);
 }
@@ -298,12 +299,12 @@ body::before,
 :root[data-lt] .marker                          { letter-spacing: calc(.1em + var(--lt)); }
 :root[data-lt] .tag                             { letter-spacing: calc(.08em + var(--lt)); }
 :root[data-lt] .line .yr                        { letter-spacing: calc(.03em + var(--lt)); }
-:root[data-lt] :is(.foot, .hero-meta, .fclear, .chip, .empty, .basemap-note) { letter-spacing: var(--lt); }
+:root[data-lt] :is(.foot, .fclear, .chip, .empty, .basemap-note) { letter-spacing: var(--lt); }
 /* size: each label's usual size times --ls, grouped by usual size */
 :root[data-ls] :is(.foot, .fclear, .marker, .tag, .award .quote footer, .inwild,
   .pcredit, .panel .close, .kit h3, .ent .meta, .cform label, .elsewhere .lbl) { font-size: calc(11px * var(--ls)); }
 :root[data-ls] :is(.totop, .pill, .jump a, .line .yr)                          { font-size: calc(11.5px * var(--ls)); }
-:root[data-ls] :is(.eyebrow, .hero-meta, .basemap-note, .send)                { font-size: calc(12px * var(--ls)); }
+:root[data-ls] :is(.basemap-note, .send)                                      { font-size: calc(12px * var(--ls)); }
 :root[data-ls] .empty   { font-size: calc(13px * var(--ls)); }
 :root[data-ls] .chip    { font-size: calc(14px * var(--ls)); }
 

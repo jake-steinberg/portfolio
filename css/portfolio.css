@@ -79,7 +79,7 @@ body { overflow-anchor: none; }
 /* "OUT NOVEMBER 17 · PREORDERS OPEN" */
 .eyebrow {
   display: flex; align-items: center; gap: 10px;
-  font-family: var(--mono); font-size: 12px; letter-spacing: var(--track);
+  font-family: var(--hand); font-weight: 500; font-size: 14.4px; letter-spacing: .16em;
   text-transform: uppercase; color: var(--accent-ink);
 }
 
@@ -95,7 +95,8 @@ body { overflow-anchor: none; }
 }
 .hero-meta {                     /* Belt Publishing · 8×8 hardback · $30.00 */
   display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px;
-  font-family: var(--mono); font-size: 12px; color: var(--muted);
+  font-family: var(--hand); font-weight: 500; font-size: 13.2px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--label-ink);
 }
 .hero-meta span { white-space: nowrap; }
 
