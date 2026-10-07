@@ -8,7 +8,7 @@
      3. Sticky header  — name, subtitle and nav; condenses on scroll (js/site.js)
      4. Footer         — credit, "Last updated", Back to top
      5. Paper texture  — the faint grain and mottling on the page background
-     6. Handwritten fonts — candidates to replace --mono (being compared)
+     6. Handwritten fonts — the two used for labels (--hand, --hand-sa)
      7. Headings font  — Outfit, self-hosted
 
    Page-specific styles live in their own files (portfolio.css, resume.css).
@@ -239,13 +239,15 @@ body::before,
 
 
 /* -----------------------------------------------------------------------------
-   6. HANDWRITTEN FONTS — three candidates to replace IBM Plex Mono (--mono)
-   for the small labels: nav, tags, pills, dates and so on. Self-hosted from
-   css/fonts/edu/ (SIL Open Font License; the licences are in that folder).
-   Each is one variable file covering weights 400–700. A browser only
-   downloads a font when the page uses it, so these cost nothing until one
-   is picked. size-adjust scales each so it sits at about the same size as
-   Plex Mono did, without touching the sizes set elsewhere.
+   6. HANDWRITTEN FONTS — for labels, in place of IBM Plex Mono (--mono):
+     Edu NSW ACT Foundation (--hand): the header subtitle, nav, the book's
+       release line and details, tags and filter pills
+     Edu SA Hand (--hand-sa): the intro headings ("Howdy!" etc.)
+   Other labels (footer, form labels, resume dates…) are still in --mono.
+   Self-hosted from css/fonts/edu/ (SIL Open Font License; the licences are
+   in that folder). Each is one variable file covering weights 400–700.
+   size-adjust scales each so it sits at about the same size as Plex Mono,
+   so the font sizes set elsewhere read as they did.
    ----------------------------------------------------------------------------- */
 @font-face {
   font-family: "Edu NSW ACT Foundation";
@@ -253,59 +255,10 @@ body::before,
   font-weight: 400 700; font-display: swap; size-adjust: 108%;
 }
 @font-face {
-  font-family: "Edu SA Beginner";
-  src: url(fonts/edu/EduSABeginner-VariableFont_wght.ttf) format("truetype");
-  font-weight: 400 700; font-display: swap; size-adjust: 108%;
-}
-@font-face {
   font-family: "Edu SA Hand";
   src: url(fonts/edu/EduSAHand-VariableFont_wght.ttf) format("truetype");
   font-weight: 400 700; font-display: swap; size-adjust: 82%;
 }
-
-/* Label styling, being compared (for whichever label font is chosen).
-   js/site.js sets these on <html> from the Labels panel:
-     data-lcase="caps"  every label in capitals
-     data-lw  + --lw    the labels' weight
-     data-lt  + --lt    extra letter-spacing, added to each label's usual amount
-     data-ls  + --ls    a size multiplier, on each label's usual size
-     (Labels already decided are left out of these lists, so the panel
-     doesn't change them: the header subtitle, nav, intro headings, the
-     book's release line and details, and the tags and filter pills.)
-     data-lc  + --lc    the colour of the labels that are normally grey (the
-                        black and coral ones keep theirs; labels on a coloured
-                        fill keep their white text) */
-:root[data-lcase="caps"] :is(.foot, .totop, .fclear, .chip, .marker, .empty, .award .quote footer, .basemap-note,
-  .inwild, .pcredit, .panel .close, .jump a, .kit h3, .ent .meta, .line .yr,
-  .cform label, .send, .elsewhere .lbl) {
-  text-transform: uppercase;
-}
-:root[data-lw] :is(.foot, .totop, .fclear, .chip, .marker, .empty, .award .quote footer, .basemap-note,
-  .inwild, .pcredit, .panel .close, .jump a, .kit h3, .ent .meta, .line .yr,
-  .cform label, .send, .elsewhere .lbl) {
-  font-weight: var(--lw);
-}
-:root[data-lc] :is(.foot, .empty, .award .quote footer,
-  .basemap-note, .inwild, .pcredit, .ent .meta, .cform label, .elsewhere .lbl) {
-  color: var(--lc);
-}
-/* tracking: each label's usual letter-spacing plus --lt. Most use --track;
-   the rest set their own, listed here with their usual amount */
-:root[data-lt] { --track: calc(.1em + var(--lt)); }
-:root[data-lt] :is(.totop, .send)               { letter-spacing: calc(.07em + var(--lt)); }
-:root[data-lt] .jump a                         { letter-spacing: calc(.04em + var(--lt)); }
-:root[data-lt] :is(.panel .close, .ent .meta)   { letter-spacing: calc(.05em + var(--lt)); }
-:root[data-lt] .marker                          { letter-spacing: calc(.1em + var(--lt)); }
-:root[data-lt] .line .yr                        { letter-spacing: calc(.03em + var(--lt)); }
-:root[data-lt] :is(.foot, .fclear, .chip, .empty, .basemap-note) { letter-spacing: var(--lt); }
-/* size: each label's usual size times --ls, grouped by usual size */
-:root[data-ls] :is(.foot, .fclear, .marker, .award .quote footer, .inwild,
-  .pcredit, .panel .close, .kit h3, .ent .meta, .cform label, .elsewhere .lbl) { font-size: calc(11px * var(--ls)); }
-:root[data-ls] :is(.totop, .jump a, .line .yr)                          { font-size: calc(11.5px * var(--ls)); }
-:root[data-ls] :is(.basemap-note, .send)                                      { font-size: calc(12px * var(--ls)); }
-:root[data-ls] .empty   { font-size: calc(13px * var(--ls)); }
-:root[data-ls] .chip    { font-size: calc(14px * var(--ls)); }
-
 
 /* -----------------------------------------------------------------------------
    7. HEADINGS FONT — Outfit (--display): a geometric sans, set heavy, after
