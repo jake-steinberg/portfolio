@@ -34,8 +34,8 @@
   /* accent — the cover's coral (St. Paul) */
   --accent:      #D4745A;   /* fills, rules, markers. Too light for text (2.7:1). */
   --accent-ink:  #A34527;   /* darker coral that passes contrast for text and links */
-  --accent-soft: #E4B3A0;
-  --head:        #4A3324;   /* headings: a warm umber, like the map's ink */   /* pale coral for the thick link underlines */
+  --accent-soft: #E4B3A0;   /* pale coral for the thick link underlines */
+  --head:        #4A3324;   /* headings: a warm umber, like the map's ink */
   --teal:        #3F7A8C;   /* the cover's teal (Minneapolis) — reserved for later use */
 
   /* rules and dividers */
