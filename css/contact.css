@@ -14,7 +14,8 @@
 /* the page title, above the sections */
 .ctitle {
   margin: 0; padding-top: clamp(30px, 4vw, 60px);
-  font-family: var(--display); font-weight: 400; line-height: 1.12;
+  font-family: var(--display); font-weight: 800; line-height: 1.12;
+  letter-spacing: .03em; color: var(--head);
   font-size: clamp(2rem, 1.4rem + 2.6vw, 3.4rem);
 }
 .csec {
@@ -24,7 +25,8 @@
 .csec:first-of-type { border-top: 0; }
 .csec > h2 {
   margin: 0 0 clamp(14px, 2vw, 22px);
-  font-family: var(--display); font-weight: 400; line-height: 1.12;
+  font-family: var(--display); font-weight: 800; line-height: 1.12;
+  letter-spacing: .06em; color: var(--head);
 }
 .csec > h2 { font-size: clamp(1.3rem, 1rem + 1.2vw, 1.9rem); }
 
@@ -121,7 +123,8 @@
    ----------------------------------------------------------------------------- */
 .freelance h2 {
   margin: 0 0 clamp(14px, 2vw, 20px);
-  font-family: var(--display); font-weight: 400; line-height: 1.12;
+  font-family: var(--display); font-weight: 800; line-height: 1.12;
+  letter-spacing: .06em; color: var(--head);
   font-size: clamp(1.3rem, 1rem + 1.2vw, 1.9rem);
 }
 .freelance p { margin: 0 0 16px; font-size: 16.5px; line-height: 1.6; }
