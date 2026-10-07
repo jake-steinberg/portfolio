@@ -185,8 +185,9 @@ body { overflow-anchor: none; }
   align-items: start;
   padding-bottom: 10px;
 }
+/* phones: one column, the tiles one after another at full width */
 @media (max-width: 520px) {
-  .grid { --col-gap: 16px; --row-gap: 22px; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); }
+  .grid { --col-gap: 16px; --row-gap: 30px; grid-template-columns: minmax(0, 1fr); }
 }
 
 /* each tile is a <button> — clicking unfolds its panel */
@@ -200,7 +201,7 @@ body { overflow-anchor: none; }
    rows tall. Its picture fills the height of both rows, so its bottom and
    its title line up with the tiles beside it; the picture is cropped to fit
    (a little taller than 5:4). Where nothing sits beside it (a two-column
-   phone grid) it's simply 5:4, and on a one-column grid it's an ordinary tile. */
+   grid) it's simply 5:4, and on phones' one-column grid it's an ordinary tile. */
 .gcard.big {
   grid-column: span 2; grid-row: span 2; align-self: stretch;
   display: flex; flex-direction: column;
@@ -208,7 +209,7 @@ body { overflow-anchor: none; }
 .gcard.big .gframe { flex: 1 0 auto; }     /* at least 5:4, taller to fill both rows */
 .gcard.big .gframe img,
 .gcard.big .gframe video { position: absolute; inset: 0; }
-@media (max-width: 343px) {
+@media (max-width: 520px) {
   .gcard.big { grid-column: auto; grid-row: auto; display: block; }
 }
 
@@ -285,13 +286,8 @@ body { overflow-anchor: none; }
 .tag::after { content: "\00B7"; margin-left: 6px; opacity: .5; }   /* the · between tags */
 .tag:last-child::after { content: ""; }
 
-/* phones: two small tiles side by side, so keep the captions compact */
-@media (max-width: 520px) {
-  .cap { margin-top: 9px; }
-  .cap .ttl { font-size: 15px; }
-  .tags { gap: 5px; margin-top: 5px; }
-  .tag { font-size: 11px; }
-}
+/* (on phones the tiles are full width, one per row, so titles and tags keep
+   their usual size) */
 
 /* shown when no project has every selected tag */
 .empty { padding: 50px 0; text-align: center; color: var(--label-ink); font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 13px; }
