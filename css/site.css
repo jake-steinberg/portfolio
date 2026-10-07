@@ -42,8 +42,9 @@
   --rule:        #D9D0BC;   /* section dividers */
   --rule-soft:   #E6DECC;   /* lighter dividers inside a section */
   --rule-row:    #C8BFAB;   /* dividers between resume entries (Awards & honors keeps --rule-soft) */
-  --rule-ink:    #8C8473;   /* hand-drawn section breaks and pill outlines (css/ink.css) */
-  --label-ink:   #706A5C;   /* --rule-ink's tone, dark enough for small text (4.5:1 on the page) */
+  --rule-ink:    #8C8473;   /* hand-drawn section breaks (css/ink.css) */
+  --label-ink:   #706A5C;   /* --rule-ink's tone, dark enough for small text (4.5:1 on the page):
+                               grey labels, and the pills' text and drawn outlines */
 
   /* type: display sans for headings / reading serif / mono for labels and data */
   --display: "Outfit", system-ui, sans-serif;   /* headings: a heavy geometric sans (section 7) */

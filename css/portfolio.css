@@ -152,7 +152,7 @@ body { overflow-anchor: none; }
   font-family: var(--hand); font-weight: 600; font-size: 11.5px; letter-spacing: .04em;
   text-transform: uppercase;
   padding: 5px 12px; cursor: pointer;
-  background: transparent; color: var(--rule-ink);     /* the same as the pill's drawn outline */
+  background: transparent; color: var(--label-ink);    /* the same as the pill's drawn outline (css/ink.css) */
   border: 1px solid var(--rule); border-radius: 999px;
   transition: background .14s, border-color .14s, color .14s;
 }

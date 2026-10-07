@@ -328,11 +328,12 @@
    Each outline is two images, the left and right halves, each a rounded end
    with a long straight run. Each is shown over half the button and scaled to
    its height, so the ends stay round whatever the pill's size; the straight
-   runs meet in the middle. Pale ink at rest, dark on hover, coral when on.
+   runs meet in the middle. --label-ink at rest (the pill text matches it, and
+   is dark enough to read at its size), dark on hover, coral when on.
    ----------------------------------------------------------------------------- */
 .pill, .jump a {
   border-color: transparent;
-  background-image: url(../img/strokes/pill-left-rule-ink.svg), url(../img/strokes/pill-right-rule-ink.svg);
+  background-image: url(../img/strokes/pill-left-label-ink.svg), url(../img/strokes/pill-right-label-ink.svg);
   background-repeat: no-repeat;
   background-size: 50% 100%;
   background-position: left center, right center;
