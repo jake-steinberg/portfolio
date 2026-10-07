@@ -192,7 +192,7 @@ a { color: inherit; }
   border-top: 1px solid var(--rule);
   display: flex; flex-wrap: wrap; gap: 10px 26px;
   justify-content: space-between; align-items: baseline;
-  font-family: var(--hand); font-weight: 600; font-size: 11px; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 600; font-size: 13px; color: var(--label-ink);   /* mixed case reads small in this font */
 }
 .foot .credit { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 
@@ -200,7 +200,7 @@ a { color: inherit; }
   display: inline-block;
   font-family: var(--hand); font-weight: 600; font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase;
   color: var(--accent-ink); text-decoration: none;
-  border-bottom: 1px solid var(--accent); padding-bottom: 1px;
+  border-bottom: 1px solid var(--accent); padding-block: 5px 2px;   /* at least 24px tall, to tap */
   transition: transform .15s, color .15s;
 }
 .totop:hover { color: var(--ink); border-bottom-color: var(--ink); transform: translateY(-2px); }
@@ -232,7 +232,7 @@ body::before,
 }
 
 /* no texture when printing, or for visitors who ask for more contrast */
-@media print, (prefers-contrast: more) {
+@media print, (prefers-contrast: more), (forced-colors: active) {
   body::before, .site::before, .jump::before { display: none; }
   :root { --page: var(--bg); }            /* back to the plain cream */
 }
@@ -244,13 +244,14 @@ body::before,
    release line and details, the footer, buttons, badges, form labels, the
    resume's jump bar, dates and years — and the intro headings ("Howdy!" etc.).
    Self-hosted from css/fonts/edu/ (SIL Open Font License; the licence is in
-   that folder). One variable file covers weights 400–700. size-adjust scales
+   that folder): one variable WOFF2 covering weights 400–700, trimmed to the
+   characters the site uses by tools/subset-fonts.sh. size-adjust scales
    it down so its tall capitals sit at about the size the labels were drawn
    for, without touching the font sizes set elsewhere.
    ----------------------------------------------------------------------------- */
 @font-face {
   font-family: "Edu SA Hand";
-  src: url(fonts/edu/EduSAHand-VariableFont_wght.ttf) format("truetype");
+  src: url(fonts/edu/EduSAHand.woff2) format("woff2");
   font-weight: 400 700; font-display: swap; size-adjust: 82%;
 }
 
@@ -258,14 +259,15 @@ body::before,
    7. HEADINGS FONT — Outfit (--display): a geometric sans, set heavy, after
    the bold mid-century lettering of the map titles the site's look is drawn
    from. Self-hosted from css/fonts/outfit/ (SIL Open Font License; the
-   licence is in that folder); one variable file covers every weight.
+   licence is in that folder): one variable WOFF2 covering every weight,
+   trimmed by tools/subset-fonts.sh.
    Each heading sets its own weight, spacing and colour where it's styled:
    800 (the name in the header, 900), letter-spacing .06em (tile titles,
    "Get in touch" and the basemap style names .03em), in --head (umber).
    ----------------------------------------------------------------------------- */
 @font-face {
   font-family: "Outfit";
-  src: url(fonts/outfit/Outfit-VariableFont_wght.ttf) format("truetype");
+  src: url(fonts/outfit/Outfit.woff2) format("woff2");
   font-weight: 100 900; font-display: swap;
 }
 
@@ -285,12 +287,20 @@ body::before,
    all three pages): baseFrequency sets how long the waves are (smaller =
    longer and gentler), scale how far the edges move, in px.
    ----------------------------------------------------------------------------- */
-:is(.hero h1, .ctitle) { filter: url(#rough-lg); }
+:is(.hero h2, .ctitle) { filter: url(#rough-lg); }
 :is(.brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2, .panel h3) { filter: url(#rough-md); }
 :is(.cap .ttl, .ent .org, .stylename, .plist h3) { filter: url(#rough-sm); }
-@media print, (prefers-contrast: more) {        /* crisp type for print and high contrast */
-  :is(.hero h1, .ctitle, .brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2,
+@media print, (prefers-contrast: more), (forced-colors: active) {        /* crisp type for print and high contrast */
+  :is(.hero h2, .ctitle, .brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2,
       .panel h3, .cap .ttl, .ent .org, .stylename, .plist h3) { filter: none; }
+}
+
+
+/* read by screen readers and search engines, not shown (e.g. a page's main
+   heading where the design doesn't show one) */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
 }
 
 

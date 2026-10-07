@@ -25,11 +25,12 @@
    Left plain on purpose: keyboard focus rings, which read best crisp. (The
    clip described in section 3 would cut a focus ring off, so it's lifted
    while a clipped link or button has keyboard focus.) Printing and the
-   "more contrast" setting also keep the plain lines (everything below only
-   applies on screens, when no extra contrast is asked for).
+   "more contrast" setting also keep the plain lines, as does Windows'
+   high-contrast mode, which would strip these image-drawn lines (everything
+   below only applies on screens, with no extra contrast or forced colours).
    ============================================================================= */
 
-@media screen and (prefers-contrast: no-preference) {
+@media screen and (prefers-contrast: no-preference) and (forced-colors: none) {
 
 /* -----------------------------------------------------------------------------
    1. SECTION BREAKS

@@ -83,7 +83,7 @@ body { overflow-anchor: none; }
   text-transform: uppercase; color: var(--accent-ink);
 }
 
-.hero h1 {
+.hero h2 {
   font-family: var(--display); font-weight: 800; line-height: 1.1;
   letter-spacing: .06em; color: var(--head);
   font-size: clamp(2rem, 1.2rem + 3vw, 3.4rem);
@@ -127,7 +127,7 @@ body { overflow-anchor: none; }
 }
 @media (max-width: 640px) {      /* phone */
   .hero { grid-template-columns: 1fr; gap: 22px; }
-  .hero h1 { margin-top: 12px; }
+  .hero h2 { margin-top: 12px; }
 }
 
 
@@ -245,7 +245,7 @@ body { overflow-anchor: none; }
 .gcard:focus-visible .chip { opacity: 1; transform: none; }
 
 /* open state */
-.gcard[aria-expanded="true"] .chip { opacity: 1; transform: none; background: var(--accent); color: #fff; }
+.gcard[aria-expanded="true"] .chip { opacity: 1; transform: none; background: var(--accent-ink); color: #fff; }
 .gcard[aria-expanded="true"] .gframe {
   border-color: var(--accent);
   box-shadow: var(--shadow-lift), 0 0 0 2px var(--accent);
@@ -255,14 +255,14 @@ body { overflow-anchor: none; }
 .marker {
   position: absolute; top: 0; left: 0; z-index: 2;
   font-family: var(--hand); font-weight: 600; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-  background: var(--accent); color: #fff; padding: 4px 8px;
+  background: var(--accent-ink); color: #fff; padding: 4px 8px;   /* darker coral: white text reads at 5.6:1 */
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
 
 /* smaller on a panel's pictures ({ src, inBook: true } in projects.js),
    and in the top right corner */
 .pshots .marker {
-  font-size: 9px; padding: 3px 6px;
+  font-size: 10.5px; padding: 3px 7px;
   left: auto; right: 0;
   border-right: 0; border-left: 1px solid var(--stroke);
 }
@@ -467,7 +467,7 @@ body { overflow-anchor: none; }
 
 /* a panel's links: "Read the story ↗", "In the book ↗" (styled in LINKS above) */
 .plinks { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 26px; }
-.plinks a { font-size: 15px; line-height: 1.4; }
+.plinks a { font-size: 15px; line-height: 1.4; padding-block: 2px; }   /* at least 24px tall, to tap */
 
 /* stories as cards (links: [{ label, url, image }] in projects.js): each
    story's sharing picture at its 1.91:1 shape, headline underneath, two to a row */

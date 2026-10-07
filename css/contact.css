@@ -75,10 +75,10 @@
   justify-self: start; cursor: pointer;
   padding: 11px 22px;
   font-family: var(--hand); font-weight: 600; font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
-  background: var(--accent); color: #fff; border: 1px solid var(--stroke);
+  background: var(--accent-ink); color: #fff; border: 1px solid var(--stroke);   /* darker coral: white text reads at 5.6:1 */
   transition: background .15s;
 }
-.send:hover { background: var(--accent-ink); }
+.send:hover { background: color-mix(in srgb, var(--accent-ink) 78%, #000); }
 .send[disabled] { opacity: .6; cursor: progress; }
 
 /* "Thanks — your message is on its way" / "Something went wrong…" */
