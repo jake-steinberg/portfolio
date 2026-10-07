@@ -55,8 +55,8 @@
 .cform .lede { margin: 0 0 4px; font-size: 16.5px; line-height: 1.55; }
 .cform label {
   display: grid; gap: 7px;
-  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  font-family: var(--hand); font-weight: 600; font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--label-ink);
 }
 .cform input, .cform textarea {
   width: 100%; padding: 11px 13px;
@@ -74,7 +74,7 @@
 .send {
   justify-self: start; cursor: pointer;
   padding: 11px 22px;
-  font-family: var(--mono); font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
+  font-family: var(--hand); font-weight: 600; font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
   background: var(--accent); color: #fff; border: 1px solid var(--stroke);
   transition: background .15s;
 }
@@ -105,8 +105,8 @@
   .elsewhere li { padding-bottom: 0; }
 }
 .elsewhere .lbl {
-  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  font-family: var(--hand); font-weight: 600; font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--label-ink);
 }
 .elsewhere a, .freelance a {
   justify-self: start; font-size: 16.5px; color: var(--ink); text-decoration: none;

@@ -161,7 +161,7 @@ body { overflow-anchor: none; }
 
 .fclear {                        /* "Clear filters" — only shown while a tag is selected */
   margin-left: auto; padding: 5px;
-  font-family: var(--mono); font-size: 11px;
+  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 11px;
   background: none; border: 0; color: var(--accent-ink);
   cursor: pointer; text-decoration: underline;
 }
@@ -236,7 +236,7 @@ body { overflow-anchor: none; }
   width: 24px; height: 24px;
   display: flex; align-items: center; justify-content: center;
   background: var(--bg); border: 1px solid var(--stroke);
-  font-family: var(--mono); font-size: 14px; line-height: 1; color: var(--ink);
+  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 14px; line-height: 1; color: var(--ink);
   opacity: 0; transform: translateY(3px);
   transition: opacity .16s, transform .16s, background .16s;
 }
@@ -253,7 +253,7 @@ body { overflow-anchor: none; }
 /* "IN THE BOOK" corner marker (inBook: true in projects.js) */
 .marker {
   position: absolute; top: 0; left: 0; z-index: 2;
-  font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  font-family: var(--hand); font-weight: 600; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
   background: var(--accent); color: #fff; padding: 4px 8px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
@@ -294,7 +294,7 @@ body { overflow-anchor: none; }
 }
 
 /* shown when no project has every selected tag */
-.empty { padding: 50px 0; text-align: center; color: var(--muted); font-family: var(--mono); font-size: 13px; }
+.empty { padding: 50px 0; text-align: center; color: var(--label-ink); font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 13px; }
 
 /* the plain list of projects inside the grid, written by
    tools/build-project-list.mjs. It's for search engines, AI tools and anyone
@@ -465,8 +465,8 @@ body { overflow-anchor: none; }
 }
 .award .quote footer {
   margin-top: 7px; font-style: normal;
-  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  font-family: var(--hand); font-weight: 600; font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--label-ink);
 }
 
 /* a panel's links: "Read the story ↗", "In the book ↗" (styled in LINKS above) */
@@ -597,7 +597,7 @@ body { overflow-anchor: none; }
 .basemap-note {                        /* "Loading…", or a style that isn't uploaded yet */
   position: absolute; inset: 0; margin: 0; padding: 20px;
   display: flex; align-items: center; justify-content: center; text-align: center;
-  font-family: var(--mono); font-size: 12px; color: var(--muted);
+  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 12px; color: var(--label-ink);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   border: 1px solid var(--stroke);
 }
@@ -612,15 +612,15 @@ body { overflow-anchor: none; }
 .styleabout { font-size: 15px; line-height: 1.55; margin: 0 0 16px; max-width: var(--measure); }
 .inwild {
   margin: 0 0 8px;
-  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  font-family: var(--hand); font-weight: 600; font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--label-ink);
 }
 
 /* credit under a panel's pictures (credit: in projects.js), e.g. "Photos by …" */
 .pcredit {
   margin: 8px 0 0;
-  font-family: var(--mono); font-size: var(--label); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  font-family: var(--hand); font-weight: 600; font-size: var(--label); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--label-ink);
 }
 /* a picture with a story ({ src, story, label } in projects.js): the picture,
    then its label underneath as a link to the story, styled like the story
@@ -655,7 +655,7 @@ body { overflow-anchor: none; }
   position: absolute; top: 12px; right: 12px; z-index: 3;
   padding: 6px 11px; line-height: 1; cursor: pointer;
   background: var(--bg); border: 1px solid var(--stroke); color: var(--ink);
-  font-family: var(--mono); font-size: 11px; letter-spacing: .05em;
+  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: .05em;
 }
 .panel .close:hover { background: var(--ink); color: var(--plate); }
 

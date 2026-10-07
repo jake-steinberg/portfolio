@@ -49,7 +49,7 @@
   /* type: display sans for headings / reading serif / mono for labels and data */
   --display: "Outfit", system-ui, sans-serif;   /* headings: a heavy geometric sans (section 7) */
   --text:    "Source Serif 4", Georgia, serif;
-  --mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;   /* not used now: labels are --hand; Plex Mono isn't loaded */
   --hand:    "Edu NSW ACT Foundation", "IBM Plex Mono", cursive;   /* handwritten labels (section 6) */
   --hand-sa: "Edu SA Hand", "IBM Plex Mono", cursive;              /* a looser handwriting, for the intro headings */
 
@@ -192,13 +192,13 @@ a { color: inherit; }
   border-top: 1px solid var(--rule);
   display: flex; flex-wrap: wrap; gap: 10px 26px;
   justify-content: space-between; align-items: baseline;
-  font-family: var(--mono); font-size: 11px; color: var(--muted);
+  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 11px; color: var(--label-ink);
 }
 .foot .credit { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 
 .totop {
   display: inline-block;
-  font-family: var(--mono); font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase;
+  font-family: var(--hand); font-weight: 600; font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase;
   color: var(--accent-ink); text-decoration: none;
   border-bottom: 1px solid var(--accent); padding-bottom: 1px;
   transition: transform .15s, color .15s;
