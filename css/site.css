@@ -150,7 +150,7 @@ a { color: inherit; }
   font-size: clamp(17px, 1.7vw, 23px); line-height: 1.15; white-space: nowrap;
   transition: font-size .2s;
 }
-.site.stuck .brand-name { font-size: clamp(15px, 1.4vw, 18px); }
+.site.stuck .brand-name { font-size: clamp(17px, 1.6vw, 21px); }   /* a little smaller once the header shrinks */
 
 /* "Cartography · Data visualization · Journalism" — wraps on phones rather
    than clipping, and fades out when the header condenses */
