@@ -335,6 +335,23 @@ body::before,
   font-style: italic;
 }
 
+/* Heading tracking and colour, also being compared (for either heading font).
+   js/site.js sets data-head-track / data-head-color on <html> and the values
+   in --head-track / --head-color when one other than the usual is picked.
+   The colours run from black to coral in tones like the map's ink and roads:
+     black #22201C (--ink)   umber #4A3324   deep rust #6E2F1B
+     brick #8C3A21           coral ink #A34527 (--accent-ink)   coral #D4745A (--accent)
+   All but the plain coral are dark enough for text (coral is 2.7:1 on the
+   page, below even the 3:1 needed for large text). */
+:root[data-head-track] :is(.brand-name, .hero h1, .sec-head h2, .cap .ttl, .plist h3,
+  .panel h3, .stylename, .rsec > h2, .ent .org, .ctitle, .csec > h2, .freelance h2) {
+  letter-spacing: var(--head-track);
+}
+:root[data-head-color] :is(.brand-name, .hero h1, .sec-head h2, .cap .ttl, .plist h3,
+  .panel h3, .stylename, .rsec > h2, .ent .org, .ctitle, .csec > h2, .freelance h2) {
+  color: var(--head-color);
+}
+
 
 /* -----------------------------------------------------------------------------
    Respect visitors who ask their device for less motion
