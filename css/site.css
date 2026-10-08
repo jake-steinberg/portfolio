@@ -319,7 +319,7 @@ body::before,
    link is hovered. */
 .ar {
   display: inline-block; position: relative; top: .18em;
-  font-family: var(--hand); font-weight: 500; font-size: 1.9em; line-height: 0;
+  font-family: var(--hand); font-weight: 400; font-size: 1.9em; line-height: 0;   /* 400: the font's lightest */
   transition: transform .2s ease;
 }
 
