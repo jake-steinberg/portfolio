@@ -26,12 +26,12 @@ body { overflow-anchor: none; }
   border-bottom: 1px solid var(--rule);
 }
 .trio h2 {                       /* the small handwritten headings: "Howdy!" etc. */
-  font-family: var(--hand); font-weight: 500; font-size: 19.5px; letter-spacing: .04em;
+  font-family: var(--hand); font-weight: 500; font-size: var(--fs-2xl); letter-spacing: var(--track-tight);
   margin: 0 0 10px; color: var(--ink);
 }
 .trio p {
   margin: 0;
-  font-size: clamp(16.5px, 1.25vw, 18.5px); line-height: 1.62;
+  font-size: clamp(var(--fs-lg), 1.25vw, var(--fs-xl)); line-height: 1.62;
   text-wrap: pretty;             /* avoids a lonely last word on its own line */
 }
 /* links stay ink-colored with a thick pale-coral underline, so a paragraph
@@ -107,24 +107,24 @@ body { overflow-anchor: none; }
 /* "OUT NOVEMBER 17 · PREORDERS OPEN" */
 .eyebrow {
   display: flex; align-items: center; gap: 10px;
-  font-family: var(--hand); font-weight: 500; font-size: 14.4px; letter-spacing: .16em;
+  font-family: var(--hand); font-weight: 500; font-size: var(--fs-md); letter-spacing: var(--track-wide);
   text-transform: uppercase; color: var(--accent-ink);
 }
 
 .hero h2 {
   font-family: var(--display); font-weight: 800; line-height: 1.1;
-  letter-spacing: .06em; color: var(--head);
-  font-size: clamp(2rem, 1.2rem + 3vw, 3.4rem);
+  letter-spacing: var(--track-head); color: var(--head);
+  font-size: var(--fs-h1);
   margin: 14px 0 0; text-wrap: balance;
 }
 .hero p {
   color: var(--muted);
-  margin: 15px 0 0; font-size: clamp(15px, 1vw, 16.5px);
+  margin: 15px 0 0; font-size: clamp(var(--fs-base), 1vw, var(--fs-lg));
 }
 .hero-meta {                     /* Belt Publishing · 8×8 hardback · $30.00 */
   display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px;
-  font-family: var(--hand); font-weight: 500; font-size: 13.2px; letter-spacing: .06em;
-  text-transform: uppercase; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 500; font-size: var(--fs-sm); letter-spacing: var(--track-tight);
+  text-transform: uppercase; color: var(--muted);
 }
 .hero-meta span { white-space: nowrap; }
 
@@ -146,7 +146,7 @@ body { overflow-anchor: none; }
 .pshots a.pcap:hover .ar, .storycards a:hover .ar { transform: translate(2px, -2px); }
 
 /* "Preorder the book" — a little larger than the other links */
-.btn { display: inline-block; margin-top: 20px; font-size: 17px; line-height: 1.4; }
+.btn { display: inline-block; margin-top: 20px; font-size: var(--fs-xl); line-height: 1.4; }
 
 @media (max-width: 900px) {      /* tablet */
   .hero { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 28px; align-items: start; }
@@ -170,17 +170,17 @@ body { overflow-anchor: none; }
 }
 .sec-head h2 {
   font-family: var(--display); font-weight: 800; margin: 0;
-  letter-spacing: .06em; color: var(--head);
-  font-size: clamp(1.25rem, 1rem + 1vw, 1.85rem);
+  letter-spacing: var(--track-head); color: var(--head);
+  font-size: var(--fs-h2);
 }
 .filters { padding-block: 16px 24px; }
 .fgroup { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
 
 .pill {
-  font-family: var(--hand); font-weight: 600; font-size: 11.5px; letter-spacing: .04em;
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track-tight);
   text-transform: uppercase;
   padding: 5px 12px; cursor: pointer;
-  background: transparent; color: var(--label-ink);    /* the same as the pill's drawn outline (css/ink.css) */
+  background: transparent; color: var(--muted);    /* the same as the pill's drawn outline (css/ink.css) */
   border: 1px solid var(--rule); border-radius: 999px;
   transition: background .14s, border-color .14s, color .14s;
 }
@@ -189,7 +189,7 @@ body { overflow-anchor: none; }
 
 .fclear {                        /* "Clear filters" — only shown while a tag is selected */
   margin-left: auto; padding: 5px;
-  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 11px;
+  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: var(--fs-xs);
   background: none; border: 0; color: var(--accent-ink);
   cursor: pointer; text-decoration: underline;
 }
@@ -265,7 +265,7 @@ body { overflow-anchor: none; }
   width: 24px; height: 24px;
   display: flex; align-items: center; justify-content: center;
   background: var(--bg); border: 1px solid var(--stroke);
-  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 14px; line-height: 1; color: var(--ink);
+  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: var(--fs-md); line-height: 1; color: var(--ink);
   opacity: 0; transform: translateY(3px);
   transition: opacity .16s, transform .16s, background .16s;
 }
@@ -282,7 +282,7 @@ body { overflow-anchor: none; }
 /* "IN THE BOOK" corner marker (inBook: true in projects.js) */
 .marker {
   position: absolute; top: 0; left: 0; z-index: 2;
-  font-family: var(--hand); font-weight: 600; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track); text-transform: uppercase;
   background: var(--accent); color: #fff; padding: 4px 8px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
@@ -290,7 +290,7 @@ body { overflow-anchor: none; }
 /* smaller on a panel's pictures ({ src, inBook: true } in projects.js),
    and in the top right corner */
 .pshots .marker {
-  font-size: 10.5px; padding: 3px 7px;
+  font-size: var(--fs-xs); padding: 3px 7px;
   left: auto; right: 0;
   border-right: 0; border-left: 1px solid var(--stroke);
 }
@@ -299,8 +299,8 @@ body { overflow-anchor: none; }
 .cap { display: block; margin-top: 12px; }
 .cap .ttl {
   display: block;
-  font-family: var(--display); font-weight: 800; font-size: 17.5px; line-height: 1.3;
-  letter-spacing: .03em; color: var(--head);
+  font-family: var(--display); font-weight: 800; font-size: var(--fs-xl); line-height: 1.3;
+  letter-spacing: var(--track-tight); color: var(--head);
   margin: 0; transition: color .15s;
 }
 .gcard:hover .cap .ttl,
@@ -308,8 +308,8 @@ body { overflow-anchor: none; }
 
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .tag {
-  font-family: var(--hand); font-weight: 600; font-size: 11px; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
 }
 .tag::after { content: "\00B7"; margin-left: 6px; opacity: .5; }   /* the · between tags */
 .tag:last-child::after { content: ""; }
@@ -318,7 +318,7 @@ body { overflow-anchor: none; }
    their usual size) */
 
 /* shown when no project has every selected tag */
-.empty { padding: 50px 0; text-align: center; color: var(--label-ink); font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 13px; }
+.empty { padding: 50px 0; text-align: center; color: var(--muted); font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: var(--fs-sm); }
 
 /* the plain list of projects inside the grid, written by
    tools/build-project-list.mjs. It's for search engines, AI tools and anyone
@@ -327,7 +327,7 @@ body { overflow-anchor: none; }
 .js .plist { display: none; }
 .plist { grid-column: 1 / -1; margin: 0; padding-left: 1.4em; max-width: 72ch; }
 .plist > li { margin-bottom: 28px; }
-.plist h3 { margin: 0 0 4px; font-family: var(--display); font-weight: 800; font-size: 1.2rem; letter-spacing: .03em; color: var(--head); }
+.plist h3 { margin: 0 0 4px; font-family: var(--display); font-weight: 800; font-size: var(--fs-2xl); letter-spacing: var(--track-tight); color: var(--head); }
 .plist p { margin: 0 0 8px; line-height: 1.55; }
 .plist ul { margin: 0; padding-left: 1.2em; }
 
@@ -456,14 +456,14 @@ body { overflow-anchor: none; }
 
 .panel h3 {
   font-family: var(--display); font-weight: 800; line-height: 1.2;
-  letter-spacing: .06em; color: var(--head);
-  font-size: clamp(1.15rem, .95rem + .8vw, 1.55rem);
+  letter-spacing: var(--track-head); color: var(--head);
+  font-size: var(--fs-h3);
   margin: 0 0 10px; padding-right: 70px;  /* room for the Close button */
 }
 /* year and tags under the title — the same small labels as under each tile */
 .pmeta { margin: 0 0 24px; }
 /* the description */
-.desc { font-size: 15.5px; line-height: 1.6; margin: 0 0 22px; max-width: var(--measure); }
+.desc { font-size: var(--fs-base); line-height: 1.6; margin: 0 0 22px; max-width: var(--measure); }
 /* a link inside a description gets the same coral underline as the story links */
 .desc a {
   color: var(--ink); text-decoration: none;
@@ -477,25 +477,25 @@ body { overflow-anchor: none; }
 .desc.placeholder { color: var(--muted); font-style: italic; }
 .award {                          /* ★ lines, from awards: [] in projects.js */
   position: relative; max-width: var(--measure);
-  font-size: 13.5px; line-height: 1.55; margin: 0 0 12px; padding-left: 21px;
+  font-size: var(--fs-md); line-height: 1.55; margin: 0 0 12px; padding-left: 21px;
 }
-.award::before { content: "\2605"; position: absolute; left: 0; top: 1px; color: var(--accent); font-size: 12px; }
+.award::before { content: "\2605"; position: absolute; left: 0; top: 1px; color: var(--accent); font-size: var(--fs-sm); }
 /* a quote from the judges ({ award, quote, quoteBy } in projects.js): a small
    box on the page's darker paper, with who said it underneath */
 .award .quote {
   margin: 8px 0 0; padding: 11px 15px 12px;
   background: var(--bg); border: 1px solid var(--rule);
-  font-style: italic; font-size: 14px; line-height: 1.55;
+  font-style: italic; font-size: var(--fs-md); line-height: 1.55;
 }
 .award .quote footer {
   margin-top: 7px; font-style: normal;
-  font-family: var(--hand); font-weight: 600; font-size: var(--label); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
 }
 
 /* a panel's links: "Read the story ↗", "In the book ↗" (styled in LINKS above) */
 .plinks { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 26px; }
-.plinks a { font-size: 15px; line-height: 1.4; padding-block: 2px; }   /* at least 24px tall, to tap */
+.plinks a { font-size: var(--fs-base); line-height: 1.4; padding-block: 2px; }   /* at least 24px tall, to tap */
 
 /* stories as cards (links: [{ label, url, image }] in projects.js): each
    story's sharing picture at its 1.91:1 shape, headline underneath, two to a row */
@@ -510,7 +510,7 @@ body { overflow-anchor: none; }
   transition: transform .18s;
 }
 .scard-img img, .scard-img video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.scard-ttl { display: block; margin-top: 8px; font-size: 14.5px; line-height: 1.4; }
+.scard-ttl { display: block; margin-top: 8px; font-size: var(--fs-md); line-height: 1.4; }
 .storycards a:hover .scard-img { transform: rotate(.8deg); }
 
 /* list of stories (links: [] in projects.js), for projects that span several */
@@ -519,7 +519,7 @@ body { overflow-anchor: none; }
   display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px 22px;
   max-width: var(--measure);
 }
-.storylinks a { font-size: 15px; line-height: 1.4; }   /* styled in LINKS above */
+.storylinks a { font-size: var(--fs-base); line-height: 1.4; }   /* styled in LINKS above */
 
 /* extra pictures (images: [] in projects.js), two per row; click one to open it full size */
 .pshots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start; }
@@ -621,30 +621,30 @@ body { overflow-anchor: none; }
 .basemap-note {                        /* "Loading…", or a style that isn't uploaded yet */
   position: absolute; inset: 0; margin: 0; padding: 20px;
   display: flex; align-items: center; justify-content: center; text-align: center;
-  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 12px; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: var(--fs-sm); color: var(--muted);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   border: 1px solid var(--stroke);
 }
 .basemap-note[hidden] { display: none; }
-.basemap-state { display: flex; align-items: center; justify-content: center; color: #333; }
+.basemap-state { display: flex; align-items: center; justify-content: center; color: var(--ink); }
 .styleinfo { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--rule); }
 .stylename {
-  font-family: var(--display); font-weight: 800; font-size: 1.15rem; line-height: 1.25;
-  letter-spacing: .03em; color: var(--head);
+  font-family: var(--display); font-weight: 800; font-size: var(--fs-xl); line-height: 1.25;
+  letter-spacing: var(--track-tight); color: var(--head);
   margin: 0 0 8px;
 }
-.styleabout { font-size: 15px; line-height: 1.55; margin: 0 0 16px; max-width: var(--measure); }
+.styleabout { font-size: var(--fs-base); line-height: 1.55; margin: 0 0 16px; max-width: var(--measure); }
 .inwild {
   margin: 0 0 8px;
-  font-family: var(--hand); font-weight: 600; font-size: var(--label); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
 }
 
 /* credit under a panel's pictures (credit: in projects.js), e.g. "Photos by …" */
 .pcredit {
   margin: 8px 0 0;
-  font-family: var(--hand); font-weight: 600; font-size: var(--label); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
 }
 /* a picture with a story ({ src, story, label } in projects.js): the picture,
    then its label underneath as a link to the story, styled like the story
@@ -652,17 +652,17 @@ body { overflow-anchor: none; }
 .pshot { margin: 0; min-width: 0; }
 .pshots > .pshot:only-child { grid-column: 1 / -1; }
 .pshot img { aspect-ratio: auto; height: auto; object-fit: fill; }
-.pshot figcaption { margin-top: 8px; font-size: 14.5px; line-height: 1.35; }
+.pshot figcaption { margin-top: 8px; font-size: var(--fs-md); line-height: 1.35; }
 /* a caption over its picture (captionAbove: true in projects.js). It takes
    no room of its own: it rises into the space above the row of pictures, so
    the row sits as close under the text and buttons as usual */
 .pshot.cap-above { position: relative; }
 .pshot.cap-above figcaption { position: absolute; left: 0; right: 0; bottom: 100%; margin: 0 0 8px; }
 /* a caption styled like an award line, with its star (captionStar: true) */
-.pshot figcaption.starred { font-size: 13.5px; line-height: 1.55; padding-left: 21px; }
+.pshot figcaption.starred { font-size: var(--fs-md); line-height: 1.55; padding-left: 21px; }
 .pshot:not(.cap-above) figcaption.starred { position: relative; }   /* holds the star */
 .pshot figcaption.starred::before {
-  content: "\2605"; position: absolute; left: 0; color: var(--accent); font-size: 12px; line-height: 1.8;
+  content: "\2605"; position: absolute; left: 0; color: var(--accent); font-size: var(--fs-sm); line-height: 1.8;
 }
 .pshots a.pcap {                  /* undoes the picture frame; underline from LINKS above */
   display: inline; overflow: visible; background: none;
@@ -679,7 +679,7 @@ body { overflow-anchor: none; }
   position: absolute; top: 12px; right: 12px; z-index: 3;
   padding: 6px 11px; line-height: 1; cursor: pointer;
   background: var(--bg); border: 1px solid var(--stroke); color: var(--ink);
-  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: .05em;
+  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: var(--fs-xs); letter-spacing: var(--track-tight);
 }
 .panel .close:hover { background: var(--ink); color: var(--plate); }
 

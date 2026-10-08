@@ -29,7 +29,8 @@
   --bg:          #F1EBDD;   /* page background — warm cream paper */
   --plate:       #FBF8F1;   /* lighter paper for panels and image mats */
   --ink:         #22201C;   /* body text and headings */
-  --muted:       #6B6355;   /* secondary text: captions, tags, metadata */
+  --muted:       #6B6355;   /* secondary text, and the handwritten grey labels: captions, tags,
+                               dates, the pills' text and drawn outlines (4.9:1 on the page) */
   --stroke:      #22201C;   /* the hairline black stroke around images and buttons */
 
   /* accent — the cover's coral (St. Paul) */
@@ -39,29 +40,44 @@
   --head:        #4A3324;   /* headings: a warm umber, like the map's ink */
   --teal:        #3F7A8C;   /* the cover's teal (Minneapolis) — reserved for later use */
 
-  /* rules and dividers */
-  --rule:        #D9D0BC;   /* section dividers */
-  --rule-soft:   #E6DECC;   /* lighter dividers inside a section */
-  --rule-row:    #C8BFAB;   /* dividers between resume entries (Awards & honors keeps --rule-soft) */
-  --rule-ink:    #8C8473;   /* hand-drawn section breaks (css/ink.css) */
-  --label-ink:   #706A5C;   /* --rule-ink's tone, dark enough for small text (4.5:1 on the page):
-                               grey labels, and the pills' text and drawn outlines */
+  /* rules and dividers: three greys, darkest to palest. After changing one,
+     run python3 tools/make-strokes.py to redraw the hand-drawn lines. */
+  --rule-ink:    #8C8473;   /* the main section breaks, and the line under the header */
+  --rule:        #C8BFAB;   /* dividers inside a section, e.g. between resume entries */
+  --rule-soft:   #E6DECC;   /* the palest: Awards & honors, and boxes on the contact page */
 
-  /* type: display sans for headings / reading serif / mono for labels and data */
+  /* type: display sans for headings / reading serif / handwriting for labels */
   --display: "Outfit", system-ui, sans-serif;   /* headings: a heavy geometric sans (section 7) */
   --text:    "Source Serif 4", Georgia, serif;
-  --mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;   /* not used now: labels are --hand; Plex Mono isn't loaded */
   --hand:    "Edu SA Hand", cursive;   /* handwritten labels and the intro headings (section 6) */
 
-  --label: 11px;            /* size of small uppercase mono labels */
-  --track: .1em;            /* letter-spacing for those labels */
+  /* TYPE SIZES: every font size on the site is one of these. Seven fixed
+     steps, then three that grow with the window for the headings.
+     The handwritten font (--hand) is drawn about a fifth smaller than the
+     others at the same size, so a label at --fs-sm reads smaller than text
+     at --fs-sm would. */
+  --fs-xs:   11.5px;   /* small handwritten labels: tags, pills, footer, form labels */
+  --fs-sm:   12.5px;   /* handwritten labels a step up: nav, dates, award years */
+  --fs-md:   14px;     /* captions and small print; the "Out November 17" line */
+  --fs-base: 15.5px;   /* descriptions and panel text */
+  --fs-lg:   16px;     /* body text */
+  --fs-xl:   18px;     /* entry and tile titles; the Preorder link */
+  --fs-2xl:  20px;     /* the intro headings ("Howdy!") */
+  --fs-h3:   clamp(1.15rem, .95rem + .8vw, 1.55rem);   /* 18 → 25px: the open project's title */
+  --fs-h2:   clamp(1.3rem, 1rem + 1vw, 1.85rem);       /* 21 → 30px: section names */
+  --fs-h1:   clamp(2rem, 1.2rem + 3vw, 3.4rem);        /* 32 → 54px: the book title, "Get in touch" */
+
+  /* LETTER-SPACING: four steps */
+  --track-tight: .04em;   /* pills, dates, tile titles and other small titles */
+  --track-head:  .06em;   /* the big Outfit headings and the name in the header */
+  --track:       .1em;    /* small capital labels: tags, badges, form labels */
+  --track-wide:  .16em;   /* the nav, and the "Out November 17" line */
+
   --measure: 63ch;          /* comfortable maximum line length for paragraphs */
 
   /* depth */
   --shadow:      0 1px 2px rgba(34,32,28,.06), 0 6px 18px rgba(34,32,28,.05);
   --shadow-lift: 0 3px 6px rgba(34,32,28,.10), 0 18px 40px rgba(34,32,28,.14);
-
-  --gap: 24px;              /* default spacing between grid items */
 
   /* Height of the sticky header. js/site.js keeps this updated with the
      header's real height, so anything that sticks beneath it lines up. */
@@ -91,7 +107,7 @@ body {
   background: var(--page);
   color: var(--ink);
   font-family: var(--text);
-  font-size: 16px;
+  font-size: var(--fs-lg);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
@@ -145,7 +161,7 @@ a { color: inherit; }
 .brand-txt { min-width: 0; }
 .brand-name, .brand-sub { display: block; }
 .brand-name {
-  font-family: var(--display); font-weight: 900; letter-spacing: .06em; color: var(--head);
+  font-family: var(--display); font-weight: 900; letter-spacing: var(--track-head); color: var(--head);
   font-size: clamp(17px, 1.7vw, 23px); line-height: 1.15; white-space: nowrap;
   transition: font-size .2s;
 }
@@ -154,8 +170,8 @@ a { color: inherit; }
 /* "Cartography · Data visualization · Journalism" — wraps on phones rather
    than clipping, and fades out when the header condenses */
 .brand-sub {
-  font-family: var(--hand); font-weight: 600; font-size: var(--label); letter-spacing: .13em;
-  text-transform: uppercase; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
   margin-top: 4px; line-height: 1.5; text-wrap: balance;
   overflow: hidden; max-height: 4.5em; opacity: 1;
   transition: max-height .2s, opacity .18s, margin-top .2s;
@@ -165,7 +181,7 @@ a { color: inherit; }
 /* nav — the current page gets aria-current="page", which draws the coral underline */
 .site nav { display: flex; flex-wrap: wrap; gap: 6px 22px; }
 .site nav a {
-  font-family: var(--hand); font-weight: 600; font-size: 12px; letter-spacing: .17em; text-transform: uppercase;
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-sm); letter-spacing: var(--track-wide); text-transform: uppercase;
   text-decoration: none; padding: 3px 0;
   border-bottom: 2px solid transparent;
   transition: color .15s, border-color .15s;
@@ -176,7 +192,7 @@ a { color: inherit; }
 @media (max-width: 560px) {
   .site-in { padding-block: 12px; }
   .site nav { gap: 4px 15px; width: 100%; justify-content: space-between; }   /* links spread across the header */
-  .site nav a { font-size: 14px; }
+  .site nav a { font-size: var(--fs-md); }
 }
 
 
@@ -192,13 +208,13 @@ a { color: inherit; }
   border-top: 1px solid var(--rule);
   display: flex; flex-wrap: wrap; gap: 10px 26px;
   justify-content: space-between; align-items: baseline;
-  font-family: var(--hand); font-weight: 600; font-size: 11px; text-transform: uppercase; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); text-transform: uppercase; color: var(--muted);
 }
 .foot .credit { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 
 .totop {
   display: inline-block;
-  font-family: var(--hand); font-weight: 600; font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase;
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track); text-transform: uppercase;
   color: var(--accent-ink); text-decoration: none;
   border-bottom: 1px solid var(--accent); padding-block: 5px 2px;   /* at least 24px tall, to tap */
   transition: transform .15s, color .15s;

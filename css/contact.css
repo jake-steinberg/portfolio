@@ -15,8 +15,8 @@
 .ctitle {
   margin: 0; padding-top: clamp(30px, 4vw, 60px);
   font-family: var(--display); font-weight: 800; line-height: 1.12;
-  letter-spacing: .03em; color: var(--head);
-  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.4rem);
+  letter-spacing: var(--track-tight); color: var(--head);
+  font-size: var(--fs-h1);
 }
 .csec {
   padding-block: clamp(26px, 3.4vw, 50px);
@@ -26,9 +26,9 @@
 .csec > h2 {
   margin: 0 0 clamp(14px, 2vw, 22px);
   font-family: var(--display); font-weight: 800; line-height: 1.12;
-  letter-spacing: .06em; color: var(--head);
+  letter-spacing: var(--track-head); color: var(--head);
 }
-.csec > h2 { font-size: clamp(1.3rem, 1rem + 1.2vw, 1.9rem); }
+.csec > h2 { font-size: var(--fs-h2); }
 
 /* phones: one column, in page order (form, freelance, links).
    desktop: form left, freelance right, the links in a row across the bottom */
@@ -52,15 +52,15 @@
    2. THE MESSAGE FORM
    ----------------------------------------------------------------------------- */
 .cform { display: grid; gap: 16px; max-width: 620px; }
-.cform .lede { margin: 0 0 4px; font-size: 16.5px; line-height: 1.55; }
+.cform .lede { margin: 0 0 4px; font-size: var(--fs-lg); line-height: 1.55; }
 .cform label {
   display: grid; gap: 7px;
-  font-family: var(--hand); font-weight: 600; font-size: var(--label); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
 }
 .cform input, .cform textarea {
   width: 100%; padding: 11px 13px;
-  font: inherit; font-family: var(--text); font-size: 16px; letter-spacing: 0;
+  font: inherit; font-family: var(--text); font-size: var(--fs-lg); letter-spacing: 0;
   text-transform: none; color: var(--ink);
   background: var(--plate); border: 1px solid var(--stroke); border-radius: 0;
 }
@@ -74,7 +74,7 @@
 .send {
   justify-self: start; cursor: pointer;
   padding: 11px 22px;
-  font-family: var(--hand); font-weight: 600; font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-sm); letter-spacing: var(--track); text-transform: uppercase;
   background: var(--accent); color: #fff; border: 1px solid var(--stroke);
   transition: background .15s;
 }
@@ -82,7 +82,7 @@
 .send[disabled] { opacity: .6; cursor: progress; }
 
 /* "Thanks — your message is on its way" / "Something went wrong…" */
-.status { margin: 0; min-height: 1.5em; font-size: 15px; }
+.status { margin: 0; min-height: 1.5em; font-size: var(--fs-base); }
 .status.ok { color: var(--ink); }
 .status.err { color: var(--accent-ink); }
 
@@ -105,11 +105,11 @@
   .elsewhere li { padding-bottom: 0; }
 }
 .elsewhere .lbl {
-  font-family: var(--hand); font-weight: 600; font-size: var(--label); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--label-ink);
+  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--muted);
 }
 .elsewhere a, .freelance a {
-  justify-self: start; font-size: 16.5px; color: var(--ink); text-decoration: none;
+  justify-self: start; font-size: var(--fs-lg); color: var(--ink); text-decoration: none;
   border-bottom: 2px solid var(--accent-soft); transition: border-color .15s;
   overflow-wrap: anywhere;
 }
@@ -124,13 +124,13 @@
 .freelance h2 {
   margin: 0 0 clamp(14px, 2vw, 20px);
   font-family: var(--display); font-weight: 800; line-height: 1.12;
-  letter-spacing: .06em; color: var(--head);
-  font-size: clamp(1.3rem, 1rem + 1.2vw, 1.9rem);
+  letter-spacing: var(--track-head); color: var(--head);
+  font-size: var(--fs-h2);
 }
-.freelance p { margin: 0 0 16px; font-size: 16.5px; line-height: 1.6; }
+.freelance p { margin: 0 0 16px; font-size: var(--fs-lg); line-height: 1.6; }
 .freelance p:last-child { margin-bottom: 0; }
 .freelance .kinds-lbl { margin-bottom: 8px; }
-.kinds { margin: 0 0 20px; padding-left: 1.2em; font-size: 16.5px; line-height: 1.6; }
+.kinds { margin: 0 0 20px; padding-left: 1.2em; font-size: var(--fs-lg); line-height: 1.6; }
 .kinds li::marker { color: var(--accent); }
 
 
