@@ -113,7 +113,7 @@
    ----------------------------------------------------------------------------- */
 .ent {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 172px;
+  grid-template-columns: minmax(0, 1fr) max-content;   /* the dates' column fits its text */
   gap: 8px 22px;
   padding-block: 16px;
   border-top: 1px solid var(--rule);
@@ -125,8 +125,9 @@
              letter-spacing: var(--track-head); color: var(--head); }
 .ent .role { margin: 3px 0 0; color: var(--muted); font-size: var(--fs-lg); }
 .ent .meta {
-  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track-tight); text-transform: uppercase;
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track); text-transform: uppercase;
   color: var(--label-ink); text-align: right; line-height: 1.7;
+  white-space: nowrap;                            /* each line (dates, place) stays whole */
   font-variant-numeric: tabular-nums;
 }
 @media (max-width: 560px) { .ent .meta { text-align: left; } }

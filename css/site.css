@@ -211,7 +211,8 @@ a { color: inherit; }
   border-top: 1px solid var(--rule);
   display: flex; flex-wrap: wrap; gap: 10px 26px;
   justify-content: space-between; align-items: baseline;
-  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); text-transform: uppercase; color: var(--label-ink);
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--label-ink);
 }
 .foot .credit { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 
