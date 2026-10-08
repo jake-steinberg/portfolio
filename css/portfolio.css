@@ -80,10 +80,16 @@ body { overflow-anchor: none; }
    The book's details sit in a box like a map's title cartouche: a plain
    frame here, which css/ink.css draws by hand. */
 .cartouche {
-  position: relative; align-self: center;
-  padding: clamp(22px, 2.6vw, 36px) clamp(22px, 2.8vw, 40px);
+  position: relative;
+  /* the box fills the row, so it's the same height as the cover beside it;
+     its text sits in the middle. When the text needs more room than the
+     cover is tall (narrower windows), the box grows past the cover. */
+  align-self: stretch;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(18px, 1.9vw, 28px) clamp(22px, 2.8vw, 40px);
   border: 1px solid var(--stroke);
 }
+.cartouche .btn { align-self: flex-start; }
 
 /* "OUT NOVEMBER 17 · PREORDERS OPEN" */
 .eyebrow {
