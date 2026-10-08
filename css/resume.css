@@ -82,7 +82,10 @@
 }
 
 @media (max-width: 780px) {
-  .rsec { grid-template-columns: 1fr; gap: 16px; }
+  /* one column; the coral line under each section name does the
+     separating, so no break line above the section */
+  .rsec { grid-template-columns: 1fr; gap: 16px; border-top: 0; }
+  .rsec + .rsec { padding-top: 12px; }     /* without the line, less room above the name */
   .rsec > h2 { position: static; padding-bottom: 4px; border-bottom: 2px solid var(--accent); }
 }
 

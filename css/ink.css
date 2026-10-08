@@ -112,6 +112,9 @@
 
 /* ...except where those had no rule */
 .rsec:first-of-type, .ent:first-child, .line:first-child, .csec:first-of-type { background-image: none; }
+/* resume on phones: the section names' coral underline separates the
+   sections, so no drawn break line above them (css/resume.css) */
+@media (max-width: 780px) { .rsec { background-image: none; } }
 
 /* stagger the strokes */
 :is(.rsec, .ent, .line, .kit h3, .csec):nth-child(3n+2) { --ink-x: -137px; }
