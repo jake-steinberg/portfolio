@@ -94,7 +94,7 @@ body { overflow-anchor: none; }
 /* "OUT NOVEMBER 17 · PREORDERS OPEN" */
 .eyebrow {
   display: flex; align-items: center; gap: 10px;
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-sm); letter-spacing: var(--track-wide);
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track-wide);
   text-transform: uppercase; color: var(--label-accent);
 }
 
@@ -110,7 +110,7 @@ body { overflow-anchor: none; }
 }
 .hero-meta {                     /* Belt Publishing · 8×8 hardback · $30.00 */
   display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px;
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-sm); letter-spacing: var(--track-tight);
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track-tight);
   text-transform: uppercase; color: var(--label-ink);
 }
 .hero-meta span { white-space: nowrap; }
@@ -163,7 +163,7 @@ body { overflow-anchor: none; }
 .fgroup { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
 
 .pill {
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track-tight);
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track-tight);
   text-transform: uppercase;
   padding: 5px 12px; cursor: pointer;
   background: transparent; color: var(--label-ink);    /* the same as the pill's drawn outline (css/ink.css) */
@@ -175,7 +175,7 @@ body { overflow-anchor: none; }
 
 .fclear {                        /* "Clear filters" — only shown while a tag is selected */
   margin-left: auto; padding: 5px;
-  font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: var(--fs-xs);
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: calc(var(--fs-xs) + var(--label-plus));
   background: none; border: 0; color: var(--label-accent);
   cursor: pointer; text-decoration: underline;
 }
@@ -268,7 +268,7 @@ body { overflow-anchor: none; }
 /* "IN THE BOOK" corner marker (inBook: true in projects.js) */
 .marker {
   position: absolute; top: 0; left: 0; z-index: 2;
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track); text-transform: uppercase;
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track); text-transform: uppercase;
   background: var(--accent); color: #fff; padding: 4px 8px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
@@ -276,7 +276,7 @@ body { overflow-anchor: none; }
 /* smaller on a panel's pictures ({ src, inBook: true } in projects.js),
    and in the top right corner */
 .pshots .marker {
-  font-size: var(--fs-xs); padding: 3px 7px;
+  font-size: calc(var(--fs-xs) + var(--label-plus)); padding: 3px 7px;
   left: auto; right: 0;
   border-right: 0; border-left: 1px solid var(--stroke);
 }
@@ -294,7 +294,7 @@ body { overflow-anchor: none; }
 
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .tag {
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--label-ink);
 }
 .tag::after { content: "\00B7"; margin-left: 6px; opacity: .5; }   /* the · between tags */
@@ -304,7 +304,7 @@ body { overflow-anchor: none; }
    their usual size) */
 
 /* shown when no project has every selected tag */
-.empty { padding: 50px 0; text-align: center; color: var(--label-ink); font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: var(--fs-sm); }
+.empty { padding: 50px 0; text-align: center; color: var(--label-ink); font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: calc(var(--fs-sm) + var(--label-plus)); }
 
 /* the plain list of projects inside the grid, written by
    tools/build-project-list.mjs. It's for search engines, AI tools and anyone
@@ -487,7 +487,7 @@ body { overflow-anchor: none; }
 }
 .award .quote footer {
   margin-top: 7px; font-style: normal;
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--label-ink);
 }
 
@@ -619,7 +619,7 @@ body { overflow-anchor: none; }
 .basemap-note {                        /* "Loading…", or a style that isn't uploaded yet */
   position: absolute; inset: 0; margin: 0; padding: 20px;
   display: flex; align-items: center; justify-content: center; text-align: center;
-  font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: var(--fs-sm); color: var(--label-ink);
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: calc(var(--fs-sm) + var(--label-plus)); color: var(--label-ink);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   border: 1px solid var(--stroke);
 }
@@ -634,14 +634,14 @@ body { overflow-anchor: none; }
 .styleabout { font-size: var(--fs-base); line-height: 1.55; margin: 0 0 16px; max-width: var(--measure); }
 .inwild {
   margin: 0 0 8px;
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--label-ink);
 }
 
 /* credit under a panel's pictures (credit: in projects.js), e.g. "Photos by …" */
 .pcredit {
   margin: 8px 0 0;
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--label-ink);
 }
 /* a picture with a story ({ src, story, label } in projects.js): the picture,
@@ -674,7 +674,7 @@ body { overflow-anchor: none; }
   position: absolute; top: 12px; right: 12px; z-index: 3;
   padding: 6px 11px; line-height: 1; cursor: pointer;
   background: var(--bg); border: 1px solid var(--stroke); color: var(--ink);
-  font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: var(--fs-xs); letter-spacing: var(--track-tight);
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track-tight);
 }
 .panel .close:hover { background: var(--ink); color: var(--plate); }
 .panel .close .x { font-family: var(--display); font-weight: 300; font-size: 1.45em; line-height: 0; vertical-align: -.1em; margin-left: 2px; }

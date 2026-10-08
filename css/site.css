@@ -34,6 +34,7 @@
      versions of the grey and the coral */
   --label-ink:   #48423A;   /* grey labels: tags, dates, the pills' text and drawn outlines (8.6:1) */
   --label-accent:#8A3820;   /* coral labels: nav, the release line, toolkit headings, years */
+  --label-plus:  1px;       /* added to every label's size (they're set in --fs-xs / --fs-sm + this) */
   --stroke:      #22201C;   /* the hairline black stroke around images and buttons */
 
   /* accent — the cover's coral (St. Paul) */
@@ -172,7 +173,7 @@ a { color: inherit; }
 /* "Cartography · Data visualization · Journalism" — wraps on phones rather
    than clipping, and fades out when the header condenses */
 .brand-sub {
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--label-ink);
   margin-top: 4px; line-height: 1.5; text-wrap: balance;
   overflow: hidden; max-height: 4.5em; opacity: 1;
@@ -183,7 +184,7 @@ a { color: inherit; }
 /* nav — the current page gets aria-current="page", which draws the coral underline */
 .site nav { display: flex; flex-wrap: wrap; gap: 6px 22px; }
 .site nav a {
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-sm); letter-spacing: var(--track-wide); text-transform: uppercase;
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track-wide); text-transform: uppercase;
   text-decoration: none; padding: 3px 0;
   border-bottom: 2px solid transparent;
   transition: color .15s, border-color .15s;
@@ -194,7 +195,7 @@ a { color: inherit; }
 @media (max-width: 560px) {
   .site-in { padding-block: 12px; }
   .site nav { gap: 4px 15px; width: 100%; justify-content: space-between; }   /* links spread across the header */
-  .site nav a { font-size: var(--fs-md); }
+  .site nav a { font-size: calc(var(--fs-md) + var(--label-plus)); }
 }
 
 
@@ -210,13 +211,13 @@ a { color: inherit; }
   border-top: 1px solid var(--rule);
   display: flex; flex-wrap: wrap; gap: 10px 26px;
   justify-content: space-between; align-items: baseline;
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); text-transform: uppercase; color: var(--label-ink);
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); text-transform: uppercase; color: var(--label-ink);
 }
 .foot .credit { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 
 .totop {
   display: inline-block;
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track); text-transform: uppercase;
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track); text-transform: uppercase;
   color: var(--label-accent); text-decoration: none;
   border-bottom: 1px solid var(--accent); padding-block: 5px 2px;   /* at least 24px tall, to tap */
   transition: transform .15s, color .15s;
