@@ -466,15 +466,15 @@ body { overflow-anchor: none; }
   position: relative; max-width: var(--measure);
   font-size: var(--fs-md); line-height: 1.55; margin: 0 0 12px; padding-left: 21px;
 }
-/* the north arrow (img/north-arrow.svg) that marks award lines and starred
+/* the compass star (img/compass-star.svg) that marks award lines and starred
    captions, in coral. The picture is a stencil (a mask), so the colour is set
    here as its background. */
 .award::before, .pshot figcaption.starred::before {
-  content: ""; position: absolute; left: 0; top: 0;
-  width: 14px; height: 18px;
+  content: ""; position: absolute; left: 0; top: 3px;
+  width: 15px; height: 15px;
   background: var(--accent);
-  -webkit-mask: url(../img/north-arrow.svg) center / contain no-repeat;
-          mask: url(../img/north-arrow.svg) center / contain no-repeat;
+  -webkit-mask: url(../img/compass-star.svg) center / contain no-repeat;
+          mask: url(../img/compass-star.svg) center / contain no-repeat;
 }
 @media (forced-colors: active) {   /* high-contrast mode: draw it in the text colour */
   .award::before, .pshot figcaption.starred::before { forced-color-adjust: none; background: CanvasText; }
@@ -657,9 +657,9 @@ body { overflow-anchor: none; }
    the row sits as close under the text and buttons as usual */
 .pshot.cap-above { position: relative; }
 .pshot.cap-above figcaption { position: absolute; left: 0; right: 0; bottom: 100%; margin: 0 0 8px; }
-/* a caption styled like an award line, with its north arrow (captionStar: true) */
+/* a caption styled like an award line, with its compass star (captionStar: true) */
 .pshot figcaption.starred { font-size: var(--fs-md); line-height: 1.55; padding-left: 21px; }
-.pshot:not(.cap-above) figcaption.starred { position: relative; }   /* holds the north arrow */
+.pshot:not(.cap-above) figcaption.starred { position: relative; }   /* holds the compass star */
 .pshots a.pcap {                  /* undoes the picture frame; underline from LINKS above */
   display: inline; overflow: visible; background: none;
   border: 0; border-bottom: 2px solid var(--accent-soft);

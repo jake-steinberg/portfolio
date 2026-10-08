@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- The compass star from the reference map: eight even spokes (the four
+       main ones a little longer than the diagonals) around a dot. Used as
+       the marker for award lines in the project panels (css/portfolio.css,
+       "award"), where it's a mask, so the colour comes from the CSS. Drawn
+       bold, since it's shown only about 15px wide. -->
+  <g fill="none" stroke="#000" stroke-width="3.2" stroke-linecap="round">
+    <path d="M20 2 V38 M2 20 H38 M10.8 10.8 L29.2 29.2 M29.2 10.8 L10.8 29.2"/>
+  </g>
+  <circle cx="20" cy="20" r="4" fill="#000"/>
+</svg>
