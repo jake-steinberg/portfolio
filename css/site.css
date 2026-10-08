@@ -233,6 +233,9 @@ a { color: inherit; }
    clean. --paper (section 1) sets how strong it is.
    The sticky header (and the resume's jump bar) get their own copy, since
    they cover the page as it scrolls under them.
+   The two images are built into css/paper.css (by tools/embed-paper.py),
+   so the texture shows with the page instead of a beat after it. If you
+   replace either image, run that script again.
    ----------------------------------------------------------------------------- */
 body { position: relative; }               /* so the layer below spans the whole page */
 
@@ -242,7 +245,7 @@ body::before,
   content: "";
   position: absolute; inset: 0; z-index: -1;
   pointer-events: none;
-  background-image: url(../img/paper-grain.webp), url(../img/paper-mottle.webp);
+  /* the images themselves (grain, mottling) are set in css/paper.css */
   background-size: 512px 512px, 1280px 1280px;
   opacity: var(--paper);
 }
