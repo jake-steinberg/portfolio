@@ -121,8 +121,10 @@
 .ent:first-child { border-top: 0; padding-top: 0; }
 @media (max-width: 560px) { .ent { grid-template-columns: 1fr; gap: 5px; } }
 
-.ent .org  { margin: 0; font-family: var(--display); font-weight: 800; font-size: var(--fs-xl); line-height: 1.3;
-             letter-spacing: var(--track-head); color: var(--head); }
+/* employers and schools: Bell Topo Sans Bold, like the names of places on
+   a topo map (the labels around them are its Regular) */
+.ent .org  { margin: 0; font-family: var(--topo); font-weight: 700; font-size: var(--fs-xl); line-height: 1.3;
+             letter-spacing: var(--track-tight); color: var(--head); }
 .ent .role { margin: 3px 0 0; color: var(--muted); font-size: var(--fs-lg); }
 .ent .meta {
   font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track); text-transform: uppercase;

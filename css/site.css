@@ -270,7 +270,8 @@ body::before,
    on USGS topographic maps: the header subtitle, nav, tags and filter pills,
    the book's details, dates and years, toolkit headings, form labels,
    buttons and the footer. Set in capitals, letter-spaced, like map labels.
-   Self-hosted from css/fonts/belltopo/. Its licence (EULA.txt there) allows
+   Regular for the labels; Bold for the names of things (the resume's
+   employers and schools). Self-hosted from css/fonts/belltopo/. Its licence (EULA.txt there) allows
    commercial use but says the font file may not be altered, so it's served
    exactly as downloaded: the full .otf, not trimmed or converted like the
    others. It has no "·" or "–"; those come from Outfit, next in --topo.
@@ -285,6 +286,15 @@ body::before,
      same space above the capitals as below the baseline), set here rather
      than in the font file. */
   ascent-override: 90%; descent-override: 20%; line-gap-override: 0%;
+}
+/* Bold: for the names of things (on the resume, the employers and
+   schools). Only downloaded by pages that use it. Same adjustments; its
+   capitals are a little taller. */
+@font-face {
+  font-family: "Bell Topo Sans";
+  src: url(fonts/belltopo/BellTopoSans-Bold.otf) format("opentype");
+  font-weight: 700; font-style: normal; font-display: swap; size-adjust: 112%;
+  ascent-override: 94%; descent-override: 20%; line-gap-override: 0%;
 }
 
 /* -----------------------------------------------------------------------------
@@ -314,14 +324,14 @@ body::before,
    Three strengths, by size:
      rough-lg  the page titles ("The Twin Cities in 50 Maps", "Get in touch")
      rough-md  the name in the header, section headings, panel titles
-     rough-sm  small headings: tile titles, resume entries, basemap styles
+     rough-sm  small headings: intro headings, tile titles, basemap styles
    To tune the wobble, edit the numbers in the <filter>s (they're the same in
    all three pages): baseFrequency sets how long the waves are (smaller =
    longer and gentler), scale how far the edges move, in px.
    ----------------------------------------------------------------------------- */
 :is(.hero h2, .ctitle) { filter: url(#rough-lg); }
 :is(.brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2, .panel h3) { filter: url(#rough-md); }
-:is(.trio h2, .cap .ttl, .ent .org, .stylename, .plist h3) { filter: url(#rough-sm); }
+:is(.trio h2, .cap .ttl, .stylename, .plist h3) { filter: url(#rough-sm); }
 @media print, (prefers-contrast: more), (forced-colors: active) {        /* crisp type for print and high contrast */
   :is(.hero h2, .ctitle, .brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2,
       .panel h3, .cap .ttl, .ent .org, .stylename, .plist h3) { filter: none; }
