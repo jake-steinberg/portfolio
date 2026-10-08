@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Link preview card</title>
+<!--
+  The link-preview card: the picture that shows when someone shares
+  jakesteinberg.com in a message, on social media or in Slack (the page's
+  og:image). It's an ordinary web page at exactly 1200 × 630, saved as a
+  picture by tools/og-card/render.mjs:
+
+      python3 tools/serve.py 5503          (in one terminal)
+      node tools/og-card/render.mjs        (in another) → img/og-card.jpg
+
+  It borrows the site's colours, fonts and paper texture from css/site.css,
+  so it keeps up with them. Change the words below, then render it again.
+-->
+<link rel="stylesheet" href="../../css/site.css">
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body { background: var(--page); color: var(--ink); }
+
+  .card {
+    position: relative; box-sizing: border-box;
+    width: 1200px; height: 630px; padding: 64px 84px;
+    display: grid; grid-template-columns: 1fr 430px; gap: 64px;
+    align-items: center;   /* the name, nameplate and skills sit centred beside the cover */
+  }
+
+  /* the hand-drawn frame around the whole card, inset from the edge,
+     made from the same strokes as the frames on the site */
+  .card::after {
+    content: ""; position: absolute; inset: 30px; pointer-events: none;
+    background-image:
+      url(../../img/strokes/frame-h-stroke.svg), url(../../img/strokes/frame-h-stroke.svg),
+      url(../../img/strokes/frame-v-stroke.svg), url(../../img/strokes/frame-v-stroke.svg);
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+    background-size: 400px 3px, 400px 3px, 3px 400px, 3px 400px;
+    background-position: 0 0, -173px 100%, 0 -91px, 100% -229px;
+  }
+
+  /* the JS nameplate, rebuilt sharp from the letter shapes in letter-j.png
+     and letter-s.png (cut from img/favicon_lg-03.jpg): J S over J S, black
+     and coral, swapping on the second row */
+  .plate { display: grid; grid-template-columns: 46px 54px; gap: 5px 5px; flex: none; }
+  .plate i { display: block; height: 62px; background: var(--ink); }
+  .plate i:nth-child(odd)  { -webkit-mask: url(letter-j.png) center / contain no-repeat; mask: url(letter-j.png) center / contain no-repeat; }
+  .plate i:nth-child(even) { -webkit-mask: url(letter-s.png) center / contain no-repeat; mask: url(letter-s.png) center / contain no-repeat; }
+  .plate i:nth-child(2), .plate i:nth-child(3) { background: var(--accent); }
+
+  h1 {
+    margin: -.15em 0 0;          /* trims the space above the capitals, so the block centres on its letters */
+    font: 900 80px/1.02 var(--display); letter-spacing: var(--track-head);
+    color: var(--head); filter: url(#rough-lg);
+  }
+  /* under the name: the nameplate, and beside it the three skills, one per
+     line, sized so the list is as tall as the nameplate (first line level
+     with its top, last with its bottom) */
+  .byline { display: flex; align-items: stretch; gap: 30px; margin-top: 46px; }
+  .sub {
+    margin: 0; padding: 0; list-style: none;
+    display: flex; flex-direction: column; justify-content: space-between;
+    font: 600 33px/1 var(--hand); letter-spacing: var(--track);
+    text-transform: uppercase; color: var(--muted);
+  }
+  /* trim the space above the capitals and below the baseline, so the
+     list's edges are the letters' edges */
+  .sub li { margin-block: -.14em -.2em; white-space: nowrap; }
+
+  .cover {
+    width: 430px; height: auto; display: block;
+    border: 1px solid var(--stroke); box-shadow: var(--shadow-lift);
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=block" rel="stylesheet">
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <filter id="rough-lg" x="-3%" y="-15%" width="106%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="1" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.6" result="b"/>
+      <feComponentTransfer in="b"><feFuncA type="linear" slope="2.4" intercept="-0.7"/></feComponentTransfer>
+    </filter>
+  </svg>
+
+  <div class="card">
+    <div>
+      <h1>Jake Steinberg</h1>
+      <div class="byline">
+        <div class="plate" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <ul class="sub"><li>Cartography</li><li>Data visualization</li><li>Journalism</li></ul>
+      </div>
+    </div>
+    <img class="cover" src="../../img/book-cover.webp" alt="">
+  </div>
+</body>
+</html>
