@@ -128,7 +128,7 @@ body { overflow-anchor: none; }
 }
 .btn:hover, .plinks a:hover, .storylinks a:hover, .pshots a.pcap:hover,
 .storycards a:hover .scard-ttl > span { border-bottom-color: var(--accent); }
-.ar { display: inline-block; transition: transform .2s ease; }
+.ar { display: inline-block; font-size: 1.2em; line-height: 1; transition: transform .2s ease; }   /* a size up: the arrow is small next to the text */
 .btn:hover .ar, .plinks a:hover .ar, .storylinks a:hover .ar,
 .pshots a.pcap:hover .ar, .storycards a:hover .ar { transform: translate(2px, -2px); }
 
@@ -252,7 +252,7 @@ body { overflow-anchor: none; }
   width: 24px; height: 24px;
   display: flex; align-items: center; justify-content: center;
   background: var(--bg); border: 1px solid var(--stroke);
-  font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: var(--fs-md); line-height: 1; color: var(--ink);
+  font-family: var(--display); font-weight: 500; font-size: var(--fs-2xl); line-height: 1; color: var(--ink);   /* the "+" in Outfit: the hand font's is tiny */
   opacity: 0; transform: translateY(3px);
   transition: opacity .16s, transform .16s, background .16s;
 }
@@ -462,11 +462,23 @@ body { overflow-anchor: none; }
 .award a:hover { border-bottom-color: var(--accent); }
 /* shown when a project's description is blank — so it's obvious what's left to write */
 .desc.placeholder { color: var(--muted); font-style: italic; }
-.award {                          /* ★ lines, from awards: [] in projects.js */
+.award {                          /* award lines, from awards: [] in projects.js */
   position: relative; max-width: var(--measure);
   font-size: var(--fs-md); line-height: 1.55; margin: 0 0 12px; padding-left: 21px;
 }
-.award::before { content: "\2605"; position: absolute; left: 0; top: 1px; color: var(--accent); font-size: var(--fs-sm); }
+/* the north arrow (img/north-arrow.svg) that marks award lines and starred
+   captions, in coral. The picture is a stencil (a mask), so the colour is set
+   here as its background. */
+.award::before, .pshot figcaption.starred::before {
+  content: ""; position: absolute; left: 0; top: 0;
+  width: 14px; height: 18px;
+  background: var(--accent);
+  -webkit-mask: url(../img/north-arrow.svg) center / contain no-repeat;
+          mask: url(../img/north-arrow.svg) center / contain no-repeat;
+}
+@media (forced-colors: active) {   /* high-contrast mode: draw it in the text colour */
+  .award::before, .pshot figcaption.starred::before { forced-color-adjust: none; background: CanvasText; }
+}
 /* a quote from the judges ({ award, quote, quoteBy } in projects.js): a small
    box on the page's darker paper, with who said it underneath */
 .award .quote {
@@ -645,12 +657,9 @@ body { overflow-anchor: none; }
    the row sits as close under the text and buttons as usual */
 .pshot.cap-above { position: relative; }
 .pshot.cap-above figcaption { position: absolute; left: 0; right: 0; bottom: 100%; margin: 0 0 8px; }
-/* a caption styled like an award line, with its star (captionStar: true) */
+/* a caption styled like an award line, with its north arrow (captionStar: true) */
 .pshot figcaption.starred { font-size: var(--fs-md); line-height: 1.55; padding-left: 21px; }
-.pshot:not(.cap-above) figcaption.starred { position: relative; }   /* holds the star */
-.pshot figcaption.starred::before {
-  content: "\2605"; position: absolute; left: 0; color: var(--accent); font-size: var(--fs-sm); line-height: 1.8;
-}
+.pshot:not(.cap-above) figcaption.starred { position: relative; }   /* holds the north arrow */
 .pshots a.pcap {                  /* undoes the picture frame; underline from LINKS above */
   display: inline; overflow: visible; background: none;
   border: 0; border-bottom: 2px solid var(--accent-soft);
@@ -669,6 +678,7 @@ body { overflow-anchor: none; }
   font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: var(--fs-xs); letter-spacing: var(--track-tight);
 }
 .panel .close:hover { background: var(--ink); color: var(--plate); }
+.panel .close .x { font-family: var(--display); font-weight: 500; font-size: 1.45em; line-height: 0; vertical-align: -.1em; margin-left: 2px; }
 
 
 /* While a detail view is open the rest of the page dims a little: a veil

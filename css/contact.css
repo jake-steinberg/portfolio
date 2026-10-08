@@ -114,7 +114,7 @@
   overflow-wrap: anywhere;
 }
 .elsewhere a:hover, .freelance a:hover { border-bottom-color: var(--accent); }
-.ar { display: inline-block; transition: transform .2s ease; }
+.ar { display: inline-block; font-size: 1.2em; line-height: 1; transition: transform .2s ease; }   /* a size up: the arrow is small next to the text */
 .elsewhere a:hover .ar { transform: translate(2px, -2px); }
 
 

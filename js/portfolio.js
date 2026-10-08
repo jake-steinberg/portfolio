@@ -308,7 +308,7 @@
       <div class="panel" data-open="false" data-for="${esc(p.slug)}">
         <div class="panel-in">
           <div class="panel-body${hasMedia ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}${p.mediaFull ? ' full' : ''}">
-            <button class="close" type="button" data-close="${esc(p.slug)}">Close &#215;</button>
+            <button class="close" type="button" data-close="${esc(p.slug)}">Close <span class="x" aria-hidden="true">&#215;</span></button>
             <div class="panel-main">
               <div class="ptop">
                 <h3>${esc(p.title)}</h3>
