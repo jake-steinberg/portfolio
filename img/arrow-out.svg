@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+  <!-- The ↗ after links that go somewhere else. Drawn rather than typed, as
+       fonts draw ↗ small and differently from one device to the next.
+       It's a mask (css/site.css, ".ar"), so it takes the link's colour. -->
+  <g fill="none" stroke="#000" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M2.5 17.5 L17 3"/>
+    <path d="M7 3 H17 V13"/>
+  </g>
+</svg>
