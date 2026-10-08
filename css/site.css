@@ -270,7 +270,8 @@ body::before,
    on USGS topographic maps: the header subtitle, nav, tags and filter pills,
    the book's details, dates and years, toolkit headings, form labels,
    buttons and the footer. Set in capitals, letter-spaced, like map labels.
-   Regular for the labels; Bold for the resume's toolkit headings.
+   Regular for the labels; Bold for a few headings among them (the
+   resume's toolkit groups, the basemap styles' "In the wild").
    Self-hosted from css/fonts/belltopo/. Its licence (EULA.txt there) allows
    commercial use but says the font file may not be altered, so it's served
    exactly as downloaded: the full .otf, not trimmed or converted like the
@@ -287,8 +288,8 @@ body::before,
      than in the font file. */
   ascent-override: 90%; descent-override: 20%; line-gap-override: 0%;
 }
-/* Bold: for headings among the labels (the resume's toolkit groups). Only
-   downloaded by pages that use it. Same adjustments; its capitals are a
+/* Bold: for headings among the labels (the resume's toolkit groups, the
+   basemap styles' "In the wild"). Only downloaded by pages that use it. Same adjustments; its capitals are a
    little taller. */
 @font-face {
   font-family: "Bell Topo Sans";

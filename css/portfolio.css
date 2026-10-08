@@ -640,7 +640,7 @@ body { overflow-anchor: none; }
 .styleabout { font-size: var(--fs-base); line-height: 1.55; margin: 0 0 16px; max-width: var(--measure); }
 .inwild {
   margin: 0 0 8px;
-  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
+  font-family: var(--topo); font-weight: 700;          /* Bell Topo Sans Bold */ font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--label-ink);
 }
 
