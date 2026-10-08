@@ -46,7 +46,6 @@
   /* dashed, like a map's county line, for the minor dividers inside a
      section; the solid lines are the section breaks and bar edges */
   --dash-line:      url(../img/strokes/dash-rule.svg);
-  --dash-soft-line: url(../img/strokes/dash-rule-soft.svg);     /* awards: paler */
 }
 
 /* rules along the BOTTOM edge */
@@ -58,7 +57,7 @@
   background-position: var(--ink-x, 0px) bottom;
   background-origin: border-box;
 }
-.kit h3 { background-image: var(--dash-line); }
+.kit h3 { background-image: var(--rule-line); }      /* toolkit headings: solid */
 
 /* rules along the TOP edge */
 .foot, .styleinfo, .rsec, .ent, .line, .csec {
@@ -69,8 +68,7 @@
   background-position: var(--ink-x, 0px) top;
   background-origin: border-box;
 }
-.ent, .styleinfo { background-image: var(--dash-line); }
-.line { background-image: var(--dash-soft-line); }       /* Awards & honors keeps the pale line */
+.ent, .line, .styleinfo { background-image: var(--dash-line); }
 
 /* the main section breaks, and the line under the header: bolder and
    darker, so they read as drawn */
@@ -351,33 +349,5 @@
   border-color: transparent;
   background-image: url(../img/strokes/pill-left-accent-ink.svg), url(../img/strokes/pill-right-accent-ink.svg);
 }
-
-
-/* -----------------------------------------------------------------------------
-   DOTTED FADE UNDER THE HEADER
-   Once the page scrolls and the header sticks to the top of the window, a
-   strip of stippled dots (img/strokes/stipple-rule-ink.svg) hangs under its
-   line, dense at the line and thinning out, like the dotted shading along a
-   map's coastline. It's a thin strip just after the header in each page,
-   that sticks in place under it; on the resume it sits under the jump bar
-   instead. It takes no room on the page (the negative margin).
-   ----------------------------------------------------------------------------- */
-.head-fade {
-  position: sticky; z-index: 19;                  /* under the header and the jump bar */
-  top: calc(env(safe-area-inset-top, 0px) + var(--headH) - 1px);
-  height: 16px; margin-bottom: -16px;
-  pointer-events: none;
-  background: url(../img/strokes/stipple-rule-ink.svg) 0 0 / 240px 16px repeat-x;
-  opacity: 0; transition: opacity .25s;
-}
-/* on the resume: under the jump bar, and only as wide as it (the page
-   column, the same sums as .wrap in css/site.css) */
-body:has(.jump) .head-fade {
-  top: calc(env(safe-area-inset-top, 0px) + var(--headH) + var(--jumpH) - 5px);
-  width: calc(100% - 2 * clamp(16px, 3vw, 40px)); max-width: calc(1360px - 2 * clamp(16px, 3vw, 40px));
-  margin-inline: auto;
-}
-.site.stuck + .head-fade { opacity: .7; }      /* the dots' strength */
-@media (prefers-reduced-motion: reduce) { .head-fade { transition: none; } }
 
 }  /* end @media */
