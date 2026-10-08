@@ -47,6 +47,8 @@ SEED = 2026
 
 # which colour tokens (from css/site.css) each kind of stroke is made in
 RULE_COLOURS = ['rule', 'rule-soft']
+DASH_COLOURS = ['rule', 'rule-soft']     # dashed minor dividers, like a map's county line
+STIPPLE_COLOURS = ['rule-ink']           # the dotted fade under the sticky header
 SECTION_COLOURS = ['rule-ink']
 PILL_COLOURS = ['muted', 'stroke', 'accent-ink']
 FRAME_COLOURS = ['stroke']
@@ -150,6 +152,49 @@ def svg(path, w, h, colour, vertical=False, stretch=False, fit=None):
             f'viewBox="0 0 {w} {h}"{aspect}><path fill="{colour}" d="{path}"/></svg>\n')
 
 
+def dashes(w, seed):
+    """Where the dashes go along a w-px tile: (start, length) pairs, each dash
+    and gap a little different, like dashes drawn by hand. They add up to
+    exactly w, so the tile repeats without a seam."""
+    rng = random.Random(seed)            # its own dice, so other strokes don't change
+    out, x = [], 0.0
+    while True:
+        dash, gap = rng.uniform(8, 11.5), rng.uniform(5, 6.5)
+        if x + dash + gap > w - 6:       # the last dash and gap stretch to fill the tile
+            out.append((x, (w - x) * .62))
+            return out
+        out.append((x, dash))
+        x += dash + gap
+
+
+def dashed_svg(path, w, h, colour, segments):
+    """A stroke cut into dashes: the path, shown only through a row of
+    rounded windows."""
+    rects = ''.join(f'<rect x="{x:.2f}" y="0" width="{l:.2f}" height="{h}" rx="1"/>' for x, l in segments)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}">'
+            f'<clipPath id="d">{rects}</clipPath>'
+            f'<path fill="{colour}" clip-path="url(#d)" d="{path}"/></svg>\n')
+
+
+def stipple_svg(w, h, colour, seed, count=520):
+    """A strip of hand-stippled dots, dense along the top edge and thinning
+    out towards the bottom, like the dotted shading along a map's coast.
+    Dots near the left and right edges are repeated on the other side, so
+    the strip tiles without a seam."""
+    rng = random.Random(seed)
+    dots = []
+    while len(dots) < count:
+        x, y = rng.uniform(0, w), rng.uniform(0, h)
+        if rng.random() < (1 - y / h) ** 2.2:          # fewer dots the further down
+            r = rng.uniform(.5, .8)
+            dots.append((x, y, r))
+            if x < 1:     dots.append((x + w, y, r))
+            if x > w - 1: dots.append((x - w, y, r))
+    circles = ''.join(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.2f}"/>' for x, y, r in dots)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}">'
+            f'<g fill="{colour}">{circles}</g></svg>\n')
+
+
 def main():
     tokens = read_tokens()
     os.makedirs(OUT, exist_ok=True)
@@ -164,6 +209,10 @@ def main():
     rule_path, _, rule_bottom = stroke_path(rng, s, periodic=True)
     for c in RULE_COLOURS:
         write(f'rule-{c}.svg', svg(rule_path, s['w'], s['h'], tokens[c]))
+    # the same line, dashed, for the minor dividers
+    segments = dashes(s['w'], SEED + 1)
+    for c in DASH_COLOURS:
+        write(f'dash-{c}.svg', dashed_svg(rule_path, s['w'], s['h'], tokens[c], segments))
     # the sliver below it, for clipping a sticky bar's background at its line
     write('rule-outside-bottom.svg', svg(path(rule_bottom + [(s['w'], s['h']), (0, s['h'])]), s['w'], s['h'], '#000'))
 
@@ -206,6 +255,9 @@ def main():
     for c in PILL_COLOURS:
         write(f'pill-left-{c}.svg', svg(left, s['w'], s['h'], tokens[c], fit='xMinYMid slice'))
         write(f'pill-right-{c}.svg', svg(right, s['w'], s['h'], tokens[c], fit='xMaxYMid slice'))
+
+    for c in STIPPLE_COLOURS:
+        write(f'stipple-{c}.svg', stipple_svg(240, 16, tokens[c], SEED + 2))
 
     print(f'Wrote {len(written)} strokes to img/strokes/')
 
