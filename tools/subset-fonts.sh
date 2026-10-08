@@ -10,7 +10,8 @@
 #   - the full weight range (they stay variable fonts)
 #
 # Needs fonttools and brotli:   python3 -m pip install --user fonttools brotli
-# Usage (from the repo folder): sh tools/subset-fonts.sh path/to/EduSAHand-VariableFont_wght.ttf path/to/Outfit-VariableFont_wght.ttf
+# Usage (from the repo folder): sh tools/subset-fonts.sh path/to/Outfit-VariableFont_wght.ttf
+# (Bell Topo Sans isn't trimmed: its licence says the file may not be altered.)
 # If text ever shows in a fallback font, a character is missing: add its
 # code to UNICODES below and run this again.
 
@@ -22,5 +23,4 @@ subset() {   # $1 = source .ttf, $2 = output .woff2
     --flavor=woff2 --output-file="$2" && echo "wrote $2 ($(($(wc -c < "$2") / 1024)) KB)"
 }
 
-[ -n "$1" ] && subset "$1" css/fonts/edu/EduSAHand.woff2
-[ -n "$2" ] && subset "$2" css/fonts/outfit/Outfit.woff2
+[ -n "$1" ] && subset "$1" css/fonts/outfit/Outfit.woff2

@@ -25,9 +25,9 @@ body { overflow-anchor: none; }
   padding-block: clamp(28px, 3.5vw, 48px);
   border-bottom: 1px solid var(--rule);
 }
-.trio h2 {                       /* the small handwritten headings: "Howdy!" etc. */
-  font-family: var(--hand); font-weight: 500; font-size: var(--fs-2xl); letter-spacing: var(--track-tight);
-  margin: 0 0 10px; color: var(--ink);
+.trio h2 {                       /* the small headings: "Howdy!" etc. */
+  font-family: var(--display); font-weight: 800; font-size: var(--fs-xl); letter-spacing: var(--track-head);
+  margin: 0 0 10px; color: var(--head);
 }
 .trio p {
   margin: 0;
@@ -94,7 +94,7 @@ body { overflow-anchor: none; }
 /* "OUT NOVEMBER 17 · PREORDERS OPEN" */
 .eyebrow {
   display: flex; align-items: center; gap: 10px;
-  font-family: var(--hand); font-weight: 500; font-size: var(--fs-md); letter-spacing: var(--track-wide);
+  font-family: var(--topo); font-weight: 400; font-size: var(--fs-sm); letter-spacing: var(--track-wide);
   text-transform: uppercase; color: var(--accent-ink);
 }
 
@@ -268,7 +268,7 @@ body { overflow-anchor: none; }
 /* "IN THE BOOK" corner marker (inBook: true in projects.js) */
 .marker {
   position: absolute; top: 0; left: 0; z-index: 2;
-  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track); text-transform: uppercase;
+  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track); text-transform: uppercase;
   background: var(--accent); color: #fff; padding: 4px 8px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }

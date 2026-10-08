@@ -8,7 +8,7 @@
      3. Sticky header  — name, subtitle and nav; condenses on scroll (js/site.js)
      4. Footer         — credit, "Last updated", Back to top
      5. Paper texture  — the faint grain and mottling on the page background
-     6. Handwritten font — Edu SA Hand, for labels (--hand)
+     6. Labels font    — Bell Topo Sans, for labels (--topo)
      7. Headings font  — Outfit, self-hosted
      8. Rough headings — hand-drawn wobble on every Outfit heading
 
@@ -29,7 +29,7 @@
   --bg:          #F1EBDD;   /* page background — warm cream paper */
   --plate:       #FBF8F1;   /* lighter paper for panels and image mats */
   --ink:         #22201C;   /* body text and headings */
-  --muted:       #6B6355;   /* secondary text, and the handwritten grey labels: captions, tags,
+  --muted:       #6B6355;   /* secondary text, and the grey labels: captions, tags,
                                dates, the pills' text and drawn outlines (4.9:1 on the page) */
   --stroke:      #22201C;   /* the hairline black stroke around images and buttons */
 
@@ -46,19 +46,17 @@
   --rule:        #C8BFAB;   /* dividers inside a section, e.g. between resume entries */
   --rule-soft:   #E6DECC;   /* the palest: Awards & honors, and boxes on the contact page */
 
-  /* type: display sans for headings / reading serif / handwriting for labels */
+  /* type: display sans for headings / reading serif / map-lettering sans for labels */
   --display: "Outfit", system-ui, sans-serif;   /* headings: a heavy geometric sans (section 7) */
   --text:    "Source Serif 4", Georgia, serif;
-  --topo:    "Bell Topo Sans", "Outfit", system-ui, sans-serif;   /* labels: nav, tags, dates, buttons (section 6b) */
-  --hand:    "Edu SA Hand", cursive;   /* handwritten accents: the intro headings, the book's release line, badges, ↗ (section 6) */
+  --topo:    "Bell Topo Sans", "Outfit", system-ui, sans-serif;   /* labels: nav, tags, dates, buttons (section 6) */
 
   /* TYPE SIZES: every font size on the site is one of these. Seven fixed
      steps, then three that grow with the window for the headings.
-     The handwritten font (--hand) is drawn about a fifth smaller than the
-     others at the same size, so a label at --fs-sm reads smaller than text
-     at --fs-sm would. */
-  --fs-xs:   11.5px;   /* small handwritten labels: tags, pills, footer, form labels */
-  --fs-sm:   12.5px;   /* handwritten labels a step up: nav, dates, award years */
+     The labels font (--topo) is set in capitals, so a label at --fs-sm
+     reads larger than lowercase text at --fs-sm would. */
+  --fs-xs:   11.5px;   /* small labels: tags, pills, footer, form labels */
+  --fs-sm:   12.5px;   /* labels a step up: nav, dates, award years */
   --fs-md:   14px;     /* captions and small print; the "Out November 17" line */
   --fs-base: 15.5px;   /* descriptions and panel text */
   --fs-lg:   16px;     /* body text */
@@ -259,23 +257,7 @@ body::before,
 
 
 /* -----------------------------------------------------------------------------
-   6. HANDWRITTEN FONT — Edu SA Hand (--hand), kept for a few accents: the
-   intro headings ("Howdy!" etc.), the book's release line, the "In the
-   book" badge and the ↗ after links. The labels are in Bell Topo Sans (6b).
-   Self-hosted from css/fonts/edu/ (SIL Open Font License; the licence is in
-   that folder): one variable WOFF2 covering weights 400–700, trimmed to the
-   characters the site uses by tools/subset-fonts.sh. size-adjust scales
-   it down so its tall capitals sit at about the size the labels were drawn
-   for, without touching the font sizes set elsewhere.
-   ----------------------------------------------------------------------------- */
-@font-face {
-  font-family: "Edu SA Hand";
-  src: url(fonts/edu/EduSAHand.woff2) format("woff2");
-  font-weight: 400 700; font-display: swap; size-adjust: 82%;
-}
-
-/* -----------------------------------------------------------------------------
-   6b. LABELS FONT — Bell Topo Sans (--topo), by Sarah Bell, after the lettering
+   6. LABELS FONT — Bell Topo Sans (--topo), by Sarah Bell, after the lettering
    on USGS topographic maps: the header subtitle, nav, tags and filter pills,
    the book's details, dates and years, toolkit headings, form labels,
    buttons and the footer. Set in capitals, letter-spaced, like map labels.
@@ -330,7 +312,7 @@ body::before,
    ----------------------------------------------------------------------------- */
 :is(.hero h2, .ctitle) { filter: url(#rough-lg); }
 :is(.brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2, .panel h3) { filter: url(#rough-md); }
-:is(.cap .ttl, .ent .org, .stylename, .plist h3) { filter: url(#rough-sm); }
+:is(.trio h2, .cap .ttl, .ent .org, .stylename, .plist h3) { filter: url(#rough-sm); }
 @media print, (prefers-contrast: more), (forced-colors: active) {        /* crisp type for print and high contrast */
   :is(.hero h2, .ctitle, .brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2,
       .panel h3, .cap .ttl, .ent .org, .stylename, .plist h3) { filter: none; }
@@ -338,13 +320,12 @@ body::before,
 
 
 /* the ↗ after links that leave the page (<span class="ar">&#8599;</span>),
-   in the handwritten font. Its ↗ is small and sits high, so it's set larger
-   and nudged down onto the text; line-height 0 keeps it from pushing the
-   link's underline down. Each page's stylesheet sets how it moves when its
-   link is hovered. */
+   in Outfit (Bell Topo Sans has no arrows), light, a little larger than the
+   text; line-height 0 keeps it from pushing the link's underline down.
+   Each page's stylesheet sets how it moves when its link is hovered. */
 .ar {
-  display: inline-block; position: relative; top: .16em;
-  font-family: var(--hand); font-weight: 400; font-size: 1.7em; line-height: 0;   /* 400: the font's lightest */
+  display: inline-block; position: relative; top: .02em;
+  font-family: var(--display); font-weight: 300; font-size: 1.15em; line-height: 0;
   transition: transform .2s ease;
 }
 
