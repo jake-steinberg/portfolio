@@ -245,7 +245,7 @@ body { overflow-anchor: none; }
 .gcard:focus-visible .chip { opacity: 1; transform: none; }
 
 /* open state */
-.gcard[aria-expanded="true"] .chip { opacity: 1; transform: none; background: var(--accent-ink); color: #fff; }
+.gcard[aria-expanded="true"] .chip { opacity: 1; transform: none; background: var(--accent); color: #fff; }
 .gcard[aria-expanded="true"] .gframe {
   border-color: var(--accent);
   box-shadow: var(--shadow-lift), 0 0 0 2px var(--accent);
@@ -255,7 +255,7 @@ body { overflow-anchor: none; }
 .marker {
   position: absolute; top: 0; left: 0; z-index: 2;
   font-family: var(--hand); font-weight: 600; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-  background: var(--accent-ink); color: #fff; padding: 4px 8px;   /* darker coral: white text reads at 5.6:1 */
+  background: var(--accent); color: #fff; padding: 4px 8px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
 

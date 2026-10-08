@@ -192,7 +192,7 @@ a { color: inherit; }
   border-top: 1px solid var(--rule);
   display: flex; flex-wrap: wrap; gap: 10px 26px;
   justify-content: space-between; align-items: baseline;
-  font-family: var(--hand); font-weight: 600; font-size: 13px; color: var(--label-ink);   /* mixed case reads small in this font */
+  font-family: var(--hand); font-weight: 600; font-size: 11px; text-transform: uppercase; color: var(--label-ink);
 }
 .foot .credit { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 
@@ -295,6 +295,9 @@ body::before,
       .panel h3, .cap .ttl, .ent .org, .stylename, .plist h3) { filter: none; }
 }
 
+
+/* text you select with the mouse: a pale coral wash, the ink stays dark */
+::selection { background: var(--accent-soft); color: var(--ink); }
 
 /* read by screen readers and search engines, not shown (e.g. a page's main
    heading where the design doesn't show one) */
