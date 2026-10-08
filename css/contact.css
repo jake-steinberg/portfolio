@@ -55,7 +55,7 @@
 .cform .lede { margin: 0 0 4px; font-size: var(--fs-lg); line-height: 1.55; }
 .cform label {
   display: grid; gap: 7px;
-  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track);
+  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--muted);
 }
 .cform input, .cform textarea {
@@ -74,7 +74,7 @@
 .send {
   justify-self: start; cursor: pointer;
   padding: 11px 22px;
-  font-family: var(--hand); font-weight: 600; font-size: var(--fs-sm); letter-spacing: var(--track); text-transform: uppercase;
+  font-family: var(--topo); font-weight: 400; font-size: var(--fs-sm); letter-spacing: var(--track); text-transform: uppercase;
   background: var(--accent); color: #fff; border: 1px solid var(--stroke);
   transition: background .15s;
 }
@@ -105,7 +105,7 @@
   .elsewhere li { padding-bottom: 0; }
 }
 .elsewhere .lbl {
-  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track);
+  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--muted);
 }
 .elsewhere a, .freelance a {

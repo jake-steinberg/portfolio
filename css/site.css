@@ -49,7 +49,8 @@
   /* type: display sans for headings / reading serif / handwriting for labels */
   --display: "Outfit", system-ui, sans-serif;   /* headings: a heavy geometric sans (section 7) */
   --text:    "Source Serif 4", Georgia, serif;
-  --hand:    "Edu SA Hand", cursive;   /* handwritten labels and the intro headings (section 6) */
+  --topo:    "Bell Topo Sans", "Outfit", system-ui, sans-serif;   /* labels: nav, tags, dates, buttons (section 6b) */
+  --hand:    "Edu SA Hand", cursive;   /* handwritten accents: the intro headings, the book's release line, badges, ↗ (section 6) */
 
   /* TYPE SIZES: every font size on the site is one of these. Seven fixed
      steps, then three that grow with the window for the headings.
@@ -170,7 +171,7 @@ a { color: inherit; }
 /* "Cartography · Data visualization · Journalism" — wraps on phones rather
    than clipping, and fades out when the header condenses */
 .brand-sub {
-  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track);
+  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--muted);
   margin-top: 4px; line-height: 1.5; text-wrap: balance;
   overflow: hidden; max-height: 4.5em; opacity: 1;
@@ -181,7 +182,7 @@ a { color: inherit; }
 /* nav — the current page gets aria-current="page", which draws the coral underline */
 .site nav { display: flex; flex-wrap: wrap; gap: 6px 22px; }
 .site nav a {
-  font-family: var(--hand); font-weight: 600; font-size: var(--fs-sm); letter-spacing: var(--track-wide); text-transform: uppercase;
+  font-family: var(--topo); font-weight: 400; font-size: var(--fs-sm); letter-spacing: var(--track-wide); text-transform: uppercase;
   text-decoration: none; padding: 3px 0;
   border-bottom: 2px solid transparent;
   transition: color .15s, border-color .15s;
@@ -208,13 +209,13 @@ a { color: inherit; }
   border-top: 1px solid var(--rule);
   display: flex; flex-wrap: wrap; gap: 10px 26px;
   justify-content: space-between; align-items: baseline;
-  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); text-transform: uppercase; color: var(--muted);
+  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); text-transform: uppercase; color: var(--muted);
 }
 .foot .credit { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 
 .totop {
   display: inline-block;
-  font-family: var(--hand); font-weight: 600; font-size: var(--fs-xs); letter-spacing: var(--track); text-transform: uppercase;
+  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track); text-transform: uppercase;
   color: var(--accent-ink); text-decoration: none;
   border-bottom: 1px solid var(--accent); padding-block: 5px 2px;   /* at least 24px tall, to tap */
   transition: transform .15s, color .15s;
@@ -258,10 +259,9 @@ body::before,
 
 
 /* -----------------------------------------------------------------------------
-   6. HANDWRITTEN FONT — Edu SA Hand (--hand), for the labels in place of a
-   monospace: the header subtitle, nav, tags and filter pills, the book's
-   release line and details, the footer, buttons, badges, form labels, the
-   resume's jump bar, dates and years — and the intro headings ("Howdy!" etc.).
+   6. HANDWRITTEN FONT — Edu SA Hand (--hand), kept for a few accents: the
+   intro headings ("Howdy!" etc.), the book's release line, the "In the
+   book" badge and the ↗ after links. The labels are in Bell Topo Sans (6b).
    Self-hosted from css/fonts/edu/ (SIL Open Font License; the licence is in
    that folder): one variable WOFF2 covering weights 400–700, trimmed to the
    characters the site uses by tools/subset-fonts.sh. size-adjust scales
@@ -272,6 +272,28 @@ body::before,
   font-family: "Edu SA Hand";
   src: url(fonts/edu/EduSAHand.woff2) format("woff2");
   font-weight: 400 700; font-display: swap; size-adjust: 82%;
+}
+
+/* -----------------------------------------------------------------------------
+   6b. LABELS FONT — Bell Topo Sans (--topo), by Sarah Bell, after the lettering
+   on USGS topographic maps: the header subtitle, nav, tags and filter pills,
+   the book's details, dates and years, toolkit headings, form labels,
+   buttons and the footer. Set in capitals, letter-spaced, like map labels.
+   Self-hosted from css/fonts/belltopo/. Its licence (EULA.txt there) allows
+   commercial use but says the font file may not be altered, so it's served
+   exactly as downloaded: the full .otf, not trimmed or converted like the
+   others. It has no "·" or "–"; those come from Outfit, next in --topo.
+   size-adjust brings its capitals up to the size the labels were drawn at.
+   ----------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Bell Topo Sans";
+  src: url(fonts/belltopo/BellTopoSans-Regular.otf) format("opentype");
+  font-weight: 400; font-style: normal; font-display: swap; size-adjust: 112%;
+  /* its own line spacing puts the capitals partly above the line and a deep
+     gap below, so labels sat high in their pills. These even it out (the
+     same space above the capitals as below the baseline), set here rather
+     than in the font file. */
+  ascent-override: 90%; descent-override: 20%; line-gap-override: 0%;
 }
 
 /* -----------------------------------------------------------------------------
