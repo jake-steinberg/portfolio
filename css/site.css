@@ -312,21 +312,15 @@ body::before,
 }
 
 
-/* the ↗ after links that leave the page (<span class="ar">&#8599;</span>):
-   drawn from img/arrow-out.svg in the link's colour, rather than the font's
-   ↗, which is small and varies by device. Its size is set by width/height.
-   The typed ↗ stays in the page for anything that can't show the drawing.
-   Each page's stylesheet sets how it moves when its link is hovered. */
+/* the ↗ after links that leave the page (<span class="ar">&#8599;</span>),
+   in the handwritten font. Its ↗ is small and sits high, so it's set larger
+   and nudged down onto the text; line-height 0 keeps it from pushing the
+   link's underline down. Each page's stylesheet sets how it moves when its
+   link is hovered. */
 .ar {
-  display: inline-block; width: .82em; height: .82em; vertical-align: -.06em;
-  overflow: hidden; text-indent: 1em; white-space: nowrap;   /* hides the typed ↗ */
-  background: currentColor;
-  -webkit-mask: url(../img/arrow-out.svg) center / contain no-repeat;
-          mask: url(../img/arrow-out.svg) center / contain no-repeat;
+  display: inline-block; position: relative; top: .18em;
+  font-family: var(--hand); font-weight: 500; font-size: 1.9em; line-height: 0;
   transition: transform .2s ease;
-}
-@media (forced-colors: active) {      /* high contrast: back to the typed ↗ */
-  .ar { width: auto; height: auto; text-indent: 0; background: none; -webkit-mask: none; mask: none; }
 }
 
 /* text you select with the mouse: a pale coral wash, the ink stays dark */
