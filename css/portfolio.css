@@ -269,14 +269,20 @@ body { overflow-anchor: none; }
 .marker {
   position: absolute; top: 0; left: 0; z-index: 2;
   font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track); text-transform: uppercase;
-  background: var(--accent); color: #fff; padding: 4px 8px;
+  background: var(--ochre); color: var(--ink);
+  /* centring the word: letter-spacing adds space after the last letter too,
+     so the right side takes that much less padding; and the tile's drawn
+     frame overlaps the badge's top and left edges, so those sides take a
+     little more */
+  padding: 5.5px calc(7px - var(--track)) 2.5px 9px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
 
 /* smaller on a panel's pictures ({ src, inBook: true } in projects.js),
    and in the top right corner */
 .pshots .marker {
-  font-size: calc(var(--fs-xs) + var(--label-plus)); padding: 3px 7px;
+  font-size: calc(var(--fs-xs) + var(--label-plus));
+  padding: 4.5px calc(8px - var(--track)) 1.5px 7px;   /* here the frame overlaps the top and right edges */
   left: auto; right: 0;
   border-right: 0; border-left: 1px solid var(--stroke);
 }
