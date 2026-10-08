@@ -99,7 +99,7 @@
 .kit h3 {
   margin: 0 0 8px; padding-bottom: 6px;
   border-bottom: 1px solid var(--rule);
-  font-family: var(--topo); font-weight: 400;
+  font-family: var(--topo); font-weight: 700;          /* Bell Topo Sans Bold */
   font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track); text-transform: uppercase;
   color: var(--label-accent);
 }
