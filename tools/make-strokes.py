@@ -32,6 +32,13 @@ It writes small SVG files to img/strokes/:
                             a link's text; N = 1, 2, 3 are different
                             variants, so neighbouring links don't match
 
+It also writes css/strokes.css: every one of those SVGs again, built into
+the stylesheet as a named setting (--stroke-<file name>), which is what
+css/ink.css actually uses. Built in, they arrive with the page's styles, so
+the lines are there from the first moment the page draws, instead of
+popping in a beat later as separate files. (The SVG files stay as the
+readable originals.) Don't edit css/strokes.css by hand: run this again.
+
 The look is set by the numbers in STYLES below; the random SEED keeps the
 strokes the same each time you run it.
 """
@@ -40,9 +47,11 @@ import math
 import os
 import random
 import re
+import urllib.parse
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 OUT = os.path.join(ROOT, 'img', 'strokes')
+CSS_OUT = os.path.join(ROOT, 'css', 'strokes.css')
 SEED = 2026
 
 # which colour tokens (from css/site.css) each kind of stroke is made in
@@ -105,7 +114,7 @@ def stroke_path(rng, style, periodic):
 
 
 def path(pts):
-    return 'M' + ' L'.join(f'{x:.2f} {y:.2f}' for x, y in pts) + ' Z'
+    return 'M' + ' L'.join(f'{x:.1f} {y:.1f}' for x, y in pts) + ' Z'   # to a tenth of a pixel
 
 
 def pill_half(rng, style, side):
@@ -195,6 +204,29 @@ def stipple_svg(w, h, colour, seed, count=520):
             f'<g fill="{colour}">{circles}</g></svg>\n')
 
 
+def data_url(svg_text):
+    """An SVG as a url("data:...") for a stylesheet, percent-encoded."""
+    text = svg_text.strip().replace('"', "'")
+    return 'url("data:image/svg+xml,' + urllib.parse.quote(text, safe=" =:/,'.-()") + '")'
+
+
+def write_css(names):
+    """css/strokes.css: each SVG built in as --stroke-<name>."""
+    lines = ['/* strokes.css — WRITTEN BY tools/make-strokes.py; don\'t edit by hand.',
+             '   Every hand-drawn stroke in img/strokes/, built into the stylesheet so it',
+             '   arrives with the page\'s styles rather than as a separate file a beat',
+             '   later. css/ink.css uses these, e.g. var(--stroke-rule-rule) is',
+             '   img/strokes/rule-rule.svg. */',
+             ':root {']
+    # only the strokes css/ink.css uses, to keep the file small
+    used = set(re.findall(r'var\(--stroke-([a-z0-9-]+)\)', open(os.path.join(ROOT, 'css', 'ink.css')).read()))
+    for name in sorted(n for n in names if n[:-4] in used):
+        svg_text = open(os.path.join(OUT, name)).read()
+        lines.append(f'  --stroke-{name[:-4]}: {data_url(svg_text)};')
+    lines.append('}')
+    open(CSS_OUT, 'w').write('\n'.join(lines) + '\n')
+
+
 def main():
     tokens = read_tokens()
     os.makedirs(OUT, exist_ok=True)
@@ -259,7 +291,8 @@ def main():
     for c in STIPPLE_COLOURS:
         write(f'stipple-{c}.svg', stipple_svg(240, 16, tokens[c], SEED + 2))
 
-    print(f'Wrote {len(written)} strokes to img/strokes/')
+    write_css(written)
+    print(f'Wrote {len(written)} strokes to img/strokes/, and built them into css/strokes.css')
 
 
 if __name__ == '__main__':

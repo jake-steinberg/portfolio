@@ -8,6 +8,11 @@
    tools/make-strokes.py: their width swells and thins like a pen's, and
    underlines taper at the ends. They're made in the colours from site.css;
    if you change a colour there, run that script again.
+   The script also builds them into css/strokes.css (loaded just before this
+   file), as settings named after each file: var(--stroke-rule-rule) is
+   img/strokes/rule-rule.svg. That way they arrive with the styles, rather
+   than popping in a moment after the page draws. To use a different
+   stroke here, use its var(--stroke-...) name and run the script again.
 
    How each kind is drawn:
      1. Section breaks — a long stroke tiled across the element's width, in
@@ -40,12 +45,12 @@
    so stacked rules don't wobble in step.
    ----------------------------------------------------------------------------- */
 :root {
-  --rule-line:      url(../img/strokes/rule-rule.svg);
-  --section-line:   url(../img/strokes/section-rule-ink.svg);   /* bolder, darker */
-  --rule-soft-line: url(../img/strokes/rule-rule-soft.svg);     /* paler */
+  --rule-line:      var(--stroke-rule-rule);
+  --section-line:   var(--stroke-section-rule-ink);   /* bolder, darker */
+  --rule-soft-line: var(--stroke-rule-rule-soft);     /* paler */
   /* dashed, like a map's county line, for the minor dividers inside a
      section; the solid lines are the section breaks and bar edges */
-  --dash-line:      url(../img/strokes/dash-rule.svg);
+  --dash-line:      var(--stroke-dash-rule);
 }
 
 /* rules along the BOTTOM edge */
@@ -93,8 +98,8 @@
   -webkit-mask-composite: source-out, source-over;
           mask-composite: subtract, add;
 }
-.site { --bar-outside: url(../img/strokes/section-outside-bottom.svg); --bar-line: 400px 4px; }
-.jump { --bar-outside: url(../img/strokes/rule-outside-bottom.svg);    --bar-line: 400px 3px; }
+.site { --bar-outside: var(--stroke-section-outside-bottom); --bar-line: 400px 4px; }
+.jump { --bar-outside: var(--stroke-rule-outside-bottom);    --bar-line: 400px 3px; }
 .site, .site.stuck { box-shadow: none; }
 /* On the resume the jump bar sits right under the header, so the strip cut
    away under the header's line would show the page scrolling between the
@@ -131,8 +136,8 @@
    ----------------------------------------------------------------------------- */
 .trio a, .btn, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span,
 .desc a, .award a, .rsec a, .elsewhere a, .freelance a {
-  --ul:       url(../img/strokes/underline-accent-soft-1.svg);
-  --ul-hover: url(../img/strokes/underline-accent-1.svg);
+  --ul:       var(--stroke-underline-accent-soft-1);
+  --ul-hover: var(--stroke-underline-accent-1);
   --ul-h: 4px;
 }
 .trio a { --ul-h: 6px; }                          /* the intro's thicker underline */
@@ -140,13 +145,13 @@
 /* neighbouring links get different strokes */
 :is(.trio a, .plinks a, .storylinks a, .desc a, .award a, .rsec a, .elsewhere a, .freelance a):nth-of-type(3n+2),
 :is(.storylinks, .plinks, .storycards, .elsewhere ul) > :nth-child(3n+2) :is(a, .scard-ttl > span) {
-  --ul:       url(../img/strokes/underline-accent-soft-2.svg);
-  --ul-hover: url(../img/strokes/underline-accent-2.svg);
+  --ul:       var(--stroke-underline-accent-soft-2);
+  --ul-hover: var(--stroke-underline-accent-2);
 }
 :is(.trio a, .plinks a, .storylinks a, .desc a, .award a, .rsec a, .elsewhere a, .freelance a):nth-of-type(3n),
 :is(.storylinks, .plinks, .storycards, .elsewhere ul) > :nth-child(3n) :is(a, .scard-ttl > span) {
-  --ul:       url(../img/strokes/underline-accent-soft-3.svg);
-  --ul-hover: url(../img/strokes/underline-accent-3.svg);
+  --ul:       var(--stroke-underline-accent-soft-3);
+  --ul-hover: var(--stroke-underline-accent-3);
 }
 
 /* draw them */
@@ -170,12 +175,12 @@
 }
 
 /* the header nav: the current page in coral; others get a pale stroke on hover */
-.site nav a:hover { border-bottom-color: transparent; --ul: url(../img/strokes/underline-rule-2.svg); }
-.site nav a[aria-current] { border-bottom-color: transparent; --ul: url(../img/strokes/underline-accent-3.svg); }
+.site nav a:hover { border-bottom-color: transparent; --ul: var(--stroke-underline-rule-2); }
+.site nav a[aria-current] { border-bottom-color: transparent; --ul: var(--stroke-underline-accent-3); }
 
 /* Back to top: a thin coral stroke, ink on hover */
-.totop { --ul: url(../img/strokes/underline-accent-1.svg); --ul-h: 2.5px; }
-.totop:hover { border-bottom-color: transparent; --ul: url(../img/strokes/underline-ink-1.svg); }
+.totop { --ul: var(--stroke-underline-accent-1); --ul-h: 2.5px; }
+.totop:hover { border-bottom-color: transparent; --ul: var(--stroke-underline-ink-1); }
 
 
 /* -----------------------------------------------------------------------------
@@ -192,8 +197,8 @@
    ----------------------------------------------------------------------------- */
 :root {
   --frame-strokes:
-    url(../img/strokes/frame-h-stroke.svg), url(../img/strokes/frame-h-stroke.svg),
-    url(../img/strokes/frame-v-stroke.svg), url(../img/strokes/frame-v-stroke.svg);
+    var(--stroke-frame-h-stroke), var(--stroke-frame-h-stroke),
+    var(--stroke-frame-v-stroke), var(--stroke-frame-v-stroke);
   --frame-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
   --frame-size: 400px 3px, 400px 3px, 3px 400px, 3px 400px;
   /* top, bottom, left, right — each starting at a different point */
@@ -202,8 +207,8 @@
   /* the clip: the whole picture (the first layer) minus the four slivers
      outside the strokes (the rest, added together first) */
   --clip-image: linear-gradient(#000 0 0),
-    url(../img/strokes/frame-outside-top.svg), url(../img/strokes/frame-outside-bottom.svg),
-    url(../img/strokes/frame-outside-left.svg), url(../img/strokes/frame-outside-right.svg);
+    var(--stroke-frame-outside-top), var(--stroke-frame-outside-bottom),
+    var(--stroke-frame-outside-left), var(--stroke-frame-outside-right);
   --clip-repeat: no-repeat, var(--frame-repeat);
   --clip-size: 100% 100%, var(--frame-size);
   --clip-position: 0 0, var(--frame-position);
@@ -248,9 +253,9 @@
    drawn over it, and it's clipped at the top and left lines like the picture */
 .gframe > .marker {
   -webkit-mask-image: linear-gradient(#000 0 0),
-    url(../img/strokes/frame-outside-top.svg), url(../img/strokes/frame-outside-left.svg);
+    var(--stroke-frame-outside-top), var(--stroke-frame-outside-left);
           mask-image: linear-gradient(#000 0 0),
-    url(../img/strokes/frame-outside-top.svg), url(../img/strokes/frame-outside-left.svg);
+    var(--stroke-frame-outside-top), var(--stroke-frame-outside-left);
   -webkit-mask-repeat: no-repeat, repeat-x, repeat-y;        mask-repeat: no-repeat, repeat-x, repeat-y;
   -webkit-mask-size: 100% 100%, 400px 3px, 3px 400px;        mask-size: 100% 100%, 400px 3px, 3px 400px;
   /* the same starting points as the frame's top and left strokes */
@@ -338,7 +343,7 @@
    ----------------------------------------------------------------------------- */
 .pill, .jump a {
   border-color: transparent;
-  background-image: url(../img/strokes/pill-left-muted.svg), url(../img/strokes/pill-right-muted.svg);
+  background-image: var(--stroke-pill-left-muted), var(--stroke-pill-right-muted);
   background-repeat: no-repeat;
   background-size: 50% 100%;
   background-position: left center, right center;
@@ -346,11 +351,11 @@
 }
 .pill:hover, .jump a:hover {
   border-color: transparent;
-  background-image: url(../img/strokes/pill-left-stroke.svg), url(../img/strokes/pill-right-stroke.svg);
+  background-image: var(--stroke-pill-left-stroke), var(--stroke-pill-right-stroke);
 }
 .pill[aria-pressed="true"], .jump a.on {
   border-color: transparent;
-  background-image: url(../img/strokes/pill-left-accent-ink.svg), url(../img/strokes/pill-right-accent-ink.svg);
+  background-image: var(--stroke-pill-left-accent-ink), var(--stroke-pill-right-accent-ink);
 }
 
 }  /* end @media */
