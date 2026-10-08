@@ -59,7 +59,7 @@ RULE_COLOURS = ['rule', 'rule-soft']
 DASH_COLOURS = ['rule']     # dashed minor dividers, like a map's county line
 STIPPLE_COLOURS = ['rule-ink']           # stippled dots, like a map's coastal shading (not used yet)
 SECTION_COLOURS = ['rule-ink']
-PILL_COLOURS = ['muted', 'stroke', 'accent-ink']
+PILL_COLOURS = ['label-ink', 'stroke', 'accent-ink']
 FRAME_COLOURS = ['stroke']
 UNDERLINE_COLOURS = ['accent-soft', 'accent', 'rule', 'ink']
 

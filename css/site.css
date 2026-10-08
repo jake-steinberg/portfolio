@@ -29,8 +29,11 @@
   --bg:          #F1EBDD;   /* page background — warm cream paper */
   --plate:       #FBF8F1;   /* lighter paper for panels and image mats */
   --ink:         #22201C;   /* body text and headings */
-  --muted:       #6B6355;   /* secondary text, and the grey labels: captions, tags,
-                               dates, the pills' text and drawn outlines (4.9:1 on the page) */
+  --muted:       #6B6355;   /* secondary text: captions, roles, descriptions (4.9:1 on the page) */
+  /* the labels (Bell Topo Sans, --topo) are thin, so they get darker
+     versions of the grey and the coral */
+  --label-ink:   #48423A;   /* grey labels: tags, dates, the pills' text and drawn outlines (8.6:1) */
+  --label-accent:#8A3820;   /* coral labels: nav, the release line, toolkit headings, years */
   --stroke:      #22201C;   /* the hairline black stroke around images and buttons */
 
   /* accent — the cover's coral (St. Paul) */
@@ -170,7 +173,7 @@ a { color: inherit; }
    than clipping, and fades out when the header condenses */
 .brand-sub {
   font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  text-transform: uppercase; color: var(--label-ink);
   margin-top: 4px; line-height: 1.5; text-wrap: balance;
   overflow: hidden; max-height: 4.5em; opacity: 1;
   transition: max-height .2s, opacity .18s, margin-top .2s;
@@ -185,8 +188,8 @@ a { color: inherit; }
   border-bottom: 2px solid transparent;
   transition: color .15s, border-color .15s;
 }
-.site nav a:hover { color: var(--accent-ink); border-bottom-color: var(--rule); }
-.site nav a[aria-current] { color: var(--accent-ink); border-bottom-color: var(--accent); }
+.site nav a:hover { color: var(--label-accent); border-bottom-color: var(--rule); }
+.site nav a[aria-current] { color: var(--label-accent); border-bottom-color: var(--accent); }
 
 @media (max-width: 560px) {
   .site-in { padding-block: 12px; }
@@ -207,14 +210,14 @@ a { color: inherit; }
   border-top: 1px solid var(--rule);
   display: flex; flex-wrap: wrap; gap: 10px 26px;
   justify-content: space-between; align-items: baseline;
-  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); text-transform: uppercase; color: var(--muted);
+  font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); text-transform: uppercase; color: var(--label-ink);
 }
 .foot .credit { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 
 .totop {
   display: inline-block;
   font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track); text-transform: uppercase;
-  color: var(--accent-ink); text-decoration: none;
+  color: var(--label-accent); text-decoration: none;
   border-bottom: 1px solid var(--accent); padding-block: 5px 2px;   /* at least 24px tall, to tap */
   transition: transform .15s, color .15s;
 }

@@ -56,7 +56,7 @@
 .cform label {
   display: grid; gap: 7px;
   font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  text-transform: uppercase; color: var(--label-ink);
 }
 .cform input, .cform textarea {
   width: 100%; padding: 11px 13px;
@@ -106,7 +106,7 @@
 }
 .elsewhere .lbl {
   font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  text-transform: uppercase; color: var(--label-ink);
 }
 .elsewhere a, .freelance a {
   justify-self: start; font-size: var(--fs-lg); color: var(--ink); text-decoration: none;

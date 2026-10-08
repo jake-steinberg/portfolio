@@ -95,7 +95,7 @@ body { overflow-anchor: none; }
 .eyebrow {
   display: flex; align-items: center; gap: 10px;
   font-family: var(--topo); font-weight: 400; font-size: var(--fs-sm); letter-spacing: var(--track-wide);
-  text-transform: uppercase; color: var(--accent-ink);
+  text-transform: uppercase; color: var(--label-accent);
 }
 
 .hero h2 {
@@ -111,7 +111,7 @@ body { overflow-anchor: none; }
 .hero-meta {                     /* Belt Publishing · 8×8 hardback · $30.00 */
   display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px;
   font-family: var(--topo); font-weight: 400; font-size: var(--fs-sm); letter-spacing: var(--track-tight);
-  text-transform: uppercase; color: var(--muted);
+  text-transform: uppercase; color: var(--label-ink);
 }
 .hero-meta span { white-space: nowrap; }
 
@@ -166,7 +166,7 @@ body { overflow-anchor: none; }
   font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track-tight);
   text-transform: uppercase;
   padding: 5px 12px; cursor: pointer;
-  background: transparent; color: var(--muted);    /* the same as the pill's drawn outline (css/ink.css) */
+  background: transparent; color: var(--label-ink);    /* the same as the pill's drawn outline (css/ink.css) */
   border: 1px solid var(--rule); border-radius: 999px;
   transition: background .14s, border-color .14s, color .14s;
 }
@@ -176,7 +176,7 @@ body { overflow-anchor: none; }
 .fclear {                        /* "Clear filters" — only shown while a tag is selected */
   margin-left: auto; padding: 5px;
   font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: var(--fs-xs);
-  background: none; border: 0; color: var(--accent-ink);
+  background: none; border: 0; color: var(--label-accent);
   cursor: pointer; text-decoration: underline;
 }
 
@@ -295,7 +295,7 @@ body { overflow-anchor: none; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .tag {
   font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  text-transform: uppercase; color: var(--label-ink);
 }
 .tag::after { content: "\00B7"; margin-left: 6px; opacity: .5; }   /* the · between tags */
 .tag:last-child::after { content: ""; }
@@ -304,7 +304,7 @@ body { overflow-anchor: none; }
    their usual size) */
 
 /* shown when no project has every selected tag */
-.empty { padding: 50px 0; text-align: center; color: var(--muted); font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: var(--fs-sm); }
+.empty { padding: 50px 0; text-align: center; color: var(--label-ink); font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: var(--fs-sm); }
 
 /* the plain list of projects inside the grid, written by
    tools/build-project-list.mjs. It's for search engines, AI tools and anyone
@@ -488,7 +488,7 @@ body { overflow-anchor: none; }
 .award .quote footer {
   margin-top: 7px; font-style: normal;
   font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  text-transform: uppercase; color: var(--label-ink);
 }
 
 /* a panel's links: "Read the story ↗", "In the book ↗" (styled in LINKS above) */
@@ -619,7 +619,7 @@ body { overflow-anchor: none; }
 .basemap-note {                        /* "Loading…", or a style that isn't uploaded yet */
   position: absolute; inset: 0; margin: 0; padding: 20px;
   display: flex; align-items: center; justify-content: center; text-align: center;
-  font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: var(--fs-sm); color: var(--muted);
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase; font-size: var(--fs-sm); color: var(--label-ink);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   border: 1px solid var(--stroke);
 }
@@ -635,14 +635,14 @@ body { overflow-anchor: none; }
 .inwild {
   margin: 0 0 8px;
   font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  text-transform: uppercase; color: var(--label-ink);
 }
 
 /* credit under a panel's pictures (credit: in projects.js), e.g. "Photos by …" */
 .pcredit {
   margin: 8px 0 0;
   font-family: var(--topo); font-weight: 400; font-size: var(--fs-xs); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--muted);
+  text-transform: uppercase; color: var(--label-ink);
 }
 /* a picture with a story ({ src, story, label } in projects.js): the picture,
    then its label underneath as a link to the story, styled like the story
