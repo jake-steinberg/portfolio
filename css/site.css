@@ -196,6 +196,10 @@ a { color: inherit; }
   .site-in { padding-block: 12px; }
   .site nav { gap: 4px 15px; width: 100%; justify-content: space-between; }   /* links spread across the header */
   .site nav a { font-size: calc(var(--fs-md) + var(--label-plus)); }
+  /* the subtitle wraps to two lines here, so the nameplate grows to stand
+     as tall as the name and subtitle together (back to 28px once stuck,
+     when the subtitle hides) */
+  .mark { height: 54px; }
 }
 
 
