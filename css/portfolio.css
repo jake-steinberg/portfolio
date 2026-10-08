@@ -269,7 +269,7 @@ body { overflow-anchor: none; }
 .marker {
   position: absolute; top: 0; left: 0; z-index: 2;
   font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track); text-transform: uppercase;
-  background: var(--ochre); color: var(--ink);
+  background: var(--ochre); color: #fff;
   /* centring the word: letter-spacing adds space after the last letter too,
      so the right side takes that much less padding; and the tile's drawn
      frame overlaps the badge's top and left edges, so those sides take a

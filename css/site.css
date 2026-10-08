@@ -42,7 +42,7 @@
   --accent-ink:  #A34527;   /* darker coral that passes contrast for text and links */
   --accent-soft: #E4B3A0;   /* pale coral for the thick link underlines */
   --head:        #4A3324;   /* headings: a warm umber, like the map's ink */
-  --ochre:       #D8A548;   /* the map's ochre (its woodland dots): the "In the book" badges, with --ink text (7.3:1) */
+  --ochre:       #D8A548;   /* the map's ochre (its woodland dots): the "In the book" badges, with white text (2.2:1) */
   --teal:        #3F7A8C;   /* the cover's teal (Minneapolis) — reserved for later use */
 
   /* rules and dividers: three greys, darkest to palest. After changing one,
