@@ -76,6 +76,34 @@ body { overflow-anchor: none; }
   box-shadow: var(--shadow-lift);
 }
 
+/* -- TITLE BOX ---------------------------------------------------------------
+   The book's details sit in a box like a map's title cartouche: a drawn frame
+   (plain here; css/ink.css draws it by hand), a north arrow in the top-right
+   corner and a scale bar along the bottom, opposite the Preorder link. Both
+   are small inline SVGs in index.html, in the headings' umber. */
+.cartouche {
+  position: relative; align-self: center;
+  padding: clamp(22px, 2.6vw, 36px) clamp(22px, 2.8vw, 40px);
+  border: 1px solid var(--stroke);
+}
+.compass {
+  position: absolute; top: clamp(14px, 1.8vw, 22px); right: clamp(14px, 1.8vw, 24px);
+  width: clamp(28px, 2.6vw, 36px); height: auto;
+  color: var(--head); filter: url(#rough-sm);
+}
+.compass text { font: 600 11px var(--hand); fill: currentColor; }
+.cartouche .eyebrow { padding-right: 46px; }      /* clear of the north arrow */
+.cartouche-foot {
+  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
+  gap: 14px 24px; margin-top: 20px;
+}
+.cartouche-foot .btn { margin-top: 0; }
+.scalebar {
+  width: 168px; height: auto; flex: none;
+  color: var(--head); filter: url(#rough-sm);
+}
+.scalebar text { font: 600 10px var(--hand); fill: currentColor; }
+
 /* "OUT NOVEMBER 17 · PREORDERS OPEN" */
 .eyebrow {
   display: flex; align-items: center; gap: 10px;

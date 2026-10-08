@@ -205,14 +205,14 @@
   --clip-position: 0 0, var(--frame-position);
 }
 .gframe, .scard-img, .pshots:not(.scatter) a:not(.pcap), .pshots:not(.scatter) .pstill,
-.pvid, .panel-body {
+.pvid, .panel-body, .cartouche {
   border-color: transparent;
   background-clip: padding-box;                   /* no sliver of background outside the stroke */
 }
 .scard-img, .pvid { position: relative; }
 
 .gframe::after, .scard-img::after, .pshots:not(.scatter) a:not(.pcap)::after,
-.pshots:not(.scatter) .pstill::after, .pvid::after, .panel-body::after {
+.pshots:not(.scatter) .pstill::after, .pvid::after, .panel-body::after, .cartouche::after {
   content: "";
   position: absolute; inset: 0;
   z-index: 3;                                     /* above the "In the book" badge */
