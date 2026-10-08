@@ -252,7 +252,7 @@ body { overflow-anchor: none; }
   width: 24px; height: 24px;
   display: flex; align-items: center; justify-content: center;
   background: var(--bg); border: 1px solid var(--stroke);
-  font-family: var(--display); font-weight: 500; font-size: var(--fs-2xl); line-height: 1; color: var(--ink);   /* the "+" in Outfit: the hand font's is tiny */
+  font-family: var(--display); font-weight: 300; font-size: var(--fs-2xl); line-height: 1; color: var(--ink);   /* the "+" in Outfit: the hand font's is tiny */
   opacity: 0; transform: translateY(3px);
   transition: opacity .16s, transform .16s, background .16s;
 }
@@ -678,7 +678,7 @@ body { overflow-anchor: none; }
   font-family: var(--hand); font-weight: 600; text-transform: uppercase; font-size: var(--fs-xs); letter-spacing: var(--track-tight);
 }
 .panel .close:hover { background: var(--ink); color: var(--plate); }
-.panel .close .x { font-family: var(--display); font-weight: 500; font-size: 1.45em; line-height: 0; vertical-align: -.1em; margin-left: 2px; }
+.panel .close .x { font-family: var(--display); font-weight: 300; font-size: 1.45em; line-height: 0; vertical-align: -.1em; margin-left: 2px; }
 
 
 /* While a detail view is open the rest of the page dims a little: a veil
