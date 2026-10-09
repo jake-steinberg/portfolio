@@ -12,10 +12,82 @@ file and pushing to `main` publishes it.
 | Contact | `contact.html` | `css/site.css` + `css/contact.css` | `js/site.js`, `js/contact.js` |
 | Bespoke project pages: `22map.html`, `pipeline.html`, `golf.html` | as is | `css/style.css`, Bootstrap, `css/scrollmap.css` | `js/scrollmap.js` |
 
-- **`css/site.css`** holds everything shared by the redesigned pages: the color
-  and font tokens at the top, the sticky header and the footer.
+- **`css/site.css`** holds everything shared by the redesigned pages: the color,
+  type and spacing settings at the top, the fonts, the sticky header and the
+  footer.
+- **`css/ink.css`** draws the hand-drawn lines, frames and underlines over
+  the plain ones (see "Hand-drawn lines" below). **`css/strokes.css`** and
+  **`css/paper.css`** are written by scripts; don't edit them by hand.
+- **`tools/`** holds the scripts that make fonts, strokes, textures, videos
+  and images. Each explains itself at the top.
 - **Don't edit `css/style.css`** for the new design. The bespoke project pages
   depend on it and are meant to stay as they are.
+
+## The design settings
+
+Every color, font size and letter-spacing on the redesigned pages comes from
+a named setting at the top of `css/site.css` (section 1). Change one there
+and everything that uses it follows.
+
+- **Colors.** Paper (`--bg`, `--page`, `--plate`), ink (`--ink`, `--muted`),
+  the coral accent (`--accent`, plus `--accent-ink` for coral text and
+  `--accent-soft` for link underlines), umber headings (`--head`), and three
+  rule greys from darkest to palest (`--rule-ink`, `--rule`, `--rule-soft`).
+  The labels have darker versions of the grey and coral (`--label-ink`,
+  `--label-accent`), since their font is thin.
+  **After changing a color, run `python3 tools/make-strokes.py`** so the
+  hand-drawn lines are redrawn to match.
+- **Type sizes.** Seven fixed steps, `--fs-xs` (11.5px) to `--fs-2xl` (20px),
+  and three that grow with the window for headings (`--fs-h3`, `--fs-h2`,
+  `--fs-h1`). `--label-plus` (1px) is added to every label's size.
+- **Letter-spacing.** Four steps: `--track-tight`, `--track-head` (the big
+  headings), `--track` (labels) and `--track-wide` (nav).
+- **`--paper`** sets how strong the paper texture is (0 = none, 1 = full).
+
+## Fonts
+
+Three fonts, all self-hosted in `css/fonts/` (no Google Fonts), each with
+its licence beside it:
+
+| Font | Used for | Setting |
+|---|---|---|
+| **Outfit** (heavy geometric sans) | headings, the name in the header | `--display` |
+| **Source Serif 4** (with its italic) | all the reading text | `--text` |
+| **Bell Topo Sans** by Sarah Bell (Regular; Bold for a few headings) | labels: nav, tags, pills, dates, buttons, footer | `--topo` |
+
+- Each is trimmed to the characters the site uses and saved as WOFF2 by
+  `tools/subset-fonts.sh` (instructions at its top). If a character ever
+  shows in a fallback font, add it to `UNICODES` there and rerun.
+- Source Serif keeps weights 400–600, with its optical size fixed for 16px
+  text.
+- Bell Topo Sans is trimmed and converted with Sarah Bell's permission
+  (October 2026); its EULA in `css/fonts/belltopo/` otherwise applies. Its
+  `@font-face` in `site.css` evens out its line spacing so capitals sit
+  centred in the pills.
+- The two fonts every page needs first (Source Serif and Bell Topo Regular)
+  are preloaded in each page's `<head>`, so text appears in its own font
+  rather than swapping in a moment later.
+- Headings in Outfit get slightly rough, hand-lettered edges from SVG filters
+  (`rough-lg/md/sm`) defined at the top of each page's `<body>`; which
+  headings get which is in `site.css`, section 8.
+
+## Hand-drawn lines and paper
+
+- **Lines, frames and underlines.** `css/ink.css` replaces the plain rules,
+  picture frames, link underlines and pill outlines with strokes that swell
+  and wobble like a pen's. Section breaks are solid; dividers inside a
+  section (resume entries, awards) are dashed, like a county line on a map.
+  Delete the `ink.css` and `strokes.css` lines from a page and it goes back
+  to plain lines.
+- **The strokes** are drawn by `python3 tools/make-strokes.py`, in the colors
+  from `site.css`. It writes the SVGs to `img/strokes/` (the readable
+  originals) and builds them into `css/strokes.css`, which is what pages
+  actually load, so the lines draw with the page instead of a beat after
+  it. Rerun it after changing a color.
+- **Paper texture.** A faint grain (`img/paper-grain.webp`, a seamless 256px
+  tile) and mottling (`img/paper-mottle.webp`) behind the page. They're
+  built into `css/paper.css` by `python3 tools/embed-paper.py`; rerun it if
+  you replace either image.
 
 ## Add a project to the portfolio
 
@@ -41,9 +113,19 @@ file and pushing to `main` publishes it.
 
    Timing and quality settings are at the top of the script.
 
-   The WebP tile is used as the video's poster frame. Videos only play while
-   they're on screen, and never for visitors who've asked their device for
-   reduced motion.
+   For a wide picture that scrolls past without end (Cycling St. Paul's
+   Hills, Geology), use `tools/endless-scroll.sh`.
+
+   Then, to make it lighter, run `python3 tools/compress-videos.py
+   my-project`. It picks the strongest compression that still looks almost
+   identical (an SSIM score of 0.965 or more). Run it once per new video:
+   each run compresses again.
+
+   The WebP tile is used as the video's still image (poster). It loads only
+   as the tile nears the screen. Videos play only while they're on screen;
+   on phones, only the one most in view plays. Nothing plays for visitors
+   who've asked their device for reduced motion or to save data; they see
+   the still image.
 3. **Add an entry to `js/projects.js`.** There's a template with every field
    explained at the top of that file. The grid follows the order of the list.
 4. **Update the plain copy for search engines**, from the repo folder:
@@ -91,7 +173,8 @@ That's all: the tile, its filter tags and its panel are built automatically.
   by side at matching heights. Three or five make a mosaic: the widest across
   the top and the rest sharing a row beneath it, or all in one row, whichever
   shows them bigger in the space. Four sit in two rows of two. Six or more make a grid,
-  three to a row (two on phones). All are uncropped. Clicking a picture opens it full size in a new tab;
+  three to a row (two on phones). All are uncropped. Clicking a picture opens it full size in a new tab
+  (on phones, full screen on the page, with tap and pinch to zoom);
   write an entry as `{ src, link, label }` to open a story instead, or as
   `{ src, story, label }` to caption it with its label underneath linking to
   the story (with no `story`, the label is a plain caption). Captioned pictures always sit in one row, in the order listed.
@@ -121,7 +204,7 @@ That's all: the tile, its filter tags and its panel are built automatically.
   `.mp4` loop with a `.webp` poster of the same name minus `-loop`) and they
   show as a grid of cards, two to a row (see *Operation Metro Surge*). Set `link: ""` to drop the single main button.
 - `linkType: "file"` opens the full-size image (or PDF) in a new tab.
-- `awards` — each is a line with a star. To add the judges' words in a quote
+- `awards` — each is a line marked with a compass star (`img/compass-star.svg`). To add the judges' words in a quote
   box beneath it, write it as `{ award: "…", quote: "“…”", quoteBy: "Judge’s comments" }`.
 - `onlyWhen: ["3d", "outdoors"]` — keeps a tile out of the full grid; it shows
   up only while one of those tags is selected (see Cloud Peak Wilderness).
@@ -139,9 +222,11 @@ everything. The selection is kept in the address bar
 
 ## Things that are copied onto every page
 
-The **header** and **footer** markup is repeated in each page, since there's no
-build step to share it. If you change one, change it in `index.html`,
-`resume.html` and `contact.html`:
+Some markup is repeated in each page, since there's no build step to share
+it. If you change one, change it in `index.html`, `resume.html` and
+`contact.html`: the **header** and **footer**; the **rough-heading SVG
+filters** just inside `<body>`; the **font preloads** and stylesheet links in
+`<head>`; and the **link-preview tags** (`og:image` and friends).
 
 - **Nav:** the current page's link gets `aria-current="page"`.
 - **"Last updated":** update the text and the `datetime` attribute when you
@@ -180,6 +265,31 @@ Perplexity) find the site and understand it:
   It's repeated on all three pages.
 - **`robots.txt`** lets every crawler in and points to **`sitemap.xml`**, the
   list of pages. Add a `<url>` line there when you add a page.
+
+## Images made by scripts
+
+- **The JS nameplate** in the header (`img/nameplate.webp`) is drawn by
+  `python3 tools/make-nameplate.py`, sharp at three times its old size, from
+  the letter shapes in `tools/og-card/`.
+- **The link-preview card** (`img/og-card.jpg`), the picture shown when the
+  site is shared in a message or on social media, is the page
+  `tools/og-card/og-card.html`. Edit it, then with the local server running
+  (below), save it as a picture with `node tools/og-card/render.mjs` (needs
+  Google Chrome and Node 22+).
+
+## Publishing
+
+Pushing to `main` publishes the site; GitHub Pages rebuilds it in about a
+minute. Work on a branch (the redesign was built on `redesign-2026`) and
+merge into `main` when it's ready. When you publish a bigger change:
+
+- update "Last updated" in the three footers (see above), and the
+  `<lastmod>` dates in `sitemap.xml`
+- rerun `node tools/build-project-list.mjs` if `projects.js` changed
+
+A push with lots of new images or videos can fail with "unable to rewind rpc
+post data". Push again with a bigger buffer:
+`git -c http.postBuffer=524288000 push`.
 
 ## Preview locally
 
