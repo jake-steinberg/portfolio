@@ -10,6 +10,7 @@
      5. Paper texture  — the faint grain and mottling on the page background
      6. Labels font    — Bell Topo Sans, for labels (--topo)
      7. Headings font  — Outfit, self-hosted
+     7b. Reading font  — Source Serif 4 (with its italic), self-hosted
      8. Rough headings — hand-drawn wobble on every Outfit heading
 
    Page-specific styles live in their own files (portfolio.css, resume.css).
@@ -272,15 +273,15 @@ body::before,
    buttons and the footer. Set in capitals, letter-spaced, like map labels.
    Regular for the labels; Bold for a few headings among them (the
    resume's toolkit groups, the basemap styles' "In the wild").
-   Self-hosted from css/fonts/belltopo/. Its licence (EULA.txt there) allows
-   commercial use but says the font file may not be altered, so it's served
-   exactly as downloaded: the full .otf, not trimmed or converted like the
-   others. It has no "·" or "–"; those come from Outfit, next in --topo.
+   Self-hosted from css/fonts/belltopo/, trimmed and converted to WOFF2 by
+   tools/subset-fonts.sh with Sarah Bell's permission (October 2026); its
+   licence (EULA.txt there) otherwise applies as written. It has no "·" or
+   "–"; those come from Outfit, next in --topo.
    size-adjust brings its capitals up to the size the labels were drawn at.
    ----------------------------------------------------------------------------- */
 @font-face {
   font-family: "Bell Topo Sans";
-  src: url(fonts/belltopo/BellTopoSans-Regular.otf) format("opentype");
+  src: url(fonts/belltopo/BellTopoSans-Regular.woff2) format("woff2");
   font-weight: 400; font-style: normal; font-display: swap; size-adjust: 112%;
   /* its own line spacing puts the capitals partly above the line and a deep
      gap below, so labels sat high in their pills. These even it out (the
@@ -293,7 +294,7 @@ body::before,
    little taller. */
 @font-face {
   font-family: "Bell Topo Sans";
-  src: url(fonts/belltopo/BellTopoSans-Bold.otf) format("opentype");
+  src: url(fonts/belltopo/BellTopoSans-Bold.woff2) format("woff2");
   font-weight: 700; font-style: normal; font-display: swap; size-adjust: 112%;
   ascent-override: 94%; descent-override: 20%; line-gap-override: 0%;
 }
@@ -314,6 +315,25 @@ body::before,
   font-weight: 100 900; font-display: swap;
 }
 
+
+/* -----------------------------------------------------------------------------
+   7b. READING FONT — Source Serif 4 (--text), for all the running text.
+   Self-hosted from css/fonts/sourceserif/ (SIL Open Font License; the licence
+   is in that folder), with a real italic for titles and quotes. Each file is
+   trimmed by tools/subset-fonts.sh to weights 400–600 (still variable), the
+   characters the site uses, and its optical size set for 16px text, the
+   size the site reads at.
+   ----------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Source Serif 4";
+  src: url(fonts/sourceserif/SourceSerif4.woff2) format("woff2");
+  font-weight: 400 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Source Serif 4";
+  src: url(fonts/sourceserif/SourceSerif4-Italic.woff2) format("woff2");
+  font-weight: 400 600; font-style: italic; font-display: swap;
+}
 
 /* -----------------------------------------------------------------------------
    8. ROUGH HEADINGS — every heading set in Outfit gets slightly wobbly,
