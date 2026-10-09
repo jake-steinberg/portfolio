@@ -349,7 +349,9 @@ body { overflow-anchor: none; }
 .gcard .cap, .gcard .tags { transition: opacity .2s; }
 .gcard.hush .cap,
 .gcard.hush .tags { opacity: 0; }
-.panel > .panel-in { overflow: hidden; min-height: 0; }
+.panel > .panel-in { overflow: hidden; overflow: clip; min-height: 0; }
+/* (clip rather than hidden where browsers have it: it hides the same, but
+   lets the Close button stick while you scroll on phones, below) */
 
 .panel-body {
   position: relative;
@@ -360,11 +362,34 @@ body { overflow-anchor: none; }
   --pbody-gap: clamp(18px, 2.6vw, 38px);   /* space around the text/pictures columns */
   --shot-gap: 12px;                        /* space between pictures in a row (.pshots.mosaic) */
   gap: var(--pbody-gap);
-  padding: clamp(20px, 2.5vw, 32px);
+  --pbody-pad: clamp(20px, 2.5vw, 32px);   /* space inside its frame */
+  padding: var(--pbody-pad);
   background: var(--plate);
   border: 1px solid var(--stroke);
 }
 @media (max-width: 720px) { .panel-body { --shot-gap: 8px; } }
+
+/* -- PANEL ON PHONES (one column, 720px and narrower) ------------------------
+   The pictures come first, edge to edge across the panel, then the text.
+   The Close button sits over the top right of the pictures and stays in
+   view under the header while you scroll down a long panel. Tapping a
+   picture opens it full screen (the viewer, at the end of this file). */
+@media (max-width: 720px) {
+  .panel-body > .pmedia:not(.pmedia-below) {
+    order: -1;
+    /* up over the panel's padding, and over the gap after the Close
+       button's row (which takes no height of its own) */
+    margin: calc(-1 * var(--pbody-pad) - var(--pbody-gap)) calc(-1 * var(--pbody-pad)) 0;
+  }
+  .pmedia-below { margin-top: 0; }               /* it follows the text now */
+  .panel .panel-body > .close {                  /* (more specific than the general .close rule further down) */
+    order: -2;
+    position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--headH) + 10px);
+    justify-self: end; align-self: start;
+    height: 30px; margin-bottom: -30px;           /* takes no room: it sits over the pictures */
+    margin-right: calc(-1 * var(--pbody-pad) + 10px);
+  }
+}
 /* a second group of pictures (splitBelow in js/portfolio.js, e.g. The Legacy
    Tree's photos). Where it stacks right under the top picture (phones, and
    1- or 2-column detail views), the negative margin cancels the grid's own
@@ -704,6 +729,48 @@ body { overflow-anchor: none; }
 .gcard[aria-expanded="true"],
 .panel:not(.closing) { position: relative; z-index: 41; }
 
+
+/* -----------------------------------------------------------------------------
+   PICTURE VIEWER (phones) — a picture from a panel, full screen, on a dark
+   ground (js/portfolio.js, 4b). Fitted to the screen at first; tapped, it
+   shows at full size (.zoomed) and you drag around it.
+   ----------------------------------------------------------------------------- */
+.viewer {
+  position: fixed; inset: 0; z-index: 100;
+  display: none;
+  background: rgba(20, 17, 14, .94);
+}
+.viewer.on { display: block; }
+html.viewing { overflow: hidden; }               /* the page stays put behind it */
+.vscroll {
+  position: absolute; inset: 0; overflow: auto;
+  display: grid; place-items: center;
+  overscroll-behavior: contain;
+  touch-action: pan-x pan-y pinch-zoom;
+}
+.vscroll img {
+  max-width: 100%; max-height: 100%; width: auto; height: auto;
+  cursor: zoom-in;
+  background: var(--plate);
+}
+.viewer.zoomed .vscroll { place-items: start; }
+.viewer.zoomed .vscroll img { max-width: none; max-height: none; height: auto; cursor: zoom-out; }
+.vclose {
+  position: absolute; z-index: 1;
+  top: calc(env(safe-area-inset-top, 0px) + 12px); right: 12px;
+  padding: 8px 12px; line-height: 1; cursor: pointer;
+  background: var(--bg); border: 1px solid var(--stroke); color: var(--ink);
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase;
+  font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track-tight);
+}
+.vclose .x { font-family: var(--display); font-weight: 300; font-size: 1.45em; line-height: 0; vertical-align: -.1em; margin-left: 2px; }
+.vhint {
+  position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+  margin: 0; text-align: center; pointer-events: none;
+  font-family: var(--topo); text-transform: uppercase; letter-spacing: var(--track);
+  font-size: calc(var(--fs-xs) + var(--label-plus)); color: rgba(255, 255, 255, .7);
+}
+.viewer.zoomed .vhint { display: none; }
 
 /* -----------------------------------------------------------------------------
    Less motion for visitors who ask for it
