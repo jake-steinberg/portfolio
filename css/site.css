@@ -234,7 +234,7 @@ a { color: inherit; }
 /* -----------------------------------------------------------------------------
    5. PAPER TEXTURE — a faint grain and mottling on the page, like printed paper.
    Two seamless images, both warm brown on transparent, layered over --bg:
-     img/paper-grain.webp   fine speckle and short fibres, a 512px tile
+     img/paper-grain.webp   fine speckle and short fibres, a seamless 256px tile
      img/paper-mottle.webp  soft uneven blotches; a small file stretched to
                             1280px, so its repeat never lines up with the grain's
    They're drawn on a layer behind the page's content, so pictures, the white
@@ -255,7 +255,7 @@ body::before,
   position: absolute; inset: 0; z-index: -1;
   pointer-events: none;
   /* the images themselves (grain, mottling) are set in css/paper.css */
-  background-size: 512px 512px, 1280px 1280px;
+  background-size: 256px 256px, 1280px 1280px;
   opacity: var(--paper);
 }
 
