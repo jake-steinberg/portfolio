@@ -238,6 +238,10 @@ body { overflow-anchor: none; }
 }
 .gframe img,
 .gframe video { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* a video tile: the video over its still image, invisible until it's
+   playing (js/portfolio.js adds .ready), so it never flashes blank */
+.gframe > video { position: absolute; inset: 0; opacity: 0; transition: opacity .25s; }
+.gframe > video.ready { opacity: 1; }
 
 /* hover: the "lift" — slight tilt, raised shadow */
 @media (hover: hover) {

@@ -88,12 +88,14 @@
      2. Tiles
      ------------------------------------------------------------------------- */
   function tileHTML(p) {
-    // A video tile shows the still image as its poster until the video plays.
-    // preload="none" means nothing downloads until the tile scrolls into view,
-    // and the poster waits in data-poster until the tile nears the screen
-    // (section 4), since browsers fetch posters straight away otherwise.
+    // A video tile is the still image with the video laid over it. The video
+    // stays invisible until it's actually playing (section 4), so there's
+    // never a blank moment while it loads (iPhones hide a video's poster as
+    // soon as it's told to play). The still loads lazily like any tile;
+    // preload="none" means the video downloads nothing until it plays.
     const media = p.video
-      ? `<video muted loop playsinline preload="none" data-poster="${esc(p.tile)}" aria-label="${esc(p.title)}">
+      ? `<img class="still" src="${esc(p.tile)}" alt="" loading="lazy" decoding="async">
+         <video muted loop playsinline preload="none" aria-label="${esc(p.title)}">
            <source src="${esc(p.video)}" type="video/mp4">
          </video>`
       : `<img src="${esc(p.tile)}" alt="${esc(p.title)}" loading="lazy" decoding="async">`;
@@ -717,9 +719,8 @@
 
   /* ---------------------------------------------------------------------------
      4. Video tiles
-        - The still image (poster) is attached only once a tile is within
-          about a screen of view, so tiles far down the page cost nothing
-          until you scroll towards them.
+        - Each video sits over its still image, invisible until it starts
+          playing; then it fades in (.ready in portfolio.css).
         - Videos play only while on screen. On phones (640px wide or less),
           only one plays at a time: the one most in view, once at least 60%
           of it shows. On bigger screens, any tile at least a quarter on
@@ -732,17 +733,6 @@
     (navigator.connection && navigator.connection.saveData) ||
     window.matchMedia('(prefers-reduced-data: reduce)').matches;
   const stayStill = () => prefersReducedMotion() || savingData();
-
-  const posterWatcher = ('IntersectionObserver' in window)
-    ? new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const video = entry.target;
-          video.poster = video.dataset.poster;
-          posterWatcher.unobserve(video);
-        });
-      }, { rootMargin: '100% 0px' })              // a screen's height above and below
-    : null;
 
   const onScreen = new Map();                     // video -> how much of it shows (0–1)
   function updatePlayback() {
@@ -766,15 +756,12 @@
     : null;
 
   function watchVideos() {
-    const videos = gridEl.querySelectorAll('video');
-    if (!videoWatcher) {                          // very old browsers: posters now, no autoplay
-      videos.forEach((v) => { v.poster = v.dataset.poster; });
-      return;
-    }
-    videoWatcher.disconnect(); posterWatcher.disconnect(); onScreen.clear();
-    videos.forEach((v) => {
+    if (!videoWatcher) return;                    // very old browsers: just the still images
+    videoWatcher.disconnect(); onScreen.clear();
+    gridEl.querySelectorAll('video').forEach((v) => {
       videoWatcher.observe(v);
-      if (!v.poster) posterWatcher.observe(v);
+      // show it once it's really playing; until then the still shows through
+      if (!v.classList.contains('ready')) v.addEventListener('playing', () => v.classList.add('ready'), { once: true });
     });
   }
   PHONE.addEventListener('change', updatePlayback);   // e.g. a tablet turned sideways
