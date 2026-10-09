@@ -244,18 +244,22 @@ body { overflow-anchor: none; }
   .gcard:hover .gframe { transform: rotate(1deg) translateY(-3px); box-shadow: var(--shadow-lift); }
 }
 
-/* the + / − chip: hidden at rest, shows on hover or keyboard focus,
-   stays visible (as −) while the tile's panel is open */
+/* the + chip: hidden at rest on screens with a mouse, shows on hover or
+   keyboard focus (always shown, faded, on touch screens); stays visible,
+   in coral, while the tile's panel is open */
 .chip {
   position: absolute; right: 8px; bottom: 8px; z-index: 2;
   width: 24px; height: 24px;
   display: flex; align-items: center; justify-content: center;
   background: var(--bg); border: 1px solid var(--stroke);
-  font-family: var(--display); font-weight: 300; font-size: var(--fs-2xl); line-height: 1; color: var(--ink);   /* the "+" in Outfit: the hand font's is tiny */
+  font-family: var(--display); font-weight: 300; font-size: var(--fs-2xl); line-height: 1; color: var(--ink);   /* the "+" in Outfit, light */
   opacity: 0; transform: translateY(3px);
   transition: opacity .16s, transform .16s, background .16s;
 }
 @media (hover: hover) { .gcard:hover .chip { opacity: 1; transform: none; } }
+/* touch screens can't hover, so there the chip always shows, a little faded,
+   as the sign that a tile opens */
+@media (hover: none) { .chip { opacity: .8; transform: none; } }
 .gcard:focus-visible .chip { opacity: 1; transform: none; }
 
 /* open state */
