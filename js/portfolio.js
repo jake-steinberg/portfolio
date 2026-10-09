@@ -89,9 +89,11 @@
      ------------------------------------------------------------------------- */
   function tileHTML(p) {
     // A video tile shows the still image as its poster until the video plays.
-    // preload="none" means nothing downloads until the tile scrolls into view.
+    // preload="none" means nothing downloads until the tile scrolls into view,
+    // and the poster waits in data-poster until the tile nears the screen
+    // (section 4), since browsers fetch posters straight away otherwise.
     const media = p.video
-      ? `<video muted loop playsinline preload="none" poster="${esc(p.tile)}" aria-label="${esc(p.title)}">
+      ? `<video muted loop playsinline preload="none" data-poster="${esc(p.tile)}" aria-label="${esc(p.title)}">
            <source src="${esc(p.video)}" type="video/mp4">
          </video>`
       : `<img src="${esc(p.tile)}" alt="${esc(p.title)}" loading="lazy" decoding="async">`;
@@ -714,28 +716,68 @@
 
 
   /* ---------------------------------------------------------------------------
-     4. Video tiles — play only while at least a quarter of the tile is on
-        screen, so 13 videos never run at once. Visitors who prefer reduced
-        motion just see the still poster image.
+     4. Video tiles
+        - The still image (poster) is attached only once a tile is within
+          about a screen of view, so tiles far down the page cost nothing
+          until you scroll towards them.
+        - Videos play only while on screen. On phones (640px wide or less),
+          only one plays at a time: the one most in view, once at least 60%
+          of it shows. On bigger screens, any tile at least a quarter on
+          screen plays.
+        - Nothing plays for visitors who prefer reduced motion, or whose
+          phone or browser is set to save data: they see the still image.
      ------------------------------------------------------------------------- */
-  const videoWatcher = ('IntersectionObserver' in window)
+  const PHONE = window.matchMedia('(max-width: 640px)');
+  const savingData = () =>
+    (navigator.connection && navigator.connection.saveData) ||
+    window.matchMedia('(prefers-reduced-data: reduce)').matches;
+  const stayStill = () => prefersReducedMotion() || savingData();
+
+  const posterWatcher = ('IntersectionObserver' in window)
     ? new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
           const video = entry.target;
-          if (entry.isIntersecting && !prefersReducedMotion()) {
-            video.play().catch(() => {});             // a blocked autoplay just leaves the poster
-          } else {
-            video.pause();
-          }
+          video.poster = video.dataset.poster;
+          posterWatcher.unobserve(video);
         });
-      }, { threshold: 0.25 })
+      }, { rootMargin: '100% 0px' })              // a screen's height above and below
+    : null;
+
+  const onScreen = new Map();                     // video -> how much of it shows (0–1)
+  function updatePlayback() {
+    const visible = [...onScreen].filter(([, ratio]) => ratio > 0);
+    let playing;
+    if (stayStill()) playing = [];
+    else if (PHONE.matches) {
+      const best = visible.sort((a, b) => b[1] - a[1])[0];
+      playing = best && best[1] >= 0.6 ? [best[0]] : [];
+    } else playing = visible.filter(([, ratio]) => ratio >= 0.25).map(([video]) => video);
+    onScreen.forEach((ratio, video) => {
+      if (playing.includes(video)) video.play().catch(() => {});   // a blocked autoplay just leaves the poster
+      else if (!video.paused) video.pause();
+    });
+  }
+  const videoWatcher = ('IntersectionObserver' in window)
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((entry) => onScreen.set(entry.target, entry.intersectionRatio));
+        updatePlayback();
+      }, { threshold: [0, 0.25, 0.4, 0.6, 0.8, 1] })
     : null;
 
   function watchVideos() {
-    if (!videoWatcher) return;
-    videoWatcher.disconnect();
-    gridEl.querySelectorAll('video').forEach((v) => videoWatcher.observe(v));
+    const videos = gridEl.querySelectorAll('video');
+    if (!videoWatcher) {                          // very old browsers: posters now, no autoplay
+      videos.forEach((v) => { v.poster = v.dataset.poster; });
+      return;
+    }
+    videoWatcher.disconnect(); posterWatcher.disconnect(); onScreen.clear();
+    videos.forEach((v) => {
+      videoWatcher.observe(v);
+      if (!v.poster) posterWatcher.observe(v);
+    });
   }
+  PHONE.addEventListener('change', updatePlayback);   // e.g. a tablet turned sideways
 
   // Browsers won't start video in a background tab. If the page was opened
   // in one, re-check the on-screen videos when the tab comes to the front.
