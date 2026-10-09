@@ -374,25 +374,18 @@ body { overflow-anchor: none; }
 @media (max-width: 720px) { .panel-body { --shot-gap: 8px; } }
 
 /* -- PANEL ON PHONES (one column, 720px and narrower) ------------------------
-   The pictures come first, edge to edge across the panel, then the text.
-   The Close button sits over the top right of the pictures and stays in
-   view under the header while you scroll down a long panel. Tapping a
-   picture opens it full screen (the viewer, at the end of this file). */
+   The Close button stays in view under the header while you scroll down a
+   long panel. Tapping a picture opens it full screen (the viewer, at the
+   end of this file). */
 @media (max-width: 720px) {
-  .panel-body > .pmedia:not(.pmedia-below) {
-    order: -1;
-    /* up over the panel's padding, and over the gap after the Close
-       button's row (which takes no height of its own) */
-    margin: calc(-1 * var(--pbody-pad) - var(--pbody-gap)) calc(-1 * var(--pbody-pad)) 0;
-  }
-  .pmedia-below { margin-top: 0; }               /* it follows the text now */
   .panel .panel-body > .close {                  /* (more specific than the general .close rule further down) */
-    order: -2;
+    order: -1;
     position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--headH) + 10px);
     justify-self: end; align-self: start;
-    height: 30px; margin-bottom: -30px;           /* takes no room: it sits over the pictures */
-    margin-right: calc(-1 * var(--pbody-pad) + 10px);
+    /* in the top right corner, where it always sat, taking no room */
+    height: 30px; margin: calc(12px - var(--pbody-pad)) calc(12px - var(--pbody-pad)) -30px 0;
   }
+  .panel-body > .close + .panel-main { margin-top: calc(-1 * var(--pbody-gap)); }   /* no gap after its (empty) row */
 }
 /* a second group of pictures (splitBelow in js/portfolio.js, e.g. The Legacy
    Tree's photos). Where it stacks right under the top picture (phones, and
