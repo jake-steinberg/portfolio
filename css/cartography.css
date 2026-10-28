@@ -7,6 +7,19 @@
    What lives here:
      1. Figures — the charts and diagrams that tools/make-map-figures.py
         writes into the page between its FIG markers
+     2. Page — the frame, spacing, type and links
+     3. Top bar
+     4. Hero — the live map, its stand-in loop, the phone's tap-to-load
+     5. One schema, five jobs (#styles)
+     6. The world in relief (#terrain): the dark band and the light strip
+     7. Designing for every zoom (#zoom)
+     8. A base for election data (#elex) and Tools (#tools)
+     9. About (#about)
+    10. Phones, reduced motion, more contrast
+
+   The look: the page is plain --plate (no paper, strokes or shadows), the
+   pictures are as big as the layout allows, and the only colours besides
+   the site's tokens are the map hexes inside the figures.
    ============================================================================= */
 
 
@@ -98,4 +111,455 @@
   .fig-table { font-size: var(--fs-xs); }
   .fig-table .fig-bar { width: 90px; }
   .fig-table .fig-bar svg { width: 90px; }
+}
+
+
+/* -----------------------------------------------------------------------------
+   2. PAGE
+   One centred frame, 1200px at most, with 16px gutters on phones growing to
+   48px. Wider things (the Rincon rendering, the Cortina map) step outside
+   it to their own caps: 1440px and 2000px. Sections are set far apart, as
+   chapters; a hairline in --rule marks the break between plate sections.
+   ----------------------------------------------------------------------------- */
+.carto {
+  --gut: clamp(16px, 4vw, 48px);
+  --secpad: clamp(72px, 10vw, 160px);                  /* above and below every section */
+  --fs-sec: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem);   /* 28 → 44px: the section headings */
+  --gap: clamp(28px, 4vw, 56px);                       /* between columns */
+  background: var(--plate);                            /* the lighter paper, not --page: no texture here */
+}
+.frame { width: min(1200px, 100% - 2 * var(--gut)); margin-inline: auto; }
+
+.sec { position: relative; padding-block: var(--secpad); }
+/* the hairline between two plate sections, as wide as the frame */
+.sec.rule::before {
+  content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: min(1200px, 100% - 2 * var(--gut));
+  border-top: 1px solid var(--rule);
+}
+
+/* small capital labels in Bell Topo Sans: the eyebrow and kickers (coral),
+   captions and little headings (grey) */
+.eyebrow, .kicker, .minihead, .mapcap, .fig > figcaption, .place, .card-kicker, .yr, .band-foot {
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase;
+  font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
+  line-height: 1.6;
+}
+.eyebrow, .kicker { color: var(--label-accent); letter-spacing: var(--track-wide); margin: 0 0 14px; }
+.minihead { font-weight: 700; color: var(--label-ink); margin: 0 0 14px; }
+
+/* headings: Outfit, heavy, umber, never the rough filter (css/site.css §8) */
+.carto h1, .carto h2, .work-title {
+  font-family: var(--display); font-weight: 700; color: var(--head);
+  letter-spacing: var(--track-head); filter: none;
+}
+.carto h2 { font-size: var(--fs-sec); line-height: 1.1; margin: 0; }
+.sec-head { margin-bottom: clamp(24px, 3vw, 40px); }
+
+/* running text: the reading serif at body size, at most 63 characters a line */
+.prose { max-width: var(--measure); }
+.prose p { font-size: var(--fs-lg); line-height: 1.6; margin: 0 0 1em; }
+.prose p:last-child { margin-bottom: 0; }
+
+/* a work's name, with where and when beside it in the labels font */
+.work-title { font-size: var(--fs-xl); line-height: 1.3; margin: 0 0 8px; letter-spacing: var(--track-tight); }
+.work-meta {
+  margin-left: .5em;
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase;
+  font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track); color: var(--label-ink);
+}
+
+/* links in text: ink, with the site's soft coral underline; on hover the
+   underline turns full coral and the arrow hops (as on the main site) */
+.tlink, .storylinks a {
+  color: var(--ink); text-decoration: none;
+  border-bottom: 2px solid var(--accent-soft);
+  transition: border-color .15s;
+}
+.tlink:hover, .storylinks a:hover { border-bottom-color: var(--accent); }
+.tlink:hover .ar, .storylinks a:hover .ar { transform: translate(2px, -2px); }
+
+/* the two sentences still waiting on Jake: left showing, plainly marked */
+mark.ph {
+  background: none; color: var(--accent-ink);
+  border-bottom: 1px dashed currentColor;
+}
+
+/* figures: a generous gap above and below, the caption under the figure */
+.fig { margin: clamp(40px, 5vw, 72px) 0; min-width: 0; }
+.fig > figcaption { margin-top: 14px; color: var(--label-ink); max-width: 80ch; }
+
+/* a quiet box: a hairline, no fill */
+.card-plain { border: 1px solid var(--rule); padding: clamp(20px, 2.4vw, 32px); }
+
+/* the pill buttons and links, as on the main site (css/portfolio.css) */
+.pill {
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track-tight);
+  text-transform: uppercase; text-decoration: none; display: inline-block;
+  padding: 5px 12px; cursor: pointer;
+  background: transparent; color: var(--label-ink);
+  border: 1px solid var(--rule); border-radius: 999px;
+  transition: background .14s, border-color .14s, color .14s;
+}
+.pill:hover { border-color: var(--stroke); color: var(--ink); }
+.pill[aria-pressed="true"] { background: var(--accent-ink); color: #fff; border-color: var(--accent-ink); }
+
+/* layouts used by several sections */
+.split-8-4, .split-5-7, .split-2 { display: grid; gap: var(--gap); align-items: start; }
+.split-8-4 > *, .split-5-7 > *, .split-2 > * { min-width: 0; }
+@media (min-width: 900px) {
+  .split-8-4 { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); }
+  .split-5-7 { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+}
+/* side by side only when each figure gets close to the 584px it's drawn at */
+@media (min-width: 1200px) { .split-2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+
+
+/* -----------------------------------------------------------------------------
+   3. TOP BAR — the name (home) on the left, Résumé and Email on the right.
+   Not sticky; a hairline underneath.
+   ----------------------------------------------------------------------------- */
+.topbar { border-bottom: 1px solid var(--rule); }
+.topbar-in {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 8px 24px; padding-block: 18px;
+}
+.tb-name {
+  font-family: var(--display); font-weight: 700; font-size: var(--fs-xl); letter-spacing: var(--track-head);
+  color: var(--head); text-decoration: none;
+}
+.tb-links { display: flex; gap: 22px; }
+.tb-links a {
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase;
+  font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track); color: var(--label-ink);
+  text-decoration: none; padding: 3px 0; border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.tb-links a:hover { color: var(--label-accent); border-bottom-color: var(--accent); }
+
+
+/* -----------------------------------------------------------------------------
+   4. HERO — words on the left (5 of 12 columns), the live map on the right
+   (7 of 12). Below 900px it's one column: words, map, then the jump links.
+   The map box holds three layers, bottom to top: the map itself (.basemap),
+   the stand-in loop (.poster) until the map has drawn, and the note.
+   js/cartography.js adds to .hero:
+     .tap-to-load  phones (and Save-Data): the map waits for a tap
+     .is-live      the map has been started (on phones, after the tap)
+     .is-drawn     the map has drawn: the loop fades out
+     .is-fallback  the map couldn't load: the loop stays, the note sits under it
+   ----------------------------------------------------------------------------- */
+.hero { position: relative; padding-block: clamp(40px, 6vw, 96px) var(--secpad); }
+.hero-grid {
+  display: grid; gap: 28px var(--gap);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "text" "map" "jump";
+}
+.hero-text { grid-area: text; }
+.hero-map  { grid-area: map; min-width: 0; position: relative; }
+.jump      { grid-area: jump; display: flex; flex-wrap: wrap; gap: 8px; align-self: start; }
+@media (min-width: 900px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "text map" "jump map";
+    grid-template-rows: auto 1fr;
+    row-gap: 36px;
+  }
+  /* in the narrow word column of a small laptop, the title stays on two lines */
+  .carto .hero-text h1 { font-size: min(var(--fs-h1), 4.1vw); }
+}
+.carto h1 { font-size: var(--fs-h1); line-height: 1.04; margin: 0 0 24px; text-wrap: balance; }
+.lede { font-size: var(--fs-lg); line-height: 1.6; margin: 0; max-width: 40ch; }
+.lede-phone { display: none; }
+
+/* "Skip past the map": only seen when it has keyboard focus, over the
+   top left of the map */
+.skip {
+  position: absolute; left: 8px; top: 8px; z-index: 5;
+  padding: 6px 12px; background: var(--ink); color: var(--plate);
+  font-family: var(--topo); text-transform: uppercase; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
+  text-decoration: none;
+}
+.skip:not(:focus) { width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* the style buttons, the map box and the caption (live-map rules from
+   css/portfolio.css, with this page's overrides: a black hairline, no
+   height cap) */
+.styleswitch { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+.basemap-wrap { position: relative; aspect-ratio: 4 / 3; }
+/* fills the box. (.basemap-wrap > .basemap outranks MapLibre's own
+   .maplibregl-map { position: relative }, which loads later and would
+   otherwise collapse the map to no height.) */
+.basemap-wrap > .basemap {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 1px solid var(--stroke); background: var(--bg); max-height: none;
+}
+.basemap-state { display: flex; align-items: center; justify-content: center; color: var(--ink); }
+.poster {
+  position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%;
+  object-fit: cover; border: 1px solid var(--stroke); background: var(--bg);
+  transition: opacity .3s ease;
+}
+.hero.is-drawn .poster { opacity: 0; pointer-events: none; }
+.poster[hidden] { display: none; }
+
+/* the note: while loading, a strip along the bottom of the box (so the loop
+   stays in view); if the map fails, a caption strip under the loop */
+.basemap-note {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; margin: 0;
+  padding: 8px 12px; border: 1px solid var(--stroke);
+  background: color-mix(in srgb, var(--plate) 90%, transparent);
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase;
+  font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track); color: var(--label-ink);
+}
+.basemap-note[hidden] { display: none; }
+/* the fallback note hangs just under the box (which keeps its shape), in
+   the space the box leaves for it below */
+.hero.is-fallback .basemap-note {
+  top: 100%; bottom: auto; border: 0; background: none; padding: 12px 0 0;
+  text-transform: none; font-family: var(--text); font-size: var(--fs-md); line-height: 1.5; letter-spacing: 0; color: var(--muted);
+}
+.hero.is-fallback .basemap-wrap { margin-bottom: 44px; }
+@media (max-width: 560px) { .hero.is-fallback .basemap-wrap { margin-bottom: 66px; } }   /* two lines */
+
+.mapcap { margin: 12px 0 0; color: var(--label-ink); }
+
+/* the chosen style's name, description and stories (js/basemaps.js) */
+.styleinfo { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--rule); }
+.styleinfo:empty { display: none; }
+.stylename {
+  font-family: var(--display); font-weight: 700; font-size: var(--fs-xl); line-height: 1.25;
+  letter-spacing: var(--track-tight); color: var(--head);
+  margin: 0 0 8px; filter: none;
+}
+.styleabout { font-size: var(--fs-base); line-height: 1.55; margin: 0 0 16px; max-width: var(--measure); }
+.inwild {
+  margin: 0 0 8px;
+  font-family: var(--topo); font-weight: 700; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--label-ink);
+}
+.storylinks {
+  list-style: none; margin: 4px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px 22px;
+  max-width: var(--measure);
+}
+.storylinks a { font-size: var(--fs-base); line-height: 1.4; }
+
+/* once the map can't load, the buttons and the style's details go (there's
+   no map for them to change) and so does "Live" */
+.hero.is-fallback :is(.styleswitch, .styleinfo, .mapcap) { display: none; }
+
+/* Phones (and Save-Data) wait for a tap: js/cartography.js adds
+   .tap-to-load. Until the tap, only the loop shows, with "Open the live map"
+   at its bottom left; the buttons, caption and style details come after.
+   Without JavaScript there's no map at all, so they never show. */
+.open-map { display: none; }
+.hero.tap-to-load:not(.is-live) .open-map {
+  display: inline-block; position: absolute; left: 12px; bottom: 12px; z-index: 3;
+  background: var(--plate); color: var(--ink); border-color: var(--stroke);
+  padding: 8px 14px;                                     /* a comfortable tap */
+}
+.hero.tap-to-load:not(.is-live) :is(.styleswitch, .styleinfo, .mapcap, .skip),
+html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: none; }
+
+
+/* -----------------------------------------------------------------------------
+   5. ONE SCHEMA, FIVE JOBS (#styles)
+   ----------------------------------------------------------------------------- */
+.fig-f1 { margin-top: clamp(48px, 6vw, 88px); }
+
+/* "In the wild": the ten stories, one column per style */
+.inwild-block { margin-top: clamp(48px, 6vw, 88px); }
+.wild-cols { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px var(--gap); }
+.wild-col h4 {
+  margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+  font-family: var(--display); font-weight: 700; font-size: var(--fs-base); letter-spacing: var(--track-tight); color: var(--head);
+}
+.wild-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.wild-col a { font-size: var(--fs-base); line-height: 1.4; }
+
+/* the Uptown proof: the loop on the left at its own size, words on the right */
+.proof {
+  margin: clamp(56px, 7vw, 104px) 0 0;
+  display: grid; gap: 20px var(--gap); align-items: center;
+  grid-template-columns: minmax(0, 504px) minmax(0, 1fr);
+}
+.proof-media video { width: 100%; border: 1px solid var(--stroke); background: var(--bg); }
+.proof figcaption p { margin: 0; font-size: var(--fs-lg); line-height: 1.6; max-width: 46ch; }
+
+
+/* -----------------------------------------------------------------------------
+   6. THE WORLD IN RELIEF (#terrain)
+   The dark band: ink ground, plate text, --rule-soft captions. Still
+   pictures only. Then the light strip of elevation as data.
+   ----------------------------------------------------------------------------- */
+.terrain { padding-block: 0; }
+.band { background: var(--ink); color: var(--plate); padding-block: var(--secpad); }
+.band h2, .band .work-title { color: var(--plate); }
+.band .kicker { color: var(--accent); }                    /* the light coral reads on ink (5:1) */
+.band .work-meta, .band .place, .band .band-foot { color: var(--rule-soft); }
+.band .tlink { color: var(--plate); border-bottom-color: var(--accent-ink); }
+.band .tlink:hover { border-bottom-color: var(--accent); }
+.band mark.ph { color: var(--accent); }
+.band a:focus-visible { outline-color: var(--accent); }
+.band .prose p { color: var(--plate); }
+
+/* 2a: Cortina, edge to edge up to its own 2000px, centred on ink above that */
+.bleed { margin: clamp(8px, 2vw, 24px) auto 0; max-width: 2000px; }
+.bleed img { width: 100%; }
+
+.band-text { margin-top: clamp(40px, 5vw, 72px); }
+.band-text .work-title, .rincon .work-title, .cloudpeak .work-title { font-size: var(--fs-h3); }
+
+/* 2c: the six, three across (two on phones), each with its place name */
+.sheet {
+  list-style: none; margin: clamp(48px, 6vw, 80px) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 2.4vw, 32px) clamp(12px, 1.6vw, 20px);
+}
+.sheet a, .cp-pair a { display: block; color: inherit; text-decoration: none; }
+.sheet img { width: 100%; transition: opacity .15s; }
+.sheet a:hover img { opacity: .88; }
+.place { display: block; margin-top: 10px; }
+
+/* 2d: Rincon, up to 1440px, its caption back in the frame */
+.wide-fig { margin: clamp(72px, 9vw, 136px) auto 0; max-width: 1440px; }
+.wide-fig > a { display: block; }
+.wide-fig img { width: 100%; }
+.wide-fig figcaption { margin-top: 24px; }
+.wide-fig figcaption p, .cloudpeak figcaption p { margin: 0; font-size: var(--fs-lg); line-height: 1.6; max-width: var(--measure); }
+
+/* 2e: Cloud Peak, with a detail at full size beside it (stacked on phones) */
+.cloudpeak { margin: clamp(72px, 9vw, 136px) 0 0; }
+.cp-pair { display: grid; gap: clamp(12px, 1.6vw, 20px); grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: start; }
+.cp-pair img { width: 100%; }
+.cloudpeak figcaption { margin-top: 24px; }
+
+.band-foot { margin: clamp(56px, 7vw, 96px) 0 0; }
+
+/* the light strip: three cards */
+.substrip { padding-block: clamp(56px, 7vw, 112px) var(--secpad); }
+.cards3 {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px var(--gap);
+}
+.card { min-width: 0; }
+.card-media { display: block; aspect-ratio: 5 / 4; border: 1px solid var(--stroke); background: var(--bg); overflow: hidden; }
+.card-media :is(img, video) { width: 100%; height: 100%; object-fit: cover; }
+.card p { margin: 16px 0 0; font-size: var(--fs-base); line-height: 1.55; }
+.card-kicker { display: block; margin-bottom: 6px; color: var(--label-ink); }
+
+
+/* -----------------------------------------------------------------------------
+   7. DESIGNING FOR EVERY ZOOM (#zoom)
+   ----------------------------------------------------------------------------- */
+.split-8-4 { margin-top: clamp(40px, 5vw, 72px); }
+.split-8-4 .fig { margin: 0; }
+.dakota p:last-child { margin: 0; font-size: var(--fs-base); line-height: 1.55; }
+.dakota .kicker { margin-bottom: 18px; }
+/* the characters at 40px in the reading serif. (Its trimmed web file has
+   only the accented letters the rest of the site uses; the others come from
+   the next serif in --text.) */
+.dakota-glyphs {
+  font-family: var(--text); font-size: 40px; line-height: 1.35; letter-spacing: .12em;
+  color: var(--ink); margin: 0 0 18px; overflow-wrap: anywhere;
+}
+
+/* 22, A Map: the album's glyphs on the left, in ink, then the words */
+.aside22 {
+  margin-top: clamp(56px, 7vw, 104px);
+  display: grid; gap: 20px var(--gap); align-items: center;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+.glyphs { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 12px; }
+.glyph { display: block; height: 40px; width: auto; }
+.a22-text p { margin: 0; font-size: var(--fs-base); line-height: 1.6; max-width: var(--measure); }
+
+
+/* -----------------------------------------------------------------------------
+   8. A BASE FOR ELECTION DATA (#elex) and TOOLS (#tools)
+   ----------------------------------------------------------------------------- */
+#elex .split-5-7 .fig { margin: 0; }
+.usedin { margin-top: 32px; }
+.tlinks { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; }
+.tlinks a { font-size: var(--fs-base); line-height: 1.4; }
+/* F6: the stack diagram on the left, its caption and list on the right */
+.fig-f6 { margin-bottom: 0; }
+@media (min-width: 900px) {
+  .fig-f6 {
+    display: grid; column-gap: var(--gap); align-items: start;
+    grid-template-columns: minmax(0, 480px) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+  }
+  .fig-f6 > .fig-svg { grid-column: 1; grid-row: 1 / span 2; }
+  .fig-f6 > figcaption { grid-column: 2; grid-row: 1; margin-top: 0; }
+  .fig-f6 > .fig-data { grid-column: 2; grid-row: 2; }
+}
+
+.split-2 { margin-top: clamp(40px, 5vw, 72px); }
+.split-2 .fig { margin: 0; }
+
+
+/* -----------------------------------------------------------------------------
+   9. ABOUT (#about) — two columns (one on phones), years in the labels font
+   ----------------------------------------------------------------------------- */
+.about h2 { margin-bottom: clamp(32px, 4vw, 56px); }
+.about-grid { display: grid; gap: 8px var(--gap); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.about-grid > div > .minihead:not(:first-child) { margin-top: 40px; }
+.entries { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.entries li { font-size: var(--fs-base); line-height: 1.55; max-width: 60ch; }
+.entries strong { font-weight: 600; }
+.yr { display: block; color: var(--label-accent); }
+.book { display: flex; gap: 20px; align-items: center; }
+.book img { width: 120px; flex: none; border: 1px solid var(--stroke); }
+.book p { margin: 0; font-size: var(--fs-base); line-height: 1.55; }
+.toolkit { margin: 0; font-size: var(--fs-base); line-height: 1.7; max-width: 60ch; }
+.toolkit span { white-space: nowrap; }        /* a tool and its dot never split across lines */
+.contact {
+  margin: clamp(48px, 6vw, 80px) 0 0; padding-top: 24px; border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: var(--fs-lg);
+}
+
+
+/* -----------------------------------------------------------------------------
+   10. PHONES, MID-SIZE SCREENS, REDUCED MOTION, MORE CONTRAST
+   ----------------------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  .wild-cols { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cards3 { gap: 28px 20px; }
+}
+@media (max-width: 899px) {
+  .proof, .aside22 { grid-template-columns: minmax(0, 1fr); }
+  .glyph { height: 36px; }
+  .proof-media { max-width: 504px; }
+  .cp-pair { grid-template-columns: minmax(0, 1fr); }
+  .about-grid { grid-template-columns: minmax(0, 1fr); }
+  .about-grid > div + div { margin-top: 32px; }
+}
+@media (max-width: 720px) {
+  .carto { --gut: 16px; }
+  .lede-wide { display: none; }
+  .lede-phone { display: inline; }
+  .carto h1 { font-size: max(32px, var(--fs-h1)); margin-bottom: 16px; }
+
+  /* the map box: 5:4, the loop's own shape (section 4 has the tap) */
+  .basemap-wrap { aspect-ratio: 5 / 4; }
+
+  .wild-cols { grid-template-columns: minmax(0, 1fr); }
+  .sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cards3 { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .contact { flex-direction: column; align-items: flex-start; }
+  .fig-f6.card-plain { padding: 14px; }        /* the stack diagram keeps nearly its full 360px */
+  .contact > span { display: none; }
+}
+
+/* motion: the loop vanishes at once instead of fading; no hops */
+@media (prefers-reduced-motion: reduce) {
+  .poster, .pill, .tlink, .storylinks a, .sheet img, .tb-links a { transition: none; }
+  .tlink:hover .ar, .storylinks a:hover .ar { transform: none; }
+}
+
+/* more contrast: captions in the dark band in full --plate, not --rule-soft */
+@media (prefers-contrast: more) {
+  .band .work-meta, .band .place, .band .band-foot { color: var(--plate); }
+  .fig > figcaption, .mapcap { color: var(--ink); }
 }

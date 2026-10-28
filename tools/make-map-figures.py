@@ -996,6 +996,10 @@ def hubs_data(style):
 # where each label sits: right of its circle unless listed here (set by eye,
 # after looking at the map, so labels don't cover other circles or leave it)
 HUB_LABEL_SIDE = {'Grand Marais': 'left', 'Red Wing': 'left', 'Austin': 'left', 'Moorhead': 'above'}
+# the phone version is drawn smaller, where Red Wing's label on the left ran
+# into Marshall's and Austin's covered a small circle: they go right instead,
+# over the state line
+HUB_LABEL_SIDE_NARROW = {**HUB_LABEL_SIDE, 'Red Wing': 'right', 'Austin': 'right'}
 
 
 def hubs_svg(hubs, rings, t, narrow):
@@ -1032,7 +1036,7 @@ def hubs_svg(hubs, rings, t, narrow):
         if name not in labelled:
             continue
         cx, cy = proj(lon, lat)
-        side = HUB_LABEL_SIDE.get(name, 'right')
+        side = (HUB_LABEL_SIDE_NARROW if narrow else HUB_LABEL_SIDE).get(name, 'right')
         r = radius(pop)
         if side == 'above':
             o.append(label(cx - r, cy - r - 5, name, ls, t['ink'], extra=halo))   # starts over the circle's left edge
@@ -1108,7 +1112,13 @@ def stack_svg(b, t, narrow):
     o, y = [], 2
     for name, sub, fill, kind in bands:
         lines = wrap(sub, W - x0 - 30, ts)
-        bh = 40 + len(lines) * 18
+        # a heading too long for the band breaks after its colon (on phones,
+        # "Everything below: one flat neutral")
+        heads = [name]
+        if ':' in name and text_width(name, ls) > W - x0 - 40:
+            a, b2 = name.split(':', 1)
+            heads = [a + ':', b2.strip()]
+        bh = 40 + len(lines) * 18 + (len(heads) - 1) * 18
         if kind == 'insert':
             o.append(f'<rect x="{x0}" y="{y}" width="{W - x0 - 2}" height="{bh}" rx="3" fill="none" '
                      f'stroke="{t["accent-ink"]}" stroke-width="1.5" stroke-dasharray="5 3"/>')
@@ -1118,9 +1128,10 @@ def stack_svg(b, t, narrow):
             o.append(f'<rect x="{x0}" y="{y}" width="{W - x0 - 2}" height="{bh}" rx="3" fill="{esc(fill)}" '
                      f'stroke="{t["rule-ink"]}" stroke-width="1"/>')
             colour = t['ink']
-        o.append(label(x0 + 14, y + 24, name, ls, colour))
+        for k, h in enumerate(heads):
+            o.append(label(x0 + 14, y + 24 + k * 18, h, ls, colour))
         for k, s in enumerate(lines):
-            o.append(prose(x0 + 14, y + 44 + k * 18, s, ts, colour))
+            o.append(prose(x0 + 14, y + 44 + (len(heads) - 1) * 18 + k * 18, s, ts, colour))
         y += bh + gap
     return svg_open(W, y - gap + 2, title, desc, 'fig-narrow' if narrow else 'fig-wide') + ''.join(o) + '</svg>'
 
