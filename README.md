@@ -271,6 +271,22 @@ Perplexity) find the site and understand it:
 - **The JS nameplate** in the header (`img/nameplate.webp`) is drawn by
   `python3 tools/make-nameplate.py`, sharp at three times its old size, from
   the letter shapes in `tools/og-card/`.
+- **The /cartography page's figures** are drawn by
+  `python3 tools/make-map-figures.py` from the five style files in `maps/`
+  (plus `img/tiles/strib-basemaps.mp4`, the colours in `site.css` and a few
+  commit subjects from git). It writes the stills and SVGs to
+  `img/map-figures/` and puts each figure into `cartography.html` between
+  its `<!-- FIG:name START -->` / `END -->` comments; if a comment is
+  missing it changes nothing. It also prints what each figure rests on
+  (layer counts, the palette, zoom ranges, label sizes) so you can check
+  them against the maps. Rerun it after changing a style, the basemaps loop
+  or a colour. Their styles are in `css/cartography.css`.
+- **The /cartography page's big terrain pictures** (`img/cartography/`) are
+  smaller WebP copies of the print-sized originals in `img/` (Cortina,
+  Rincon, Cloud Peak and its detail crop, Restless River, Cathedral,
+  Driftless), made by `python3 tools/make-page-images.py`. It never
+  enlarges a picture. Rerun it after replacing one of those originals; the
+  Cloud Peak crop is a setting at the top of the script.
 - **The link-preview card** (`img/og-card.jpg`), the picture shown when the
   site is shared in a message or on social media, is the page
   `tools/og-card/og-card.html`. Edit it, then with the local server running

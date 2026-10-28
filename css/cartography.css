@@ -1,0 +1,101 @@
+/* =============================================================================
+   cartography.css — the /cartography page (cartography.html).
+
+   Loaded after css/site.css (the tokens, fonts and base styles) and
+   css/viewer.css.
+
+   What lives here:
+     1. Figures — the charts and diagrams that tools/make-map-figures.py
+        writes into the page between its FIG markers
+   ============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+   1. FIGURES
+   The markup comes from tools/make-map-figures.py; rerun it rather than
+   editing a figure by hand. Each chart is an inline SVG drawn at the size
+   it's shown at on a wide screen (its width and height attributes), so its
+   lettering matches the page's. Where a chart can't simply shrink onto a
+   phone, the script draws a second, narrow version: .fig-wide shows above
+   720px, .fig-narrow at 720px and below.
+   ----------------------------------------------------------------------------- */
+.fig-svg svg { display: block; max-width: 100%; height: auto; }
+.fig-svg .fig-narrow { display: none; }
+@media (max-width: 720px) {
+  .fig-svg .fig-wide { display: none; }
+  .fig-svg .fig-narrow { display: block; }
+}
+
+/* small capital labels inside figures (style names, table headings) */
+.fig-label,
+.pal-name,
+.pal-role,
+.pal-hex,
+.fig-data summary,
+.fig-more summary,
+.fig-table th {
+  font-family: var(--topo);
+  font-size: calc(var(--fs-xs) + var(--label-plus));
+  letter-spacing: var(--track);
+  color: var(--label-ink);
+}
+.fig-label, .pal-name, .pal-role, .fig-data summary, .fig-more summary, .fig-table th { text-transform: uppercase; }
+
+/* F1: the five styles side by side; on phones a row that scrolls sideways
+   inside its own box (never the page), one frame per 80% of the screen */
+.fig-fiveup {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+}
+.fig-fiveup img { width: 100%; border: 1px solid var(--stroke); }
+.fig-fiveup .fig-label { display: block; margin-top: 8px; }
+@media (max-width: 720px) {
+  .fig-fiveup {
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 80vw;
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    padding-bottom: 8px;
+  }
+  .fig-fiveup li { scroll-snap-align: start; }
+}
+
+/* F2: the palette. Five columns, one per style, on wide screens; on phones
+   one row per style, its swatches wrapping. Each cell: role, swatch, hex. */
+.fig-palette { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
+.pal-name { margin: 0 0 10px; color: var(--ink); }
+.pal-cells {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 14px 10px;
+}
+.pal-cell { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.pal-sw { display: block; }
+.pal-role { font-size: var(--fs-xs); }
+.pal-hex { text-transform: none; color: var(--ink); overflow-wrap: anywhere; }
+.pal-off .pal-hex { color: var(--label-ink); text-transform: uppercase; }
+@media (max-width: 720px) {
+  .fig-palette { grid-template-columns: 1fr; gap: 20px; }
+  .pal-cells { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }   /* three across, so "Background" has room */
+}
+
+/* the data table under each chart, and F3's list of every layer */
+.fig-data, .fig-more { margin-top: 12px; }
+.fig-wrap { max-width: 100%; overflow-x: auto; }   /* a wide table scrolls in its own box, never the page */
+.fig-data summary, .fig-more summary { cursor: pointer; width: fit-content; }
+.fig-data summary:hover, .fig-more summary:hover { color: var(--accent-ink); }
+.fig-scroll { max-height: 420px; overflow-y: auto; margin-top: 8px; border: 1px solid var(--rule); }
+.fig-table {
+  border-collapse: collapse; width: 100%; margin-top: 8px;
+  font-family: var(--text); font-size: var(--fs-md); line-height: 1.4;
+}
+.fig-scroll .fig-table { margin-top: 0; }
+.fig-table th, .fig-table td { text-align: left; vertical-align: top; padding: 5px 10px 5px 0; border-bottom: 1px solid var(--rule-soft); }
+.fig-table th { position: sticky; top: 0; background: var(--plate); }
+.fig-ladder-table td:first-child { overflow-wrap: anywhere; }
+.fig-table .fig-bar { width: 120px; vertical-align: middle; }
+.fig-table .fig-bar svg { display: block; }
+.fig-data ol { margin: 8px 0 0; padding-left: 1.4em; font-size: var(--fs-md); }
+.fig-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 720px) {
+  .fig-table { font-size: var(--fs-xs); }
+  .fig-table .fig-bar { width: 90px; }
+  .fig-table .fig-bar svg { width: 90px; }
+}
