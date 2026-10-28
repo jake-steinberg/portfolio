@@ -121,6 +121,7 @@ const Basemaps = (function () {
       cooperativeGestures: true,          // page scrolling isn't hijacked: ctrl/⌘ + scroll, or two fingers, to zoom
       attributionControl: { compact: true }
     });
+    panel.dispatchEvent(new CustomEvent('basemap:map', { detail: panel.basemap }));   // for a page that wants the map (cartography.html); index.html doesn't listen
     panel.basemap.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
     if (config.bounds) panel.basemap.addControl(statewideControl(config.bounds), 'top-right');
   }

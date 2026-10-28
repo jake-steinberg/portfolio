@@ -127,6 +127,7 @@
   <link rel="stylesheet" href="css/site.css">
   <link rel="stylesheet" href="css/paper.css">   <!-- the paper texture, built in -->
   <link rel="stylesheet" href="css/portfolio.css">
+  <link rel="stylesheet" href="css/viewer.css">  <!-- the picture viewer on phones -->
   <!-- hand-drawn linework; delete these two lines for plain, even lines.
        strokes.css holds the strokes themselves, built in so they show up
        with the page instead of a beat after it -->
@@ -555,9 +556,10 @@
     </footer>
   </main>
 
-  <!-- Scripts: projects.js (the data) must come before portfolio.js (which uses it) -->
+  <!-- Scripts: projects.js (the data), basemaps.js and viewer.js must come before portfolio.js (which uses them) -->
   <script src="js/projects.js"></script>
   <script src="js/basemaps.js"></script>      <!-- the live map in the basemap styles panel -->
+  <script src="js/viewer.js"></script>        <!-- the picture viewer on phones; portfolio.js uses it -->
   <script src="js/portfolio.js"></script>
   <script src="js/site.js"></script>
 </body>

@@ -731,47 +731,8 @@ body { overflow-anchor: none; }
 .panel:not(.closing) { position: relative; z-index: 41; }
 
 
-/* -----------------------------------------------------------------------------
-   PICTURE VIEWER (phones) — a picture from a panel, full screen, on a dark
-   ground (js/portfolio.js, 4b). Fitted to the screen at first; tapped, it
-   shows at full size (.zoomed) and you drag around it.
-   ----------------------------------------------------------------------------- */
-.viewer {
-  position: fixed; inset: 0; z-index: 100;
-  display: none;
-  background: rgba(20, 17, 14, .94);
-}
-.viewer.on { display: block; }
-html.viewing { overflow: hidden; }               /* the page stays put behind it */
-.vscroll {
-  position: absolute; inset: 0; overflow: auto;
-  display: grid; place-items: center;
-  overscroll-behavior: contain;
-  touch-action: pan-x pan-y pinch-zoom;
-}
-.vscroll img {
-  max-width: 100%; max-height: 100%; width: auto; height: auto;
-  cursor: zoom-in;
-  background: var(--plate);
-}
-.viewer.zoomed .vscroll { place-items: start; }
-.viewer.zoomed .vscroll img { max-width: none; max-height: none; height: auto; cursor: zoom-out; }
-.vclose {
-  position: absolute; z-index: 1;
-  top: calc(env(safe-area-inset-top, 0px) + 12px); right: 12px;
-  padding: 8px 12px; line-height: 1; cursor: pointer;
-  background: var(--bg); border: 1px solid var(--stroke); color: var(--ink);
-  font-family: var(--topo); font-weight: 400; text-transform: uppercase;
-  font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track-tight);
-}
-.vclose .x { font-family: var(--display); font-weight: 300; font-size: 1.45em; line-height: 0; vertical-align: -.1em; margin-left: 2px; }
-.vhint {
-  position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
-  margin: 0; text-align: center; pointer-events: none;
-  font-family: var(--topo); text-transform: uppercase; letter-spacing: var(--track);
-  font-size: calc(var(--fs-xs) + var(--label-plus)); color: rgba(255, 255, 255, .7);
-}
-.viewer.zoomed .vhint { display: none; }
+/* The picture viewer for phones (a panel picture, full screen) has its own
+   stylesheet, css/viewer.css, so other pages can use it too. */
 
 /* -----------------------------------------------------------------------------
    Less motion for visitors who ask for it
