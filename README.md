@@ -285,8 +285,11 @@ Perplexity) find the site and understand it:
   smaller WebP copies of the print-sized originals in `img/` (Cortina,
   Rincon, Cloud Peak and its detail crop, Restless River, Cathedral,
   Driftless), made by `python3 tools/make-page-images.py`. It never
-  enlarges a picture. Rerun it after replacing one of those originals; the
-  Cloud Peak crop is a setting at the top of the script.
+  enlarges a picture. It also writes half-size copies of the six Vonn tiles
+  for phones, and small ink copies of seven 22, A Map symbols from their SVGs
+  (this part needs `rsvg-convert`: `brew install librsvg`). Rerun it after
+  replacing one of those originals; the Cloud Peak crop, the Rincon trim and
+  the glyph list are settings at the top of the script.
 - **The link-preview card** (`img/og-card.jpg`), the picture shown when the
   site is shared in a message or on social media, is the page
   `tools/og-card/og-card.html`. Edit it, then with the local server running

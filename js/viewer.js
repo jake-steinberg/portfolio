@@ -58,7 +58,10 @@ const Viewer = (function () {
     viewer.classList.remove('zoomed');
     img.style.width = '';
     img.src = link.href;
-    img.alt = link.getAttribute('aria-label') || '';
+    // the picture's description: the link's own label, or else the alt
+    // text of the thumbnail inside the link
+    const thumb = link.querySelector('img');
+    img.alt = link.getAttribute('aria-label') || (thumb && thumb.alt) || '';
     viewer.classList.add('on');
     document.documentElement.classList.add('viewing');   // stops the page scrolling behind it
     history.pushState({ viewer: true }, '');               // so Back closes it

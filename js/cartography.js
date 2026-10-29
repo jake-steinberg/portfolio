@@ -16,7 +16,7 @@
                         tiles fail, the map is removed and the loop stays,
                         with a note under it saying so
      3. plays the page's videos only while they're on screen, and never
-        under reduced motion or Save-Data (their still posters show instead)
+        under reduced motion or Save-Data (their still images show instead)
      4. opens picture links in the phone viewer
 
    To change the stories, styles or tiles, edit js/projects.js — not this file.
@@ -111,6 +111,13 @@
     }, { threshold: [0, 0.25, 0.5, 1] });
     document.querySelectorAll('video[data-onscreen]').forEach((v) => videoWatcher.observe(v));
   }
+  // The videos below the hero sit over a lazy still image (an <img>, not a
+  // poster=, which browsers fetch at once however far down the page it is).
+  // Each stays invisible until it's actually playing, then fades in
+  // (.ready in css/cartography.css), so the still never gives way to a
+  // blank box while the video loads.
+  document.querySelectorAll('.still + video').forEach((v) =>
+    v.addEventListener('playing', () => v.classList.add('ready'), { once: true }));
   REDUCE.addEventListener('change', updatePlayback);
   // browsers won't start video in a background tab; try again when it's shown
   document.addEventListener('visibilitychange', () => {
@@ -162,11 +169,34 @@
     showFallback();
   }
   function showFallback() {
+    // The style buttons are about to be hidden. If one has keyboard focus
+    // (after "Open the live map", it does), focus would drop to the top of
+    // the page; it moves to the note instead, which a screen reader then
+    // reads out.
+    const lost = panel.querySelector('.styleswitch').contains(document.activeElement);
     hero.classList.add('is-fallback');
     noteEl.textContent = FALLBACK;
     noteEl.hidden = false;
+    if (lost) {
+      noteEl.tabIndex = -1;
+      noteEl.focus({ preventScroll: true });
+    }
     updatePlayback();
   }
+
+  // The style's name, which js/basemaps.js writes into .styleinfo as an
+  // <h4> (right for the main portfolio's panels), would come straight after
+  // this page's <h1>. Each time it's written, it's marked as a level-2
+  // heading instead, so the page's outline doesn't skip levels.
+  const styleInfo = panel.querySelector('.styleinfo');
+  const levelName = () => {
+    const name = styleInfo.querySelector('.stylename');
+    if (name && name.getAttribute('aria-level') !== '2') {
+      name.setAttribute('role', 'heading');
+      name.setAttribute('aria-level', '2');
+    }
+  };
+  new MutationObserver(levelName).observe(styleInfo, { childList: true, subtree: true });
 
   // js/basemaps.js announces each new map (once per start) with basemap:map
   panel.addEventListener('basemap:map', (e) => {

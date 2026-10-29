@@ -147,6 +147,10 @@ DISPLAY = "Outfit, system-ui, sans-serif"
 EM_CAPS = 0.78      # (measured in Chrome: 0.73–0.77)
 EM_LOWER = 0.61     # (0.54–0.61)
 EM_SERIF = 0.50     # (0.47–0.50)
+# ...but an estimate: a line of serif text with wide letters (w, m, capitals)
+# runs past it. Text wrapped inside a box leaves this much extra room, so the
+# right padding never ends up thinner than the left.
+WRAP_SLACK = 12
 
 MONTHS = ['Jan.', 'Feb.', 'March', 'April', 'May', 'June', 'July', 'Aug.',
           'Sept.', 'Oct.', 'Nov.', 'Dec.']
@@ -436,12 +440,25 @@ def svg_open(w, h, title, desc, cls):
             f'<title>{esc(title)}</title><desc>{esc(desc)}</desc>')
 
 
+def numerals(s):
+    """Escapes a label's text and sets its digits in the reading serif.
+
+    Bell Topo Sans draws the numeral 1 as a single plain stroke, the same
+    shape as its capital I and lowercase l, so "14" reads as "I4" and a
+    count of 10 as "IO". The words stay in Bell Topo; every run of digits
+    goes into a Source Serif 4 <tspan>, whose 1 has a flag and a foot."""
+    # split first, then escape each piece (escaping can add digits: ' → &#x27;)
+    return ''.join(f'<tspan font-family="{esc(SERIF)}">{part}</tspan>' if part.isdigit() else esc(part)
+                   for part in re.split(r'([0-9]+)', s) if part)
+
+
 def label(x, y, s, size, fill, anchor='start', caps=True, weight=None, extra=''):
-    """A Bell Topo label: capitals with the site's .1em tracking."""
+    """A Bell Topo label: capitals with the site's .1em tracking, its
+    numbers in the serif (see numerals())."""
     w = f' font-weight="{weight}"' if weight else ''
     track = ' letter-spacing="0.1em"' if caps else ''
     return (f'<text x="{fmt(x)}" y="{fmt(y)}" font-family="{esc(TOPO)}" font-size="{fmt(size)}"{w}{track} '
-            f'fill="{fill}" text-anchor="{anchor}"{extra}>{esc(s.upper() if caps else s)}</text>')
+            f'fill="{fill}" text-anchor="{anchor}"{extra}>{numerals(s.upper() if caps else s)}</text>')
 
 
 def prose(x, y, s, size, fill, anchor='start', italic=False):
@@ -677,21 +694,41 @@ def zrange(lo, hi):
     return f'{fmt(lo)}–{fmt(hi)}'
 
 
-def ladder_svg(groups, tiles_end, t, narrow):
+def ladder_svg(groups, tiles_end, t, size):
+    """F3, in one of three sizes, each drawn for the width it's shown at so
+    its lettering stays at the page's label size:
+      'wide'    1200px, for screens of 1248px and up (the full frame)
+      'mid'     680px, for 721–1247px (tablets, small laptops), where the
+                wide one would have to shrink its lettering to 7–10px
+      'narrow'  360px, phones: each row's name above its bar
+    Zooms past the end of the tiles sit on a shaded band and their bars are
+    drawn lighter: the styles still draw there, but only by enlarging the
+    zoom-14 data."""
+    narrow = size == 'narrow'
     n = sum(len(sp) for _, sp in groups)
-    W = 360 if narrow else 1200
+    W = {'wide': 1200, 'mid': 680, 'narrow': 360}[size]
     ls = t['label-size']
-    left = 12 if narrow else 250
-    right = W - (14 if narrow else 30)
+    if narrow:
+        left = 12
+    elif size == 'mid':
+        # room for the longest row name, right-aligned 16px short of the axis
+        left = round(max(text_width(GROUP_NAMES.get(g, g), ls) for g, _ in groups)) + 24
+    else:
+        left = 250
+    right = W - (14 if narrow else 30 if size == 'wide' else 20)
     row_h = 46 if narrow else 36
     top = 46
     H = top + row_h * len(groups) + 10
     x = lambda z: left + (right - left) * z / 24
     title = f'When each of the {n} visible Strib Outdoors layers draws, by data layer'
     desc = ('Bars on a zoom axis from 0 to 24, one row per data layer, spanning the zooms where at least one of its '
-            f'layers draws; tick marks show where individual layers start. A line at zoom {fmt(tiles_end)} marks where the tiles end. '
+            f'layers draws; tick marks show where individual layers start. A line at zoom {fmt(tiles_end)} marks where the tiles end; '
+            f'past it the zooms are shaded and the bars drawn lighter, since the styles only enlarge the zoom-{fmt(tiles_end)} data there. '
             'The full list of layers is in the table below.')
-    o = [svg_open(W, H, title, desc, 'fig-narrow' if narrow else 'fig-wide')]
+    o = [svg_open(W, H, title, desc, f'fig-{size}')]
+    # past the end of the tiles: a pale band behind everything
+    o.append(f'<rect x="{fmt(x(tiles_end))}" y="{top - 8}" width="{fmt(x(24) - x(tiles_end))}" height="{H - 6 - (top - 8)}" '
+             f'fill="{t["rule-soft"]}" fill-opacity=".6"/>')
     # axis: gridlines and zoom numbers
     for z in LADDER_TICKS:
         o.append(f'<line x1="{fmt(x(z))}" y1="{top - 8}" x2="{fmt(x(z))}" y2="{H - 6}" stroke="{t["rule"]}" stroke-width="1"/>')
@@ -701,21 +738,30 @@ def ladder_svg(groups, tiles_end, t, narrow):
     o.append(f'<line x1="{fmt(x(tiles_end))}" y1="{top - 8}" x2="{fmt(x(tiles_end))}" y2="{H - 6}" '
              f'stroke="{t["accent-ink"]}" stroke-width="1.5"/>')
     o.append(label(x(tiles_end) + 6, 16, 'Tiles end', ls, t['accent-ink']))
+    if size == 'wide':
+        o.append(label(x(24), 16, 'Then enlarged', ls, t['label-ink'], 'end'))
+    # on phones the row names sit over the plot: a paper-coloured halo keeps
+    # them clear of the gridlines and the line at the end of the tiles
+    halo = f' paint-order="stroke" stroke="{t["plate"]}" stroke-width="4" stroke-linejoin="round"'
     for i, (g, spans) in enumerate(groups):
         y = top + i * row_h
         name = GROUP_NAMES.get(g, g)
         count = f'{len(spans)} layer' + ('' if len(spans) == 1 else 's')
         if narrow:
-            o.append(label(left, y + 14, f'{name} · {count}', ls, t['ink']))
+            o.append(label(left, y + 14, f'{name} · {count}', ls, t['ink'], extra=halo))
             by = y + 22
         else:
             o.append(label(left - 16, y + 16, name, ls, t['ink'], 'end'))
             o.append(label(left - 16, y + 30, count, t['small-size'], t['label-ink'], 'end'))
             by = y + 12
         for lo, hi in union(spans):
-            o.append(f'<rect x="{fmt(x(lo))}" y="{by}" width="{fmt(x(hi) - x(lo))}" height="10" rx="2" fill="{t["label-ink"]}"/>')
+            # dark up to the end of the tiles, light past it
+            for a, b, fill in ((lo, min(hi, tiles_end), t['label-ink']), (max(lo, tiles_end), hi, t['rule-ink'])):
+                if b > a:
+                    o.append(f'<rect x="{fmt(x(a))}" y="{by}" width="{fmt(x(b) - x(a))}" height="10" fill="{fill}"/>')
+        # where each of the group's layers starts: a tick under the bar
         for z in sorted({lo for lo, _ in spans}):
-            o.append(f'<line x1="{fmt(x(z))}" y1="{by + 12}" x2="{fmt(x(z))}" y2="{by + 19}" stroke="{t["label-ink"]}" stroke-width="1.5"/>')
+            o.append(f'<line x1="{fmt(x(z))}" y1="{by + 11}" x2="{fmt(x(z))}" y2="{by + 19}" stroke="{t["ink"]}" stroke-width="2"/>')
     o.append('</svg>')
     return ''.join(o)
 
@@ -832,7 +878,9 @@ def elex_ramps(style):
 
 
 def ramps_svg(od, ex, titles, t, narrow):
-    W = 360 if narrow else 780
+    # 760 wide: the 8-of-12 column it sits in on a 1200px frame is 763px, so
+    # it shows at full size there and its lettering never shrinks
+    W = 360 if narrow else 760
     ls, ss = t['label-size'], t['small-size']
     left, right = (34, W - 10) if narrow else (52, W - 24)
     ph = 280 if narrow else 330          # each chart's height, headings included
@@ -877,13 +925,19 @@ def ramps_svg(od, ex, titles, t, narrow):
     for ranks, curve in od['classes']:
         pts = ' '.join(f'{fmt(x(z))},{fmt(y(v))}' for z, v in zip(od['zs'], curve))
         o.append(f'<polyline points="{pts}" fill="none" stroke="{colour}" stroke-width="2" stroke-linejoin="round"/>')
-    # Direct labels, one per line, each where its line can be told apart:
-    # the top rank group at the left, the bottom one at the right, and each
-    # rank in between just under the top tier, where its line joins it (or
-    # at the right end if it hasn't joined by then).
+    # Direct labels, one per line, each beside a stretch of line that is its
+    # own (not shared with another rank group):
+    #   - the top rank group: at the left, above its line, raised until the
+    #     whole label clears the line as it climbs to the right
+    #   - a group that joins the top tier within the first zoom: at the left,
+    #     just under the start of its own line (after the join it's shared)
+    #   - the bottom group (phones): at the right, under its line
+    #   - the rest: just under the top tier, where each one's line joins it
+    #     (or at the right end if it hasn't joined by then)
     halo = f' paint-order="stroke" stroke="{t["plate"]}" stroke-width="4" stroke-linejoin="round"'
     top_curve = max(od['classes'], key=lambda c: max(c[0]))[1]
     zs = od['zs']
+    step = zs.index(od['z0'] + 1) if od['z0'] + 1 in zs else 1     # index of one zoom in
     for ranks, curve in od['classes']:
         name = rank_label(ranks, od['ranks'])
         if narrow:
@@ -893,13 +947,15 @@ def ramps_svg(od, ex, titles, t, narrow):
             o.append(label(x(zs[-1]) - 2, y(curve[-1]) + ss + 6, name, ss, t['ink'], 'end', extra=halo))
             continue
         if max(ranks) == max(od['ranks']):
-            # above its line, from where the first other line has joined it
-            first = min([i for _, c in od['classes'] if c != curve
-                         for i in range(1, len(zs)) if c[i] == curve[i]] or [0])
-            o.append(label(x(zs[first]) + 4, y(curve[first]) - 14, name, ss, t['ink'], extra=halo))
+            x0 = x(zs[0]) + 2
+            x1 = x0 + text_width(name, ss)
+            over = [y(v) for z, v in zip(zs, curve) if x0 - 2 <= x(z) <= x1 + 2]
+            o.append(label(x0, min(over) - 7, name, ss, t['ink'], extra=halo))
             continue
         joins = [i for i in range(1, len(zs)) if curve[i] == top_curve[i]]
-        if min(ranks) != min(od['ranks']) and joins:
+        if joins and joins[0] <= step:
+            o.append(label(x(zs[0]) + 2, y(curve[0]) + ss + 5, name, ss, t['ink'], extra=halo))
+        elif min(ranks) != min(od['ranks']) and joins:
             i = joins[0]
             o.append(label(x(zs[i]) + (3 if narrow else 6), y(curve[i]) + ss + 6, name, ss, t['ink'], extra=halo))
         else:
@@ -984,13 +1040,35 @@ def hubs_data(style):
     poly = json.loads(polys.pop())
     if poly['type'] != 'Polygon':
         raise Unsupported('the "within" outline is not a single polygon')
-    clipped = sum(1 for layer in style['layers'] if any(isinstance(e, list) and e and e[0] == 'within'
-                                                        for e in walk(layer.get('filter'))))
+    # how many of the visible label layers are clipped to the outline (hidden
+    # layers with the same filter draw nothing, so they don't count), of how
+    # many visible label layers in all
+    labels = [l for l in style['layers'] if l['type'] == 'symbol' and visible(l)]
+    clipped = (sum(1 for l in labels if any(isinstance(e, list) and e and e[0] == 'within'
+                                            for e in walk(l.get('filter')))), len(labels))
     for name in HUB_LABELS_EXTRA:
         if name not in [h[0] for h in hubs]:
             raise Unsupported(f'{name} is not one of the {HUBS_SOURCE} cities')
     hub_layer = [l for l in style['layers'] if l.get('source') == HUBS_SOURCE]
     return hubs, poly['coordinates'], clipped, hub_layer
+
+
+def hub_zooms(style, layer, hubs):
+    """The zooms at which the regional cities' labels actually show:
+    (first, last). The layer's minzoom isn't enough: its text-size is 0 for
+    every place under a population cutoff, and below some zooms that cutoff
+    is above even the biggest of the cities. So: the first zoom (the layer's
+    minzoom or a step edge of its text-size) at which any of them gets a
+    size above 0, to the layer's maxzoom."""
+    lo, hi = zoom_range(style, layer)
+    expr = layer['layout']['text-size']
+    edges = []
+    if isinstance(expr, list) and expr[0] == 'step' and expr[1] == ['zoom']:
+        edges = [z for z in expr[3::2] if lo < z < hi]
+    for z in [lo] + edges:
+        if any(evaluate(expr, z, {'population': pop}) > 0 for _, pop, _, _ in hubs):
+            return z, hi
+    raise Unsupported(f'{layer["id"]}: no regional city ever gets a label')
 
 
 # where each label sits: right of its circle unless listed here (set by eye,
@@ -1002,7 +1080,7 @@ HUB_LABEL_SIDE = {'Grand Marais': 'left', 'Red Wing': 'left', 'Austin': 'left', 
 HUB_LABEL_SIDE_NARROW = {**HUB_LABEL_SIDE, 'Red Wing': 'right', 'Austin': 'right'}
 
 
-def hubs_svg(hubs, rings, t, narrow):
+def hubs_svg(hubs, rings, zooms, t, narrow):
     W, H = (360, 450) if narrow else (600, 660)
     pad = 16 if narrow else 24
     ls = t['small-size'] if narrow else t['label-size']
@@ -1018,7 +1096,7 @@ def hubs_svg(hubs, rings, t, narrow):
     rmax = 11 if narrow else 15
     pmax = hubs[0][1]
     radius = lambda p: rmax * math.sqrt(p / pmax)          # area ∝ population
-    title = f'The {len(hubs)} regional cities Strib Elex labels at zooms 5 to 8'
+    title = f'The {len(hubs)} regional cities Strib Elex labels at zooms {fmt(zooms[0])} to {fmt(zooms[1])}'
     desc = (f'A map of Minnesota\'s outline with {len(hubs)} cities drawn as circles sized by population, from '
             f'{hubs[0][0]} ({thousands(hubs[0][1])}) to {hubs[-1][0]} ({thousands(hubs[-1][1])}). '
             'Every city is listed in the table below.')
@@ -1247,11 +1325,12 @@ def trials():
 
 
 def stamp(x, y, c, size, t):
-    """'OCT. 8, 2026 · ce0503b': the date in capitals, the hash as git
-    prints it, in one line of Bell Topo."""
+    """'OCT. 8, 2026 · ce0503b': the date in Bell Topo capitals (its digits
+    in the serif), then the hash as git prints it, all in the serif, so a
+    1 can't be mistaken for an l (bdedb1d)."""
     return (f'<text x="{fmt(x)}" y="{fmt(y)}" font-family="{esc(TOPO)}" font-size="{fmt(size)}" '
-            f'letter-spacing="0.1em" fill="{t["label-ink"]}">{esc(ap_date(c["date"]).upper())} · '
-            f'<tspan letter-spacing="0.04em">{esc(c["hash"])}</tspan></text>')
+            f'letter-spacing="0.1em" fill="{t["label-ink"]}">{numerals(ap_date(c["date"]).upper())} · '
+            f'<tspan font-family="{esc(SERIF)}" letter-spacing="0.04em">{esc(c["hash"])}</tspan></text>')
 
 
 def trials_svg(rows, t, narrow):
@@ -1265,7 +1344,7 @@ def trials_svg(rows, t, narrow):
         y += 24
         if narrow:
             for j, c in enumerate(commits):
-                lines = wrap(c['subject'], W - 28, ts)
+                lines = wrap(c['subject'], W - 28 - WRAP_SLACK, ts)
                 h = 30 + len(lines) * (ts + 5) + 4
                 o_body.append(f'<rect x="2" y="{fmt(y)}" width="{W - 4}" height="{fmt(h)}" rx="4" fill="{t["plate"]}" stroke="{t["rule-ink"]}"/>')
                 o_body.append(stamp(14, y + 20, c, ss, t))
@@ -1278,7 +1357,8 @@ def trials_svg(rows, t, narrow):
         else:
             n = len(commits)
             nw = (W - 4 - agap * (n - 1)) / n
-            wrapped = [wrap(c['subject'], nw - 24, ts) for c in commits]
+            # 12px of padding each side, plus the slack text_width() needs
+            wrapped = [wrap(c['subject'], nw - 24 - WRAP_SLACK, ts) for c in commits]
             h = 30 + max(len(w) for w in wrapped) * (ts + 5) + 4
             for j, c in enumerate(commits):
                 x = 2 + j * (nw + agap)
@@ -1385,9 +1465,13 @@ def main():
         print(f'  Elex from z{fmt(b["z"])}: {need:8} {px(b["small"])}–{px(b["big"])}px')
 
     hubs, rings, clipped, hub_layers = hubs_data(S[HUBS_STYLE])
+    if len(hub_layers) != 1:
+        raise Unsupported(f'expected one layer drawing {HUBS_SOURCE}, found {len(hub_layers)}')
+    hz = hub_zooms(S[HUBS_STYLE], hub_layers[0], hubs)
     print(f'F5 hubs: {len(hubs)} cities, {hubs[0][0]} {thousands(hubs[0][1])} … {hubs[-1][0]} {thousands(hubs[-1][1])}; '
-          f'{clipped} layers clipped to the outline; hub layer(s) ' +
-          ', '.join(f'{l["id"]} z{fmt(zoom_range(S[HUBS_STYLE], l)[0])}–{fmt(zoom_range(S[HUBS_STYLE], l)[1])}' for l in hub_layers))
+          f'{clipped[0]} of the {clipped[1]} visible label layers clipped to the outline; '
+          f'{hub_layers[0]["id"]} (z{fmt(zoom_range(S[HUBS_STYLE], hub_layers[0])[0])}–{fmt(zoom_range(S[HUBS_STYLE], hub_layers[0])[1])}) '
+          f'shows labels at z{fmt(hz[0])}–{fmt(hz[1])}; text-opacity {json.dumps(hub_layers[0].get("paint", {}).get("text-opacity"))}')
 
     bands = stack_bands(S[HUBS_STYLE])
     print(f'F6 stack: anchor "{bands["anchor"]}" {bands["anchor_colour"]}; above: {bands["labels"]} label layers, '
@@ -1403,14 +1487,17 @@ def main():
 
     # ---- build every figure ----
     svgs = {
-        'zoom-ladder': (ladder_svg(groups, tiles_end, t, False), ladder_svg(groups, tiles_end, t, True)),
+        'zoom-ladder': (ladder_svg(groups, tiles_end, t, 'wide'), ladder_svg(groups, tiles_end, t, 'narrow')),
         'label-ramps': (ramps_svg(od, ex, ('Strib Outdoors · by population rank', 'Strib Elex · by population'), t, False),
                         ramps_svg(od, ex, ('Outdoors · by population rank', 'Elex · by population'), t, True)),
-        'hubs': (hubs_svg(hubs, rings, t, False), hubs_svg(hubs, rings, t, True)),
+        'hubs': (hubs_svg(hubs, rings, hz, t, False), hubs_svg(hubs, rings, hz, t, True)),
         'elex-stack': (stack_svg(bands, t, False), stack_svg(bands, t, True)),
         'pipeline': (pipeline_svg(pipes, t, False), pipeline_svg(pipes, t, True)),
         'trial-revert': (trials_svg(commit_rows, t, False), trials_svg(commit_rows, t, True)),
     }
+    # a third, mid-width version, for figures whose wide one would shrink its
+    # lettering too far on tablets (shown at 721–1247px; css/cartography.css)
+    mids = {'zoom-ladder': ladder_svg(groups, tiles_end, t, 'mid')}
     extras = {
         'zoom-ladder': ladder_table(ladder, tiles_end, t),
         'label-ramps': ramps_table(od, ex),
@@ -1421,7 +1508,7 @@ def main():
     }
     fragments = {'five-up': five_up_html(styles, frames), 'palette': palette_html(styles, pal, t)}
     for name, (wide, narrow) in svgs.items():
-        fragments[name] = (f'<div class="fig-svg">{wide}{narrow or ""}</div>' + extras[name])
+        fragments[name] = (f'<div class="fig-svg">{wide}{mids.get(name, "")}{narrow or ""}</div>' + extras[name])
 
     # ---- check the page before writing anything ----
     page = os.path.abspath(args.page)
@@ -1440,7 +1527,9 @@ def main():
         open(os.path.join(OUT, f'{name}.svg'), 'w').write(standalone(wide))
         if narrow:
             open(os.path.join(OUT, f'{name}-narrow.svg'), 'w').write(standalone(narrow))
-    print(f'Wrote {len(frames)} stills and {sum(1 + bool(n) for _, n in svgs.values())} SVGs to img/map-figures/')
+        if name in mids:
+            open(os.path.join(OUT, f'{name}-mid.svg'), 'w').write(standalone(mids[name]))
+    print(f'Wrote {len(frames)} stills and {sum(1 + bool(n) for _, n in svgs.values()) + len(mids)} SVGs to img/map-figures/')
 
     if have_page:
         inject(page, fragments)

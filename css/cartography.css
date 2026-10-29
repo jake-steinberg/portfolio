@@ -27,23 +27,38 @@
    1. FIGURES
    The markup comes from tools/make-map-figures.py; rerun it rather than
    editing a figure by hand. Each chart is an inline SVG drawn at the size
-   it's shown at on a wide screen (its width and height attributes), so its
-   lettering matches the page's. Where a chart can't simply shrink onto a
-   phone, the script draws a second, narrow version: .fig-wide shows above
-   720px, .fig-narrow at 720px and below.
+   it's shown at (its width and height attributes), so its lettering matches
+   the page's. A chart may shrink a little to fit, but never so far that
+   its lettering drops much under the page's 11.5px labels; where the wide
+   version would, the script draws smaller versions and these rules pick
+   one by screen width:
+     .fig-narrow  360px wide, phones (720px and below)
+     .fig-mid     F3 only, 680px wide, 721–1247px (tablets, small laptops)
+     .fig-wide    everywhere else
+   Two figures switch later than 720px: F4 (760px wide) shows its narrow
+   version up to 829px, until the frame is wide enough for it; and the
+   two-up layouts in section 8 stack until their columns fit (1200px for F5
+   beside the Elex text, 1248px for F7 beside F8).
    ----------------------------------------------------------------------------- */
 .fig-svg svg { display: block; max-width: 100%; height: auto; }
-.fig-svg .fig-narrow { display: none; }
+.fig-svg .fig-narrow, .fig-svg .fig-mid { display: none; }
 @media (max-width: 720px) {
   .fig-svg .fig-wide { display: none; }
   .fig-svg .fig-narrow { display: block; }
+}
+@media (min-width: 721px) and (max-width: 1247px) {
+  .fig-svg:has(> .fig-mid) > .fig-wide { display: none; }
+  .fig-svg .fig-mid { display: block; }
+}
+@media (max-width: 829px) {
+  .fig-f4 .fig-svg .fig-wide { display: none; }
+  .fig-f4 .fig-svg .fig-narrow { display: block; }
 }
 
 /* small capital labels inside figures (style names, table headings) */
 .fig-label,
 .pal-name,
 .pal-role,
-.pal-hex,
 .fig-data summary,
 .fig-more summary,
 .fig-table th {
@@ -82,8 +97,19 @@
 .pal-cell { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .pal-sw { display: block; }
 .pal-role { font-size: var(--fs-xs); }
-.pal-hex { text-transform: none; color: var(--ink); overflow-wrap: anywhere; }
-.pal-off .pal-hex { color: var(--label-ink); text-transform: uppercase; }
+/* the hex values in the reading serif, not Bell Topo: Bell Topo's numeral 1
+   is a single plain stroke, the same as its l and I, so #0f1e35 would read
+   as "#0fle35". Exactly as the style files write them (some are capitals). */
+.pal-hex {
+  font-family: var(--text); font-size: var(--fs-md); line-height: 19px;   /* the same height as "OFF", so rows line up */
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--ink); overflow-wrap: anywhere;
+}
+.pal-off .pal-hex {
+  font-family: var(--topo); font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
+  color: var(--label-ink); text-transform: uppercase;
+  line-height: 19px;
+}
 @media (max-width: 720px) {
   .fig-palette { grid-template-columns: 1fr; gap: 20px; }
   .pal-cells { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }   /* three across, so "Background" has room */
@@ -164,7 +190,7 @@
 /* a work's name, with where and when beside it in the labels font */
 .work-title { font-size: var(--fs-xl); line-height: 1.3; margin: 0 0 8px; letter-spacing: var(--track-tight); }
 .work-meta {
-  margin-left: .5em;
+  margin-left: .5em; white-space: nowrap;          /* "Star Tribune, 2026" never splits */
   font-family: var(--topo); font-weight: 400; text-transform: uppercase;
   font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track); color: var(--label-ink);
 }
@@ -178,6 +204,9 @@
 }
 .tlink:hover, .storylinks a:hover { border-bottom-color: var(--accent); }
 .tlink:hover .ar, .storylinks a:hover .ar { transform: translate(2px, -2px); }
+
+/* a short phrase that shouldn't break across lines ("2025–2026") */
+.nw { white-space: nowrap; }
 
 /* the two sentences still waiting on Jake: left showing, plainly marked */
 mark.ph {
@@ -207,12 +236,15 @@ mark.ph {
 /* layouts used by several sections */
 .split-8-4, .split-5-7, .split-2 { display: grid; gap: var(--gap); align-items: start; }
 .split-8-4 > *, .split-5-7 > *, .split-2 > * { min-width: 0; }
-@media (min-width: 900px) {
+/* two figures side by side only when each column gets (nearly) the width
+   it's drawn at, so their lettering doesn't shrink (section 1): F5 (600px)
+   in the 7-of-12 column, F4 (760px) in the 8-of-12, F7 and F8 (584px) in
+   halves. Narrower, they stack. */
+@media (min-width: 1200px) { .split-5-7 { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+@media (min-width: 1248px) {
   .split-8-4 { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); }
-  .split-5-7 { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .split-2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
-/* side by side only when each figure gets close to the 584px it's drawn at */
-@media (min-width: 1200px) { .split-2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 
 
 /* -----------------------------------------------------------------------------
@@ -271,6 +303,9 @@ mark.ph {
 .carto h1 { font-size: var(--fs-h1); line-height: 1.04; margin: 0 0 24px; text-wrap: balance; }
 .lede { font-size: var(--fs-lg); line-height: 1.6; margin: 0; max-width: 40ch; }
 .lede-phone { display: none; }
+/* "Switch styles, then zoom…" promises the live map: it goes if the map
+   couldn't load and only the loop shows */
+.hero.is-fallback .lede-try { display: none; }
 
 /* "Skip past the map": only seen when it has keyboard focus, over the
    top left of the map */
@@ -289,9 +324,11 @@ mark.ph {
 .basemap-wrap { position: relative; aspect-ratio: 4 / 3; }
 /* fills the box. (.basemap-wrap > .basemap outranks MapLibre's own
    .maplibregl-map { position: relative }, which loads later and would
-   otherwise collapse the map to no height.) */
+   otherwise collapse the map to no height.) z-index: 0 makes it a layer of
+   its own, so MapLibre's buttons (z-index 2 inside it) stay under the loop
+   until the map has drawn, instead of floating over it. */
 .basemap-wrap > .basemap {
-  position: absolute; inset: 0; width: 100%; height: 100%;
+  position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%;
   border: 1px solid var(--stroke); background: var(--bg); max-height: none;
 }
 .basemap-state { display: flex; align-items: center; justify-content: center; color: var(--ink); }
@@ -324,10 +361,13 @@ mark.ph {
 
 .mapcap { margin: 12px 0 0; color: var(--label-ink); }
 
-/* the chosen style's name, description and stories (js/basemaps.js) */
+/* the chosen style's name, description and stories (js/basemaps.js).
+   css/site.css gives .stylename the rough-edged filter through an :is()
+   list that counts as one class and one element; this page has no filter
+   to point at, so .styleinfo .stylename (two classes) turns it off. */
 .styleinfo { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--rule); }
 .styleinfo:empty { display: none; }
-.stylename {
+.styleinfo .stylename {
   font-family: var(--display); font-weight: 700; font-size: var(--fs-xl); line-height: 1.25;
   letter-spacing: var(--track-tight); color: var(--head);
   margin: 0 0 8px; filter: none;
@@ -346,13 +386,18 @@ mark.ph {
 .storylinks a { font-size: var(--fs-base); line-height: 1.4; }
 
 /* once the map can't load, the buttons and the style's details go (there's
-   no map for them to change) and so does "Live" */
-.hero.is-fallback :is(.styleswitch, .styleinfo, .mapcap) { display: none; }
+   no map for them to change) and so does "Live". The buttons keep their
+   room, so the loop under them doesn't jump up. */
+.hero.is-fallback .styleswitch { visibility: hidden; }
+.hero.is-fallback :is(.styleinfo, .mapcap) { display: none; }
 
 /* Phones (and Save-Data) wait for a tap: js/cartography.js adds
    .tap-to-load. Until the tap, only the loop shows, with "Open the live map"
    at its bottom left; the buttons, caption and style details come after.
-   Without JavaScript there's no map at all, so they never show. */
+   Without JavaScript there's no map at all, so they never show.
+   On phones this is also set by screen width alone, so it's right from the
+   first paint: js/cartography.js loads last, and if the buttons showed until
+   it arrived, the loop and everything under it would jump up when they went. */
 .open-map { display: none; }
 .hero.tap-to-load:not(.is-live) .open-map {
   display: inline-block; position: absolute; left: 12px; bottom: 12px; z-index: 3;
@@ -361,6 +406,9 @@ mark.ph {
 }
 .hero.tap-to-load:not(.is-live) :is(.styleswitch, .styleinfo, .mapcap, .skip),
 html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: none; }
+@media (max-width: 720px) {
+  .js .hero:not(.is-live) :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: none; }
+}
 
 
 /* -----------------------------------------------------------------------------
@@ -384,7 +432,19 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
   display: grid; gap: 20px var(--gap); align-items: center;
   grid-template-columns: minmax(0, 504px) minmax(0, 1fr);
 }
-.proof-media video { width: 100%; border: 1px solid var(--stroke); background: var(--bg); }
+/* the still image, with the video over it, unseen until it's playing
+   (js/cartography.js adds .ready), as on the main portfolio's tiles: the
+   still loads lazily, and there's never a blank box while the video loads */
+.proof-media {
+  position: relative; aspect-ratio: 504 / 404; overflow: hidden;
+  border: 1px solid var(--stroke); background: var(--bg);
+}
+.proof-media .still, .card-media .still { display: block; width: 100%; height: 100%; object-fit: cover; }
+.proof-media video, .card-media video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity .25s;
+}
+:is(.proof-media, .card-media) video.ready { opacity: 1; }
 .proof figcaption p { margin: 0; font-size: var(--fs-lg); line-height: 1.6; max-width: 46ch; }
 
 
@@ -443,7 +503,7 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px var(--gap);
 }
 .card { min-width: 0; }
-.card-media { display: block; aspect-ratio: 5 / 4; border: 1px solid var(--stroke); background: var(--bg); overflow: hidden; }
+.card-media { position: relative; display: block; aspect-ratio: 5 / 4; border: 1px solid var(--stroke); background: var(--bg); overflow: hidden; }
 .card-media :is(img, video) { width: 100%; height: 100%; object-fit: cover; }
 .card p { margin: 16px 0 0; font-size: var(--fs-base); line-height: 1.55; }
 .card-kicker { display: block; margin-bottom: 6px; color: var(--label-ink); }
@@ -463,15 +523,34 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
   font-family: var(--text); font-size: 40px; line-height: 1.35; letter-spacing: .12em;
   color: var(--ink); margin: 0 0 18px; overflow-wrap: anywhere;
 }
+/* the lone combining accent, shown the usual way, on a dotted circle. The
+   circle is drawn here rather than taken from a font (U+25CC isn't in the
+   page's serif, and a fallback font sets the accent off to one side); the
+   accent is the spacing acute, centred over it */
+.dk-mark {
+  display: inline-block; position: relative; vertical-align: baseline;
+  width: .62em; height: .62em; margin-right: .06em;
+  border: 2px dotted var(--muted); border-radius: 50%;
+}
+.dk-mark > span {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  text-align: center; letter-spacing: 0; line-height: 1; color: var(--ink);
+}
 
-/* 22, A Map: the album's glyphs on the left, in ink, then the words */
+/* 22, A Map: the album's glyphs on the left, in ink, then the words. The
+   glyphs sit in equal square cells, each centred in its cell whatever its
+   shape: four across and up to 80px beside the words, one row of seven (up
+   to 56px, shrinking to fit a phone) once the card stacks. */
 .aside22 {
   margin-top: clamp(56px, 7vw, 104px);
   display: grid; gap: 20px var(--gap); align-items: center;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
 }
-.glyphs { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 12px; }
-.glyph { display: block; height: 40px; width: auto; }
+.glyphs {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 80px));
+  justify-content: center; gap: 18px clamp(10px, 1.6vw, 22px);
+}
+.glyph { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; }
 .a22-text p { margin: 0; font-size: var(--fs-base); line-height: 1.6; max-width: var(--measure); }
 
 
@@ -529,7 +608,7 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
 }
 @media (max-width: 899px) {
   .proof, .aside22 { grid-template-columns: minmax(0, 1fr); }
-  .glyph { height: 36px; }
+  .glyphs { grid-template-columns: repeat(7, minmax(0, 56px)); justify-content: start; gap: 8px clamp(6px, 1.2vw, 14px); }
   .proof-media { max-width: 504px; }
   .cp-pair { grid-template-columns: minmax(0, 1fr); }
   .about-grid { grid-template-columns: minmax(0, 1fr); }
@@ -554,7 +633,8 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
 
 /* motion: the loop vanishes at once instead of fading; no hops */
 @media (prefers-reduced-motion: reduce) {
-  .poster, .pill, .tlink, .storylinks a, .sheet img, .tb-links a { transition: none; }
+  .poster, .pill, .tlink, .storylinks a, .sheet img, .tb-links a,
+  .proof-media video, .card-media video { transition: none; }
   .tlink:hover .ar, .storylinks a:hover .ar { transform: none; }
 }
 
