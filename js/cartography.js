@@ -19,7 +19,9 @@
         under reduced motion or Save-Data (their still images show instead)
      4. opens picture links in the phone viewer
 
-   To change the stories, styles or tiles, edit js/projects.js — not this file.
+   The styles, their use cases and stories are listed in js/strib-styles.js;
+   the tiles and where the map opens come from the strib-basemaps project in
+   js/projects.js. Edit those, not this file.
    ============================================================================= */
 (function () {
 
@@ -30,9 +32,13 @@
   // isn't built: no section, no toggle, no jump link. Leave this false.
   const EXPLORE_3D = false;
 
-  const project = PROJECTS.find((p) => p.slug === 'strib-basemaps');
-  const config  = project.basemaps;
-  const styles  = config.styles;
+  // The tiles and where the map opens: the strib-basemaps project in
+  // js/projects.js. The styles: js/strib-styles.js, in the shape
+  // js/basemaps.js expects (style = the file), opening on Outdoors.
+  const base    = PROJECTS.find((p) => p.slug === 'strib-basemaps');
+  const styles  = STRIB_STYLES.map((s) => ({ ...s, style: s.file }));
+  const config  = { ...base.basemaps, styles, initial: 'Outdoors' };
+  const project = { ...base, basemaps: config };
 
   const hero    = document.querySelector('.hero');
   const panel   = document.getElementById('hero-map');   // the "panel" js/basemaps.js works in
@@ -59,18 +65,62 @@
   /* ---------------------------------------------------------------------------
      1. Parts of the page that come from js/projects.js
      ------------------------------------------------------------------------- */
-  // The style buttons, one per style, in the order of basemaps.styles
-  // (data-style is the index js/basemaps.js looks up). The one the map opens
-  // with (initial:) starts pressed.
+  // The style buttons, in two rows. The first: the core styles, then the
+  // one-off set apart. A core style with variants (Outdoors, Elex) opens on
+  // the one with "variant" set on the core entry itself (Main, Elex-2).
+  // The second row shows that style's variants, and only while one of them
+  // is chosen. data-style is the style's place in the list, which
+  // js/basemaps.js looks up; all the buttons are made now, so basemaps.js
+  // can attach itself to each when the map starts.
   const first = Math.max(0, styles.findIndex((s) => s.name === config.initial));
-  panel.querySelector('.styleswitch').innerHTML = styles.map((s, i) =>
-    `<button class="pill" type="button" data-style="${i}" aria-pressed="${i === first}">${esc(s.name)}</button>`).join('');
+  const keyOf = (s) => s.parent || s.key;                       // its core style
+  const btn = (s, label, cls = '') =>
+    `<button class="pill${cls}" type="button" data-style="${styles.indexOf(s)}" data-group="${esc(keyOf(s))}"` +
+    ` aria-pressed="${styles.indexOf(s) === first}">${label}</button>`;
+  const core = styles.filter((s) => s.group === 'core');
+  const oneoff = styles.filter((s) => s.group === 'oneoff');
+  const familyOf = (c) => [c, ...styles.filter((s) => s.parent === c.key)];
+  panel.querySelector('.styleswitch').innerHTML = `
+    <div class="sw-row" role="group" aria-label="Map style">
+      ${core.map((s) => btn(s, esc(s.name), ' sw-core')).join('')}
+      ${oneoff.map((s) => `<span class="sw-gap" aria-hidden="true"></span>${btn(s, `${esc(s.name)} <span class="sw-tag">One-off</span>`)}`).join('')}
+    </div>
+    ${core.filter((c) => familyOf(c).length > 1).map((c) => `
+    <div class="sw-row sw-variants" role="group" aria-label="${esc(c.title)} variants" data-for="${esc(c.key)}" hidden>
+      ${familyOf(c).map((s) => btn(s, esc(s.variant || s.name))).join('')}
+    </div>`).join('')}`;
 
-  // "In the wild": each style's stories, a column per style
-  document.getElementById('wild-cols').innerHTML = styles.map((s) => `
-    <div class="wild-col">
-      <h4>${esc(s.title || s.name)}</h4>
-      <ul>${(s.links || []).map((l) => `<li>${storyLink(l)}</li>`).join('')}</ul>
+  // Keep the rows in step with the chosen style: its core button pressed
+  // too when a variant is chosen, and its variants' row shown
+  function syncSwitch(i) {
+    const group = keyOf(styles[i]);
+    panel.querySelectorAll('.sw-core').forEach((b) => b.classList.toggle('in-group', b.dataset.group === group));
+    panel.querySelectorAll('.sw-variants').forEach((row) => { row.hidden = row.dataset.for !== group; });
+  }
+  syncSwitch(first);
+  // (after js/basemaps.js has handled the click, which bubbles up to here)
+  panel.querySelector('.styleswitch').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-style]');
+    if (b && started) syncSwitch(Number(b.dataset.style));
+  });
+
+  // The style cards: the Twin Cities still (or a placeholder until one is
+  // made), the use case, and the stories that ran on the style
+  const card = (s, small) => `
+    <li class="style-card${small ? ' small' : ''}">
+      ${s.frame
+        ? `<img class="sc-frame" src="${esc(s.frame)}" width="800" height="640" alt="The Twin Cities in ${esc(s.title)}, labels hidden" loading="lazy" decoding="async">`
+        : `<div class="sc-frame sc-missing" role="img" aria-label="${esc(s.title)}: still to come"><span>${esc(s.title)}<br>still to come</span></div>`}
+      <p class="sc-name">${esc(small ? (s.variant || s.name) : s.title)}</p>
+      <p class="sc-about">${esc(s.about)}</p>
+      ${s.links && s.links.length ? `<ul class="sc-links">${s.links.map((l) => `<li>${storyLink(l)}</li>`).join('')}</ul>` : ''}
+    </li>`;
+  document.getElementById('core-cards').innerHTML = core.map((s) => card(s, false)).join('');
+  document.getElementById('oneoff-cards').innerHTML = oneoff.map((s) => card(s, false)).join('');
+  document.getElementById('variant-groups').innerHTML = core.filter((c) => familyOf(c).length > 1).map((c) => `
+    <div class="variant-group">
+      <p class="vg-name">${esc(c.title)}</p>
+      <ul class="style-cards">${familyOf(c).map((s) => card(s, true)).join('')}</ul>
     </div>`).join('');
 
   // Story links written into the page keep their address in step with the

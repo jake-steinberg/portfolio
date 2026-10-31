@@ -82,6 +82,7 @@ OUT = os.path.join(ROOT, 'img', 'map-figures')
 VIDEO = os.path.join(ROOT, 'img', 'tiles', 'strib-basemaps.mp4')
 CROSSFADE = os.path.join(ROOT, 'tools', 'crossfade-loop.sh')
 PROJECTS = os.path.join(ROOT, 'js', 'projects.js')
+ROSTER = os.path.join(ROOT, 'js', 'strib-styles.js')   # the list of styles
 SITE_CSS = os.path.join(ROOT, 'css', 'site.css')
 COMPRESS = os.path.join(ROOT, 'tools', 'compress-videos.py')
 STROKES = os.path.join(ROOT, 'img', 'strokes')
@@ -173,17 +174,35 @@ def read_tokens():
     return t
 
 
-def read_styles():
-    """The five styles, in the order js/projects.js lists them, with their
-    button name and title: {key: {'name', 'title', 'json'}}."""
-    js = open(PROJECTS).read()
-    found = re.findall(r'name:\s*"([^"]+)",\s*title:\s*"([^"]+)",\s*style:\s*"maps/strib-([a-z]+)\.json"', js)
-    if len(found) != 5:
-        sys.exit(f'Expected five basemap styles in js/projects.js, found {len(found)}.')
+def read_roster():
+    """Every style in js/strib-styles.js, in its order, each with its style
+    file read in as 'json' (None until the file is in maps/)."""
+    js = open(ROSTER).read()
+    m = re.search(r'/\* STRIB_STYLES START \*/(.*?)/\* STRIB_STYLES END \*/', js, re.S)
+    if not m:
+        sys.exit('Could not find the STRIB_STYLES START / END lines in js/strib-styles.js.')
+    roster = json.loads(m.group(1))
+    for s in roster:
+        path = os.path.join(ROOT, s['file'])
+        s['json'] = json.load(open(path)) if os.path.exists(path) else None
+    return roster
+
+
+# The five styles the loop on the portfolio's basemap tile shows: the
+# five-up stills and the zoom, label and Elex figures are drawn from these
+LOOP_KEYS = ('light', 'dark', 'outdoors', 'elex', 'paisley')
+
+
+def read_styles(roster):
+    """The loop's five styles: {key: {'name', 'title', 'json'}}."""
     styles = {}
-    for name, title, key in found:
-        with open(os.path.join(ROOT, 'maps', f'strib-{key}.json')) as f:
-            styles[key] = {'name': name, 'title': title, 'json': json.load(f)}
+    for s in roster:
+        if s['key'] in LOOP_KEYS:
+            if s['json'] is None:
+                sys.exit(f"{s['file']} is missing.")
+            styles[s['key']] = {'name': s['name'], 'title': s['title'], 'json': s['json']}
+    if set(styles) != set(LOOP_KEYS):
+        sys.exit(f'js/strib-styles.js should list {", ".join(LOOP_KEYS)}.')
     return styles
 
 
@@ -607,10 +626,22 @@ def five_up_html(styles, frames):
 # F2 palette sheet
 # =============================================================================
 
-def palette(styles):
-    """{style: [(role, [colours], layer id or None)]}"""
+def column_order(roster):
+    """The columns of F2 and the type figure: core styles, then variants,
+    then the one-off."""
+    rank = {'core': 0, 'variant': 1, 'oneoff': 2}
+    return sorted(roster, key=lambda s: rank[s['group']])
+
+
+def palette(roster):
+    """{style key: [(role, [colours], layer id or None)]}, or None for a
+    style whose file isn't in maps/ yet"""
     out = {}
-    for key, s in styles.items():
+    for s in roster:
+        key = s['key']
+        if s['json'] is None:
+            out[key] = None
+            continue
         rows = []
         for role, candidates in PALETTE_ROLES:
             cols, lid = role_colours(s['json'], candidates)
@@ -635,18 +666,145 @@ def swatch_svg(cols, t):
             f'<rect x=".5" y=".5" width="39" height="23" fill="none" stroke="{t["stroke"]}" stroke-opacity=".25"/></svg>')
 
 
-def palette_html(styles, pal, t):
+def missing_column(s, cls):
+    """A placeholder column for a style whose file isn't in maps/ yet"""
+    return (f'<div class="{cls} pal-missing"><p class="pal-name">{esc(s["title"])}</p>'
+            f'<p class="pal-wait">Style file<br>still to come</p></div>')
+
+
+def group_class(s):
+    return {'core': '', 'variant': ' is-variant', 'oneoff': ' is-oneoff'}[s['group']]
+
+
+def palette_html(roster, pal, t):
+    """One column per style. In a variant, a cell the same as its core
+    style's is faint, so what the variant changes stands out."""
     blocks = []
-    for key, s in styles.items():
+    for s in column_order(roster):
+        if pal[s['key']] is None:
+            blocks.append(missing_column(s, 'pal-style' + group_class(s)))
+            continue
+        parent = pal.get(s.get('parent')) if s['group'] == 'variant' else None
         cells = []
-        for role, cols, lid in pal[key]:
+        for i, (role, cols, lid) in enumerate(pal[s['key']]):
             hexes = ' / '.join(cols) if cols else 'off'
-            cls = 'pal-cell' + ('' if cols else ' pal-off')
+            same = parent is not None and parent[i][1] == cols
+            cls = 'pal-cell' + ('' if cols else ' pal-off') + (' pal-same' if same else '')
             cells.append(f'<li class="{cls}"><span class="pal-role">{esc(role)}</span>{swatch_svg(cols, t)}'
                          f'<span class="pal-hex">{esc(hexes)}</span></li>')
-        blocks.append(f'<div class="pal-style"><p class="pal-name">{esc(s["title"])}</p>'
+        blocks.append(f'<div class="pal-style{group_class(s)}"><p class="pal-name">{esc(s["title"])}</p>'
                       f'<ul class="pal-cells">{"".join(cells)}</ul></div>')
     return '<div class="fig-palette">' + ''.join(blocks) + '</div>'
+
+
+# =============================================================================
+# Type hierarchy: each style's label classes, drawn as that style draws them
+# =============================================================================
+
+# (row, sample name, label layers in order: the first visible one is used)
+TYPE_ROWS = [
+    ('Towns',         'Minneapolis',       ['places_locality']),
+    ('Neighborhoods', 'Uptown',            ['places_locality_neighborhoods', 'places_subplace']),
+    ('Lakes',         'Lake Harriet',      ['water_label_lakes']),
+    ('Rivers',        'Mississippi River', ['water_waterway_label']),
+    ('Parks',         'Como Park',         ['pois_parks']),
+    ('Major roads',   'Hennepin Ave',      ['roads_labels_major']),
+    ('Minor roads',   'Lyndale Ave',       ['roads_labels_minor']),
+]
+TYPE_ZOOM = 12
+# the properties a data-driven label size or color is worked out with: a
+# town of about 50,000 people (population rank 10)
+TYPE_PROPS = {'population_rank': 10, 'population': 50000, 'kind': 'locality', 'min_zoom': 5}
+TYPE_SAMPLE_FONT = "'Helvetica Neue', Arial, system-ui, sans-serif"   # stand-in for Graphik Compact
+WEIGHTS = [('Semibold', 600), ('Medium', 500), ('Bold', 700), ('Light', 300), ('Regular', 400)]
+
+
+def font_names(expr):
+    """Every font name in a text-font value: a plain list of names, or one
+    inside an expression (e.g. Strib Dark's switch for Dakota names)"""
+    if isinstance(expr, str):
+        return [expr] if ' ' in expr and not expr.startswith(('get', 'case')) else []
+    if isinstance(expr, list):
+        return [n for e in expr for n in font_names(e)]
+    return []
+
+
+def type_spec(style, candidates):
+    """The first visible label layer: its size, font, weight, italic, case,
+    letter-spacing, color and halo at TYPE_ZOOM; None if none is visible."""
+    for lid in candidates:
+        layer = layer_by_id(style, lid)
+        if not (layer and visible(layer)):
+            continue
+        lay, paint = layer.get('layout', {}), layer.get('paint', {})
+        ev = lambda v, default: default if v is None else evaluate(v, TYPE_ZOOM, TYPE_PROPS)
+        names = font_names(lay.get('text-font', []))
+        font = next((n for n in names if 'Graphik' in n), names[0] if names else '')
+        weight = next((w for word, w in WEIGHTS if word in font), 400)
+        wname = next((word for word, w in WEIGHTS if word in font), 'Regular')
+        return {
+            'layer': lid, 'font': font, 'weight': weight, 'wname': wname,
+            'italic': 'Italic' in font,
+            'size': float(ev(lay.get('text-size'), 16)),
+            'spacing': float(ev(lay.get('text-letter-spacing'), 0)),
+            'caps': ev(lay.get('text-transform'), 'none') == 'uppercase',
+            'color': str(ev(paint.get('text-color'), '#000000')),
+            'halo': str(ev(paint.get('text-halo-color'), 'rgba(0,0,0,0)')),
+            'halo_w': float(ev(paint.get('text-halo-width'), 0)),
+        }
+    return None
+
+
+def type_data(roster):
+    """{style key: [spec or None per TYPE_ROWS row]}, or None for a style
+    whose file isn't in maps/ yet"""
+    out = {}
+    for s in roster:
+        out[s['key']] = None if s['json'] is None else [type_spec(s['json'], c) for _, _, c in TYPE_ROWS]
+    return out
+
+
+def type_sample_svg(sample, spec, bg):
+    """The sample name as the style draws it, on the style's background:
+    halo first, then the letters (paint-order)"""
+    text = sample.upper() if spec['caps'] else sample
+    style = (f"font-family:{TYPE_SAMPLE_FONT};font-weight:{spec['weight']};"
+             f"font-style:{'italic' if spec['italic'] else 'normal'};"
+             f"letter-spacing:{fmt(spec['spacing'] * spec['size'])}px")
+    halo = (f' stroke="{esc(spec["halo"])}" stroke-width="{fmt(spec["halo_w"] * 2)}" stroke-linejoin="round" paint-order="stroke"'
+            if spec['halo_w'] else '')
+    return (f'<svg class="type-sw" viewBox="0 0 220 40" width="220" height="40" aria-hidden="true">'
+            f'<rect width="220" height="40" fill="{esc(bg)}"/>'
+            f'<text x="10" y="26" font-size="{fmt(spec["size"])}" fill="{esc(spec["color"])}"{halo} style="{style}">{esc(text)}</text></svg>')
+
+
+def type_html(roster, typ, pal):
+    """One column per style, a row per label class. In a variant, a cell the
+    same as its core style's is faint."""
+    keyfields = ('font', 'size', 'spacing', 'caps', 'color', 'halo', 'halo_w')
+    blocks = []
+    for s in column_order(roster):
+        if typ[s['key']] is None:
+            blocks.append(missing_column(s, 'pal-style type-style' + group_class(s)))
+            continue
+        bg = (pal[s['key']][0][1] or ['#ffffff'])[0]          # the style's background
+        parent = typ.get(s.get('parent')) if s['group'] == 'variant' else None
+        cells = []
+        for i, (row, sample, _) in enumerate(TYPE_ROWS):
+            spec = typ[s['key']][i]
+            if spec is None:
+                cells.append(f'<li class="pal-cell pal-off"><span class="pal-role">{esc(row)}</span>'
+                             f'<span class="type-off">off</span></li>')
+                continue
+            same = parent is not None and parent[i] is not None and \
+                all(parent[i][f] == spec[f] for f in keyfields)
+            note = (f"{fmt(round(spec['size'], 1))} px · {spec['wname']}{' italic' if spec['italic'] else ''}"
+                    f"{' · caps' if spec['caps'] else ''} · {spec['color']}")
+            cells.append(f'<li class="pal-cell{" pal-same" if same else ""}"><span class="pal-role">{esc(row)}</span>'
+                         f'{type_sample_svg(sample, spec, bg)}<span class="pal-hex">{esc(note)}</span></li>')
+        blocks.append(f'<div class="pal-style type-style{group_class(s)}"><p class="pal-name">{esc(s["title"])}</p>'
+                      f'<ul class="pal-cells">{"".join(cells)}</ul></div>')
+    return '<div class="fig-palette fig-typesheet">' + ''.join(blocks) + '</div>'
 
 
 # =============================================================================
@@ -1424,7 +1582,8 @@ def main():
                  '(question 5 in docs/cartography-spec.md). Nothing written.')
 
     t = read_tokens()
-    styles = read_styles()
+    roster = read_roster()
+    styles = read_styles(roster)
     S = {k: s['json'] for k, s in styles.items()}
 
     # ---- what the figures rest on, printed so it can be checked ----
@@ -1435,7 +1594,11 @@ def main():
     print('F1 five-up:')
     frames = five_up(styles)
 
-    pal = palette(styles)
+    pal = palette(roster)
+    typ = type_data(roster)
+    waiting = [s['file'] for s in roster if s['json'] is None]
+    if waiting:
+        print('Style files still to come (placeholders in the figures): ' + ', '.join(waiting))
     print('F2 palette (first visible layer per role; "off" = none visible):')
     print('  ' + f'{"":11}' + ''.join(f'{k:24}' for k in S))
     for i, (role, _) in enumerate(PALETTE_ROLES):
@@ -1508,7 +1671,8 @@ def main():
         'pipeline': pipeline_list(pipes),
         'trial-revert': trials_table(commit_rows),
     }
-    fragments = {'five-up': five_up_html(styles, frames), 'palette': palette_html(styles, pal, t)}
+    fragments = {'five-up': five_up_html(styles, frames), 'palette': palette_html(roster, pal, t),
+                 'type': type_html(roster, typ, pal)}
     for name, (wide, narrow) in svgs.items():
         fragments[name] = (f'<div class="fig-svg">{wide}{mids.get(name, "")}{narrow or ""}</div>' + extras[name])
 

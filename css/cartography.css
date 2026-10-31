@@ -86,9 +86,34 @@
   .fig-fiveup li { scroll-snap-align: start; }
 }
 
-/* F2: the palette. Five columns, one per style, on wide screens; on phones
-   one row per style, its swatches wrapping. Each cell: role, swatch, hex. */
-.fig-palette { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
+/* F2: the palette. One column per style on wide screens (core styles,
+   then variants, then the one-off, with a hairline before each group); on
+   phones one row per style, its swatches wrapping. Each cell: role,
+   swatch, hex. */
+.fig-palette { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 18px; }
+.pal-style.is-variant:not(.is-variant + .is-variant),
+.pal-style.is-oneoff { padding-left: 18px; border-left: 1px solid var(--rule); }
+/* in a variant, cells the same as its core style's are faint */
+.pal-same { opacity: .3; }
+/* a style whose file isn't in maps/ yet */
+.pal-missing { min-width: 0; }
+.pal-wait {
+  margin: 0; padding: 24px 8px; text-align: center; border: 1.5px dashed var(--rule-ink);
+  font-family: var(--topo); text-transform: uppercase; letter-spacing: var(--track);
+  font-size: calc(var(--fs-xs) + var(--label-plus)); color: var(--label-ink); line-height: 1.5;
+}
+
+/* The type sheet: the same columns, each sample at its true size, so the
+   sheet scrolls sideways inside its own box rather than shrinking them */
+.fig-typesheet { grid-auto-columns: 220px; overflow-x: auto; padding-bottom: 12px; }
+.fig-typesheet .pal-cells { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.type-sw { display: block; width: 220px; height: 40px; border: 1px solid var(--rule); }
+.type-off {
+  display: flex; align-items: center; height: 40px; padding-left: 10px; border: 1.5px dashed var(--rule);
+  font-family: var(--topo); text-transform: uppercase; letter-spacing: var(--track);
+  font-size: calc(var(--fs-xs) + var(--label-plus)); color: var(--label-ink);
+}
+.fig-typesheet .pal-hex { font-size: var(--fs-xs); line-height: 1.4; }
 .pal-name { margin: 0 0 10px; color: var(--ink); }
 .pal-cells {
   list-style: none; margin: 0; padding: 0;
@@ -111,7 +136,8 @@
   line-height: 19px;
 }
 @media (max-width: 720px) {
-  .fig-palette { grid-template-columns: 1fr; gap: 20px; }
+  .fig-palette:not(.fig-typesheet) { grid-auto-flow: row; grid-template-columns: 1fr; gap: 20px; }
+  .pal-style.is-variant:not(.is-variant + .is-variant), .pal-style.is-oneoff { padding-left: 0; border-left: 0; }
   .pal-cells { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }   /* three across, so "Background" has room */
 }
 
@@ -411,9 +437,62 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
 }
 
 
+/* The map's style buttons (js/cartography.js writes them): the core styles
+   and the one-off set apart, then a second row with the chosen style's
+   variants. A core button stays outlined in coral while one of its
+   variants is chosen. */
+.styleswitch { flex-direction: column; align-items: flex-start; gap: 8px; }
+.sw-row { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.sw-row[hidden] { display: none; }
+.sw-gap { width: 1px; align-self: stretch; margin: 2px 8px; background: var(--rule); }
+.sw-tag { font-size: .82em; opacity: .7; margin-left: 2px; }
+.sw-core.in-group[aria-pressed="false"] { border-color: var(--accent-ink); color: var(--accent-ink); }
+.sw-variants { padding-left: 14px; border-left: 2px solid var(--rule); }
+
 /* -----------------------------------------------------------------------------
-   5. ONE SCHEMA, FIVE JOBS (#styles)
+   5. THE STAR TRIBUNE STYLES (#styles)
    ----------------------------------------------------------------------------- */
+/* The style cards (js/cartography.js writes them from js/strib-styles.js):
+   five core styles in a row, smaller cards for the variants and one-off */
+.style-cards {
+  list-style: none; margin: clamp(40px, 5vw, 64px) 0 0; padding: 0;
+  display: grid; gap: 32px var(--gap); grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.style-card { min-width: 0; }
+.sc-frame { display: block; width: 100%; height: auto; aspect-ratio: 5 / 4; border: 1px solid var(--stroke); }
+.sc-missing {
+  display: grid; place-items: center; text-align: center;
+  border: 1.5px dashed var(--rule-ink); background: var(--bg);
+  font-family: var(--topo); text-transform: uppercase; letter-spacing: var(--track);
+  font-size: calc(var(--fs-xs) + var(--label-plus)); color: var(--label-ink); line-height: 1.5;
+}
+.sc-name {
+  margin: 14px 0 6px; font-family: var(--display); font-weight: 700;
+  font-size: var(--fs-lg); letter-spacing: var(--track-tight); color: var(--head);
+}
+.sc-about { margin: 0; font-size: var(--fs-base); line-height: 1.55; }
+.sc-links { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
+.sc-links a { font-size: var(--fs-base); line-height: 1.4; }
+.style-card.small .sc-name { font-size: var(--fs-base); margin-top: 10px; }
+.style-card.small .sc-about { font-size: var(--fs-md); }
+
+/* the variants: each core style's family side by side, a small card each */
+.variants-head, .compare-head { margin-top: clamp(56px, 7vw, 96px); }
+.variant-groups { display: grid; gap: 40px var(--gap); grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+.variant-groups .style-cards { margin-top: 12px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.vg-name { margin: 0; padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+  font-family: var(--display); font-weight: 700; font-size: var(--fs-base); color: var(--head); }
+.oneoff-cards { margin-top: 12px; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.compare-head + .fig { margin-top: 20px; }
+
+@media (max-width: 1099px) {
+  .style-cards, .oneoff-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .variant-groups { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 720px) {
+  .style-cards, .oneoff-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 14px; }
+  .variant-groups .style-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 .fig-f1 { margin-top: clamp(48px, 6vw, 88px); }
 
 /* "In the wild": the ten stories, one column per style */
