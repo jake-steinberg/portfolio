@@ -160,13 +160,13 @@ text links.
 Steps 1–3 are the core of the "professional" pass and could be done in one sitting. Steps 4–5
 depend on your decisions.
 
-## 6. Decisions needed from you
+## 6. Decisions (Jake, 2026-10-31): build all of §5
 
-1. Short intro paragraph at the top: yes or no?
-2. Dark terrain band: keep or drop?
-3. Type sheet: option a (one style at a time + compare) or b (scaled-down grid)?
-4. Sticky section titles on the left (like Stephen's and your resume), or a slim sticky top bar
-   that shows the current section? I recommend the left column.
+1. **Intro:** yes, a short intro paragraph at the top. Draft it only from facts already on the
+   page or the main site; no new claims.
+2. **Dark terrain band:** drop it. Terrain sits on the same paper as the rest.
+3. **Type sheet:** option a, one style at a time with "Compare with Core".
+4. **Navigation:** sticky section titles in a left column.
 
 ## 7. Placeholders currently on the page
 
