@@ -437,17 +437,39 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
 }
 
 
-/* The map's style buttons (js/cartography.js writes them): the core styles
-   and the one-off set apart, then a second row with the chosen style's
-   variants. A core button stays outlined in coral while one of its
-   variants is chosen. */
-.styleswitch { flex-direction: column; align-items: flex-start; gap: 8px; }
-.sw-row { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
-.sw-row[hidden] { display: none; }
-.sw-gap { width: 1px; align-self: stretch; margin: 2px 8px; background: var(--rule); }
-.sw-tag { font-size: .82em; opacity: .7; margin-left: 2px; }
-.sw-core.in-group[aria-pressed="false"] { border-color: var(--accent-ink); color: var(--accent-ink); }
-.sw-variants { padding-left: 14px; border-left: 2px solid var(--rule); }
+/* The map's style switcher (js/cartography.js writes it): one segmented
+   control for the core styles, the chosen one filled in ink; under it, a
+   style's variants as small text options, the chosen one underlined. */
+.styleswitch { flex-direction: column; align-items: flex-start; gap: 10px; }
+.seg {
+  display: inline-flex; max-width: 100%;
+  padding: 3px; border: 1px solid var(--rule-ink); border-radius: 999px; background: var(--plate);
+}
+.seg-btn {
+  flex: 1 1 auto; min-height: 32px; padding: 0 16px;
+  border: 0; border-radius: 999px; background: none; cursor: pointer;
+  font: 500 var(--fs-base)/1 var(--display); letter-spacing: .01em; color: var(--muted);
+  transition: background .15s, color .15s;
+}
+.seg-btn:hover { color: var(--ink); }
+.seg-btn[aria-pressed="true"] { background: var(--ink); color: var(--plate); }
+.variants { display: flex; flex-wrap: wrap; align-items: baseline; padding-left: 16px; }
+.variants[hidden] { display: none; }
+.var-btn {
+  padding: 4px 0; border: 0; background: none; cursor: pointer;
+  font: 400 var(--fs-md)/1.4 var(--text); color: var(--muted);
+  border-bottom: 1px solid transparent;
+}
+.var-btn + .var-btn::before { content: "·"; display: inline-block; margin: 0 10px; color: var(--rule-ink); }
+.var-btn:hover { color: var(--ink); }
+.var-btn[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.sc-onmap {
+  margin-top: 12px; padding: 0; border: 0; background: none; cursor: pointer;
+  font: 400 var(--fs-base)/1.4 var(--text); color: var(--ink);
+  border-bottom: 2px solid var(--accent-soft);
+}
+.sc-onmap:hover { border-bottom-color: var(--accent); }
+@media (max-width: 420px) { .seg-btn { padding: 0 10px; font-size: var(--fs-md); } }
 
 /* -----------------------------------------------------------------------------
    5. THE STAR TRIBUNE STYLES (#styles)

@@ -65,37 +65,41 @@
   /* ---------------------------------------------------------------------------
      1. Parts of the page that come from js/projects.js
      ------------------------------------------------------------------------- */
-  // The style buttons, in two rows. The first: the core styles, then the
-  // one-off set apart. A core style with variants (Outdoors, Elex) opens on
-  // the one with "variant" set on the core entry itself (Main, Elex-2).
-  // The second row shows that style's variants, and only while one of them
-  // is chosen. data-style is the style's place in the list, which
-  // js/basemaps.js looks up; all the buttons are made now, so basemaps.js
-  // can attach itself to each when the map starts.
+  // The style switcher: one segmented control for the core styles, and
+  // under it, for a core style with variants (Outdoors, Elex), its variants
+  // as small text options. A core style opens on the variant named on its
+  // own entry (Main, Elex-2). The one-off (Paisley) isn't in the switcher:
+  // its card below has a "See it on the map" link, which presses a hidden
+  // button here. data-style is the style's place in the list, which
+  // js/basemaps.js looks up; every button is made now, so basemaps.js can
+  // attach itself to each when the map starts.
   const first = Math.max(0, styles.findIndex((s) => s.name === config.initial));
   const keyOf = (s) => s.parent || s.key;                       // its core style
-  const btn = (s, label, cls = '') =>
-    `<button class="pill${cls}" type="button" data-style="${styles.indexOf(s)}" data-group="${esc(keyOf(s))}"` +
+  const btn = (s, label, cls) =>
+    `<button class="${cls}" type="button" data-style="${styles.indexOf(s)}" data-group="${esc(keyOf(s))}"` +
     ` aria-pressed="${styles.indexOf(s) === first}">${label}</button>`;
   const core = styles.filter((s) => s.group === 'core');
   const oneoff = styles.filter((s) => s.group === 'oneoff');
   const familyOf = (c) => [c, ...styles.filter((s) => s.parent === c.key)];
+  const withVariants = core.filter((c) => familyOf(c).length > 1);
   panel.querySelector('.styleswitch').innerHTML = `
-    <div class="sw-row" role="group" aria-label="Map style">
-      ${core.map((s) => btn(s, esc(s.name), ' sw-core')).join('')}
-      ${oneoff.map((s) => `<span class="sw-gap" aria-hidden="true"></span>${btn(s, `${esc(s.name)} <span class="sw-tag">One-off</span>`)}`).join('')}
+    <div class="seg" role="group" aria-label="Map style">
+      ${core.map((s) => btn(s, esc(s.name), 'seg-btn')).join('')}
     </div>
-    ${core.filter((c) => familyOf(c).length > 1).map((c) => `
-    <div class="sw-row sw-variants" role="group" aria-label="${esc(c.title)} variants" data-for="${esc(c.key)}" hidden>
-      ${familyOf(c).map((s) => btn(s, esc(s.variant || s.name))).join('')}
-    </div>`).join('')}`;
+    ${withVariants.map((c) => `
+    <div class="variants" role="group" aria-label="${esc(c.title)} variants" data-for="${esc(c.key)}" hidden>
+      ${familyOf(c).map((s) => btn(s, esc(s.variant || s.name), 'var-btn')).join('')}
+    </div>`).join('')}
+    ${oneoff.map((s) => btn(s, esc(s.name), 'oneoff-btn')).join('')}`;
+  panel.querySelectorAll('.oneoff-btn').forEach((b) => { b.hidden = true; });
 
-  // Keep the rows in step with the chosen style: its core button pressed
-  // too when a variant is chosen, and its variants' row shown
+  // Keep the switcher in step with the chosen style: its core segment
+  // selected (also when one of its variants is chosen; none for the
+  // one-off), and its variants shown
   function syncSwitch(i) {
     const group = keyOf(styles[i]);
-    panel.querySelectorAll('.sw-core').forEach((b) => b.classList.toggle('in-group', b.dataset.group === group));
-    panel.querySelectorAll('.sw-variants').forEach((row) => { row.hidden = row.dataset.for !== group; });
+    panel.querySelectorAll('.seg-btn').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.group === group)));
+    panel.querySelectorAll('.variants').forEach((row) => { row.hidden = row.dataset.for !== group; });
   }
   syncSwitch(first);
   // (after js/basemaps.js has handled the click, which bubbles up to here)
@@ -103,6 +107,17 @@
     const b = e.target.closest('button[data-style]');
     if (b && started) syncSwitch(Number(b.dataset.style));
   });
+
+  // "See it on the map" on the one-off's card: switch the map to it (or
+  // start the map on it), then bring the map into view
+  function showOnMap(key) {
+    const i = styles.findIndex((s) => s.key === key);
+    if (i < 0) return;
+    if (started) panel.querySelector(`.styleswitch [data-style="${i}"]`).click();
+    else { config.initial = styles[i].name; startMap(); }
+    syncSwitch(i);
+    hero.scrollIntoView({ behavior: REDUCE.matches ? 'auto' : 'smooth', block: 'start' });
+  }
 
   // The style cards: the Twin Cities still (or a placeholder until one is
   // made), the use case, and the stories that ran on the style
@@ -114,9 +129,14 @@
       <p class="sc-name">${esc(small ? (s.variant || s.name) : s.title)}</p>
       <p class="sc-about">${esc(s.about)}</p>
       ${s.links && s.links.length ? `<ul class="sc-links">${s.links.map((l) => `<li>${storyLink(l)}</li>`).join('')}</ul>` : ''}
+      ${s.group === 'oneoff' ? `<button class="sc-onmap" type="button" data-show="${esc(s.key)}">See it on the map&nbsp;<span aria-hidden="true">&uarr;</span></button>` : ''}
     </li>`;
   document.getElementById('core-cards').innerHTML = core.map((s) => card(s, false)).join('');
   document.getElementById('oneoff-cards').innerHTML = oneoff.map((s) => card(s, false)).join('');
+  document.getElementById('oneoff-cards').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-show]');
+    if (b) showOnMap(b.dataset.show);
+  });
   document.getElementById('variant-groups').innerHTML = core.filter((c) => familyOf(c).length > 1).map((c) => `
     <div class="variant-group">
       <p class="vg-name">${esc(c.title)}</p>
