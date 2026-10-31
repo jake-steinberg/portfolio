@@ -73,11 +73,6 @@
       <ul>${(s.links || []).map((l) => `<li>${storyLink(l)}</li>`).join('')}</ul>
     </div>`).join('');
 
-  // "Used in" under the election section: the Elex stories
-  const elex = styles.find((s) => s.name === 'Elex');
-  document.getElementById('elex-links').innerHTML =
-    ((elex && elex.links) || []).map((l) => `<li>${storyLink(l)}</li>`).join('');
-
   // Story links written into the page keep their address in step with the
   // project: data-project="slug" takes the project's link, and
   // data-link-index="n" its nth entry in links: [] instead.

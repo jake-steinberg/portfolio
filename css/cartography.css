@@ -578,6 +578,16 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
 .split-2 .fig { margin: 0; }
 
 
+/* Two details of the system at the end of #styles: the Dakota card and
+   the Elex layer stack, side by side on wide screens, stacked on phones */
+.system-notes {
+  margin-top: clamp(48px, 6vw, 88px);
+  display: grid; gap: 32px var(--gap); align-items: start;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+}
+.system-notes .fig { margin: 0; }
+@media (max-width: 899px) { .system-notes { grid-template-columns: minmax(0, 1fr); } }
+
 /* -----------------------------------------------------------------------------
    9. ABOUT (#about) — two columns (one on phones), years in the labels font
    ----------------------------------------------------------------------------- */

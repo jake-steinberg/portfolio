@@ -35,8 +35,10 @@ comments:
 
     <!-- FIG:<name> START -->  ...  <!-- FIG:<name> END -->
 
-Like tools/build-project-list.mjs: if any marker is missing, it says so and
-changes nothing at all. Until cartography.html exists, it writes only the
+Only the figures whose markers are on the page are written in; the page
+uses five-up, palette and elex-stack now, and the others are still made
+as files in img/map-figures/ (it lists the ones it skipped). If a figure
+has only one of its two markers, it says so and changes nothing at all. Until cartography.html exists, it writes only the
 files in img/map-figures/ and lists what it would put in the page. The
 SVGs are also saved on their own in img/map-figures/ (<name>.svg, and
 <name>-narrow.svg for the phone version) so they can be looked at directly.
@@ -1515,10 +1517,15 @@ def main():
     have_page = os.path.exists(page)
     if have_page:
         text = open(page).read()
-        missing = [n for n in fragments if f'<!-- FIG:{n} START -->' not in text or f'<!-- FIG:{n} END -->' not in text]
-        if missing:
-            sys.exit(f"Couldn't find the FIG START / END comments for: {', '.join(missing)} in "
+        has = lambda n, edge: f'<!-- FIG:{n} {edge} -->' in text
+        broken = [n for n in fragments if has(n, 'START') != has(n, 'END')]
+        if broken:
+            sys.exit(f"Only one of the FIG START / END comments for: {', '.join(broken)} in "
                      f"{os.path.relpath(page, ROOT)} — nothing changed.")
+        skipped = [n for n in fragments if not has(n, 'START')]
+        if skipped:
+            print(f"Not on the page (made as files only): {', '.join(skipped)}")
+        fragments = {n: f for n, f in fragments.items() if n not in skipped}
 
     os.makedirs(OUT, exist_ok=True)
     for key, im in frames.items():
