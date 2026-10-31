@@ -440,7 +440,11 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
 /* The map's style switcher (js/cartography.js writes it): one segmented
    control for the core styles, the chosen one filled in ink; under it, a
    style's variants as small text options, the chosen one underlined. */
-.styleswitch { flex-direction: column; align-items: flex-start; gap: 10px; }
+/* The variants' line is always there, so the map below never moves: every
+   style's variants share one spot, and the ones not in use are only made
+   invisible (a style without variants leaves the line empty). */
+.styleswitch { display: grid; justify-items: start; gap: 10px; }
+.styleswitch .variants { grid-row: 2; grid-column: 1; }
 .seg {
   display: inline-flex; max-width: 100%;
   padding: 3px; border: 1px solid var(--rule-ink); border-radius: 999px; background: var(--plate);
@@ -454,7 +458,7 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
 .seg-btn:hover { color: var(--ink); }
 .seg-btn[aria-pressed="true"] { background: var(--ink); color: var(--plate); }
 .variants { display: flex; flex-wrap: wrap; align-items: baseline; padding-left: 16px; }
-.variants[hidden] { display: none; }
+.variants[hidden] { display: flex; visibility: hidden; }
 .var-btn {
   padding: 4px 0; border: 0; background: none; cursor: pointer;
   font: 400 var(--fs-md)/1.4 var(--text); color: var(--muted);
