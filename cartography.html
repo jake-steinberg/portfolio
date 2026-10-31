@@ -63,23 +63,18 @@
   <main>
 
     <!-- ================================================================
-         0. HERO — the live map (project strib-basemaps in js/projects.js).
+         0. HERO — the live map, with the style switcher and the chosen
+         style's description under it (tiles: project strib-basemaps in
+         js/projects.js; styles: js/strib-styles.js).
          js/cartography.js starts the map on wide screens once this is in
          view; on phones only after "Open the live map" is tapped. Until
          the map has drawn, the loop of all five styles stands in for it.
          ================================================================ -->
     <section class="hero" aria-labelledby="hero-h">
       <span id="top" tabindex="-1"></span>
-      <div class="frame hero-grid">
+      <div class="frame">
 
-        <div class="hero-text">
-          <p class="eyebrow">Jake Steinberg · Cartographer</p>
-          <h1 id="hero-h">One map,<br> drawn five ways</h1>
-          <p class="lede">
-            <span class="lede-wide">Five basemap styles I designed for the Minnesota Star Tribune, running here on the same vector tiles of Minnesota.<span class="lede-try"> Switch styles, then zoom from the whole state down to a single street.</span></span>
-            <span class="lede-phone">Five basemap styles I designed for the Minnesota Star Tribune, live on one set of vector tiles of Minnesota.</span>
-          </p>
-        </div>
+        <h1 id="hero-h" class="sr-only">Jake Steinberg: Star Tribune basemap styles</h1>
 
         <!-- The live map. This block is the "panel" js/basemaps.js works in:
              it finds .styleswitch buttons, .basemap, .basemap-note and
@@ -87,10 +82,6 @@
              place in js/strib-styles.js. -->
         <div class="hero-map" id="hero-map">
           <a class="skip" href="#styles">Skip past the map</a>
-          <!-- two rows of buttons, written by js/cartography.js from
-               js/strib-styles.js: the core styles (and the one-off, set
-               apart), then the chosen style's variants, if it has any -->
-          <div class="styleswitch"></div>
           <div class="basemap-wrap">
             <!-- the stand-in: the main portfolio's loop of all five styles.
                  js/cartography.js plays it (never under reduced motion or
@@ -106,14 +97,17 @@
             <p class="basemap-note" hidden></p>
             <button class="pill open-map" type="button">Open the live map</button>
           </div>
-          <!-- written by js/basemaps.js from the chosen style in js/strib-styles.js -->
-          <div class="styleinfo" aria-live="polite"></div>
+          <!-- under the map: the style switcher on the left, the chosen style's
+               name, use case and stories opposite it -->
+          <div class="map-foot">
+            <!-- written by js/cartography.js from js/strib-styles.js: the core
+                 styles, then the chosen style's variants, if it has any -->
+            <div class="styleswitch"></div>
+            <!-- written by js/basemaps.js from the chosen style -->
+            <div class="styleinfo" aria-live="polite"></div>
+          </div>
         </div>
 
-        <nav class="jump" aria-label="On this page">
-          <a class="pill" href="#styles">Five styles</a>
-          <a class="pill" href="#terrain">3D terrain</a>
-        </nav>
 
       </div>
     </section>

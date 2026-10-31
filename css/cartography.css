@@ -297,8 +297,8 @@ mark.ph {
 
 
 /* -----------------------------------------------------------------------------
-   4. HERO — words on the left (5 of 12 columns), the live map on the right
-   (7 of 12). Below 900px it's one column: words, map, then the jump links.
+   4. HERO — the live map across the page, then under it the style
+   switcher and, opposite it, the chosen style's details.
    The map box holds three layers, bottom to top: the map itself (.basemap),
    the stand-in loop (.poster) until the map has drawn, and the note.
    js/cartography.js adds to .hero:
@@ -307,31 +307,17 @@ mark.ph {
      .is-drawn     the map has drawn: the loop fades out
      .is-fallback  the map couldn't load: the loop stays, the note sits under it
    ----------------------------------------------------------------------------- */
-.hero { position: relative; padding-block: clamp(40px, 6vw, 96px) var(--secpad); }
-.hero-grid {
-  display: grid; gap: 28px var(--gap);
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: "text" "map" "jump";
+.hero { position: relative; padding-block: clamp(32px, 4vw, 64px) var(--secpad); }
+.hero-map { min-width: 0; position: relative; }
+
+/* under the map: the switcher on the left, the style's details opposite;
+   stacked on phones */
+.map-foot {
+  margin-top: 20px;
+  display: grid; gap: 20px var(--gap); align-items: start;
+  grid-template-columns: auto minmax(0, 1fr);
 }
-.hero-text { grid-area: text; }
-.hero-map  { grid-area: map; min-width: 0; position: relative; }
-.jump      { grid-area: jump; display: flex; flex-wrap: wrap; gap: 8px; align-self: start; }
-@media (min-width: 900px) {
-  .hero-grid {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    grid-template-areas: "text map" "jump map";
-    grid-template-rows: auto 1fr;
-    row-gap: 36px;
-  }
-  /* in the narrow word column of a small laptop, the title stays on two lines */
-  .carto .hero-text h1 { font-size: min(var(--fs-h1), 4.1vw); }
-}
-.carto h1 { font-size: var(--fs-h1); line-height: 1.04; margin: 0 0 24px; text-wrap: balance; }
-.lede { font-size: var(--fs-lg); line-height: 1.6; margin: 0; max-width: 40ch; }
-.lede-phone { display: none; }
-/* "Switch styles, then zoom…" promises the live map: it goes if the map
-   couldn't load and only the loop shows */
-.hero.is-fallback .lede-try { display: none; }
+@media (max-width: 760px) { .map-foot { grid-template-columns: minmax(0, 1fr); } }
 
 /* "Skip past the map": only seen when it has keyboard focus, over the
    top left of the map */
@@ -346,8 +332,10 @@ mark.ph {
 /* the style buttons, the map box and the caption (live-map rules from
    css/portfolio.css, with this page's overrides: a black hairline, no
    height cap) */
-.styleswitch { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
-.basemap-wrap { position: relative; aspect-ratio: 4 / 3; }
+/* wide and short on big screens, so the switcher under it is in view
+   too; 5:4 on phones (section 9) */
+.basemap-wrap { position: relative; aspect-ratio: 2 / 1; max-height: calc(100vh - 260px); width: 100%; }
+@media (max-width: 1099px) { .basemap-wrap { aspect-ratio: 16 / 10; } }
 /* fills the box. (.basemap-wrap > .basemap outranks MapLibre's own
    .maplibregl-map { position: relative }, which loads later and would
    otherwise collapse the map to no height.) z-index: 0 makes it a layer of
@@ -391,7 +379,7 @@ mark.ph {
    css/site.css gives .stylename the rough-edged filter through an :is()
    list that counts as one class and one element; this page has no filter
    to point at, so .styleinfo .stylename (two classes) turns it off. */
-.styleinfo { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--rule); }
+.styleinfo { margin: 0; }
 .styleinfo:empty { display: none; }
 .styleinfo .stylename {
   font-family: var(--display); font-weight: 700; font-size: var(--fs-xl); line-height: 1.25;
@@ -440,11 +428,7 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
 /* The map's style switcher (js/cartography.js writes it): one segmented
    control for the core styles, the chosen one filled in ink; under it, a
    style's variants as small text options, the chosen one underlined. */
-/* The variants' line is always there, so the map below never moves: every
-   style's variants share one spot, and the ones not in use are only made
-   invisible (a style without variants leaves the line empty). */
-.styleswitch { display: grid; justify-items: start; gap: 10px; }
-.styleswitch .variants { grid-row: 2; grid-column: 1; }
+.styleswitch { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin: 0; }
 .seg {
   display: inline-flex; max-width: 100%;
   padding: 3px; border: 1px solid var(--rule-ink); border-radius: 999px; background: var(--plate);
@@ -458,7 +442,7 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
 .seg-btn:hover { color: var(--ink); }
 .seg-btn[aria-pressed="true"] { background: var(--ink); color: var(--plate); }
 .variants { display: flex; flex-wrap: wrap; align-items: baseline; padding-left: 16px; }
-.variants[hidden] { display: flex; visibility: hidden; }
+.variants[hidden] { display: none; }
 .var-btn {
   padding: 4px 0; border: 0; background: none; cursor: pointer;
   font: 400 var(--fs-md)/1.4 var(--text); color: var(--muted);
@@ -731,8 +715,6 @@ html:not(.js) .hero :is(.styleswitch, .styleinfo, .mapcap, .skip) { display: non
 }
 @media (max-width: 720px) {
   .carto { --gut: 16px; }
-  .lede-wide { display: none; }
-  .lede-phone { display: inline; }
   .carto h1 { font-size: max(32px, var(--fs-h1)); margin-bottom: 16px; }
 
   /* the map box: 5:4, the loop's own shape (section 4 has the tap) */
