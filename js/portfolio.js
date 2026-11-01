@@ -291,12 +291,12 @@
     const creditLine = p.credit || (names.length ? `${credited.length > 1 ? 'Photos' : 'Photo'} by ${joined}` : '');
     const creditHTML = creditLine ? `<p class="pcredit">${esc(creditLine)}</p>` : '';
 
-    // basemaps: { … } — a live map with a button per style (js/basemaps.js).
-    // The chosen style's name, description and stories go under the text.
+    // basemaps: { … } — a live map (js/basemaps.js). A button per style goes
+    // under the text, with the chosen style's name and description below it.
     const maps = p.basemaps;
+    const styleButtons = maps ? `<div class="styleswitch" role="group" aria-label="Map style">${maps.styles.map((st, i) =>
+                `<button class="pill" type="button" data-style="${i}" aria-pressed="false">${esc(st.name)}</button>`).join('')}</div>` : '';
     const mapHTML = maps ? `<div class="pmedia pmap">
-              <div class="styleswitch" role="group" aria-label="Map style">${maps.styles.map((st, i) =>
-                `<button class="pill" type="button" data-style="${i}" aria-pressed="false">${esc(st.name)}</button>`).join('')}</div>
               <div class="basemap-wrap"><div class="basemap"></div><p class="basemap-note" hidden></p></div>
             </div>` : '';
     const hasMedia = hasImages || !!maps || !!lead;
@@ -319,6 +319,7 @@
                 ${meta ? `<div class="tags pmeta">${meta}</div>` : ''}
                 ${description}
                 ${awards}
+                ${styleButtons}
                 ${maps ? '<div class="styleinfo" aria-live="polite"></div>' : ''}
                 ${asFeature && maps ? '<div class="feature-slot" data-slot="cartography" hidden></div>' : ''}
               </div>

@@ -707,11 +707,11 @@ body { overflow-anchor: none; }
 .pstill { display: block; position: relative; min-width: 0; }
 .pshots:not(.scatter) .pstill { border: 1px solid var(--stroke); background: var(--bg); }
 
-/* the live map (basemaps: in projects.js; js/basemaps.js): a button per
-   style above it, then the map, filling the picture column. The chosen
-   style's name, description and stories show under the panel's text. */
+/* the live map (basemaps: in projects.js; js/basemaps.js), filling the
+   picture column. A button per style sits under the panel's text, with the
+   chosen style's name, description and points below it. */
 .pmap { width: 100%; justify-self: stretch; }
-.styleswitch { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+.styleswitch { display: flex; flex-wrap: wrap; gap: 7px; margin: 4px 0 0; }   /* under the description, over the chosen style */
 .basemap-wrap { position: relative; }
 .basemap {
   width: 100%; aspect-ratio: 4 / 3; max-height: 72vh;
@@ -726,7 +726,7 @@ body { overflow-anchor: none; }
 }
 .basemap-note[hidden] { display: none; }
 .basemap-state { display: flex; align-items: center; justify-content: center; color: var(--ink); }
-.styleinfo { margin-top: 26px; }
+.styleinfo { margin-top: 20px; }
 .stylename {
   font-family: var(--display); font-weight: 800; font-size: var(--fs-xl); line-height: 1.25;
   letter-spacing: var(--track-tight); color: var(--head);
