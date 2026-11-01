@@ -16,13 +16,18 @@
   /* ---------------------------------------------------------------------------
      Setup
      ------------------------------------------------------------------------- */
-  const gridEl   = document.getElementById('grid');        // where tiles go
+  const mainEl   = document.getElementById('grid');        // "Other work": the filtered grid
   const pillsEl  = document.getElementById('f-tags');      // where filter pills go
   const emptyEl  = document.getElementById('empty');       // "No projects match…"
   const clearBtn = document.getElementById('clear');       // "Clear filters"
 
   const selected = new Set();   // the tag id switched on (only one at a time)
-  let openSlug = null;          // slug of the project whose panel is open, if any
+
+  // Projects shown in the sections above "Other work" (SECTIONS in projects.js)
+  // stay out of that grid, so nothing appears twice
+  const SECTION_LISTS = typeof SECTIONS === 'undefined' ? {} : SECTIONS;
+  const PLACED = new Set(Object.values(SECTION_LISTS).flat());
+  const bySlug = (slug) => PROJECTS.find((p) => p.slug === slug);
 
   // Where the "In the book" button in a panel goes
   const BOOK_URL = 'https://beltpublishing.com/products/the-twin-cities-in-50-maps';
@@ -48,6 +53,7 @@
   // except projects with onlyWhen: [tags] in projects.js — those stay out of the
   // full grid and appear only while one of their onlyWhen tags is selected.
   const matches = (p) => {
+    if (PLACED.has(p.slug)) return false;
     const ids = [...selected];
     if (p.onlyWhen && !ids.some((id) => p.onlyWhen.includes(id))) return false;
     return ids.every((id) => p.tags.includes(id));
@@ -57,7 +63,8 @@
   /* ---------------------------------------------------------------------------
      1. Filter pills
      ------------------------------------------------------------------------- */
-  TAGS.forEach((tag) => {
+  // (a tag whose projects are all in the sections above gets no pill)
+  TAGS.filter((tag) => PROJECTS.some((p) => !PLACED.has(p.slug) && p.tags.includes(tag.id))).forEach((tag) => {
     const pill = document.createElement('button');
     pill.type = 'button';
     pill.className = 'pill';
@@ -72,7 +79,7 @@
       if (!wasOn) selected.add(tag.id);
       pillsEl.querySelectorAll('.pill').forEach((p) =>
         p.setAttribute('aria-pressed', String(selected.has(p.dataset.tag))));
-      render();
+      mainGrid.render();
     });
     pillsEl.insertBefore(pill, clearBtn);   // pills sit before the Clear button
   });
@@ -80,7 +87,7 @@
   clearBtn.addEventListener('click', () => {
     selected.clear();
     pillsEl.querySelectorAll('.pill').forEach((p) => p.setAttribute('aria-pressed', 'false'));
-    render();
+    mainGrid.render();
   });
 
 
@@ -112,26 +119,20 @@
       </button>`;
   }
 
-  function render() {
-    const visible = PROJECTS.filter(matches);
-    openSlug = null;                                   // re-rendering closes any open panel
-    gridEl.querySelectorAll('.panel').forEach((panel) => Basemaps.stop(panel));
-    dim(false);
-    gridEl.innerHTML = visible.map(tileHTML).join('');
-    emptyEl.hidden = visible.length > 0;
-    clearBtn.hidden = selected.size === 0;
-    watchVideos();
-    writeURL();
-  }
-
-
   /* ---------------------------------------------------------------------------
      3. Unfolding panel
      The panel is created when a tile is clicked and removed when it closes.
      It's inserted after the last tile in the clicked tile's ROW, so the rest
      of the grid simply moves down instead of leaving holes.
      ------------------------------------------------------------------------- */
-  function panelHTML(p) {
+  // panelHTML(p, { feature: true }) draws an always-open block instead, for
+  // the sections above "Other work": no Close button, an <h2> title, and
+  // feature: { media, specimen } in projects.js if the project has them.
+  function panelHTML(p, { feature: asFeature = false } = {}) {
+    const extra = (asFeature && p.feature) || {};
+    // feature.media: pictures beside the text instead of images: [], which
+    // then run the whole width under everything else
+    const lead = extra.media || null;
     const hasImages = p.images && p.images.length > 0;
 
     const description = p.description
@@ -280,7 +281,8 @@
     const topImages = hasImages ? p.images.filter(isTop) : [];
     const belowImages = hasImages ? p.images.filter((img) => !isTop(img)) : [];
     const splitBelow = topImages.length > 0 && belowImages.length > 0;
-    const shots = hasImages ? shotsGroup(splitBelow ? topImages : p.images) : '';
+    const shots = lead ? shotsGroup(lead)
+                : hasImages ? shotsGroup(splitBelow ? topImages : p.images) : '';
     const belowShots = splitBelow ? shotsGroup(belowImages) : '';
 
     // The text is in two parts: .ptop (title, year and tags, description,
@@ -307,19 +309,28 @@
                 `<button class="pill" type="button" data-style="${i}" aria-pressed="false">${esc(st.name)}</button>`).join('')}</div>
               <div class="basemap-wrap"><div class="basemap"></div><p class="basemap-note" hidden></p></div>
             </div>` : '';
-    const hasMedia = hasImages || !!maps;
+    const hasMedia = hasImages || !!maps || !!lead;
+    // a feature's own extras: images in one wide row, and a live map
+    // (specimen: { src, title }) under everything, loaded only when near
+    const wideShots = lead && hasImages ? `<div class="pmedia pwide">${shotsGroup(p.images)}</div>` : '';
+    const specimen = extra.specimen ? `<figure class="specimen">
+              <iframe data-src="${esc(extra.specimen.src)}" title="${esc(extra.specimen.title || p.title)}" loading="lazy"></iframe>
+              ${extra.specimen.caption ? `<figcaption>${extra.specimen.caption}</figcaption>` : ''}
+            </figure>` : '';
+    const heading = asFeature ? `<h2 class="ptitle" id="f-${esc(p.slug)}">${esc(p.title)}</h2>` : `<h3 class="ptitle">${esc(p.title)}</h3>`;
     return `
-      <div class="panel" data-open="false" data-for="${esc(p.slug)}">
+      <div class="panel${asFeature ? ' feature' : ''}" data-open="${asFeature}" data-for="${esc(p.slug)}">
         <div class="panel-in">
-          <div class="panel-body${hasMedia ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}${p.mediaFull ? ' full' : ''}">
-            <button class="close" type="button" data-close="${esc(p.slug)}">Close <span class="x" aria-hidden="true">&#215;</span></button>
+          <div class="panel-body${hasMedia ? '' : ' solo'}${splitBelow ? ' split' : ''}${p.mediaHalf ? ' half' : ''}${p.mediaFull && !lead ? ' full' : ''}">
+            ${asFeature ? '' : `<button class="close" type="button" data-close="${esc(p.slug)}">Close <span class="x" aria-hidden="true">&#215;</span></button>`}
             <div class="panel-main">
               <div class="ptop">
-                <h3>${esc(p.title)}</h3>
+                ${heading}
                 ${meta ? `<div class="tags pmeta">${meta}</div>` : ''}
                 ${description}
                 ${awards}
                 ${maps ? '<div class="styleinfo" aria-live="polite"></div>' : ''}
+                ${asFeature && maps ? '<div class="feature-slot" data-slot="cartography" hidden></div>' : ''}
               </div>
               ${foot ? `<div class="pfoot">
                 ${storyLinks}
@@ -327,124 +338,14 @@
               </div>` : ''}
             </div>
             ${mapHTML}
-            ${hasImages ? `<div class="pmedia">${shots}${splitBelow ? '' : creditHTML}</div>` : ''}
+            ${shots ? `<div class="pmedia">${shots}${splitBelow ? '' : creditHTML}</div>` : ''}
             ${splitBelow ? `<div class="pmedia pmedia-below">${belowShots}</div>${creditHTML}` : ''}
+            ${wideShots}
+            ${specimen}
           </div>
         </div>
       </div>`;
   }
-
-  // How many columns the grid has right now (changes with screen width)
-  function columnCount() {
-    const cols = getComputedStyle(gridEl).gridTemplateColumns;
-    return cols && cols !== 'none' ? cols.split(' ').filter(Boolean).length : 1;
-  }
-
-  // A project with panelCols: 1 or 2 gets a detail view that many columns
-  // wide on a desktop grid (3 columns or more): under the open tile alone, or
-  // under it and one neighbor.
-  // It still spans the whole grid row, so the rows below simply move down;
-  // it's just the visible panel (.panel-body) that's narrowed and shifted.
-  function sizePanel(panel, slug) {
-    const body = panel.querySelector('.panel-body');
-    body.style.width = ''; body.style.marginLeft = ''; delete panel.dataset.cols;
-    const project = PROJECTS.find((p) => p.slug === slug);
-    const cols = columnCount();
-    const span = project && project.panelCols;
-    if (!span || cols < 3 || span >= cols) return;
-    const grid = getComputedStyle(gridEl);
-    const tracks = grid.gridTemplateColumns.split(' ').map(parseFloat);    // each column's width
-    const gap = parseFloat(grid.columnGap);
-    const start = Math.min(columnOf(gridEl.querySelector(`.gcard[data-slug="${slug}"]`), tracks, gap),
-                           cols - span);                                  // keep it on the grid
-    const left = tracks.slice(0, start).reduce((sum, w) => sum + w + gap, 0);
-    const width = tracks.slice(start, start + span).reduce((sum, w) => sum + w, 0) + gap * (span - 1);
-    body.style.marginLeft = left + 'px';
-    body.style.width = width + 'px';
-    panel.dataset.cols = span;                         // see [data-cols] in portfolio.css
-  }
-
-  // Which grid column a tile starts in (0 = the first), from where it sits
-  function columnOf(tile, tracks, gap) {
-    const x = tile.getBoundingClientRect().left - gridEl.getBoundingClientRect().left;
-    let edge = 0;
-    for (let i = 0; i < tracks.length; i++) {
-      if (x < edge + tracks[i] / 2) return i;
-      edge += tracks[i] + gap;
-    }
-    return tracks.length - 1;
-  }
-
-  // The band of rows a tile sits in: its own row, plus any row a large tile
-  // beside it also spans (a large tile is two rows tall). The panel goes
-  // under the whole band, so nothing beside a large tile is split off.
-  function bandOf(tile) {
-    const tiles = [...gridEl.querySelectorAll('.gcard')];
-    const rect = (t) => t.getBoundingClientRect();
-    let { top, bottom } = rect(tile);
-    let band = [], grew = true;
-    while (grew) {
-      grew = false;
-      band = tiles.filter((t) => rect(t).top < bottom - 1 && rect(t).bottom > top + 1);   // overlaps the band
-      band.forEach((t) => {
-        const r = rect(t);
-        if (r.top < top - 1) { top = r.top; grew = true; }
-        if (r.bottom > bottom + 1) { bottom = r.bottom; grew = true; }
-      });
-    }
-    return { band, bottom };
-  }
-
-  // How far to pull the panel up: from the bottom of the lowest picture above
-  // it to the bottom of its band (the titles and tags it hides, and any
-  // taller captions beside them). Sets --pull, used in portfolio.css. The
-  // clicked tile, and any tile whose title the panel reaches up over, get
-  // .hush, which fades their title and tags out rather than half-covering them.
-  const unhush = () => gridEl.querySelectorAll('.gcard.hush').forEach((t) => t.classList.remove('hush'));
-
-  function pullPanel(panel, tile) {
-    unhush();
-    const { band, bottom } = bandOf(tile);
-    const body = panel.querySelector('.panel-body').getBoundingClientRect();
-    const above = band.filter((t) => {                                     // the tiles over the panel
-      const r = t.getBoundingClientRect();
-      return r.right > body.left + 1 && r.left < body.right - 1;
-    });
-    const frameBottom = Math.max(...above.map((t) => t.querySelector('.gframe').getBoundingClientRect().bottom));
-    panel.style.setProperty('--pull', Math.max(0, Math.round(bottom - frameBottom)) + 'px');
-    // the panel's top edge lines up with the top of the tile's title, so the
-    // title is covered the moment the panel appears (and until it's gone)
-    const frame = tile.querySelector('.gframe').getBoundingClientRect();
-    const gap = Math.max(0, Math.floor(tile.querySelector('.cap').getBoundingClientRect().top - frame.bottom));
-    panel.style.setProperty('--panel-gap', gap + 'px');
-    const panelTop = frameBottom + gap;
-    above.forEach((t) => {
-      if (t === tile || t.querySelector('.tags').getBoundingClientRect().bottom > panelTop) t.classList.add('hush');
-    });
-  }
-
-  // The last tile in the band of rows the tile with this slug is in
-  function rowEnd(slug) {
-    const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
-    if (!tile) return null;
-    const { band } = bandOf(tile);
-    return band[band.length - 1];
-  }
-
-  // The open panel. A panel that's still animating closed can sit in the
-  // grid for a moment alongside the new one, so skip any marked .closing.
-  const currentPanel = () => gridEl.querySelector('.panel:not(.closing)');
-
-  // If the window is resized, move the open panel to its row's new end and re-fit it
-  window.addEventListener('resize', () => {
-    if (!openSlug) return;
-    const panel = currentPanel();
-    const end = rowEnd(openSlug);
-    if (panel && end && end.nextElementSibling !== panel) end.after(panel);
-    if (panel) sizePanel(panel, openSlug);
-    if (panel) pullPanel(panel, gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`));
-    layoutMedia(panel);
-  });
 
   // The veil that dims the rest of the page while a panel is open
   // (see .dimmer in portfolio.css)
@@ -453,22 +354,6 @@
   dimmer.setAttribute('aria-hidden', 'true');
   document.body.appendChild(dimmer);
   const dim = (on) => dimmer.classList.toggle('on', on);
-
-  function closePanel() {
-    if (!openSlug) return;
-    const panel = currentPanel();
-    const tile = gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`);
-    if (tile) tile.setAttribute('aria-expanded', 'false');
-    openSlug = null;
-    dim(false);
-    unhush();
-    if (!panel) return;
-    panel.classList.add('closing');                    // so currentPanel() skips it from now on
-    panel.dataset.open = 'false';                      // starts the closing animation
-    const remove = () => { Basemaps.stop(panel); panel.remove(); };
-    if (prefersReducedMotion()) remove();
-    else { panel.addEventListener('transitionend', remove, { once: true }); setTimeout(remove, 430); }
-  }
 
   // Give each picture in a mosaic its shape (width ÷ height) as --ar, so the
   // CSS can size them to matching heights. With top = true and 3 or more
@@ -515,6 +400,11 @@
   // (and so the panels) smaller; the text column widens to take the room.
   const MEDIA_MAX_HEIGHT = 0.4;      // 40% of the screen's height…
   const MEDIA_MAX_PX     = 340;      // …but no taller than this
+  // the always-open blocks at the top of the page show their pictures bigger
+  const FEATURE_MAX_HEIGHT = 0.7, FEATURE_MAX_PX = 620;
+  const mediaLimit = (box) => box.closest('.feature')
+    ? Math.min(window.innerHeight * FEATURE_MAX_HEIGHT, FEATURE_MAX_PX)
+    : Math.min(window.innerHeight * MEDIA_MAX_HEIGHT, MEDIA_MAX_PX);
 
   // Lay out the pictures beside the text (.pmedia): matching heights, then
   // size the group so it is as wide as its column allows without going over
@@ -545,7 +435,7 @@
     // the picture column's width, as the grid has worked it out ("544px 700px")
     const tracks = getComputedStyle(box.parentElement).gridTemplateColumns.split(' ');
     let width = Math.floor(parseFloat(tracks[tracks.length - 1]));
-    const limit = Math.min(window.innerHeight * MEDIA_MAX_HEIGHT, MEDIA_MAX_PX);
+    const limit = mediaLimit(box);
     // with 3 or more, use whichever arrangement shows the pictures bigger here.
     // Captioned pictures (a story each) always keep one row, in their order.
     const captioned = mosaic && mosaic.querySelector('.pshot');
@@ -582,7 +472,8 @@
     if (!panel) return;
     const belowMosaic = panel.querySelector('.pmedia-below .pshots.mosaic');
     if (belowMosaic) fitShots(belowMosaic, false);
-    const box = panel.querySelector('.pmedia:not(.pmedia-below)');
+    panel.querySelectorAll('.pwide .pshots.mosaic, .pwide .pshots.scatter').forEach((g) => fitShots(g, false));
+    const box = panel.querySelector('.pmedia:not(.pmedia-below):not(.pwide)');
     if (!box) return;
     const split = panel.querySelector('.panel-body.split') && !panel.dataset.cols &&
                   window.matchMedia('(min-width: 721px)').matches;
@@ -601,7 +492,7 @@
     const gap = parseFloat(cs.columnGap);
     const m = box.querySelector('img, video');
     const ar = (m.naturalWidth || m.videoWidth) / (m.naturalHeight || m.videoHeight) || 4 / 3;  // until it loads
-    const limit = Math.min(window.innerHeight * MEDIA_MAX_HEIGHT, MEDIA_MAX_PX);
+    const limit = mediaLimit(box);
     const height = Math.min(limit, (inner - gap - SPLIT_MIN_TEXT) / ar);
     box.style.width = Math.floor(height * ar) + 'px';
   }
@@ -635,85 +526,274 @@
     if (tile) reveal(pageTop(tile), pageBottom(tile));
   }
 
-  // A panel scrolled right out of view closes itself. It's only watched
-  // once it has been on screen (it may start off screen while the page
-  // scrolls to it). Closing one that's above the screen takes it out at once
-  // and scrolls by the same amount, so what's in front of the reader doesn't
-  // jump; one below the screen just folds away out of sight.
-  let panelWatch = null;
+  /* ---------------------------------------------------------------------------
+     3b. A grid of tiles with unfolding panels
+     makeGrid(element, list, onRender) runs one grid: the "Look inside" tiles
+     under the book, the examples under the basemap styles, and "Other work".
+     list() returns the projects to show; onRender runs after each render.
+     Only one panel is open on the whole page: opening one closes the others.
+     ------------------------------------------------------------------------- */
+  const grids = [];
 
-  function watchPanel(panel) {
-    if (panelWatch) panelWatch.disconnect();
-    if (!('IntersectionObserver' in window)) return;
-    const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headH')) || 0;
-    let seen = false;
-    panelWatch = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { seen = true; return; }
-      if (!seen || panel !== currentPanel()) return;
-      panelWatch.disconnect();
-      if (panel.getBoundingClientRect().bottom > head) { closePanel(); return; }   // below the screen
-      const next = panel.nextElementSibling;             // the first tile after it
-      const before = next ? next.getBoundingClientRect().top : 0;
-      closePanel();
-      panel.remove();
-      const after = next ? next.getBoundingClientRect().top : 0;
-      window.scrollBy({ top: after - before, behavior: 'instant' });
-    }, { rootMargin: `-${Math.round(head)}px 0px 0px 0px` });   // under the sticky header counts as out of view
-    panelWatch.observe(panel);
-  }
+  function makeGrid(gridEl, list, onRender) {
+    let openSlug = null;          // slug of the project whose panel is open, if any
 
-  function openPanel(slug) {
-    const wasOpen = openSlug;
-    closePanel();
-    if (wasOpen === slug) {                            // clicking the open tile again just closes it
-      followTile(gridEl.querySelector(`.gcard[data-slug="${slug}"]`));
-      return;
+    function render() {
+      const visible = list();
+      if (openSlug) dim(false);                          // re-rendering closes any open panel
+      openSlug = null;
+      gridEl.querySelectorAll('.panel').forEach((panel) => Basemaps.stop(panel));
+      gridEl.innerHTML = visible.map(tileHTML).join('');
+      watchVideos();
+      if (onRender) onRender(visible);
     }
 
-    const project = PROJECTS.find((p) => p.slug === slug);
-    const end = rowEnd(slug);
-    if (!project || !end) return;
+    // How many columns the grid has right now (changes with screen width)
+    function columnCount() {
+      const cols = getComputedStyle(gridEl).gridTemplateColumns;
+      return cols && cols !== 'none' ? cols.split(' ').filter(Boolean).length : 1;
+    }
 
-    end.insertAdjacentHTML('afterend', panelHTML(project));
-    openSlug = slug;
-    const panel = end.nextElementSibling;              // the panel just added
-    const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
-    tile.setAttribute('aria-expanded', 'true');
-    sizePanel(panel, slug);
-    pullPanel(panel, tile);
-    watchVideos();                                     // so any loops in the panel play too
-    watchPanel(panel);
-    if (project.basemaps) Basemaps.start(panel, project);
-    panel.querySelectorAll('.pmedia img, .pmedia video').forEach((m) =>
-      m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => layoutMedia(panel), { once: true }));
-    layoutMedia(panel);
-
-    // Follow it: bring the tile and the whole panel into view. The panel's
-    // contents are already full height inside its unfolding frame, so its
-    // final size is known now. If a panel above is still folding shut, the
-    // page is still moving, so wait for it to finish first. Pictures still
-    // loading can make the panel taller, so once they've all arrived (within
-    // a couple of seconds), follow once more.
-    const openedAt = Date.now();
-    const follow = () => { if (openSlug === slug) {
+    // A project with panelCols: 1 or 2 gets a detail view that many columns
+    // wide on a desktop grid (3 columns or more): under the open tile alone, or
+    // under it and one neighbor.
+    // It still spans the whole grid row, so the rows below simply move down;
+    // it's just the visible panel (.panel-body) that's narrowed and shifted.
+    function sizePanel(panel, slug) {
       const body = panel.querySelector('.panel-body');
-      reveal(pageTop(tile), pageBottom(body), pageTop(body));
-    } };
-    const closingAbove = [...gridEl.querySelectorAll('.panel.closing')]
-      .some((old) => old.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING);
-    if (closingAbove && !prefersReducedMotion()) setTimeout(follow, 360); else follow();
-    // …and again once it has finished unfolding: near the bottom of the page
-    // there isn't room to scroll far enough until the panel has grown
-    if (!prefersReducedMotion()) setTimeout(follow, 380);
-    const loading = [...panel.querySelectorAll('.pmedia img, .pmedia video')]
-      .filter((m) => (m.tagName === 'VIDEO' ? m.readyState < 1 : !m.complete));
-    let left = loading.length;
-    loading.forEach((m) => m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => {
-      if (--left === 0 && Date.now() - openedAt < 2000) follow();
-    }, { once: true }));
+      body.style.width = ''; body.style.marginLeft = ''; delete panel.dataset.cols;
+      const project = PROJECTS.find((p) => p.slug === slug);
+      const cols = columnCount();
+      const span = project && project.panelCols;
+      if (!span || cols < 3 || span >= cols) return;
+      const grid = getComputedStyle(gridEl);
+      const tracks = grid.gridTemplateColumns.split(' ').map(parseFloat);    // each column's width
+      const gap = parseFloat(grid.columnGap);
+      const start = Math.min(columnOf(gridEl.querySelector(`.gcard[data-slug="${slug}"]`), tracks, gap),
+                             cols - span);                                  // keep it on the grid
+      const left = tracks.slice(0, start).reduce((sum, w) => sum + w + gap, 0);
+      const width = tracks.slice(start, start + span).reduce((sum, w) => sum + w, 0) + gap * (span - 1);
+      body.style.marginLeft = left + 'px';
+      body.style.width = width + 'px';
+      panel.dataset.cols = span;                         // see [data-cols] in portfolio.css
+    }
 
-    // next frame: flip data-open so the CSS transition runs, and dim the rest
-    requestAnimationFrame(() => { panel.dataset.open = 'true'; dim(true); });
+    // Which grid column a tile starts in (0 = the first), from where it sits
+    function columnOf(tile, tracks, gap) {
+      const x = tile.getBoundingClientRect().left - gridEl.getBoundingClientRect().left;
+      let edge = 0;
+      for (let i = 0; i < tracks.length; i++) {
+        if (x < edge + tracks[i] / 2) return i;
+        edge += tracks[i] + gap;
+      }
+      return tracks.length - 1;
+    }
+
+    // The band of rows a tile sits in: its own row, plus any row a large tile
+    // beside it also spans (a large tile is two rows tall). The panel goes
+    // under the whole band, so nothing beside a large tile is split off.
+    function bandOf(tile) {
+      const tiles = [...gridEl.querySelectorAll('.gcard')];
+      const rect = (t) => t.getBoundingClientRect();
+      let { top, bottom } = rect(tile);
+      let band = [], grew = true;
+      while (grew) {
+        grew = false;
+        band = tiles.filter((t) => rect(t).top < bottom - 1 && rect(t).bottom > top + 1);   // overlaps the band
+        band.forEach((t) => {
+          const r = rect(t);
+          if (r.top < top - 1) { top = r.top; grew = true; }
+          if (r.bottom > bottom + 1) { bottom = r.bottom; grew = true; }
+        });
+      }
+      return { band, bottom };
+    }
+
+    // How far to pull the panel up: from the bottom of the lowest picture above
+    // it to the bottom of its band (the titles and tags it hides, and any
+    // taller captions beside them). Sets --pull, used in portfolio.css. The
+    // clicked tile, and any tile whose title the panel reaches up over, get
+    // .hush, which fades their title and tags out rather than half-covering them.
+    const unhush = () => gridEl.querySelectorAll('.gcard.hush').forEach((t) => t.classList.remove('hush'));
+
+    function pullPanel(panel, tile) {
+      unhush();
+      const { band, bottom } = bandOf(tile);
+      const body = panel.querySelector('.panel-body').getBoundingClientRect();
+      const above = band.filter((t) => {                                     // the tiles over the panel
+        const r = t.getBoundingClientRect();
+        return r.right > body.left + 1 && r.left < body.right - 1;
+      });
+      const frameBottom = Math.max(...above.map((t) => t.querySelector('.gframe').getBoundingClientRect().bottom));
+      panel.style.setProperty('--pull', Math.max(0, Math.round(bottom - frameBottom)) + 'px');
+      // the panel's top edge lines up with the top of the tile's title, so the
+      // title is covered the moment the panel appears (and until it's gone)
+      const frame = tile.querySelector('.gframe').getBoundingClientRect();
+      const gap = Math.max(0, Math.floor(tile.querySelector('.cap').getBoundingClientRect().top - frame.bottom));
+      panel.style.setProperty('--panel-gap', gap + 'px');
+      const panelTop = frameBottom + gap;
+      above.forEach((t) => {
+        if (t === tile || t.querySelector('.tags').getBoundingClientRect().bottom > panelTop) t.classList.add('hush');
+      });
+    }
+
+    // The last tile in the band of rows the tile with this slug is in
+    function rowEnd(slug) {
+      const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
+      if (!tile) return null;
+      const { band } = bandOf(tile);
+      return band[band.length - 1];
+    }
+
+    // The open panel. A panel that's still animating closed can sit in the
+    // grid for a moment alongside the new one, so skip any marked .closing.
+    const currentPanel = () => gridEl.querySelector('.panel:not(.closing)');
+
+    function closePanel() {
+      if (!openSlug) return;
+      const panel = currentPanel();
+      const tile = gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`);
+      if (tile) tile.setAttribute('aria-expanded', 'false');
+      openSlug = null;
+      dim(false);
+      unhush();
+      if (!panel) return;
+      panel.classList.add('closing');                    // so currentPanel() skips it from now on
+      panel.dataset.open = 'false';                      // starts the closing animation
+      const remove = () => { Basemaps.stop(panel); panel.remove(); };
+      if (prefersReducedMotion()) remove();
+      else { panel.addEventListener('transitionend', remove, { once: true }); setTimeout(remove, 430); }
+    }
+
+    // A panel scrolled right out of view closes itself. It's only watched
+    // once it has been on screen (it may start off screen while the page
+    // scrolls to it). Closing one that's above the screen takes it out at once
+    // and scrolls by the same amount, so what's in front of the reader doesn't
+    // jump; one below the screen just folds away out of sight.
+    let panelWatch = null;
+
+    function watchPanel(panel) {
+      if (panelWatch) panelWatch.disconnect();
+      if (!('IntersectionObserver' in window)) return;
+      const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headH')) || 0;
+      let seen = false;
+      panelWatch = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) { seen = true; return; }
+        if (!seen || panel !== currentPanel()) return;
+        panelWatch.disconnect();
+        if (panel.getBoundingClientRect().bottom > head) { closePanel(); return; }   // below the screen
+        const next = panel.nextElementSibling;             // the first tile after it
+        const before = next ? next.getBoundingClientRect().top : 0;
+        closePanel();
+        panel.remove();
+        const after = next ? next.getBoundingClientRect().top : 0;
+        window.scrollBy({ top: after - before, behavior: 'instant' });
+      }, { rootMargin: `-${Math.round(head)}px 0px 0px 0px` });   // under the sticky header counts as out of view
+      panelWatch.observe(panel);
+    }
+
+    function openPanel(slug) {
+      const wasOpen = openSlug;
+      grids.forEach((g) => g.closePanel());              // one panel open on the page at a time
+      if (wasOpen === slug) {                            // clicking the open tile again just closes it
+        followTile(gridEl.querySelector(`.gcard[data-slug="${slug}"]`));
+        return;
+      }
+
+      const project = PROJECTS.find((p) => p.slug === slug);
+      const end = rowEnd(slug);
+      if (!project || !end) return;
+
+      end.insertAdjacentHTML('afterend', panelHTML(project));
+      openSlug = slug;
+      const panel = end.nextElementSibling;              // the panel just added
+      const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
+      tile.setAttribute('aria-expanded', 'true');
+      sizePanel(panel, slug);
+      pullPanel(panel, tile);
+      watchVideos();                                     // so any loops in the panel play too
+      watchPanel(panel);
+      if (project.basemaps) Basemaps.start(panel, project);
+      panel.querySelectorAll('.pmedia img, .pmedia video').forEach((m) =>
+        m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => layoutMedia(panel), { once: true }));
+      layoutMedia(panel);
+
+      // Follow it: bring the tile and the whole panel into view. The panel's
+      // contents are already full height inside its unfolding frame, so its
+      // final size is known now. If a panel above is still folding shut, the
+      // page is still moving, so wait for it to finish first. Pictures still
+      // loading can make the panel taller, so once they've all arrived (within
+      // a couple of seconds), follow once more.
+      const openedAt = Date.now();
+      const follow = () => { if (openSlug === slug) {
+        const body = panel.querySelector('.panel-body');
+        reveal(pageTop(tile), pageBottom(body), pageTop(body));
+      } };
+      const closingAbove = [...document.querySelectorAll('.grid > .panel.closing')]
+        .some((old) => old.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING);
+      if (closingAbove && !prefersReducedMotion()) setTimeout(follow, 360); else follow();
+      // …and again once it has finished unfolding: near the bottom of the page
+      // there isn't room to scroll far enough until the panel has grown
+      if (!prefersReducedMotion()) setTimeout(follow, 380);
+      const loading = [...panel.querySelectorAll('.pmedia img, .pmedia video')]
+        .filter((m) => (m.tagName === 'VIDEO' ? m.readyState < 1 : !m.complete));
+      let left = loading.length;
+      loading.forEach((m) => m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => {
+        if (--left === 0 && Date.now() - openedAt < 2000) follow();
+      }, { once: true }));
+
+      // next frame: flip data-open so the CSS transition runs, and dim the rest
+      requestAnimationFrame(() => { panel.dataset.open = 'true'; dim(true); });
+    }
+
+
+
+    // If the window is resized, move the open panel to its row's new end and re-fit it
+    function onResize() {
+      if (!openSlug) return;
+      const panel = currentPanel();
+      const end = rowEnd(openSlug);
+      if (panel && end && end.nextElementSibling !== panel) end.after(panel);
+      if (panel) sizePanel(panel, openSlug);
+      if (panel) pullPanel(panel, gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`));
+      layoutMedia(panel);
+    }
+
+    const grid = { el: gridEl, render, openPanel, closePanel, onResize,
+                   get openSlug() { return openSlug; } };
+    grids.push(grid);
+    return grid;
+  }
+
+  /* ---------------------------------------------------------------------------
+     3c. Feature blocks
+     An element with data-feature="slug" in index.html gets that project's
+     panel, always open. A live map (basemaps:) or a specimen iframe only
+     loads once the block comes near the screen.
+     ------------------------------------------------------------------------- */
+  function renderFeatures() {
+    const near = ('IntersectionObserver' in window)
+      ? new IntersectionObserver((entries) => entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          near.unobserve(entry.target);
+          entry.target.wake();
+        }), { rootMargin: '400px 0px' })
+      : null;
+    document.querySelectorAll('[data-feature]').forEach((el) => {
+      const project = bySlug(el.dataset.feature);
+      if (!project) return;
+      el.innerHTML = panelHTML(project, { feature: true });
+      el.setAttribute('aria-labelledby', `f-${project.slug}`);
+      const panel = el.firstElementChild;
+      panel.querySelectorAll('.pmedia img, .pmedia video').forEach((m) =>
+        m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => layoutMedia(panel), { once: true }));
+      layoutMedia(panel);
+      el.wake = () => {
+        if (project.basemaps) Basemaps.start(panel, project);
+        panel.querySelectorAll('iframe[data-src]').forEach((f) => { f.src = f.dataset.src; });
+      };
+      if (near) near.observe(el); else el.wake();
+    });
   }
 
 
@@ -758,7 +838,7 @@
   function watchVideos() {
     if (!videoWatcher) return;                    // very old browsers: just the still images
     videoWatcher.disconnect(); onScreen.clear();
-    gridEl.querySelectorAll('video').forEach((v) => {
+    document.querySelectorAll('main video').forEach((v) => {
       videoWatcher.observe(v);
       // show it once it's really playing; until then the still shows through
       if (!v.classList.contains('ready')) v.addEventListener('playing', () => v.classList.add('ready'), { once: true });
@@ -781,7 +861,7 @@
         focus back on the picture) is js/viewer.js, with its look in
         css/viewer.css; this just points it at the panels' pictures.
      ------------------------------------------------------------------------- */
-  Viewer.watch('.panel .pmedia a[href]');
+  Viewer.watch('.panel .pmedia a[href]');            // (feature blocks are .panel too)
 
 
   /* ---------------------------------------------------------------------------
@@ -790,23 +870,32 @@
   document.addEventListener('click', (e) => {
     const closeBtn = e.target.closest('[data-close]');
     if (closeBtn) {
-      const tile = gridEl.querySelector(`.gcard[data-slug="${closeBtn.dataset.close}"]`);
-      closePanel();
-      if (tile) { tile.focus({ preventScroll: true }); followTile(tile); }
+      const grid = grids.find((g) => g.el.contains(closeBtn));
+      if (grid) closeAndReturn(grid);
       return;
     }
     const tile = e.target.closest('.gcard');
-    if (tile) openPanel(tile.dataset.slug);
+    const grid = tile && grids.find((g) => g.el.contains(tile));
+    if (grid) grid.openPanel(tile.dataset.slug);
   });
+
+  // Close a grid's open panel and put focus back on its tile
+  function closeAndReturn(grid) {
+    const tile = grid.el.querySelector(`.gcard[data-slug="${grid.openSlug}"]`);
+    grid.closePanel();
+    if (tile) { tile.focus({ preventScroll: true }); followTile(tile); }
+  }
 
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     if (Viewer.isOpen()) { Viewer.close(); return; }   // the viewer first (it goes Back)
-    if (openSlug) {                                     // Escape closes the open panel
-      const tile = gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`);
-      closePanel();
-      if (tile) { tile.focus({ preventScroll: true }); followTile(tile); }
-    }
+    const grid = grids.find((g) => g.openSlug);         // Escape closes the open panel
+    if (grid) closeAndReturn(grid);
+  });
+
+  window.addEventListener('resize', () => {
+    grids.forEach((g) => g.onResize());
+    document.querySelectorAll('.panel.feature').forEach(layoutMedia);
   });
 
 
@@ -822,7 +911,7 @@
   }
 
   function readURL() {
-    const known = new Set(TAGS.map((t) => t.id));
+    const known = new Set([...pillsEl.querySelectorAll('.pill')].map((p) => p.dataset.tag));   // tags with a pill
     (new URLSearchParams(location.search).get('tags') || '')
       .split(',')
       .filter((id) => known.has(id))                   // ignore misspelled or retired tags
@@ -837,5 +926,14 @@
      Go
      ------------------------------------------------------------------------- */
   readURL();
-  render();
+  const mainGrid = makeGrid(mainEl, () => PROJECTS.filter(matches), (visible) => {
+    emptyEl.hidden = visible.length > 0;
+    clearBtn.hidden = selected.size === 0;
+    writeURL();
+  });
+  // the small grids above "Other work": their projects in the order listed
+  document.querySelectorAll('[data-grid]').forEach((el) =>
+    makeGrid(el, () => (SECTION_LISTS[el.dataset.grid] || []).map(bySlug).filter(Boolean)));
+  renderFeatures();
+  grids.forEach((g) => g.render());
 })();

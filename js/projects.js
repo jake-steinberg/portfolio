@@ -465,6 +465,17 @@ const PROJECTS = [
     inBook:      false,
     description: "A Mapbox-inspired journey through the aesthetic universe of Bon Iver’s " +
                  "<em>22, A Million</em>.",
+    // On the page it's an always-open block (SECTIONS.features below): the
+    // tile's loop beside the text, the glyphs in a row under it, then the
+    // live Mapbox style itself (the same view 22map.html embeds)
+    feature:     {
+      media:     ["img/tiles/22-a-map.mp4"],
+      specimen:  {
+        src:     "https://api.mapbox.com/styles/v1/jakesteinberg/cl9zzsx6s002i14n8jzfclfq0.html?title=false&access_token=pk.eyJ1IjoiamFrZXN0ZWluYmVyZyIsImEiOiJjanVtbzhwa2kxNTlsM3ltcXA0aGtiMDliIn0.2Q6HfVv2bholtzkLAhhHnw&zoomwheel=false#12.89/43.13707/-89.34144/0/58",
+        title:   "22, A Map: the live Mapbox style, around Madison, Wisconsin",
+        caption: "The live style. Drag to explore; zoom with the + and − buttons."
+      }
+    },
     scatter:     true,                            // the glyphs, loosely scattered rather than framed
     images:      [                                 // the glyphs between the story's sections, in order
       { src: "img/dude-01.svg", zoom: false },
@@ -977,3 +988,21 @@ const PROJECTS = [
     awards:      []
   }
 ];
+
+
+/* -----------------------------------------------------------------------------
+   SECTIONS — the projects shown above "Other work", by slug.
+     book:     the "Look inside" tiles under the book, in order
+     examples: the tiles under the basemap styles, in order
+     features: always-open blocks (the basemap styles, 22 A Map)
+     relief:   projects shown in "The world in relief" (written in index.html)
+   Every slug listed here is left out of the "Other work" grid.
+   ----------------------------------------------------------------------------- */
+const SECTIONS = {
+  book:     ["immigration", "st-paul-hills", "cathedral",
+             "neighborhood-access", "geology", "live-work"],
+  examples: ["where-is-uptown", "fox-coyote", "fall-hikes"],
+  features: ["strib-basemaps", "22-a-map"],
+  relief:   ["lindsey-vonns-mountains", "rincon-mountains", "cloud-peak-wilderness",
+             "restless-river", "the-driftless-area"]
+};

@@ -351,11 +351,11 @@ body::before,
    longer and gentler), scale how far the edges move, in px.
    ----------------------------------------------------------------------------- */
 :is(.hero h2, .ctitle) { filter: url(#rough-lg); }
-:is(.brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2, .panel h3) { filter: url(#rough-md); }
+:is(.brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2, .panel .ptitle) { filter: url(#rough-md); }
 :is(.trio h2, .cap .ttl, .ent .org, .stylename, .plist h3) { filter: url(#rough-sm); }
 @media print, (prefers-contrast: more), (forced-colors: active) {        /* crisp type for print and high contrast */
   :is(.hero h2, .ctitle, .brand-name, .sec-head h2, .rsec > h2, .csec > h2, .freelance h2,
-      .panel h3, .cap .ttl, .ent .org, .stylename, .plist h3) { filter: none; }
+      .panel .ptitle, .cap .ttl, .ent .org, .stylename, .plist h3) { filter: none; }
 }
 
 

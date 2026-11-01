@@ -3,7 +3,10 @@
    Shared pieces (colors, fonts, header, footer) are in css/site.css.
 
    Sections, top to bottom of the page:
-     1. Intro — three columns (who / what I make / off the clock)
+     1. Intro — one paragraph
+     1b. Blocks — the full-width sections above "Other work": the book and
+         "Look inside", the basemap styles (always open) and examples, the
+         world in relief, 22 A Map
      2. Book hero
      3. "Selected work" heading + tag filter pills
      4. Uniform grid of project tiles
@@ -16,8 +19,66 @@ body { overflow-anchor: none; }
 
 
 /* -----------------------------------------------------------------------------
-   1. INTRO — three columns, stacks to one on phones
+   1. INTRO — one paragraph, at reading width
    ----------------------------------------------------------------------------- */
+.intro {
+  padding-block: clamp(28px, 3.5vw, 48px);
+  border-bottom: 1px solid var(--rule);
+}
+.intro p {
+  margin: 0; max-width: 62ch;
+  font-size: clamp(var(--fs-lg), 1.35vw, var(--fs-2xl)); line-height: 1.6;
+  text-wrap: pretty;
+}
+.intro a {
+  color: var(--ink); text-decoration: none;
+  border-bottom: 3px solid var(--accent-soft);
+  transition: border-color .15s;
+}
+.intro a:hover { border-bottom-color: var(--accent); }
+
+/* -----------------------------------------------------------------------------
+   1b. BLOCKS — each full-width section above "Other work", with a hairline
+   under it (as between the intro and the book)
+   ----------------------------------------------------------------------------- */
+.block {
+  padding-block: clamp(36px, 5vw, 72px);
+  border-bottom: 1px solid var(--rule);
+}
+.block .hero { padding-block: 0; border-bottom: 0; }
+/* the small heading over a row of tiles: "Look inside", "Examples" */
+.minihead {
+  margin: clamp(36px, 4.5vw, 60px) 0 16px;
+  font-family: var(--topo); font-weight: 700; text-transform: uppercase;
+  font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track);
+  color: var(--label-ink);
+}
+/* the always-open project blocks (js/portfolio.js, renderFeatures): a panel
+   that never folds, with no veil and no Close button */
+.panel.feature { display: block; margin: 0; transition: none; }
+.panel.feature:not(.closing) { position: static; z-index: auto; }
+.panel.feature .ptitle { font-size: var(--fs-h2); padding-right: 0; }
+.panel.feature .panel-body { --pbody-pad: clamp(20px, 3vw, 40px); }
+@media (min-width: 721px) {
+  .panel.feature .pmedia { padding-block: 0; }
+  .panel.feature .panel-body:not(.solo) { grid-template-columns: fit-content(30rem) minmax(0, 1fr); }
+}
+.panel.feature .basemap { aspect-ratio: 3 / 2; max-height: 74vh; }
+/* a feature's pictures in one row across the whole width (feature.media in
+   projects.js moves images: [] down here), and its live map */
+.pwide, .specimen { grid-column: 1 / -1; }
+.pwide .pshots.scatter { padding-block: 16px; max-width: 860px; margin-inline: auto; }
+.specimen { margin: 0; }
+.specimen iframe {
+  display: block; width: 100%; height: min(72vh, 640px); border: 1px solid var(--stroke);
+  background: var(--bg);
+}
+.specimen figcaption {
+  margin-top: 8px;
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase;
+  font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track); color: var(--label-ink);
+}
+
 .trio {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -472,7 +533,7 @@ body { overflow-anchor: none; }
 .ptop > :last-child { margin-bottom: 0; }
 .pfoot { padding-top: 28px; }                 /* space between the text and the links */
 
-.panel h3 {
+.panel .ptitle {
   font-family: var(--display); font-weight: 800; line-height: 1.2;
   letter-spacing: var(--track-head); color: var(--head);
   font-size: var(--fs-h3);
@@ -745,4 +806,80 @@ body { overflow-anchor: none; }
   .pshots a:hover, .storycards a:hover .scard-img, .ar,
   .btn:hover .ar, .plinks a:hover .ar, .storylinks a:hover .ar,
   .pshots a.pcap:hover .ar, .storycards a:hover .ar { transform: none; }
+}
+
+
+/* -----------------------------------------------------------------------------
+   RELIEF — "The world in relief", adapted from cartography.html's #terrain
+   (css/cartography.css §6), on the page's own paper rather than a dark band
+   ----------------------------------------------------------------------------- */
+.relief .sec-head { padding-top: 0; margin-bottom: clamp(20px, 2.6vw, 32px); }
+.relief .work-title {
+  font-family: var(--display); font-weight: 800; color: var(--head);
+  letter-spacing: var(--track-tight); line-height: 1.3; font-size: var(--fs-h3);
+  margin: 0 0 8px;
+}
+.relief .work-meta {
+  margin-left: .5em; white-space: nowrap;
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase;
+  font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track); color: var(--label-ink);
+}
+.relief .place, .relief .card-kicker {
+  font-family: var(--topo); font-weight: 400; text-transform: uppercase;
+  font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
+  line-height: 1.6; color: var(--label-ink);
+}
+.relief .prose { max-width: var(--measure); }
+.relief .prose p { font-size: var(--fs-lg); line-height: 1.6; margin: 0 0 1em; }
+.relief .prose p:last-child { margin-bottom: 0; }
+.tlink {
+  color: var(--ink); text-decoration: none;
+  border-bottom: 2px solid var(--accent-soft); transition: border-color .15s;
+}
+.tlink:hover { border-bottom-color: var(--accent); }
+.tlink:hover .ar { transform: translate(2px, -2px); }
+
+/* Cortina across the column, then the story and all six */
+.bleed { margin: 0; }
+.bleed img, .wide-fig img, .cp-pair img, .sheet img { display: block; width: 100%; height: auto; }
+.bleed img, .wide-fig img, .cp-pair img, .sheet img, .card-media { border: 1px solid var(--stroke); }
+.band-text { margin-top: clamp(28px, 3.5vw, 48px); }
+.sheet {
+  list-style: none; margin: clamp(32px, 4vw, 56px) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 2.4vw, 32px) clamp(12px, 1.6vw, 20px);
+}
+.sheet a, .cp-pair a { display: block; color: inherit; text-decoration: none; }
+.sheet img { transition: opacity .15s; }
+.sheet a:hover img { opacity: .88; }
+.place { display: block; margin-top: 10px; }
+
+/* Rincon across the column; Cloud Peak with its detail beside it */
+.wide-fig, .cloudpeak { margin: clamp(56px, 7vw, 104px) 0 0; }
+.wide-fig > a { display: block; }
+.wide-fig figcaption, .cloudpeak figcaption { margin-top: 20px; }
+.wide-fig figcaption p, .cloudpeak figcaption p { margin: 0; font-size: var(--fs-lg); line-height: 1.6; max-width: var(--measure); }
+.cp-pair { display: grid; gap: clamp(12px, 1.6vw, 20px); grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: start; }
+
+/* elevation as data: three cards; the loops fade in once playing */
+.substrip .minihead { margin-top: clamp(56px, 7vw, 104px); }
+.cards3 {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px var(--col-gap, 34px);
+}
+.card { min-width: 0; }
+.card-media { position: relative; display: block; aspect-ratio: 5 / 4; background: var(--bg); overflow: hidden; }
+.card-media :is(img, video) { display: block; width: 100%; height: 100%; object-fit: cover; }
+.card-media video { position: absolute; inset: 0; opacity: 0; transition: opacity .25s; }
+.card-media video.ready { opacity: 1; }
+.card p { margin: 16px 0 0; font-size: var(--fs-base); line-height: 1.55; }
+.card-kicker { display: block; margin-bottom: 6px; }
+
+@media (max-width: 899px) { .cp-pair { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 720px) {
+  .sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cards3 { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tlink, .sheet img, .card-media video, .intro a { transition: none; }
+  .tlink:hover .ar { transform: none; }
 }
