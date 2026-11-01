@@ -312,7 +312,7 @@ const PROJECTS = [
                    "Optional dark-mode hillshade and contours"] },
         { name: "Outdoors", title: "Strib-Outdoors", style: "maps/strib-outdoors.json",
           about: "A style for outdoor adventure that gives you everything you need to find your way.",
-          points: ["5-meter elevation contour coverage for the whole state",
+          points: ["10-meter elevation contour coverage for the whole state",
                    "Optimized to render on mobile for use on trail",
                    "Winter and fall variants for seasonal conformity"] },
         { name: "Elex", title: "Strib-Elex", style: "maps/strib-elex.json",
