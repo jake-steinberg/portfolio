@@ -362,7 +362,7 @@ const PROJECTS = [
     year:        "2026",
     panelCols:   2,
     tile:        "img/tiles/st-paul-hills.webp",
-    video:       "img/tiles/st-paul-hills-scroll-v3.mp4",
+    video:       "",                          // a still in the book's Look inside tiles
     link:        "",                              // just the "In the book" button
     linkType:    "story",
     tags:        ["print"],
@@ -741,7 +741,7 @@ const PROJECTS = [
     year:        "2026",
     panelCols:   2,
     tile:        "img/tiles/geology.webp",
-    video:       "img/tiles/geology-scroll.mp4",
+    video:       "",                          // a still in the book's Look inside tiles
     link:        "",                              // just the "In the book" button
     linkType:    "story",
     tags:        ["print"],
@@ -836,7 +836,7 @@ const PROJECTS = [
     year:        "2026",
     panelCols:   2,
     tile:        "img/tiles/live-work.webp",
-    video:       "img/tiles/live-work-scroll.mp4",
+    video:       "",                          // a still in the book's Look inside tiles
     link:        "",                              // just the "In the book" button
     linkType:    "story",
     tags:        ["print"],
