@@ -777,6 +777,7 @@ body { overflow-anchor: none; }
   font-size: var(--fs-base); line-height: 1.55;
 }
 .stylepoints li { position: relative; padding-left: 1.1em; }
+.stylepoints li + li { margin-top: 8px; }
 .stylepoints li::before { content: "–"; position: absolute; left: 0; }   /* a dash, not a dot: dots are the section markers */
 .stylelink { margin: 0 0 16px; }             /* its link looks like a panel's (.plinks) */
 
