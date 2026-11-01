@@ -54,7 +54,7 @@
 }
 
 /* rules along the BOTTOM edge */
-.site, .trio, .hero, .kit h3, .jump {
+.site, .trio, .hero, .intro, .block, .kit h3, .jump {
   border-bottom-color: transparent;
   background-image: var(--rule-line);
   background-repeat: repeat-x;
@@ -81,6 +81,8 @@
   background-image: var(--section-line);
   background-size: 400px 4px;
 }
+/* the portfolio's section breaks: the same dark stroke as the tiles' frames */
+.intro, .block { background-image: var(--stroke-frame-h-stroke); }
 /* The sticky bars (the header, and the resume's jump bar under it) have a
    background, to hide the page scrolling beneath them. It's cut away below
    their drawn line, so the page shows right up to the line rather than
@@ -126,6 +128,9 @@
 :is(.rsec, .ent, .line, .kit h3, .csec):nth-child(3n)   { --ink-x: -271px; }
 .hero { --ink-x: -83px; }
 .foot { --ink-x: -199px; }
+.intro { --ink-x: -311px; }
+.block:nth-of-type(2n) { --ink-x: -157px; }
+.block:nth-of-type(2n+1) { --ink-x: -233px; }
 
 
 /* -----------------------------------------------------------------------------
