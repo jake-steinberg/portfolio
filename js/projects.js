@@ -271,7 +271,7 @@ const PROJECTS = [
     // The panel holds a live MapLibre map with a button for each style; see
     // js/basemaps.js. Each style's file goes in maps/ with the name below.
     // (For a tile two columns wide and two rows tall, add size: "large".)
-    title:       "Star Tribune basemap styles",
+    title:       "Minnesota Star Tribune map design system",
     slug:        "strib-basemaps",
     year:        "2025–2026",
     panelCols:   3,
@@ -283,8 +283,9 @@ const PROJECTS = [
     linkType:    "story",
     tags:        ["news", "interactive", "outdoors"],
     inBook:      false,
-    description: "Designed a full suite of MapLibre basemap styles for use across the " +
-                 "Star Tribune’s editorial coverage verticals.",
+    description: "Led the newsroom’s migration to an open-source stack built on MapLibre " +
+                 "and Protomaps. Designed a full suite of basemap styles tailored to distinct " +
+                 "newsroom use cases.",
     basemaps:    {
       // the vector tiles every style draws on; any style source named
       // "protomaps" is pointed here
@@ -295,39 +296,50 @@ const PROJECTS = [
       // or zoomed out past it, and the Minnesota button zooms out to it
       bounds:    [[-97.415, 43.44], [-89.439, 49.414]],
       initial:   "Outdoors",                      // the style it opens with (a name below)
-      // name: the button. title, about, links: shown for the chosen style.
+      // name: the button. Shown for the chosen style: title, about, points
+      // (a short list), figure (the id of a <template> in index.html), link
+      // (one { label, url } after them) and links (its stories, "In the wild").
       // style: the MapLibre style file (until it's there, the map says so)
       styles:    [
-        { name: "Light", title: "Strib Light", style: "maps/strib-light.json",
+        { name: "Light", title: "Strib-Light", style: "maps/strib-light.json",
           about: "A lively and authoritative style for use across coverage areas.",
+          points: ["Designed for quick-turn projects and basic news maps",
+                   "Muted palette so story content stands out",
+                   "Vibrant variant for Food and Culture coverage"],
           links: [
             { label: "Where is Uptown?", url: "https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173" },
             { label: "Vital restaurants", url: "https://www.startribune.com/minnesotas-45-most-vital-restaurants-right-now/601728087" }
           ] },
-        { name: "Dark", title: "Strib Dark", style: "maps/strib-dark.json",
-          about: "A dark style designed for sober enterprise projects and nocturnal settings.",
+        { name: "Dark", title: "Strib-Dark", style: "maps/strib-dark.json",
+          about: "A map style that pairs with dark story palettes.",
+          points: ["Designed for sober enterprise projects and nocturnal settings",
+                   "Dark base allows for high-contrast data viz",
+                   "Optional dark-mode hillshade and contours"],
           links: [
             { label: "Fox vs. coyote", url: "https://www.startribune.com/its-foxes-versus-coyotes-in-a-backyard-battle-for-survival/601504496" },
             { label: "Vance Boelter", url: "https://www.startribune.com/vance-boelters-43-hours-on-the-run-expose-mistakes-in-law-enforcement-response/601546404" }
           ] },
-        { name: "Outdoors", title: "Strib Outdoors", style: "maps/strib-outdoors.json",
-          about: "A style for outdoor adventure featuring topographic contours and seasonal variations.",
+        { name: "Outdoors", title: "Strib-Outdoors", style: "maps/strib-outdoors.json",
+          about: "A style for outdoor adventure that gives you everything you need to find your way.",
+          points: ["5-meter elevation contour coverage for the whole state",
+                   "Optimized to render on mobile for use on trail",
+                   "Winter and fall variants for seasonal conformity"],
           links: [
             { label: "Spring hikes", url: "https://www.startribune.com/eight-minnesota-hikes-that-sing-of-spring/601637574" },
             { label: "Fall hikes", url: "https://www.startribune.com/8-minnesota-hikes-to-fall-for-this-autumn/601883249" },
             { label: "Jessie Diggins’s favorite ski trails", url: "https://www.startribune.com/you-too-can-ski-on-jessie-diggins-favorite-trails-in-the-upper-midwest/601561307" }
           ] },
-        { name: "Elex", title: "Strib Elex", style: "maps/strib-elex.json",
-          about: "A style tailored for accurate data presentation that minimizes distortions.",
+        { name: "Elex", title: "Strib-Elex", style: "maps/strib-elex.json",
+          about: "A style tailored for election maps and other data-driven displays.",
+          points: ["Designed for accurate data presentation that minimizes distortions"],
+          figure: "fig-elex-stack",                // the layer stack, from cartography.html
           links: [
             { label: "2026 GOP primary", url: "https://www.startribune.com/how-minnesotans-voted-in-the-gop-primary-for-governor-precinct-by-precinct/601875965" },
             { label: "2026 DFL primary", url: "https://www.startribune.com/how-minnesotans-voted-in-the-contentious-dfl-primary-for-us-senate-precinct-by-precinct/601875969" }
           ] },
-        { name: "Paisley", title: "Strib Paisley", style: "maps/strib-paisley.json",
-          about: "I designed this one-off, purple-forward style for the 10th anniversary of Prince’s passing.",
-          links: [
-            { label: "Top Prince sites", url: "https://www.startribune.com/prince-tourist-sites-minneapolis/601587518" }
-          ] }
+        { name: "Paisley", title: "Strib-Paisley", style: "maps/strib-paisley.json",
+          about: "A one-off, purple-forward style for the 10th anniversary of Prince’s passing.",
+          link:  { label: "See it here", url: "https://www.startribune.com/prince-tourist-sites-minneapolis/601587518" } }
       ]
     },
     images:      [],

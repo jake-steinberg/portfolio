@@ -55,16 +55,27 @@ const Basemaps = (function () {
     return style;
   }
 
-  // The chosen style's name, description and stories, in the panel's text
+  // The chosen style's name, description, points, figure, link and stories,
+  // in the panel's text
+  const linkHTML = (l) =>
+    `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a>`;
   function showInfo(panel, entry) {
     const info = panel.querySelector('.styleinfo');
     if (!info) return;
-    const links = (entry.links || []).map((l) =>
-      `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>`).join('');
+    const points = (entry.points || []).map((t) => `<li>${esc(t)}</li>`).join('');
+    const links = (entry.links || []).map((l) => `<li>${linkHTML(l)}</li>`).join('');
     info.innerHTML = `
       <h4 class="stylename">${esc(entry.title || entry.name)}</h4>
       ${entry.about ? `<p class="styleabout">${esc(entry.about)}</p>` : ''}
+      ${points ? `<ul class="stylepoints">${points}</ul>` : ''}
+      ${entry.link ? `<p class="plinks stylelink">${linkHTML(entry.link)}</p>` : ''}
       ${links ? `<p class="inwild">In the wild</p><ul class="storylinks">${links}</ul>` : ''}`;
+    // a figure kept in index.html as a <template>, placed after the points
+    const tpl = entry.figure && document.getElementById(entry.figure);
+    if (tpl) {
+      const after = info.querySelector('.stylepoints') || info.querySelector('.styleabout');
+      after.after(tpl.content.cloneNode(true));
+    }
   }
 
   // A button under + and − that zooms out to the whole state: as far as the
