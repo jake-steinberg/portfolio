@@ -139,28 +139,28 @@
    how tall the stroke is drawn (about twice the old border's width, since
    the stroke only fills about half its height).
    ----------------------------------------------------------------------------- */
-.trio a, .btn, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span,
+.intro a, .btn, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span,
 .desc a, .award a, .rsec a, .elsewhere a, .freelance a {
   --ul:       var(--stroke-underline-accent-soft-1);
   --ul-hover: var(--stroke-underline-accent-1);
   --ul-h: 4px;
 }
-.trio a { --ul-h: 6px; }                          /* the intro's thicker underline */
+.intro a { --ul-h: 6px; }                          /* the intro's thicker underline */
 
 /* neighbouring links get different strokes */
-:is(.trio a, .plinks a, .storylinks a, .desc a, .award a, .rsec a, .elsewhere a, .freelance a):nth-of-type(3n+2),
+:is(.intro a, .plinks a, .storylinks a, .desc a, .award a, .rsec a, .elsewhere a, .freelance a):nth-of-type(3n+2),
 :is(.storylinks, .plinks, .storycards, .elsewhere ul) > :nth-child(3n+2) :is(a, .scard-ttl > span) {
   --ul:       var(--stroke-underline-accent-soft-2);
   --ul-hover: var(--stroke-underline-accent-2);
 }
-:is(.trio a, .plinks a, .storylinks a, .desc a, .award a, .rsec a, .elsewhere a, .freelance a):nth-of-type(3n),
+:is(.intro a, .plinks a, .storylinks a, .desc a, .award a, .rsec a, .elsewhere a, .freelance a):nth-of-type(3n),
 :is(.storylinks, .plinks, .storycards, .elsewhere ul) > :nth-child(3n) :is(a, .scard-ttl > span) {
   --ul:       var(--stroke-underline-accent-soft-3);
   --ul-hover: var(--stroke-underline-accent-3);
 }
 
 /* draw them */
-.trio a, .btn, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span,
+.intro a, .btn, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span,
 .desc a, .award a, .rsec a, .elsewhere a, .freelance a,
 .site nav a, .totop {
   border-bottom-color: transparent;
@@ -172,7 +172,7 @@
   -webkit-box-decoration-break: clone;            /* a link that wraps gets a stroke per line */
           box-decoration-break: clone;
 }
-.trio a:hover, .btn:hover, .plinks a:hover, .storylinks a:hover, .pshots a.pcap:hover,
+.intro a:hover, .btn:hover, .plinks a:hover, .storylinks a:hover, .pshots a.pcap:hover,
 .storycards a:hover .scard-ttl > span, .desc a:hover, .award a:hover, .rsec a:hover,
 .elsewhere a:hover, .freelance a:hover {
   border-bottom-color: transparent;
