@@ -737,13 +737,9 @@ body { overflow-anchor: none; }
    the Dakota letters, the contours and the stack diagram. (.stylenotes in front, to
    win over the general card rules further down) */
 .cards3.stylenotes { margin-top: clamp(56px, 7vw, 104px); }   /* as the relief section's subsections */
-/* no boxes: each picture sits straight on the paper. The letters and the
-   diagram have no panel behind them; the map fades out at its edges */
+/* no boxes: each picture sits straight on the paper (the contours are a
+   transparent image, so the paper shows between the lines) */
 .stylenotes .card-media { border: 0; background: none; }
-.stylenotes .card-contours img {
-  -webkit-mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 55%, transparent 100%);
-          mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 55%, transparent 100%);
-}
 .stylenotes .card-glyphs { display: grid; place-items: center; padding: 6%; }
 /* the letters in the reading serif (its web file has only the accented
    letters the site uses; the rest come from the next serif in --text) */
