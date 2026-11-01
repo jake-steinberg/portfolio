@@ -297,8 +297,7 @@ const PROJECTS = [
       bounds:    [[-97.415, 43.44], [-89.439, 49.414]],
       initial:   "Outdoors",                      // the style it opens with (a name below)
       // name: the button. Shown for the chosen style: title, about, points
-      // (a short list), figure (the id of a <template> in index.html), link
-      // (one { label, url } after them).
+      // (a short list) and link (one { label, url } after them).
       // style: the MapLibre style file (until it's there, the map says so)
       styles:    [
         { name: "Light", title: "Strib-Light", style: "maps/strib-light.json",
@@ -318,8 +317,9 @@ const PROJECTS = [
                    "Winter and fall variants for seasonal conformity"] },
         { name: "Elex", title: "Strib-Elex", style: "maps/strib-elex.json",
           about: "A style tailored for election maps and other data-driven displays.",
-          points: ["Designed for accurate data presentation that minimizes distortions"],
-          figure: "fig-elex-stack" },  // the layer stack, from cartography.html
+          points: ["Designed for accurate data presentation that minimizes distortions",
+                   "Data lives beneath roads and water to maintain orientation",
+                   "Works with choropleths, proportional symbols, and other data representation techniques"] },
         { name: "Paisley", title: "Strib-Paisley", style: "maps/strib-paisley.json",
           about: "A one-off, purple-forward style for the 10th anniversary of Prince’s passing.",
           link:  { label: "See it here", url: "https://www.startribune.com/prince-tourist-sites-minneapolis/601587518" } }

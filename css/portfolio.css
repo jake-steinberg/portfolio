@@ -734,25 +734,14 @@ body { overflow-anchor: none; }
   margin: 0 0 8px;
 }
 .styleabout { font-size: var(--fs-base); line-height: 1.55; margin: 0 0 16px; max-width: var(--measure); }
-/* the chosen style's points, its figure and its single link (js/basemaps.js) */
+/* the chosen style's points and its single link (js/basemaps.js) */
 .stylepoints {
   margin: -8px 0 16px; padding-left: 0; list-style: none; max-width: var(--measure);
   font-size: var(--fs-base); line-height: 1.55;
 }
 .stylepoints li { position: relative; padding-left: 1.1em; }
-.stylepoints li::before { content: "–"; position: absolute; left: 0; color: var(--accent); }   /* a dash, not a dot: dots are the section markers */
+.stylepoints li::before { content: "–"; position: absolute; left: 0; }   /* a dash, not a dot: dots are the section markers */
 .stylelink { margin: 0 0 16px; }             /* its link looks like a panel's (.plinks) */
-.stylefig { margin: 0 0 18px; max-width: 480px; }
-.stylefig figcaption {
-  margin-top: 8px; font-size: var(--fs-sm); line-height: 1.45; color: var(--muted);
-}
-/* the figure's drawing, with a narrower version for phones (from cartography.css) */
-.fig-svg svg { display: block; max-width: 100%; height: auto; }
-.fig-svg .fig-narrow { display: none; }
-@media (max-width: 720px) {
-  .fig-svg .fig-wide { display: none; }
-  .fig-svg .fig-narrow { display: block; }
-}
 
 /* credit under a panel's pictures (credit: in projects.js), e.g. "Photos by …" */
 .pcredit {

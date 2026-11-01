@@ -55,8 +55,7 @@ const Basemaps = (function () {
     return style;
   }
 
-  // The chosen style's name, description, points, figure and link, in the
-  // panel's text
+  // The chosen style's name, description, points and link, in the panel's text
   const linkHTML = (l) =>
     `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a>`;
   function showInfo(panel, entry) {
@@ -68,12 +67,6 @@ const Basemaps = (function () {
       ${entry.about ? `<p class="styleabout">${esc(entry.about)}</p>` : ''}
       ${points ? `<ul class="stylepoints">${points}</ul>` : ''}
       ${entry.link ? `<p class="plinks stylelink">${linkHTML(entry.link)}</p>` : ''}`;
-    // a figure kept in index.html as a <template>, placed after the points
-    const tpl = entry.figure && document.getElementById(entry.figure);
-    if (tpl) {
-      const after = info.querySelector('.stylepoints') || info.querySelector('.styleabout');
-      after.after(tpl.content.cloneNode(true));
-    }
   }
 
   // A button under + and − that zooms out to the whole state: as far as the
