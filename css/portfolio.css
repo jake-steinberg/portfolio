@@ -737,8 +737,14 @@ body { overflow-anchor: none; }
    the Dakota letters, the contours and the stack diagram. (.stylenotes in front, to
    win over the general card rules further down) */
 .cards3.stylenotes { margin-top: clamp(56px, 7vw, 104px); }   /* as the relief section's subsections */
-.stylenotes .card-media { border: 0; }                          /* no frames: pale panels on the page */
-.stylenotes .card-glyphs { display: grid; place-items: center; padding: 6%; background: var(--plate); }
+/* no boxes: each picture sits straight on the paper. The letters and the
+   diagram have no panel behind them; the map fades out at its edges */
+.stylenotes .card-media { border: 0; background: none; }
+.stylenotes .card-contours img {
+  -webkit-mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 55%, transparent 100%);
+          mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 55%, transparent 100%);
+}
+.stylenotes .card-glyphs { display: grid; place-items: center; padding: 6%; }
 /* the letters in the reading serif (its web file has only the accented
    letters the site uses; the rest come from the next serif in --text) */
 .stylenotes .dakota-glyphs {
@@ -756,7 +762,6 @@ body { overflow-anchor: none; }
   text-align: center; letter-spacing: 0; line-height: 1; color: var(--ink);
 }
 /* the stack diagram: columns of boxes joined by arrows */
-.stylenotes .card-stack { background: var(--plate); }
 .stackdiagram { display: block; width: 100%; height: 100%; }
 .stackdiagram .sd-head {
   font-family: var(--topo); font-size: 12px; letter-spacing: .1em; fill: var(--label-ink);
