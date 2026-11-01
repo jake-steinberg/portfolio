@@ -999,8 +999,7 @@ const PROJECTS = [
    Every slug listed here is left out of the "Other work" grid.
    ----------------------------------------------------------------------------- */
 const SECTIONS = {
-  book:     ["immigration", "st-paul-hills", "cathedral",
-             "neighborhood-access", "geology", "live-work"],
+  book:     ["immigration", "st-paul-hills", "cathedral", "neighborhood-access"],
   examples: ["where-is-uptown", "fox-coyote", "fall-hikes"],
   features: ["strib-basemaps", "22-a-map"],
   relief:   ["lindsey-vonns-mountains", "rincon-mountains", "cloud-peak-wilderness",
