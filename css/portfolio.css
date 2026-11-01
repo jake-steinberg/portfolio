@@ -884,16 +884,21 @@ body { overflow-anchor: none; }
    SECTION DOTS — a dot per section, fixed in the left margin (index.html,
    nav.dots). The section you're in (js/portfolio.js marks its link
    aria-current) gets a bigger, coral dot; hovering or focusing a dot shows
-   the section's name beside it. Only where the margin has room for it.
+   the section's name beside it. Wide screens only.
    ----------------------------------------------------------------------------- */
 .dots { display: none; }
 @media (min-width: 1100px) {
+  /* the page column (css/site.css, .wrap) gives up --dots-w on its left, so
+     the dots get a margin of their own; the header moves over with it, so
+     its edges still line up with the page's */
+  :root { --dots-w: 56px; }
+  .wrap { padding-left: calc(clamp(16px, 3vw, 40px) + var(--dots-w)); }
   .dots {
-    display: flex; flex-direction: column; gap: 16px;
+    display: flex; flex-direction: column; gap: 4px;
     position: fixed; z-index: 20; top: 50%;
-    /* centred in the page's left margin: the space beside the 1360px column
-       plus the column's own side padding (css/site.css, .wrap) */
-    left: calc(max(0px, (100vw - 1360px) / 2) + clamp(16px, 3vw, 40px) / 2);
+    /* centred in the whole left margin: the space beside the 1360px column,
+       plus the column's left padding */
+    left: calc((max(0px, (100vw - 1360px) / 2) + clamp(16px, 3vw, 40px) + var(--dots-w)) / 2);
     transform: translate(-50%, -50%);
   }
   .dots a {
