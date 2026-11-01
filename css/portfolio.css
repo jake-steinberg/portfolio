@@ -738,6 +738,7 @@ body { overflow-anchor: none; }
    the Dakota letters, then pictures still to come. (.stylenotes in front, to
    win over the general card rules further down) */
 .cards3.stylenotes { margin-top: clamp(56px, 7vw, 104px); }   /* as the relief section's subsections */
+.stylenotes .card-media { border: 0; }                          /* no frames: pale panels on the page */
 .stylenotes .card-glyphs { display: grid; place-items: center; padding: 6%; background: var(--plate); }
 /* the letters in the reading serif (its web file has only the accented
    letters the site uses; the rest come from the next serif in --text) */
@@ -769,7 +770,7 @@ body { overflow-anchor: none; }
 /* TEMPORARY: a box where a picture will go */
 .stylenotes .card-todo {
   display: grid; place-items: center; padding: 12px; text-align: center;
-  font-size: var(--fs-base); color: var(--muted); border-style: dashed;
+  font-size: var(--fs-base); color: var(--muted); background: var(--plate);
 }
 
 /* the chosen style's points and its single link (js/basemaps.js) */
