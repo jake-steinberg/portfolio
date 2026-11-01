@@ -989,3 +989,23 @@ body { overflow-anchor: none; }
 @media (prefers-reduced-motion: reduce) {
   .dots a::before, .dots span { transition: none; }
 }
+
+
+/* -----------------------------------------------------------------------------
+   DARK BAND — TRIAL. The three notes under the basemap map (index.html,
+   .stylenotes.dark) on an ink ground across the whole window, as the terrain
+   band on cartography.html: plate text, --rule-soft for the quieter parts.
+   The contours swap to img/tiles/strib-contours-dark.webp, their lines made
+   pale. To go back: remove "dark" and point the img at strib-contours.webp.
+   ----------------------------------------------------------------------------- */
+.cards3.stylenotes.dark {
+  /* the ink runs to the window's edges, past the page column */
+  background: var(--ink); box-shadow: 0 0 0 100vmax var(--ink); clip-path: inset(0 -100vmax);
+  padding-block: clamp(40px, 5vw, 72px);
+}
+.stylenotes.dark .card p { color: var(--plate); }
+.stylenotes.dark .dakota-glyphs, .stylenotes.dark .dk-mark > span { color: var(--plate); }
+.stylenotes.dark .dk-mark { border-color: var(--rule-soft); }
+.stylenotes.dark .stackdiagram .sd-box { fill: none; stroke: var(--rule-soft); }
+.stylenotes.dark .stackdiagram .sd-item { fill: var(--plate); }
+.stylenotes.dark .stackdiagram .sd-head { fill: var(--rule-soft); }
