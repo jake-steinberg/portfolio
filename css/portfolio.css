@@ -352,8 +352,8 @@ body { overflow-anchor: none; }
   padding: 5.5px calc(7px - var(--track)) 2.5px 9px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
-/* the book's Look inside tiles: no tags under the titles */
-#grid-book .tags { display: none; }
+/* the small grids (Look inside, Examples): no tags under the titles */
+:is(#grid-book, #grid-examples) .tags { display: none; }
 
 /* in the top right corner, a little smaller */
 .pshots .marker {
