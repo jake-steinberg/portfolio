@@ -186,17 +186,16 @@ body { overflow-anchor: none; }
 
 /* "Buy the book" — the one real button on the page, as it was before the
    links were made all alike (commit cca1de5): a coral block with capital
-   letters that tilts a little on hover. The darker coral keeps the white
-   text readable (the lighter --accent is too pale for it). */
+   letters that tilts a little on hover. */
 .btn {
   display: inline-block; margin-top: 22px;
   font-family: var(--topo); font-size: calc(var(--fs-sm) + var(--label-plus));
   letter-spacing: var(--track-wide); text-transform: uppercase; line-height: 1.2;
   text-decoration: none; padding: 12px 22px;
-  background: var(--accent-ink); color: #fff; border: 1px solid var(--stroke);
+  background: var(--accent); color: #fff; border: 1px solid var(--stroke);
   transition: transform .15s, background-color .15s;
 }
-.btn:hover { transform: rotate(-.6deg); background: var(--ink); }
+.btn:hover { transform: rotate(-.6deg); background: var(--accent-ink); }
 
 @media (max-width: 900px) {      /* tablet */
   .hero { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 28px; align-items: start; }
