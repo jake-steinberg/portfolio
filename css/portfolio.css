@@ -734,6 +734,33 @@ body { overflow-anchor: none; }
   margin: 0 0 8px;
 }
 .styleabout { font-size: var(--fs-base); line-height: 1.55; margin: 0 0 16px; max-width: var(--measure); }
+/* STYLE NOTES — three cards under the basemap map (index.html, .stylenotes):
+   the Dakota letters, then pictures still to come. (.stylenotes in front, to
+   win over the general card rules further down) */
+.stylenotes { margin-top: clamp(40px, 5vw, 64px); }
+.stylenotes .card-glyphs { display: grid; place-items: center; padding: 6%; background: var(--plate); }
+/* the letters in the reading serif (its web file has only the accented
+   letters the site uses; the rest come from the next serif in --text) */
+.stylenotes .dakota-glyphs {
+  margin: 0; font-family: var(--text); font-size: clamp(26px, 2.6vw, 38px);
+  line-height: 1.4; letter-spacing: .12em; color: var(--ink); overflow-wrap: anywhere;
+}
+/* the lone combining accent, on a dotted circle, the usual way to show one */
+.dk-mark {
+  display: inline-block; position: relative; vertical-align: baseline;
+  width: .62em; height: .62em; margin-right: .06em;
+  border: 2px dotted var(--muted); border-radius: 50%;
+}
+.dk-mark > span {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  text-align: center; letter-spacing: 0; line-height: 1; color: var(--ink);
+}
+/* TEMPORARY: a box where a picture will go */
+.stylenotes .card-todo {
+  display: grid; place-items: center; padding: 12px; text-align: center;
+  font-size: var(--fs-base); color: var(--muted); border-style: dashed;
+}
+
 /* the chosen style's points and its single link (js/basemaps.js) */
 .stylepoints {
   margin: -8px 0 16px; padding-left: 0; list-style: none; max-width: var(--measure);
