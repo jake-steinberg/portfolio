@@ -45,7 +45,7 @@ body { overflow-anchor: none; }
   padding-block: clamp(36px, 5vw, 72px);
   border-bottom: 1px solid var(--rule);
 }
-.block .hero { padding-block: 0; border-bottom: 0; }
+.block .hero { padding-block: 0; border-bottom: 0; background-image: none; }
 /* the small heading over a row of tiles: "Look inside", "Examples" */
 .minihead {
   margin: clamp(36px, 4.5vw, 60px) 0 16px;
@@ -137,33 +137,21 @@ body { overflow-anchor: none; }
   box-shadow: var(--shadow-lift);
 }
 
-/* -- TITLE BOX ---------------------------------------------------------------
-   The book's details sit in a box like a map's title cartouche: a plain
-   frame here, which css/ink.css draws by hand. */
-.cartouche {
-  position: relative;
-  /* the box fills the row, so it's the same height as the cover beside it;
-     its text sits in the middle. When the text needs more room than the
-     cover is tall (narrower windows), the box grows past the cover. */
+/* -- THE BOOK'S DETAILS -------------------------------------------------------
+   Beside the cover, with no frame: the text sits in the middle of the row,
+   level with the cover. When it needs more room than the cover is tall
+   (narrower windows), the row grows past the cover. */
+.hero-text {
   align-self: stretch;
   display: flex; flex-direction: column; justify-content: center;
-  padding: clamp(18px, 1.9vw, 28px) clamp(22px, 2.8vw, 40px);
-  border: 1px solid var(--stroke);
 }
-.cartouche .btn { align-self: flex-start; }
-
-/* "OUT NOVEMBER 17 · PREORDERS OPEN" */
-.eyebrow {
-  display: flex; align-items: center; gap: 10px;
-  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track-wide);
-  text-transform: uppercase; color: var(--label-accent);
-}
+.hero-text .btn { align-self: flex-start; }
 
 .hero h2 {
   font-family: var(--display); font-weight: 800; line-height: 1.1;
   letter-spacing: var(--track-head); color: var(--head);
   font-size: var(--fs-h1);
-  margin: 14px 0 0; text-wrap: balance;
+  margin: 0; text-wrap: balance;
 }
 .hero p {
   color: var(--muted);
@@ -177,7 +165,7 @@ body { overflow-anchor: none; }
 .hero-meta span { white-space: nowrap; }
 
 /* -- LINKS -------------------------------------------------------------------
-   Every link that leads somewhere looks the same: the Preorder link (.btn), a
+   Every link that leads somewhere looks the same: the Buy the book link (.btn), a
    panel's story and book links (.plinks), lists of stories (.storylinks),
    picture captions (.pcap) and story cards (.scard-ttl). Text with a soft coral
    underline; on hover the underline turns full coral and the ↗ arrow (.ar)
@@ -192,7 +180,7 @@ body { overflow-anchor: none; }
 .btn:hover .ar, .plinks a:hover .ar, .storylinks a:hover .ar,
 .pshots a.pcap:hover .ar, .storycards a:hover .ar { transform: translate(2px, -2px); }
 
-/* "Preorder the book" — a little larger than the other links */
+/* "Buy the book" — a little larger than the other links */
 .btn { display: inline-block; margin-top: 20px; font-size: var(--fs-xl); line-height: 1.4; }
 
 @media (max-width: 900px) {      /* tablet */
@@ -202,7 +190,6 @@ body { overflow-anchor: none; }
 }
 @media (max-width: 640px) {      /* phone */
   .hero { grid-template-columns: 1fr; gap: 22px; }
-  .hero h2 { margin-top: 12px; }
 }
 
 
