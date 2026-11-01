@@ -735,7 +735,7 @@ body { overflow-anchor: none; }
 }
 .styleabout { font-size: var(--fs-base); line-height: 1.55; margin: 0 0 16px; max-width: var(--measure); }
 /* STYLE NOTES — three cards under the basemap map (index.html, .stylenotes):
-   the Dakota letters, then pictures still to come. (.stylenotes in front, to
+   the Dakota letters, the contours and the stack diagram. (.stylenotes in front, to
    win over the general card rules further down) */
 .cards3.stylenotes { margin-top: clamp(56px, 7vw, 104px); }   /* as the relief section's subsections */
 .stylenotes .card-media { border: 0; }                          /* no frames: pale panels on the page */
@@ -766,11 +766,6 @@ body { overflow-anchor: none; }
 .stackdiagram .sd-box { fill: var(--bg); stroke: var(--stroke); stroke-width: 1; }
 .stackdiagram .sd-arrow, .stackdiagram .sd-head-arrow {
   fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
-}
-/* TEMPORARY: a box where a picture will go */
-.stylenotes .card-todo {
-  display: grid; place-items: center; padding: 12px; text-align: center;
-  font-size: var(--fs-base); color: var(--muted); background: var(--plate);
 }
 
 /* the chosen style's points and its single link (js/basemaps.js) */
