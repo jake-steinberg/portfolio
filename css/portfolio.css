@@ -42,7 +42,7 @@ body { overflow-anchor: none; }
    under it (as between the intro and the book)
    ----------------------------------------------------------------------------- */
 .block {
-  padding-block: clamp(30px, 4vw, 56px);
+  padding-block: clamp(44px, 6vw, 88px);
   border-bottom: 1px solid var(--rule);
 }
 .block .hero { padding-block: 0; border-bottom: 0; background-image: none; }
@@ -131,7 +131,7 @@ body { overflow-anchor: none; }
   grid-template-columns: var(--feature-w) minmax(0, 1fr);
   gap: clamp(24px, 4vw, 56px);
   align-items: stretch;
-  padding-block: clamp(30px, 4vw, 56px);
+  padding-block: clamp(44px, 6vw, 88px);
   border-bottom: 1px solid var(--rule);
 }
 .hero-cover { margin: 0; display: flex; align-items: center; }
@@ -736,7 +736,7 @@ body { overflow-anchor: none; }
 /* STYLE NOTES — three cards under the basemap map (index.html, .stylenotes):
    the Dakota letters, the contours and the stack diagram. (.stylenotes in front, to
    win over the general card rules further down) */
-.minihead.underhood { margin-top: clamp(56px, 7vw, 104px); }   /* their label, "Under the hood": as far down as the relief section's subsections */
+.minihead.underhood { margin-top: clamp(32px, 4vw, 56px); }   /* their label, "Under the hood": close under the map and its text */
 /* no boxes: each picture sits straight on the paper (the contours are a
    transparent image, so the paper shows between the lines) */
 .stylenotes .card-media { border: 0; background: none; aspect-ratio: 400 / 206; }   /* the stack diagram's shape, so all three match */
