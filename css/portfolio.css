@@ -737,8 +737,14 @@ body { overflow-anchor: none; }
    the Dakota letters, the contours and the stack diagram. (.stylenotes in front, to
    win over the general card rules further down) */
 .minihead.underhood { margin-top: clamp(32px, 4vw, 56px); }   /* their label, "Under the hood": close under the map and its text */
-/* no boxes: each picture sits straight on the paper (the contours are a
-   transparent image, so the paper shows between the lines) */
+/* each note in a box: a thin coral frame on the pale plate, holding the
+   picture and its caption (after cartography.html's .card-plain). The
+   pictures themselves have no frame; the contours are a transparent image,
+   so the plate shows between the lines */
+.stylenotes .card {
+  border: 1px solid var(--accent); background: var(--plate);
+  padding: clamp(20px, 2.4vw, 32px);
+}
 .stylenotes .card-media { border: 0; background: none; aspect-ratio: 400 / 206; }   /* the stack diagram's shape, so all three match */
 .stylenotes .card-glyphs { display: grid; place-items: center; padding: 6%; }
 /* the letters in the reading serif (its web file has only the accented
