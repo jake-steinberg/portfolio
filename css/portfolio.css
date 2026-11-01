@@ -739,7 +739,7 @@ body { overflow-anchor: none; }
 .cards3.stylenotes { margin-top: clamp(56px, 7vw, 104px); }   /* as the relief section's subsections */
 /* no boxes: each picture sits straight on the paper (the contours are a
    transparent image, so the paper shows between the lines) */
-.stylenotes .card-media { border: 0; background: none; }
+.stylenotes .card-media { border: 0; background: none; aspect-ratio: 400 / 206; }   /* the stack diagram's shape, so all three match */
 .stylenotes .card-glyphs { display: grid; place-items: center; padding: 6%; }
 /* the letters in the reading serif (its web file has only the accented
    letters the site uses; the rest come from the next serif in --text) */
