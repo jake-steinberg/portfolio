@@ -74,15 +74,6 @@
   background-origin: border-box;
 }
 .ent, .line { background-image: var(--dash-line); }
-/* the run-in rule after "Look inside" and "Examples" (css/portfolio.css) */
-.minihead::after {
-  height: 3px; border-top-color: transparent;
-  /* the dashed stroke used as a mask, so it can be drawn in a darker ink
-     than the stroke file's own pale rule colour */
-  background: var(--muted);
-  -webkit-mask: var(--dash-line) repeat-x left center / 400px 3px;
-          mask: var(--dash-line) repeat-x left center / 400px 3px;
-}
 
 /* the main section breaks, and the line under the header: bolder and
    darker, so they read as drawn */
