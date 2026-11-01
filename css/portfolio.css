@@ -737,7 +737,7 @@ body { overflow-anchor: none; }
 /* STYLE NOTES — three cards under the basemap map (index.html, .stylenotes):
    the Dakota letters, then pictures still to come. (.stylenotes in front, to
    win over the general card rules further down) */
-.stylenotes { margin-top: clamp(40px, 5vw, 64px); }
+.cards3.stylenotes { margin-top: clamp(56px, 7vw, 104px); }   /* as the relief section's subsections */
 .stylenotes .card-glyphs { display: grid; place-items: center; padding: 6%; background: var(--plate); }
 /* the letters in the reading serif (its web file has only the accented
    letters the site uses; the rest come from the next serif in --text) */
