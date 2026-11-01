@@ -123,17 +123,14 @@ body { overflow-anchor: none; }
    Tablet (641–900px): cover beside the text, top-aligned.
    Phone (≤640px): cover stacked above the text, full column width.
    ----------------------------------------------------------------------------- */
-/* the width of the book cover, and how far the book section sits in from
-   the page's edges */
-.wrap { --feature-w: clamp(280px, 34vw, 440px); --feature-inset: clamp(0px, 5vw, 80px); }
-@media (max-width: 720px) { .wrap { --feature-inset: 0px; } }   /* phones use the full width */
+/* the width of the book cover */
+.wrap { --feature-w: clamp(280px, 34vw, 440px); }
 .hero {
   display: grid;
   grid-template-columns: var(--feature-w) minmax(0, 1fr);
   gap: clamp(24px, 4vw, 56px);
   align-items: stretch;
   padding-block: clamp(30px, 4vw, 56px);
-  padding-inline: var(--feature-inset);
   border-bottom: 1px solid var(--rule);
 }
 .hero-cover { margin: 0; display: flex; align-items: center; }
@@ -339,6 +336,8 @@ body { overflow-anchor: none; }
   padding: 5.5px calc(7px - var(--track)) 2.5px 9px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
+/* not needed under the book itself */
+#grid-book .marker { display: none; }
 
 /* smaller on a panel's pictures ({ src, inBook: true } in projects.js),
    and in the top right corner */
