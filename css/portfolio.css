@@ -990,21 +990,12 @@ body { overflow-anchor: none; }
   .dots a::before, .dots span { transition: none; }
 }
 
-
 /* -----------------------------------------------------------------------------
-   DARK BAND — TRIAL. The three notes under the basemap map (index.html,
-   .stylenotes.dark) on an ink panel the width of the page column, as the
-   terrain band on cartography.html: plate text, --rule-soft for the quieter parts.
-   The contours swap to img/tiles/strib-contours-dark.webp, their lines made
-   pale. To go back: remove "dark" and point the img at strib-contours.webp.
+   TINTED PANEL — TRIAL. The three notes under the basemap map (index.html,
+   .stylenotes.tint) on a panel a shade darker than the paper, the width of
+   the page column. Remove "tint" in index.html to go back.
    ----------------------------------------------------------------------------- */
-.cards3.stylenotes.dark {
-  background: var(--ink);
+.cards3.stylenotes.tint {
+  background: color-mix(in srgb, var(--bg) 93%, var(--ink));
   padding: clamp(32px, 4vw, 56px) clamp(24px, 3vw, 48px);
 }
-.stylenotes.dark .card p { color: var(--plate); }
-.stylenotes.dark .dakota-glyphs, .stylenotes.dark .dk-mark > span { color: var(--plate); }
-.stylenotes.dark .dk-mark { border-color: var(--rule-soft); }
-.stylenotes.dark .stackdiagram .sd-box { fill: none; stroke: var(--rule-soft); }
-.stylenotes.dark .stackdiagram .sd-item { fill: var(--plate); }
-.stylenotes.dark .stackdiagram .sd-head { fill: var(--rule-soft); }
