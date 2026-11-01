@@ -169,23 +169,34 @@ body { overflow-anchor: none; }
 .hero-meta span { white-space: nowrap; }
 
 /* -- LINKS -------------------------------------------------------------------
-   Every link that leads somewhere looks the same: the Buy the book link (.btn), a
-   panel's story and book links (.plinks), lists of stories (.storylinks),
+   Every link that leads somewhere looks the same (except Buy the book, below):
+   a panel's story and book links (.plinks), lists of stories (.storylinks),
    picture captions (.pcap) and story cards (.scard-ttl). Text with a soft coral
    underline; on hover the underline turns full coral and the ↗ arrow (.ar)
    hops up and to the right. Change them all here. */
-.btn, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span {
+.plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span {
   color: var(--ink); text-decoration: none;
   border-bottom: 2px solid var(--accent-soft);
   transition: border-color .15s;
 }
-.btn:hover, .plinks a:hover, .storylinks a:hover, .pshots a.pcap:hover,
+.plinks a:hover, .storylinks a:hover, .pshots a.pcap:hover,
 .storycards a:hover .scard-ttl > span { border-bottom-color: var(--accent); }
 .btn:hover .ar, .plinks a:hover .ar, .storylinks a:hover .ar,
 .pshots a.pcap:hover .ar, .storycards a:hover .ar { transform: translate(2px, -2px); }
 
-/* "Buy the book" — a little larger than the other links */
-.btn { display: inline-block; margin-top: 20px; font-size: var(--fs-xl); line-height: 1.4; }
+/* "Buy the book" — the one real button on the page, as it was before the
+   links were made all alike (commit cca1de5): a coral block with capital
+   letters that tilts a little on hover. The darker coral keeps the white
+   text readable (the lighter --accent is too pale for it). */
+.btn {
+  display: inline-block; margin-top: 22px;
+  font-family: var(--topo); font-size: calc(var(--fs-sm) + var(--label-plus));
+  letter-spacing: var(--track-wide); text-transform: uppercase; line-height: 1.2;
+  text-decoration: none; padding: 12px 22px;
+  background: var(--accent-ink); color: #fff; border: 1px solid var(--stroke);
+  transition: transform .15s, background-color .15s;
+}
+.btn:hover { transform: rotate(-.6deg); background: var(--ink); }
 
 @media (max-width: 900px) {      /* tablet */
   .hero { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 28px; align-items: start; }
@@ -798,10 +809,11 @@ body { overflow-anchor: none; }
    Less motion for visitors who ask for it
    ----------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .gframe, .chip, .cap .ttl, .panel, .pshots a, .btn, .pill, .trio a { transition: none; }
+  .gframe, .chip, .cap .ttl, .panel, .pshots a, .btn, .pill, .intro a { transition: none; }
   .dimmer { transition: none; }
   .gcard .cap, .gcard .tags { transition: none; }
   .gcard:hover .gframe { transform: none; box-shadow: var(--shadow-lift); }
+  .btn:hover { transform: none; }
   .pshots a:hover, .storycards a:hover .scard-img, .ar,
   .btn:hover .ar, .plinks a:hover .ar, .storylinks a:hover .ar,
   .pshots a.pcap:hover .ar, .storycards a:hover .ar { transform: none; }

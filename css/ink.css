@@ -139,7 +139,7 @@
    how tall the stroke is drawn (about twice the old border's width, since
    the stroke only fills about half its height).
    ----------------------------------------------------------------------------- */
-.intro a, .btn, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span,
+.intro a, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span,
 .desc a, .award a, .rsec a, .elsewhere a, .freelance a {
   --ul:       var(--stroke-underline-accent-soft-1);
   --ul-hover: var(--stroke-underline-accent-1);
@@ -160,7 +160,7 @@
 }
 
 /* draw them */
-.intro a, .btn, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span,
+.intro a, .plinks a, .storylinks a, .pshots a.pcap, .scard-ttl > span,
 .desc a, .award a, .rsec a, .elsewhere a, .freelance a,
 .site nav a, .totop {
   border-bottom-color: transparent;
@@ -172,7 +172,7 @@
   -webkit-box-decoration-break: clone;            /* a link that wraps gets a stroke per line */
           box-decoration-break: clone;
 }
-.intro a:hover, .btn:hover, .plinks a:hover, .storylinks a:hover, .pshots a.pcap:hover,
+.intro a:hover, .plinks a:hover, .storylinks a:hover, .pshots a.pcap:hover,
 .storycards a:hover .scard-ttl > span, .desc a:hover, .award a:hover, .rsec a:hover,
 .elsewhere a:hover, .freelance a:hover {
   border-bottom-color: transparent;
