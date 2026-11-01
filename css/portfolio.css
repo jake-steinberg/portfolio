@@ -261,10 +261,10 @@ body { overflow-anchor: none; }
   align-items: start;
   padding-bottom: 10px;
 }
-/* the book's Look inside tiles: up to 4 across (180px or wider), so the
-   four sit in one row */
+/* the book's Look inside tiles and the basemap Examples: up to 4 across
+   (180px or wider), so four sit in one row */
 @media (min-width: 521px) {
-  #grid-book { grid-template-columns: repeat(auto-fill, minmax(max(180px, calc((100% - 3 * var(--col-gap)) / 4)), 1fr)); }
+  :is(#grid-book, #grid-examples) { grid-template-columns: repeat(auto-fill, minmax(max(180px, calc((100% - 3 * var(--col-gap)) / 4)), 1fr)); }
 }
 /* phones: one column, the tiles one after another at full width */
 @media (max-width: 520px) {
