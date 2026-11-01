@@ -752,11 +752,6 @@ body { overflow-anchor: none; }
   .fig-svg .fig-wide { display: none; }
   .fig-svg .fig-narrow { display: block; }
 }
-.inwild {
-  margin: 0 0 8px;
-  font-family: var(--topo); font-weight: 700;          /* Bell Topo Sans Bold */ font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
-  text-transform: uppercase; color: var(--label-ink);
-}
 
 /* credit under a panel's pictures (credit: in projects.js), e.g. "Photos by …" */
 .pcredit {

@@ -298,45 +298,28 @@ const PROJECTS = [
       initial:   "Outdoors",                      // the style it opens with (a name below)
       // name: the button. Shown for the chosen style: title, about, points
       // (a short list), figure (the id of a <template> in index.html), link
-      // (one { label, url } after them) and links (its stories, "In the wild").
+      // (one { label, url } after them).
       // style: the MapLibre style file (until it's there, the map says so)
       styles:    [
         { name: "Light", title: "Strib-Light", style: "maps/strib-light.json",
           about: "A lively and authoritative style for use across coverage areas.",
           points: ["Designed for quick-turn projects and basic news maps",
                    "Muted palette so story content stands out",
-                   "Vibrant variant for Food and Culture coverage"],
-          links: [
-            { label: "Where is Uptown?", url: "https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173" },
-            { label: "Vital restaurants", url: "https://www.startribune.com/minnesotas-45-most-vital-restaurants-right-now/601728087" }
-          ] },
+                   "Vibrant variant for Food and Culture coverage"] },
         { name: "Dark", title: "Strib-Dark", style: "maps/strib-dark.json",
           about: "A map style that pairs with dark story palettes.",
           points: ["Designed for sober enterprise projects and nocturnal settings",
                    "Dark base allows for high-contrast data viz",
-                   "Optional dark-mode hillshade and contours"],
-          links: [
-            { label: "Fox vs. coyote", url: "https://www.startribune.com/its-foxes-versus-coyotes-in-a-backyard-battle-for-survival/601504496" },
-            { label: "Vance Boelter", url: "https://www.startribune.com/vance-boelters-43-hours-on-the-run-expose-mistakes-in-law-enforcement-response/601546404" }
-          ] },
+                   "Optional dark-mode hillshade and contours"] },
         { name: "Outdoors", title: "Strib-Outdoors", style: "maps/strib-outdoors.json",
           about: "A style for outdoor adventure that gives you everything you need to find your way.",
           points: ["5-meter elevation contour coverage for the whole state",
                    "Optimized to render on mobile for use on trail",
-                   "Winter and fall variants for seasonal conformity"],
-          links: [
-            { label: "Spring hikes", url: "https://www.startribune.com/eight-minnesota-hikes-that-sing-of-spring/601637574" },
-            { label: "Fall hikes", url: "https://www.startribune.com/8-minnesota-hikes-to-fall-for-this-autumn/601883249" },
-            { label: "Jessie Diggins’s favorite ski trails", url: "https://www.startribune.com/you-too-can-ski-on-jessie-diggins-favorite-trails-in-the-upper-midwest/601561307" }
-          ] },
+                   "Winter and fall variants for seasonal conformity"] },
         { name: "Elex", title: "Strib-Elex", style: "maps/strib-elex.json",
           about: "A style tailored for election maps and other data-driven displays.",
           points: ["Designed for accurate data presentation that minimizes distortions"],
-          figure: "fig-elex-stack",                // the layer stack, from cartography.html
-          links: [
-            { label: "2026 GOP primary", url: "https://www.startribune.com/how-minnesotans-voted-in-the-gop-primary-for-governor-precinct-by-precinct/601875965" },
-            { label: "2026 DFL primary", url: "https://www.startribune.com/how-minnesotans-voted-in-the-contentious-dfl-primary-for-us-senate-precinct-by-precinct/601875969" }
-          ] },
+          figure: "fig-elex-stack" },  // the layer stack, from cartography.html
         { name: "Paisley", title: "Strib-Paisley", style: "maps/strib-paisley.json",
           about: "A one-off, purple-forward style for the 10th anniversary of Prince’s passing.",
           link:  { label: "See it here", url: "https://www.startribune.com/prince-tourist-sites-minneapolis/601587518" } }
