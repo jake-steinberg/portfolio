@@ -878,3 +878,53 @@ body { overflow-anchor: none; }
   .tlink, .sheet img, .card-media video, .intro a { transition: none; }
   .tlink:hover .ar { transform: none; }
 }
+
+
+/* -----------------------------------------------------------------------------
+   SECTION DOTS — a dot per section, fixed in the left margin (index.html,
+   nav.dots). The section you're in (js/portfolio.js marks its link
+   aria-current) gets a bigger, coral dot; hovering or focusing a dot shows
+   the section's name beside it. Only where the margin has room for it.
+   ----------------------------------------------------------------------------- */
+.dots { display: none; }
+@media (min-width: 1100px) {
+  .dots {
+    display: flex; flex-direction: column; gap: 4px;
+    position: fixed; z-index: 20; top: 50%;
+    /* centred in the page's left margin: the space beside the 1360px column
+       plus the column's own side padding (css/site.css, .wrap) */
+    left: calc(max(0px, (100vw - 1360px) / 2) + clamp(16px, 3vw, 40px) / 2);
+    transform: translate(-50%, -50%);
+  }
+  .dots a {
+    position: relative;
+    display: grid; place-items: center;
+    width: 24px; height: 24px;               /* a comfortable target round a small dot */
+    text-decoration: none;
+  }
+  .dots a::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--label-ink); opacity: .45;
+    transition: width .2s, height .2s, background-color .2s, opacity .2s;
+  }
+  .dots a:hover::before { opacity: .8; }
+  .dots a[aria-current="true"]::before {
+    width: 13px; height: 13px; background: var(--accent); opacity: 1;
+  }
+  /* the name, shown beside the dot on hover or keyboard focus */
+  .dots span {
+    position: absolute; left: 100%; top: 50%; transform: translateY(-50%);
+    margin-left: 6px; padding: 3px 8px; white-space: nowrap;
+    font-family: var(--topo); font-size: calc(var(--fs-xs) + var(--label-plus));
+    letter-spacing: var(--track); text-transform: uppercase; color: var(--label-ink);
+    background: var(--bg);
+    opacity: 0; pointer-events: none; transition: opacity .15s;
+  }
+  .dots a:is(:hover, :focus-visible) span { opacity: 1; }
+}
+/* jumping to a section stops below the sticky header */
+#book, #styles, #relief, #twentytwo, #work { scroll-margin-top: var(--headH); }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+@media (prefers-reduced-motion: reduce) {
+  .dots a::before, .dots span { transition: none; }
+}

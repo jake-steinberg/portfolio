@@ -936,4 +936,32 @@
     makeGrid(el, () => (SECTION_LISTS[el.dataset.grid] || []).map(bySlug).filter(Boolean)));
   renderFeatures();
   grids.forEach((g) => g.render());
+
+
+  /* ---------------------------------------------------------------------------
+     Section dots (nav.dots in index.html): the section you're in is the last
+     one whose top has passed 40% of the way down the screen; at the very
+     bottom of the page it's the last section.
+     ------------------------------------------------------------------------- */
+  const dotLinks = [...document.querySelectorAll('.dots a')];
+  const dotTargets = dotLinks.map((a) => document.querySelector(a.getAttribute('href')));
+  let dotsQueued = false;
+  function markDot() {
+    dotsQueued = false;
+    const line = window.innerHeight * 0.4;
+    const atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+    let current = -1;
+    dotTargets.forEach((el, i) => { if (el && el.getBoundingClientRect().top <= line) current = i; });
+    if (atEnd) current = dotTargets.length - 1;
+    dotLinks.forEach((a, i) => {
+      if (i === current) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+  }
+  const queueDot = () => { if (!dotsQueued) { dotsQueued = true; requestAnimationFrame(markDot); } };
+  if (dotLinks.length) {
+    window.addEventListener('scroll', queueDot, { passive: true });
+    window.addEventListener('resize', queueDot);
+    markDot();
+  }
 })();
