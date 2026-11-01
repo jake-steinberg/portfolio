@@ -211,7 +211,7 @@ const PROJECTS = [
     slug:        "restless-river",
     year:        "2026",
     panelCols:   3,
-    tile:        "img/tiles/restless-river-tile.webp",
+    tile:        "img/tiles/restless-river-creek.webp",   // a still from restless-river-loop.mp4
     video:       "",                          // a still in the book's Look inside tiles
     link:        "",                              // no link: it's in the book
     linkType:    "story",
