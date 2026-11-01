@@ -989,13 +989,3 @@ body { overflow-anchor: none; }
 @media (prefers-reduced-motion: reduce) {
   .dots a::before, .dots span { transition: none; }
 }
-
-/* -----------------------------------------------------------------------------
-   TINTED PANEL — TRIAL. The three notes under the basemap map (index.html,
-   .stylenotes.tint) on a panel a shade darker than the paper, the width of
-   the page column. Remove "tint" in index.html to go back.
-   ----------------------------------------------------------------------------- */
-.cards3.stylenotes.tint {
-  background: color-mix(in srgb, var(--bg) 96.5%, var(--ink));
-  padding: clamp(32px, 4vw, 56px) clamp(24px, 3vw, 48px);
-}
