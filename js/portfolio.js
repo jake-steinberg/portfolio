@@ -108,7 +108,6 @@
     return `
       <button class="gcard${p.size === 'large' ? ' big' : ''}" type="button" aria-expanded="false" data-slug="${esc(p.slug)}">
         <span class="gframe">
-          ${p.inBook ? '<span class="marker">In the book</span>' : ''}
           ${media}
           <span class="chip" aria-hidden="true">+</span>
         </span>
@@ -209,7 +208,7 @@
     };
     const shotHTML = (entry) => {
       const { src, link, label, story, full, credit, inBook, zoom, captionAbove, captionStar } = typeof entry === 'string' ? { src: entry } : entry;
-      const marker = inBook ? '<span class="marker">In the book</span>' : '';   // like the tiles'
+      const marker = inBook ? '<span class="marker">In the book</span>' : '';
       const big = esc(full || src);                    // what clicking the picture opens
       const tip = credit ? ` title="${esc(credit)}"` : '';
       const isVideo = /\.mp4$/i.test(src);

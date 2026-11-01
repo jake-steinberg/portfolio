@@ -54,7 +54,7 @@ const TAGS = [
                                                // "file"  — a full-size image or PDF, opened in a new tab
                                                // "project" — "View the project": a client's site, in a new tab
      tags:        ["print", "news"],           // any number of ids from TAGS above
-     inBook:      false,                       // true: the "In the book" corner marker, and bigger pictures in its panel
+     inBook:      false,                       // true: it's in the book (bigger pictures in its panel)
      onlyWhen:    null,                        // optional: ["3d", "outdoors"] keeps the tile out of
                                                //   the full grid; it appears only while one of
                                                //   these tags is selected (see Cloud Peak Wilderness)

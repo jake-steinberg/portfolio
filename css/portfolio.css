@@ -340,7 +340,7 @@ body { overflow-anchor: none; }
   box-shadow: var(--shadow-lift), 0 0 0 2px var(--accent);
 }
 
-/* "IN THE BOOK" corner marker (inBook: true in projects.js) */
+/* "IN THE BOOK" corner marker on a panel's picture ({ src, inBook: true } in projects.js) */
 .marker {
   position: absolute; top: 0; left: 0; z-index: 2;
   font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track); text-transform: uppercase;
@@ -352,11 +352,10 @@ body { overflow-anchor: none; }
   padding: 5.5px calc(7px - var(--track)) 2.5px 9px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
-/* not needed under the book itself: the badge, or the tags under each title */
-#grid-book :is(.marker, .tags) { display: none; }
+/* the book's Look inside tiles: no tags under the titles */
+#grid-book .tags { display: none; }
 
-/* smaller on a panel's pictures ({ src, inBook: true } in projects.js),
-   and in the top right corner */
+/* in the top right corner, a little smaller */
 .pshots .marker {
   font-size: calc(var(--fs-xs) + var(--label-plus));
   padding: 4.5px calc(8px - var(--track)) 1.5px 7px;   /* here the frame overlaps the top and right edges */
@@ -626,7 +625,7 @@ body { overflow-anchor: none; }
 .pmedia { min-width: 0; }
 .pshots a {
   display: block; overflow: hidden;
-  position: relative;                   /* holds an "In the book" .marker */
+  position: relative;
   border: 1px solid var(--stroke); background: var(--bg);
   transition: transform .18s;
 }
