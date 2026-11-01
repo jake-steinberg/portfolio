@@ -19,14 +19,14 @@ body { overflow-anchor: none; }
 
 
 /* -----------------------------------------------------------------------------
-   1. INTRO — one paragraph, at reading width
+   1. INTRO — one paragraph, across the page
    ----------------------------------------------------------------------------- */
 .intro {
   padding-block: clamp(28px, 3.5vw, 48px);
   border-bottom: 1px solid var(--rule);
 }
 .intro p {
-  margin: 0 auto; max-width: 80ch;
+  margin: 0;
   font-size: clamp(var(--fs-lg), 1.35vw, var(--fs-2xl)); line-height: 1.6;
   text-wrap: pretty;
 }
@@ -685,6 +685,7 @@ body { overflow-anchor: none; }
 .pshots.scatter > :nth-child(4n+2) { transform: rotate(2deg) translateY(6px); }
 .pshots.scatter > :nth-child(4n+3) { transform: rotate(-1.5deg) translateY(-4px); }
 .pshots.scatter > :nth-child(4n)   { transform: rotate(2.5deg); }
+.pshots.scatter > .pvid { transform: none; }      /* a video among them sits straight */
 .pshots.scatter a:hover { transform: scale(1.05); }
 @media (max-width: 720px) { .pshots.scatter { gap: 12px; } }
 
