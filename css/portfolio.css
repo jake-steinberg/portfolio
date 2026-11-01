@@ -337,8 +337,8 @@ body { overflow-anchor: none; }
   padding: 5.5px calc(7px - var(--track)) 2.5px 9px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
-/* not needed under the book itself */
-#grid-book .marker { display: none; }
+/* not needed under the book itself: the badge, or the tags under each title */
+#grid-book :is(.marker, .tags) { display: none; }
 
 /* smaller on a panel's pictures ({ src, inBook: true } in projects.js),
    and in the top right corner */
