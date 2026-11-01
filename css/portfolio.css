@@ -736,7 +736,7 @@ body { overflow-anchor: none; }
 /* STYLE NOTES — three cards under the basemap map (index.html, .stylenotes):
    the Dakota letters, the contours and the stack diagram. (.stylenotes in front, to
    win over the general card rules further down) */
-.cards3.stylenotes { margin-top: clamp(56px, 7vw, 104px); }   /* as the relief section's subsections */
+.minihead.underhood { margin-top: clamp(56px, 7vw, 104px); }   /* their label, "Under the hood": as far down as the relief section's subsections */
 /* no boxes: each picture sits straight on the paper (the contours are a
    transparent image, so the paper shows between the lines) */
 .stylenotes .card-media { border: 0; background: none; aspect-ratio: 400 / 206; }   /* the stack diagram's shape, so all three match */
