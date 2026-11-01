@@ -54,7 +54,7 @@ const TAGS = [
                                                // "file"  — a full-size image or PDF, opened in a new tab
                                                // "project" — "View the project": a client's site, in a new tab
      tags:        ["print", "news"],           // any number of ids from TAGS above
-     inBook:      false,                       // true adds the "In the book" corner marker
+     inBook:      false,                       // true: the "In the book" corner marker, and bigger pictures in its panel
      onlyWhen:    null,                        // optional: ["3d", "outdoors"] keeps the tile out of
                                                //   the full grid; it appears only while one of
                                                //   these tags is selected (see Cloud Peak Wilderness)
@@ -213,7 +213,7 @@ const PROJECTS = [
     panelCols:   3,
     tile:        "img/tiles/restless-river-tile.webp",
     video:       "img/tiles/restless-river-loop.mp4",
-    link:        "",                              // just the "In the book" button
+    link:        "",                              // no link: it's in the book
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
@@ -234,7 +234,7 @@ const PROJECTS = [
     panelCols:   3,
     tile:        "img/tiles/cathedral.webp",
     video:       "",
-    link:        "",                              // just the "In the book" button
+    link:        "",                              // no link: it's in the book
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
@@ -363,7 +363,7 @@ const PROJECTS = [
     panelCols:   3,
     tile:        "img/tiles/st-paul-hills.webp",
     video:       "",                          // a still in the book's Look inside tiles
-    link:        "",                              // just the "In the book" button
+    link:        "",                              // no link: it's in the book
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
@@ -403,7 +403,7 @@ const PROJECTS = [
     panelCols:   3,
     tile:        "img/tiles/immigration.webp",
     video:       "",
-    link:        "",                              // just the "In the book" button
+    link:        "",                              // no link: it's in the book
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
@@ -633,7 +633,7 @@ const PROJECTS = [
     panelCols:   3,
     tile:        "img/tiles/interstates.webp",
     video:       "img/tiles/interstates-scroll.mp4",
-    link:        "",                              // just the "In the book" button
+    link:        "",                              // no link: it's in the book
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
@@ -742,7 +742,7 @@ const PROJECTS = [
     panelCols:   3,
     tile:        "img/tiles/geology.webp",
     video:       "",                          // a still in the book's Look inside tiles
-    link:        "",                              // just the "In the book" button
+    link:        "",                              // no link: it's in the book
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
@@ -837,7 +837,7 @@ const PROJECTS = [
     panelCols:   3,
     tile:        "img/tiles/live-work.webp",
     video:       "",                          // a still in the book's Look inside tiles
-    link:        "",                              // just the "In the book" button
+    link:        "",                              // no link: it's in the book
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
@@ -857,7 +857,7 @@ const PROJECTS = [
     panelCols:   3,
     tile:        "img/tiles/fifteen-minute-tile-v2.webp",
     video:       "",
-    link:        "",                              // just the "In the book" button
+    link:        "",                              // no link: it's in the book
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,

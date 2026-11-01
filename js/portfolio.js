@@ -29,8 +29,6 @@
   const PLACED = new Set(Object.values(SECTION_LISTS).flat());
   const bySlug = (slug) => PROJECTS.find((p) => p.slug === slug);
 
-  // Where the "In the book" button in a panel goes
-  const BOOK_URL = 'https://beltpublishing.com/products/the-twin-cities-in-50-maps';
 
   // Text on each panel's main button, by linkType
   const LINK_LABEL = { story: 'Read the story', page: 'Open the project', file: 'View the full map',
@@ -154,8 +152,6 @@
       : `<a class="primary" href="${esc(p.link)}"${p.linkType === 'page' ? '' : ' target="_blank" rel="noopener"'}>${LINK_LABEL[p.linkType] || 'Open'}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a>`;
 
     // links: [{ label, url }] — a list of stories, for projects that span several.
-    // A project that's also in the book gets "In the book" as the list's last
-    // item, looking like the rest; without a list, it's a button instead.
     // When every story has an image: { label, url, image } (its sharing
     // picture, or an .mp4 loop with a .webp poster), they're a grid of cards
     // instead: the picture with the headline under it, two to a row.
@@ -165,7 +161,6 @@
       ? `<video src="${esc(src)}" poster="${esc(src.replace(/(-loop)?\.mp4$/i, '.webp'))}" muted loop playsinline preload="metadata" aria-hidden="true"></video>`
       : `<img src="${esc(src)}" alt="" loading="lazy" decoding="async">`;
     const textList = hasList && !cards;
-    const listed = textList ? [...p.links, ...(p.inBook ? [{ label: 'In the book', url: BOOK_URL }] : [])] : [];
     const storyLinks = cards
       ? `<ul class="storycards">${p.links.map((l) =>
           `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">
@@ -173,12 +168,8 @@
             <span class="scard-ttl"><span>${esc(l.label)}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></span></span>
           </a></li>`).join('')}</ul>`
       : textList
-      ? `<ul class="storylinks">${listed.map((l) =>
+      ? `<ul class="storylinks">${p.links.map((l) =>
           `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></li>`).join('')}</ul>`
-      : '';
-
-    const bookLink = p.inBook && !textList
-      ? `<a href="${BOOK_URL}" target="_blank" rel="noopener">In the book&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a>`
       : '';
 
     // Panel pictures. Each entry in images: [] is either a path, or
@@ -287,7 +278,7 @@
 
     // The text is in two parts: .ptop (title, year and tags, description,
     // awards) and .pfoot (story links and buttons) right after it.
-    const foot = storyLinks || mainLink || bookLink;
+    const foot = storyLinks || mainLink;
 
     // The line under the title: the year (if set), then the tags
     const meta = [p.year ? `<span class="tag">${esc(p.year)}</span>` : '',
@@ -334,7 +325,7 @@
               </div>
               ${foot ? `<div class="pfoot">
                 ${storyLinks}
-                ${(mainLink || bookLink) ? `<div class="plinks">${mainLink}${bookLink}</div>` : ''}
+                ${mainLink ? `<div class="plinks">${mainLink}</div>` : ''}
               </div>` : ''}
             </div>
             ${mapHTML}
@@ -400,9 +391,16 @@
   // (and so the panels) smaller; the text column widens to take the room.
   const MEDIA_MAX_HEIGHT = 0.4;      // 40% of the screen's height…
   const MEDIA_MAX_PX     = 340;      // …but no taller than this
-  // the always-open blocks at the top of the page show their pictures bigger
+  // the always-open blocks at the top of the page, and the maps from the
+  // book (inBook: true), show their pictures bigger
   const FEATURE_MAX_HEIGHT = 0.7, FEATURE_MAX_PX = 620;
-  const mediaLimit = (box) => box.closest('.feature')
+  const showsBig = (box) => {
+    if (box.closest('.feature')) return true;
+    const panel = box.closest('.panel');
+    const project = panel && bySlug(panel.dataset.for);
+    return Boolean(project && project.inBook);
+  };
+  const mediaLimit = (box) => showsBig(box)
     ? Math.min(window.innerHeight * FEATURE_MAX_HEIGHT, FEATURE_MAX_PX)
     : Math.min(window.innerHeight * MEDIA_MAX_HEIGHT, MEDIA_MAX_PX);
 
