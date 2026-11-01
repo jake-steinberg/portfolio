@@ -65,6 +65,7 @@ body { overflow-anchor: none; }
   -webkit-mask-image: none; mask-image: none;
 }
 .panel.feature .panel-body::after { content: none; }
+.panel.feature .pmeta { display: none; }           /* no year and tags line */
 @media (min-width: 721px) {
   .panel.feature .pmedia { padding-block: 0; }
   .panel.feature .panel-body:not(.solo) { grid-template-columns: fit-content(30rem) minmax(0, 1fr); }
@@ -711,7 +712,7 @@ body { overflow-anchor: none; }
 }
 .basemap-note[hidden] { display: none; }
 .basemap-state { display: flex; align-items: center; justify-content: center; color: var(--ink); }
-.styleinfo { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--rule); }
+.styleinfo { margin-top: 26px; }
 .stylename {
   font-family: var(--display); font-weight: 800; font-size: var(--fs-xl); line-height: 1.25;
   letter-spacing: var(--track-tight); color: var(--head);

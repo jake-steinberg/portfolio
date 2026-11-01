@@ -65,7 +65,7 @@
 .kit h3 { background-image: var(--rule-line); }      /* toolkit headings: solid */
 
 /* rules along the TOP edge */
-.foot, .styleinfo, .rsec, .ent, .line, .csec {
+.foot, .rsec, .ent, .line, .csec {
   border-top-color: transparent;
   background-image: var(--rule-line);
   background-repeat: repeat-x;
@@ -73,7 +73,7 @@
   background-position: var(--ink-x, 0px) top;
   background-origin: border-box;
 }
-.ent, .line, .styleinfo { background-image: var(--dash-line); }
+.ent, .line { background-image: var(--dash-line); }
 
 /* the main section breaks, and the line under the header: bolder and
    darker, so they read as drawn */
