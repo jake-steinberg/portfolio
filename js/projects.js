@@ -210,7 +210,7 @@ const PROJECTS = [
     title:       "A Restless River",
     slug:        "restless-river",
     year:        "2026",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/restless-river-tile.webp",
     video:       "img/tiles/restless-river-loop.mp4",
     link:        "",                              // just the "In the book" button
@@ -231,7 +231,7 @@ const PROJECTS = [
     title:       "The Cathedral of Saint Paul",
     slug:        "cathedral",
     year:        "2026",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/cathedral.webp",
     video:       "",
     link:        "",                              // just the "In the book" button
@@ -360,7 +360,7 @@ const PROJECTS = [
     title:       "Cycling St. Paul’s Hills",
     slug:        "st-paul-hills",
     year:        "2026",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/st-paul-hills.webp",
     video:       "",                          // a still in the book's Look inside tiles
     link:        "",                              // just the "In the book" button
@@ -400,7 +400,7 @@ const PROJECTS = [
     title:       "Immigration in the Twin Cities",
     slug:        "immigration",
     year:        "2026",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/immigration.webp",
     video:       "",
     link:        "",                              // just the "In the book" button
@@ -534,7 +534,7 @@ const PROJECTS = [
     title:       "Minnesota State Fair Smellscape",
     slug:        "state-fair-smellscape",
     year:        "2025",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/state-fair-smellscape.webp",
     video:       "",
     link:        "https://www.startribune.com/smells-of-the-minnesota-state-fair-create-a-festival-for-the-nose/601443971?utm_source=gift",
@@ -630,7 +630,7 @@ const PROJECTS = [
     title:       "What the Interstates Destroyed",
     slug:        "interstates",
     year:        "2026",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/interstates.webp",
     video:       "img/tiles/interstates-scroll.mp4",
     link:        "",                              // just the "In the book" button
@@ -679,7 +679,7 @@ const PROJECTS = [
     title:       "Urban foxes and coyotes",
     slug:        "fox-coyote",
     year:        "2026",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/fox-coyote-zoom.webp",
     video:       "img/tiles/fox-coyote-zoom.mp4",
     link:        "",                              // no button: the story and the book are listed
@@ -739,7 +739,7 @@ const PROJECTS = [
     title:       "Twin Cities geology",
     slug:        "geology",
     year:        "2026",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/geology.webp",
     video:       "",                          // a still in the book's Look inside tiles
     link:        "",                              // just the "In the book" button
@@ -834,7 +834,7 @@ const PROJECTS = [
     title:       "Where we live and where we work",
     slug:        "live-work",
     year:        "2026",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/live-work.webp",
     video:       "",                          // a still in the book's Look inside tiles
     link:        "",                              // just the "In the book" button
@@ -854,7 +854,7 @@ const PROJECTS = [
     title:       "15-minute neighborhoods",
     slug:        "neighborhood-access",
     year:        "2026",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/fifteen-minute-tile-v2.webp",
     video:       "",
     link:        "",                              // just the "In the book" button
