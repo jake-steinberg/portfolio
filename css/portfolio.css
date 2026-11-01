@@ -989,3 +989,33 @@ body { overflow-anchor: none; }
 @media (prefers-reduced-motion: reduce) {
   .dots a::before, .dots span { transition: none; }
 }
+
+
+/* -----------------------------------------------------------------------------
+   DARK BAND — TRIAL. The map design system block (index.html, .block.dark)
+   on an ink ground across the whole window, as the terrain band on
+   cartography.html: plate text, --rule-soft for the quieter labels. Remove
+   the "dark" class in index.html to go back.
+   ----------------------------------------------------------------------------- */
+.block.dark {
+  /* the ink runs to the window's edges, past the page column */
+  background: var(--ink); box-shadow: 0 0 0 100vmax var(--ink); clip-path: inset(0 -100vmax);
+  color: var(--plate); border-bottom-color: transparent;
+}
+.dark :is(.ptitle, .stylename, .cap .ttl) { color: var(--plate); }
+.dark .gcard:hover .cap .ttl, .dark .gcard[aria-expanded="true"] .cap .ttl { color: var(--accent); }
+.dark :is(.desc, .styleabout, .stylepoints, .card p) { color: var(--plate); }
+.dark .minihead { color: var(--rule-soft); }
+.dark a:focus-visible, .dark button:focus-visible { outline-color: var(--accent); }
+/* the style buttons: a plain pale outline; the chosen one in coral */
+.dark .styleswitch .pill { background-image: none; border-color: var(--rule-soft); color: var(--plate); }
+.dark .styleswitch .pill:hover { border-color: var(--plate); }
+.dark .styleswitch .pill[aria-pressed="true"] { background: var(--accent-ink); border-color: var(--accent-ink); color: #fff; }
+.dark .plinks a { color: var(--plate); }
+/* the notes under the map */
+.dark .dakota-glyphs, .dark .dk-mark > span { color: var(--plate); }
+.dark .dk-mark { border-color: var(--rule-soft); }
+.dark .stackdiagram .sd-box { fill: none; stroke: var(--rule-soft); }
+.dark .stackdiagram .sd-item { fill: var(--plate); }
+.dark .stackdiagram .sd-head { fill: var(--rule-soft); }
+.dark .stackdiagram :is(.sd-arrow, .sd-head-arrow) { stroke: var(--accent); }
