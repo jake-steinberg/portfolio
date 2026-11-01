@@ -748,13 +748,16 @@ body { overflow-anchor: none; }
 /* the letters in the reading serif (its web file has only the accented
    letters the site uses; the rest come from the next serif in --text) */
 .stylenotes .dakota-glyphs {
-  margin: 0; font-family: var(--text); font-size: clamp(26px, 2.6vw, 38px);
-  line-height: 1.4; letter-spacing: .12em; color: var(--ink); overflow-wrap: anywhere;
+  /* the fourteen characters on an even grid: seven across, two rows, each
+     centred in an equal cell */
+  display: grid; grid-template-columns: repeat(7, 1fr); width: 100%;
+  font-family: var(--text); font-size: clamp(24px, 2.4vw, 36px); line-height: 1.6;
+  color: var(--ink); text-align: center;
 }
 /* the lone combining accent, on a dotted circle, the usual way to show one */
 .dk-mark {
   display: inline-block; position: relative; vertical-align: baseline;
-  width: .62em; height: .62em; margin-right: .06em;
+  width: .62em; height: .62em;
   border: 2px dotted var(--muted); border-radius: 50%;
 }
 .dk-mark > span {
