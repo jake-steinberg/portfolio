@@ -52,7 +52,12 @@ body { overflow-anchor: none; }
   font-family: var(--topo); font-weight: 700; text-transform: uppercase;
   font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track);
   color: var(--label-ink);
+  /* a dashed rule runs on from the label to the column's right edge: it
+     marks the tiles as a group within the section, not a new section
+     (css/ink.css draws it by hand) */
+  display: flex; align-items: center; gap: 14px;
 }
+.minihead::after { content: ""; flex: 1; border-top: 1px dashed var(--rule); }
 /* the always-open project blocks (js/portfolio.js, renderFeatures): a panel
    that never folds, with no veil and no Close button */
 .panel.feature { display: block; margin: 0; transition: none; }
