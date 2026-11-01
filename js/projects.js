@@ -212,7 +212,7 @@ const PROJECTS = [
     year:        "2026",
     panelCols:   3,
     tile:        "img/tiles/restless-river-tile.webp",
-    video:       "img/tiles/restless-river-loop.mp4",
+    video:       "",                          // a still in the book's Look inside tiles
     link:        "",                              // no link: it's in the book
     linkType:    "story",
     tags:        ["print"],
@@ -999,7 +999,7 @@ const PROJECTS = [
    Every slug listed here is left out of the "Other work" grid.
    ----------------------------------------------------------------------------- */
 const SECTIONS = {
-  book:     ["immigration", "st-paul-hills", "cathedral", "neighborhood-access"],
+  book:     ["immigration", "st-paul-hills", "cathedral", "restless-river"],
   examples: ["where-is-uptown", "fox-coyote", "fall-hikes"],
   features: ["strib-basemaps", "22-a-map"],
   relief:   ["lindsey-vonns-mountains", "rincon-mountains", "cloud-peak-wilderness",
