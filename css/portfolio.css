@@ -866,6 +866,7 @@ body { overflow-anchor: none; }
   list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px var(--col-gap, 34px);
 }
+.cards3.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }   /* Restless River and the Driftless */
 .card { min-width: 0; }
 .card-media { position: relative; display: block; aspect-ratio: 5 / 4; background: var(--bg); overflow: hidden; }
 .card-media :is(img, video) { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -877,7 +878,7 @@ body { overflow-anchor: none; }
 @media (max-width: 899px) { .cp-pair { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 720px) {
   .sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .cards3 { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .cards3, .cards3.two { grid-template-columns: minmax(0, 1fr); gap: 40px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .tlink, .sheet img, .card-media video, .intro a { transition: none; }
