@@ -996,6 +996,6 @@ body { overflow-anchor: none; }
    the page column. Remove "tint" in index.html to go back.
    ----------------------------------------------------------------------------- */
 .cards3.stylenotes.tint {
-  background: color-mix(in srgb, var(--bg) 93%, var(--ink));
+  background: color-mix(in srgb, var(--bg) 96.5%, var(--ink));
   padding: clamp(32px, 4vw, 56px) clamp(24px, 3vw, 48px);
 }
