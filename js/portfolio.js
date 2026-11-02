@@ -630,10 +630,10 @@
       });
       const frameBottom = Math.max(...above.map((t) => t.querySelector('.gframe').getBoundingClientRect().bottom));
       panel.style.setProperty('--pull', Math.max(0, Math.round(bottom - frameBottom)) + 'px');
-      // the panel's top edge lines up with the top of the tile's title, so the
-      // title is covered the moment the panel appears (and until it's gone)
-      const frame = tile.querySelector('.gframe').getBoundingClientRect();
-      const gap = Math.max(0, Math.floor(tile.querySelector('.cap').getBoundingClientRect().top - frame.bottom));
+      // the panel's top edge sits on the bottom of the pictures above it: its
+      // drawn top line falls on their drawn bottom line, so the two read as
+      // one (each is a 3px stroke just inside a clear 1px border: css/ink.css)
+      const gap = -5;
       panel.style.setProperty('--panel-gap', gap + 'px');
       const panelTop = frameBottom + gap;
       above.forEach((t) => {
