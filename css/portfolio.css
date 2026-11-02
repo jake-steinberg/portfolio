@@ -887,9 +887,9 @@ html.has-overlay { overflow: hidden; }            /* the page behind doesn't scr
 /* the stack diagram: columns of boxes joined by arrows */
 .stackdiagram { display: block; width: 100%; height: 100%; }
 .stackdiagram .sd-head {
-  font-family: var(--topo); font-size: 12px; letter-spacing: .1em; fill: var(--label-ink);
+  font-family: var(--topo); font-weight: 700; font-size: 12px; letter-spacing: .1em; fill: var(--label-ink);
 }
-.stackdiagram .sd-item { font-family: var(--text); font-size: 13px; fill: var(--ink); }
+.stackdiagram .sd-item { font-family: var(--display); font-weight: 500; font-size: 13px; fill: var(--ink); }
 /* desktop, where the diagram is drawn smallest: the box text a step heavier */
 @media (min-width: 1100px) { .stackdiagram .sd-item { font-weight: 600; } }
 .stackdiagram .sd-box { fill: var(--bg); stroke: var(--stroke); stroke-width: 1; }
