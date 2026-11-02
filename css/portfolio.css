@@ -381,6 +381,13 @@ body { overflow-anchor: none; }
 .gcard[aria-expanded="true"] .cap .ttl { color: var(--accent-ink); }
 
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+/* the basemap style a story's map uses (basemapStyle: in projects.js),
+   under its title in the basemap Examples */
+.cap .tstyle {
+  display: block; margin-top: 6px;
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--label-ink);
+}
 .tag {
   font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--label-ink);

@@ -54,6 +54,8 @@ const TAGS = [
                                                // "file"  — a full-size image or PDF, opened in a new tab
                                                // "project" — "View the project": a client's site, in a new tab
      linkLabel:   "",                          // optional: the button's words, in place of the linkType's
+     basemapStyle: "",                         // optional: the Strib basemap style its map uses, shown
+                                               //   under the tile's title (e.g. "Strib-Light")
      tags:        ["print", "news"],           // any number of ids from TAGS above
      inBook:      false,                       // true: it's in the book (bigger pictures in its panel)
      onlyWhen:    null,                        // optional: ["3d", "outdoors"] keeps the tile out of
@@ -560,6 +562,7 @@ const PROJECTS = [
     video:       "img/tiles/where-is-uptown.mp4",
     link:        "",
     linkType:    "story",
+    basemapStyle: "Strib-Light",
     tags:        ["news", "interactive", "print"],
     inBook:      true,
     description: "A crowdsourced community geography story about Minneapolis’s most " +
@@ -590,6 +593,7 @@ const PROJECTS = [
     video:       "",
     link:        "",
     linkType:    "story",
+    basemapStyle: "Strib-Elex",
     tags:        ["news", "interactive"],
     inBook:      false,
     description: "",                              // empty: the panel shows the placeholder line
@@ -697,6 +701,7 @@ const PROJECTS = [
     video:       "img/tiles/fox-coyote-zoom.mp4",
     link:        "",                              // no button: the story and the book are listed
     linkType:    "story",
+    basemapStyle: "Strib-Dark",
     tags:        ["news", "scrollytelling", "print"],
     inBook:      true,
     description: "Stories about backyard foxes and coyotes eking out a life in the margins of the metro.",
@@ -779,6 +784,7 @@ const PROJECTS = [
     video:       "",
     link:        "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift",
     linkType:    "story",
+    basemapStyle: "Strib-Outdoors",
     linkLabel:   "Go to the guide",
     tags:        ["print", "outdoors"],
     inBook:      false,
