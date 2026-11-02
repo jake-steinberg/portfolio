@@ -1021,5 +1021,5 @@ const SECTIONS = {
   examples: ["where-is-uptown", "2026-election-results", "fox-coyote", "urban-paddling-guide"],
   features: ["strib-basemaps", "22-a-map"],
   relief:   ["lindsey-vonns-mountains", "rincon-mountains", "cloud-peak-wilderness",
-             "restless-river", "the-driftless-area"]
+             "restless-river", "the-driftless-area", "2025-iditarod"]   // Alaska in winter
 };
