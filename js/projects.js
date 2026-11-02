@@ -549,17 +549,15 @@ const PROJECTS = [
   },
   {
     // One tile for both Uptown stories: the call-out where readers drew their
-    // boundaries, and the results. The tile is a 5:4 crop of the results map
-    // (from uptown-results-full.webp). In the panel, the drawing animation
-    // (where-is-uptown.mp4: full width, with the basemap's gray #EDEDED above
-    // and below to make it 5:4) comes first, then the book version.
+    // boundaries, and the results. The tile video shows the drawing animation
+    // at full width, with the basemap's gray (#EDEDED) above and below to make it 5:4.
     title:       "Where is Uptown?",
     slug:        "where-is-uptown",
     year:        "2025",
     panelCols:   3,
     mediaHalf:   true,                            // the pictures take half the panel and fill it
-    tile:        "img/tiles/uptown-results-tile.webp",
-    video:       "",
+    tile:        "img/tiles/where-is-uptown.webp",
+    video:       "img/tiles/where-is-uptown.mp4",
     link:        "",
     linkType:    "story",
     tags:        ["news", "interactive", "print"],
@@ -567,8 +565,8 @@ const PROJECTS = [
     description: "A crowdsourced community geography story about Minneapolis’s most " +
                  "argued-over district. Or, neighborhood? Maybe vibe?",
     images:      [
-      { src: "img/tiles/where-is-uptown.mp4", label: "Where is Uptown?",   // readers drawing their boundaries
-        link: "https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173" },
+      { src: "img/tiles/uptown-results-full.webp", label: "Uptown results",
+        link: "https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699" },
       { src: "img/tiles/uptown-book.webp", inBook: true }   // the book version (from img/uptown.jpg)
     ],
     links:       [
