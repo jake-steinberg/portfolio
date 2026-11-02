@@ -811,17 +811,18 @@ body { overflow-anchor: none; }
    the Dakota letters, the contours and the stack diagram. (.stylenotes in front, to
    win over the general card rules further down) */
 .minihead.underhood { margin-top: clamp(32px, 4vw, 56px); }   /* their label, "Under the hood": close under the map and its text */
-/* each note is a plain figure: no box, so nothing about it looks clickable
-   (the tiles that do open are framed cards: "LINK CARDS" below). Every
-   picture in a row gets the same height (each sits in a box of one shape;
-   a picture that doesn't fill it gets white space), and a thin rule sits
-   over its caption. Also the Mesabi Trail's notes (.mesabi-notes) */
+/* each note is a figure: its picture on a cream panel (the link cards'
+   pale plate, but no frame, shadow or "+", which belong only to the tiles
+   that open: "LINK CARDS" above), its caption below, outside the panel.
+   Every picture in a row gets the same height (each sits in a box of one
+   shape; a picture that doesn't fill it shows the panel around it). Also
+   the Mesabi Trail's notes (.mesabi-notes) */
 .stylenotes .card { border: 0; background: none; padding: 0; }
 .stylenotes .card p {
-  margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--rule);
-  font-size: var(--fs-sm); color: var(--muted);
+  margin-top: 14px;
+  font-size: var(--fs-lg); color: color-mix(in srgb, var(--ink) 85%, transparent);   /* body size, near-ink: content, not footnotes */
 }
-.stylenotes .card-media { border: 0; background: none; aspect-ratio: 400 / 206; }   /* the stack diagram's shape, so all three match */
+.stylenotes .card-media { border: 0; background: var(--plate); aspect-ratio: 400 / 206; }   /* the stack diagram's shape, so all three match */
 /* wide screens: the Mesabi Trail's four pictures as tall as the basemaps'
    three (a third of the row, less its gaps, at the stack diagram's shape);
    the symbols get white space beside them, the others fill */
