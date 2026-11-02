@@ -766,28 +766,26 @@ const PROJECTS = [
     awards:      []
   },
   {
-    // The video pans slowly down the full page (img/urban_paddling.jpg) and
-    // back up, like the Driftless tile. The old static thumbnail is still at
+    // The tile is the routes map (img/tiles/urban-paddling-map.webp). In the
+    // panel, the video pans slowly down the full page (img/urban_paddling.jpg)
+    // and back up, beside the kayaks. The old static thumbnail is still at
     // img/tiles/urban-paddling-guide.webp
     title:       "Urban paddling guide",
     slug:        "urban-paddling-guide",
     year:        "2025",
     panelCols:   3,
-    tile:        "img/tiles/urban-paddling-guide-scroll.webp",
-    video:       "img/tiles/urban-paddling-guide-scroll.mp4",
+    tile:        "img/tiles/urban-paddling-map.webp",
+    video:       "",
     link:        "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift",
     linkType:    "story",
     tags:        ["print", "outdoors"],
     inBook:      false,
     description: "A guide to 13 of the best paddling routes in the Twin Cities. I scouted and " +
                  "authored guides to most of the routes, and mapped them all.",
-    images:      [                                 // the kayaks full height, the other two beside
+    images:      [                                 // the kayaks full height, the page beside
       { src: "img/tiles/urban-paddling-mississippi.webp", tall: true,   // kayaks below downtown Minneapolis
         credit: "Photo by Aaron Levinsky" },
-      { src: "img/tiles/urban-paddling-shore.webp",    // landing the canoe at dusk
-        credit: "Photo by Anthony Soufflé" },
-      { src: "img/tiles/urban-paddling-river.webp",    // on the river (border trimmed off)
-        credit: "Photo by Anthony Soufflé" }
+      { src: "img/tiles/urban-paddling-guide-scroll.mp4" }   // the printed page, scrolling (poster: the .webp)
     ],
     awards:      [
       "Silver Medal for Story Page Design, Society for News Design, 2026. " +
