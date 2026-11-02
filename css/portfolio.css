@@ -366,8 +366,11 @@ body { overflow-anchor: none; }
 :is(#grid-book, #grid-examples) .gcard {
   position: relative; isolation: isolate;
   display: flex; flex-direction: column; height: 100%;   /* a row's cards all as tall as the tallest */
-  box-shadow: var(--shadow);
-  transition: transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s;
+  /* no shadow at rest: a box-shadow follows the card's straight edge, which
+     lies just outside the wandering line and showed as a faint second edge.
+     The lift on hover is a drop-shadow, which hugs the drawn line (as the
+     other tiles' lift does, css/ink.css) */
+  transition: transform .22s cubic-bezier(.2,.7,.3,1), filter .22s;
 }
 /* the pale plate, on a layer behind everything, clipped to the strokes'
    outer edge (like the pictures, css/ink.css), so none of it shows outside
@@ -413,7 +416,7 @@ body { overflow-anchor: none; }
   transition: transform .2s, background-color .2s, color .2s, border-color .2s;
 }
 @media (hover: hover) {
-  :is(#grid-book, #grid-examples) .gcard:hover { transform: rotate(1deg) translateY(-3px); box-shadow: var(--shadow-lift); }
+  :is(#grid-book, #grid-examples) .gcard:hover { transform: rotate(1deg) translateY(-3px); filter: var(--ink-shadow-lift); }
   :is(#grid-book, #grid-examples) .gcard:hover .gframe { transform: none; filter: none; box-shadow: none; }
   :is(#grid-book, #grid-examples) .gcard:hover .plus { background: var(--accent); border-color: var(--accent); color: #fff; }
 }
