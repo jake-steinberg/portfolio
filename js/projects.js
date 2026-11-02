@@ -1012,7 +1012,7 @@ const PROJECTS = [
    ----------------------------------------------------------------------------- */
 const SECTIONS = {
   book:     ["immigration", "st-paul-hills", "cathedral", "restless-river"],
-  examples: ["where-is-uptown", "fox-coyote", "urban-paddling-guide", "2026-election-results"],
+  examples: ["where-is-uptown", "2026-election-results", "fox-coyote", "urban-paddling-guide"],
   features: ["strib-basemaps", "22-a-map"],
   relief:   ["lindsey-vonns-mountains", "rincon-mountains", "cloud-peak-wilderness",
              "restless-river", "the-driftless-area"]
