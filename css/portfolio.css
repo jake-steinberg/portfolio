@@ -905,6 +905,10 @@ body { overflow-anchor: none; }
    fit its column ("The Mesabi Trail" runs about 8.6 times its size) */
 .mesabi-hero .hero-text { container-type: inline-size; }
 .mesabi-hero h2 { font-size: min(var(--fs-h1), 11cqi); white-space: nowrap; }
+/* the client under the summary, then "See full-size example:" over its links */
+.hero p.mesabi-client { margin-top: 18px; }
+.hero p.mesabi-full { margin-top: 26px; }
+.mesabi-links { margin-top: 6px; }
 @media (max-width: 900px) { .hero.mesabi-hero { grid-template-columns: 1fr; gap: 22px; } }
 /* its Under the hood cards: the basemaps' boxed notes, four across; the
    symbols and the profile sit whole in the box, the map details fill it */
