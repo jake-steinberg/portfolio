@@ -897,7 +897,7 @@ body { overflow-anchor: none; }
    ----------------------------------------------------------------------------- */
 /* MESABI TRAIL: the town maps, two by two */
 .mesabi-map { margin: 0; }
-.mesabi-map img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); }
+.mesabi-map img { display: block; width: 100%; height: auto; }   /* framed like the book cover (css/ink.css) */
 /* the map and text as the book's hero: the map takes the wider column;
    stacked, map first, from tablet down */
 .hero.mesabi-hero { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
