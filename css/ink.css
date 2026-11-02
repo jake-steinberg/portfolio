@@ -325,6 +325,32 @@
   background-position: var(--frame-position);
 }
 
+/* The Under the hood picture panels (.stylenotes): the same hand-drawn
+   frame, in the pale rule grey, so they read as figures rather than as the
+   dark-framed tiles that open. The panel itself is clipped to the strokes'
+   outer edge, picture and all (it has no shadow to lose). */
+.stylenotes .card-media {
+  --frame-strokes:
+    var(--stroke-frame-h-rule), var(--stroke-frame-h-rule),
+    var(--stroke-frame-v-rule), var(--stroke-frame-v-rule);
+  position: relative;
+  border-color: transparent; background-clip: padding-box;
+  -webkit-mask-image: var(--clip-image);         mask-image: var(--clip-image);
+  -webkit-mask-repeat: var(--clip-repeat);       mask-repeat: var(--clip-repeat);
+  -webkit-mask-size: var(--clip-size);           mask-size: var(--clip-size);
+  -webkit-mask-position: var(--clip-position);   mask-position: var(--clip-position);
+  -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over;
+          mask-composite: subtract, add, add, add, add;
+  -webkit-mask-origin: padding-box;               mask-origin: padding-box;
+}
+.stylenotes .card-media::after {
+  content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background-image: var(--frame-strokes);
+  background-repeat: var(--frame-repeat);
+  background-size: var(--frame-size);
+  background-position: var(--frame-position);
+}
+
 /* -----------------------------------------------------------------------------
    4. PILLS — the tag filters (.pill) and the resume's jump bar (.jump a).
    Each outline is two images, the left and right halves, each a rounded end
