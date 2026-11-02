@@ -208,7 +208,7 @@ body { overflow-anchor: none; }
 
 
 /* -----------------------------------------------------------------------------
-   3. "OTHER WORK" HEADING, AND THE PILL BUTTONS (the basemap style switch)
+   3. "MORE WORK" HEADING, AND THE PILL BUTTONS (the basemap style switch)
    ----------------------------------------------------------------------------- */
 .sec-head {
   display: flex; flex-wrap: wrap; gap: 10px 20px;
@@ -217,9 +217,9 @@ body { overflow-anchor: none; }
   margin-bottom: clamp(20px, 2.6vw, 32px);       /* the tiles start a little below it */
 }
 .sec-head h2 {
-  font-family: var(--display); font-weight: 800; margin: 0;
+  font-family: var(--display); font-weight: 800; margin: 0; line-height: 1.1;
   letter-spacing: var(--track-head); color: var(--head);
-  font-size: var(--fs-h2);
+  font-size: var(--fs-h1);                       /* as big as the other sections' titles */
 }
 
 .pill {
