@@ -2,12 +2,9 @@
    portfolio.js — builds the "Selected work" section on index.html.
 
    It reads TAGS and PROJECTS from js/projects.js (which must load first) and:
-     1. makes a filter pill for every tag
-     2. draws a tile for every project that matches the selected tag
-     3. unfolds a detail panel under a tile's row when it's clicked
+     2. draws a tile for every project not shown in the sections above
+     3. opens a project's detail panel over the page when its tile is clicked
      4. plays video tiles only while they're on screen
-     5. keeps the selected tag in the address bar (?tags=outdoors), so a
-        filtered view can be shared as a link
 
    To add or change work, edit js/projects.js — not this file.
    ============================================================================= */
@@ -16,12 +13,7 @@
   /* ---------------------------------------------------------------------------
      Setup
      ------------------------------------------------------------------------- */
-  const mainEl   = document.getElementById('grid');        // "Other work": the filtered grid
-  const pillsEl  = document.getElementById('f-tags');      // where filter pills go
-  const emptyEl  = document.getElementById('empty');       // "No projects match…"
-  const clearBtn = document.getElementById('clear');       // "Clear filters"
-
-  const selected = new Set();   // the tag id switched on (only one at a time)
+  const mainEl   = document.getElementById('grid');        // "Other work"
 
   // Projects shown in the sections above "Other work" (SECTIONS in projects.js)
   // stay out of that grid, so nothing appears twice
@@ -47,46 +39,10 @@
   // tag id -> visible label, e.g. "3d" -> "3D"
   const tagLabel = (id) => (TAGS.find((t) => t.id === id) || { label: id }).label;
 
-  // A project matches if it has the selected tag. Nothing selected = show all,
-  // except projects with onlyWhen: [tags] in projects.js — those stay out of the
-  // full grid and appear only while one of their onlyWhen tags is selected.
-  const matches = (p) => {
-    if (PLACED.has(p.slug)) return false;
-    const ids = [...selected];
-    if (p.onlyWhen && !ids.some((id) => p.onlyWhen.includes(id))) return false;
-    return ids.every((id) => p.tags.includes(id));
-  };
-
-
-  /* ---------------------------------------------------------------------------
-     1. Filter pills
-     ------------------------------------------------------------------------- */
-  // (a tag whose projects are all in the sections above gets no pill)
-  TAGS.filter((tag) => PROJECTS.some((p) => !PLACED.has(p.slug) && p.tags.includes(tag.id))).forEach((tag) => {
-    const pill = document.createElement('button');
-    pill.type = 'button';
-    pill.className = 'pill';
-    pill.dataset.tag = tag.id;
-    pill.textContent = tag.label;
-    pill.setAttribute('aria-pressed', 'false');
-    // One tag at a time: picking a pill switches off any other; picking the
-    // one that's on switches it off, showing everything again.
-    pill.addEventListener('click', () => {
-      const wasOn = selected.has(tag.id);
-      selected.clear();
-      if (!wasOn) selected.add(tag.id);
-      pillsEl.querySelectorAll('.pill').forEach((p) =>
-        p.setAttribute('aria-pressed', String(selected.has(p.dataset.tag))));
-      mainGrid.render();
-    });
-    pillsEl.insertBefore(pill, clearBtn);   // pills sit before the Clear button
-  });
-
-  clearBtn.addEventListener('click', () => {
-    selected.clear();
-    pillsEl.querySelectorAll('.pill').forEach((p) => p.setAttribute('aria-pressed', 'false'));
-    mainGrid.render();
-  });
+  // "Other work" shows every project not already in a section above, except
+  // those with onlyWhen: in projects.js (they appeared only under a tag filter,
+  // which the page no longer has)
+  const matches = (p) => !PLACED.has(p.slug) && !p.onlyWhen;
 
 
   /* ---------------------------------------------------------------------------
@@ -740,37 +696,9 @@
 
 
   /* ---------------------------------------------------------------------------
-     5. Selected tags in the address bar
-     ------------------------------------------------------------------------- */
-  function writeURL() {
-    const params = new URLSearchParams(location.search);
-    if (selected.size) params.set('tags', [...selected].join(','));
-    else params.delete('tags');
-    const query = params.toString();
-    try { history.replaceState(null, '', query ? `?${query}` : location.pathname); } catch (e) { /* ignore */ }
-  }
-
-  function readURL() {
-    const known = new Set([...pillsEl.querySelectorAll('.pill')].map((p) => p.dataset.tag));   // tags with a pill
-    (new URLSearchParams(location.search).get('tags') || '')
-      .split(',')
-      .filter((id) => known.has(id))                   // ignore misspelled or retired tags
-      .slice(0, 1)                                     // one tag at a time (an old link may list several)
-      .forEach((id) => selected.add(id));
-    pillsEl.querySelectorAll('.pill').forEach((p) =>
-      p.setAttribute('aria-pressed', String(selected.has(p.dataset.tag))));
-  }
-
-
-  /* ---------------------------------------------------------------------------
      Go
      ------------------------------------------------------------------------- */
-  readURL();
-  const mainGrid = makeGrid(mainEl, () => PROJECTS.filter(matches), (visible) => {
-    emptyEl.hidden = visible.length > 0;
-    clearBtn.hidden = selected.size === 0;
-    writeURL();
-  });
+  makeGrid(mainEl, () => PROJECTS.filter(matches));
   // the small grids above "Other work": their projects in the order listed
   document.querySelectorAll('[data-grid]').forEach((el) =>
     makeGrid(el, () => (SECTION_LISTS[el.dataset.grid] || []).map(bySlug).filter(Boolean)));
