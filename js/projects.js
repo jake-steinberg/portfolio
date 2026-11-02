@@ -772,7 +772,7 @@ const PROJECTS = [
     title:       "Urban paddling guide",
     slug:        "urban-paddling-guide",
     year:        "2025",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/urban-paddling-guide-scroll.webp",
     video:       "img/tiles/urban-paddling-guide-scroll.mp4",
     link:        "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift",
@@ -1012,7 +1012,7 @@ const PROJECTS = [
    ----------------------------------------------------------------------------- */
 const SECTIONS = {
   book:     ["immigration", "st-paul-hills", "cathedral", "restless-river"],
-  examples: ["where-is-uptown", "fox-coyote", "fall-hikes", "2026-election-results"],
+  examples: ["where-is-uptown", "fox-coyote", "urban-paddling-guide", "2026-election-results"],
   features: ["strib-basemaps", "22-a-map"],
   relief:   ["lindsey-vonns-mountains", "rincon-mountains", "cloud-peak-wilderness",
              "restless-river", "the-driftless-area"]
