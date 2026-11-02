@@ -1014,6 +1014,23 @@ body { overflow-anchor: none; }
 .tlink:hover { border-bottom-color: var(--accent); }
 .tlink:hover .ar { transform: translate(2px, -2px); }
 
+/* 22, A MAP: the loop beside the text (a .hero), framed like the tiles
+   (css/ink.css); the glyphs in a row; the live style (.specimen, above) */
+.hero.tt-hero { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+@media (max-width: 900px) { .hero.tt-hero { grid-template-columns: 1fr; gap: 22px; } }
+.tt-media {
+  position: relative; margin: 0; aspect-ratio: 4 / 3;
+  border: 1px solid var(--stroke); background: var(--plate); box-shadow: var(--shadow-lift);
+}
+.tt-media :is(img, video) { display: block; width: 100%; height: 100%; object-fit: cover; }
+.tt-media video { position: absolute; inset: 0; opacity: 0; transition: opacity .25s; }   /* over the still, once playing */
+.tt-media video.ready { opacity: 1; }
+.tt-glyphs {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px clamp(16px, 3vw, 40px);
+}
+.tt-glyphs img { display: block; height: clamp(80px, 11vw, 150px); width: auto; }
+
 /* the intro beside Rincon (a .hero, like the book's and the Mesabi
    Trail's), framed like the book cover (css/ink.css) */
 .hero.relief-hero { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }

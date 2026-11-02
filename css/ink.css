@@ -325,6 +325,25 @@
   background-position: var(--frame-position);
 }
 
+/* The 22, A Map loop (.tt-media): the tiles' dark hand-drawn frame, its
+   still and video clipped to the strokes like a tile's picture */
+.tt-media { border-color: transparent; background-clip: padding-box; }
+.tt-media::after {
+  content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background-image: var(--frame-strokes);
+  background-repeat: var(--frame-repeat);
+  background-size: var(--frame-size);
+  background-position: var(--frame-position);
+}
+.tt-media > :is(img, video) {
+  -webkit-mask-image: var(--clip-image);         mask-image: var(--clip-image);
+  -webkit-mask-repeat: var(--clip-repeat);       mask-repeat: var(--clip-repeat);
+  -webkit-mask-size: var(--clip-size);           mask-size: var(--clip-size);
+  -webkit-mask-position: var(--clip-position);   mask-position: var(--clip-position);
+  -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over;
+          mask-composite: subtract, add, add, add, add;
+}
+
 /* The live basemap (js/basemaps.js): the same dark hand-drawn frame. The
    strokes sit on a layer over the map (it ignores the mouse, so dragging
    and the zoom buttons still work), 1px in, where the map's clear border

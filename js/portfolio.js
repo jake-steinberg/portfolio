@@ -677,7 +677,7 @@
   function watchVideos() {
     if (!videoWatcher) return;                    // very old browsers: just the still images
     videoWatcher.disconnect(); onScreen.clear();
-    document.querySelectorAll('main video').forEach((v) => {
+    document.querySelectorAll('main video, .poverlay video').forEach((v) => {   // the page's, and an open panel's
       videoWatcher.observe(v);
       // show it once it's really playing; until then the still shows through
       if (!v.classList.contains('ready')) v.addEventListener('playing', () => v.classList.add('ready'), { once: true });

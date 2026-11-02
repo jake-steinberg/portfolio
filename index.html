@@ -398,11 +398,44 @@
     </section>
 
     <!-- ================================================================
-         22, A MAP — the project's panel, always open, with the live style
+         22, A MAP — the loop left, title and text right (a .hero, like the
+         book's and the Mesabi Trail's), then the glyphs and the live
+         Mapbox style (css/portfolio.css, "22, A MAP")
          ================================================================ -->
-    <div class="block" id="twentytwo">
-      <section class="feature-sec" id="a-map" data-feature="22-a-map"></section>
-    </div>
+    <section class="block" id="twentytwo" aria-labelledby="tt-h">
+      <div class="hero tt-hero">
+        <figure class="tt-media">
+          <img class="still" src="img/tiles/22-a-map.webp" width="1000" height="750" alt="" loading="lazy" decoding="async">
+          <video muted loop playsinline preload="none" width="800" height="600" data-onscreen
+                 aria-label="The 22, A Map style in motion: a dark map of North America lettered in its own type">
+            <source src="img/tiles/22-a-map.mp4" type="video/mp4">
+          </video>
+        </figure>
+        <div class="hero-text">
+          <h2 id="tt-h">22, A Map</h2>
+          <p>A Mapbox-inspired journey through the aesthetic universe of Bon Iver’s <em>22, A Million</em>.</p>
+          <div class="plinks"><a href="22map.html">Open the project&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></div>
+        </div>
+      </div>
+
+      <!-- the glyphs that sit between the story's sections, in order -->
+      <h3 class="minihead">The glyphs</h3>
+      <ul class="tt-glyphs">
+        <li><img src="img/dude-01.svg" alt="A figure with a horned, cat-like head" loading="lazy" decoding="async"></li>
+        <li><img src="img/fireball-01.svg" alt="A flaming orb in a red-striped frame" loading="lazy" decoding="async"></li>
+        <li><img src="img/weed-01.svg" alt="A smoking, horned face under a cannabis leaf" loading="lazy" decoding="async"></li>
+        <li><img src="img/twoface-01.svg" alt="A face split into colored halves around a maze" loading="lazy" decoding="async"></li>
+        <li><img src="img/fingers-01.svg" alt="A hand pointing up out of a striped frame" loading="lazy" decoding="async"></li>
+        <li><img src="img/turnblue-01.svg" alt="A square of nested red and blue lines" loading="lazy" decoding="async"></li>
+      </ul>
+
+      <h3 class="minihead">The live style</h3>
+      <figure class="specimen">
+        <iframe src="https://api.mapbox.com/styles/v1/jakesteinberg/cl9zzsx6s002i14n8jzfclfq0.html?title=false&amp;access_token=pk.eyJ1IjoiamFrZXN0ZWluYmVyZyIsImEiOiJjanVtbzhwa2kxNTlsM3ltcXA0aGtiMDliIn0.2Q6HfVv2bholtzkLAhhHnw&amp;zoomwheel=false#12.89/43.13707/-89.34144/0/58"
+                title="22, A Map: the live Mapbox style, around Madison, Wisconsin" loading="lazy"></iframe>
+        <figcaption>Drag to explore; zoom with the + and − buttons.</figcaption>
+      </figure>
+    </section>
 
     <!-- ================================================================
          OTHER WORK — everything not shown above
