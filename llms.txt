@@ -81,11 +81,11 @@ Tags: News, Scrollytelling, Climate
 
 Mapping the causes and consequences of Minnesota’s worst wildfire season in a generation.
 
-### Star Tribune basemap styles (2025–2026)
+### Minnesota Star Tribune map design system (2025–2026)
 
 Tags: News, Interactive, Outdoors
 
-Designed a full suite of MapLibre basemap styles for use across the Star Tribune’s editorial coverage verticals.
+Led the newsroom’s migration to an open-source stack built on MapLibre and Protomaps. Designed a full suite of basemap styles tailored to distinct newsroom use cases.
 
 ### Rincon Mountains (2024)
 
@@ -184,6 +184,10 @@ Award: Awards of Excellence in Infographics; Line of Coverage; and Use of Multim
 - [Where is Uptown?](https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173)
 - [Uptown results](https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699)
 - [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
+
+### 2026 Election Results (2026)
+
+Tags: News, Interactive
 
 ### Election results (2023–2026)
 
