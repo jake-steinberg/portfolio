@@ -901,6 +901,10 @@ body { overflow-anchor: none; }
 /* the map and text as the book's hero: the map takes the wider column;
    stacked, map first, from tablet down */
 .hero.mesabi-hero { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+/* its title on one line: no bigger than the book's, and small enough to
+   fit its column ("The Mesabi Trail" runs about 8.6 times its size) */
+.mesabi-hero .hero-text { container-type: inline-size; }
+.mesabi-hero h2 { font-size: min(var(--fs-h1), 11cqi); white-space: nowrap; }
 @media (max-width: 900px) { .hero.mesabi-hero { grid-template-columns: 1fr; gap: 22px; } }
 /* its Under the hood cards: the basemaps' boxed notes, four across; the
    symbols and the profile sit whole in the box, the map details fill it */
