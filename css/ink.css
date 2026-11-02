@@ -325,6 +325,28 @@
   background-position: var(--frame-position);
 }
 
+/* The live basemap (js/basemaps.js): the same dark hand-drawn frame. The
+   strokes sit on a layer over the map (it ignores the mouse, so dragging
+   and the zoom buttons still work), 1px in, where the map's clear border
+   ends; the map is clipped to their outer edge, like the pictures. */
+.basemap, .basemap-note { border-color: transparent; }
+.basemap {
+  -webkit-mask-image: var(--clip-image);         mask-image: var(--clip-image);
+  -webkit-mask-repeat: var(--clip-repeat);       mask-repeat: var(--clip-repeat);
+  -webkit-mask-size: var(--clip-size);           mask-size: var(--clip-size);
+  -webkit-mask-position: var(--clip-position);   mask-position: var(--clip-position);
+  -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over;
+          mask-composite: subtract, add, add, add, add;
+  -webkit-mask-origin: padding-box;               mask-origin: padding-box;
+}
+.basemap-wrap::after {
+  content: ""; position: absolute; inset: 1px; z-index: 3; pointer-events: none;
+  background-image: var(--frame-strokes);
+  background-repeat: var(--frame-repeat);
+  background-size: var(--frame-size);
+  background-position: var(--frame-position);
+}
+
 /* The Under the hood picture panels (.stylenotes): the same hand-drawn
    frame, in the pale rule grey, so they read as figures rather than as the
    dark-framed tiles that open. The panel itself is clipped to the strokes'
