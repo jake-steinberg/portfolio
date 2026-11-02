@@ -896,11 +896,10 @@ body { overflow-anchor: none; }
    (css/cartography.css §6), on the page's own paper rather than a dark band
    ----------------------------------------------------------------------------- */
 /* MESABI TRAIL: the town maps, two by two */
-.mesabi-maps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 34px); }
-.mesabi-maps img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); }
-@media (max-width: 720px) { .mesabi-maps { grid-template-columns: minmax(0, 1fr); } }
-/* the maps and text as the book's hero: the maps take the wider column;
-   stacked, maps first, from tablet down */
+.mesabi-map { margin: 0; }
+.mesabi-map img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); }
+/* the map and text as the book's hero: the map takes the wider column;
+   stacked, map first, from tablet down */
 .hero.mesabi-hero { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
 @media (max-width: 900px) { .hero.mesabi-hero { grid-template-columns: 1fr; gap: 22px; } }
 /* its Under the hood cards: the basemaps' boxed notes, four across; the
