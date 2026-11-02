@@ -364,10 +364,23 @@ body { overflow-anchor: none; }
    a raised shadow. A "Details +" cue under the title (always shown, so it
    reads on touch screens too) says the tile opens. */
 :is(#grid-book, #grid-examples) .gcard {
-  position: relative; background: var(--plate);
+  position: relative; isolation: isolate;
   display: flex; flex-direction: column; height: 100%;   /* a row's cards all as tall as the tallest */
   box-shadow: var(--shadow);
   transition: transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s;
+}
+/* the pale plate, on a layer behind everything, clipped to the strokes'
+   outer edge (like the pictures, css/ink.css), so none of it shows outside
+   the drawn line where it thins or wanders in */
+:is(#grid-book, #grid-examples) .gcard::before {
+  content: ""; position: absolute; inset: 1px; z-index: -1;
+  background: var(--plate);
+  -webkit-mask-image: var(--clip-image);         mask-image: var(--clip-image);
+  -webkit-mask-repeat: var(--clip-repeat);       mask-repeat: var(--clip-repeat);
+  -webkit-mask-size: var(--clip-size);           mask-size: var(--clip-size);
+  -webkit-mask-position: var(--clip-position);   mask-position: var(--clip-position);
+  -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over;
+          mask-composite: subtract, add, add, add, add;
 }
 :is(#grid-book, #grid-examples) .gcard::after {
   /* inset 1px: the picture's strokes sit inside its 1px (clear) border, so
