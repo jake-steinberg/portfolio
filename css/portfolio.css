@@ -355,7 +355,7 @@ body { overflow-anchor: none; }
 /* the small grids (Look inside, Examples): no tags under the titles */
 :is(#grid-book, #grid-examples) .tags { display: none; }
 
-/* LINK CARDS — the small grids' tiles (Look inside, Examples) as one
+/* LINK CARDS — every grid's tiles (Look inside, Examples, Other work) as one
    object: picture and title inside one hand-drawn ink frame, on the pale
    plate. The picture keeps its own drawn frame, whose bottom line now
    divides it from the title; the card's top and side strokes fall exactly
@@ -363,7 +363,7 @@ body { overflow-anchor: none; }
    one line. The whole card takes the tiles' usual hover: a slight tilt and
    a raised shadow. A "Details +" cue under the title (always shown, so it
    reads on touch screens too) says the tile opens. */
-:is(#grid-book, #grid-examples) .gcard {
+.grid .gcard {
   position: relative; isolation: isolate;
   display: flex; flex-direction: column; height: 100%;   /* a row's cards all as tall as the tallest */
   /* no shadow at rest: a box-shadow follows the card's straight edge, which
@@ -375,7 +375,7 @@ body { overflow-anchor: none; }
 /* the pale plate, on a layer behind everything, clipped to the strokes'
    outer edge (like the pictures, css/ink.css), so none of it shows outside
    the drawn line where it thins or wanders in */
-:is(#grid-book, #grid-examples) .gcard::before {
+.grid .gcard::before {
   content: ""; position: absolute; inset: 1px; z-index: -1;
   background: var(--plate);
   -webkit-mask-image: var(--clip-image);         mask-image: var(--clip-image);
@@ -385,7 +385,7 @@ body { overflow-anchor: none; }
   -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over;
           mask-composite: subtract, add, add, add, add;
 }
-:is(#grid-book, #grid-examples) .gcard::after {
+.grid .gcard::after {
   /* inset 1px: the picture's strokes sit inside its 1px (clear) border, so
      the card's do too, and the two land on the same pixels */
   content: ""; position: absolute; inset: 1px; z-index: 3; pointer-events: none;
@@ -394,17 +394,17 @@ body { overflow-anchor: none; }
   background-size: var(--frame-size);
   background-position: var(--frame-position);
 }
-:is(#grid-book, #grid-examples) .gframe { box-shadow: none; }
-:is(#grid-book, #grid-examples) .chip { display: none; }
-:is(#grid-book, #grid-examples) .cap {
+.grid .gframe { box-shadow: none; }
+.grid .chip { display: none; }
+.grid .cap {
   margin: 0; padding: 12px 14px 14px; flex: 1;
   display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto 1fr;
   align-items: end; gap: 8px;                    /* the style and "Details" along the bottom */
 }
-:is(#grid-book, #grid-examples) .cap .ttl { grid-column: 1 / -1; align-self: start; }
-:is(#grid-book, #grid-examples) .cap .tstyle { margin: 0; }
+.grid .cap .ttl { grid-column: 1 / -1; align-self: start; }
+.grid .cap :is(.tstyle, .tags) { margin: 0; }   /* the basemap style, or (Other work) the tags, along the bottom */
 .cap .cta { display: none; }
-:is(#grid-book, #grid-examples) .cap .cta {
+.grid .cap .cta {
   display: inline-flex; align-items: center; gap: 6px; grid-column: 2;
   font-family: var(--topo); font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
   text-transform: uppercase; color: var(--accent-ink);
@@ -417,23 +417,23 @@ body { overflow-anchor: none; }
 }
 /* a narrow card: "Details" on its own line under the style, at the right,
    rather than crowding into a long style name (STRIB-OUTDOORS) */
-:is(#grid-book, #grid-examples) .gcard { container-type: inline-size; }
+.grid .gcard { container-type: inline-size; }
 @container (max-width: 250px) {
-  :is(#grid-book, #grid-examples) .cap { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr auto; }
-  :is(#grid-book, #grid-examples) .cap .tstyle { grid-column: 1; grid-row: 2; }
-  :is(#grid-book, #grid-examples) .cap .cta { grid-column: 1; grid-row: 3; justify-self: end; }
+  .grid .cap { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr auto; }
+  .grid .cap :is(.tstyle, .tags) { grid-column: 1; grid-row: 2; }
+  .grid .cap .cta { grid-column: 1; grid-row: 3; justify-self: end; }
 }
 @media (hover: hover) {
-  :is(#grid-book, #grid-examples) .gcard:hover { transform: rotate(1deg) translateY(-3px); filter: var(--ink-shadow-lift); }
-  :is(#grid-book, #grid-examples) .gcard:hover .gframe { transform: none; filter: none; box-shadow: none; }
-  :is(#grid-book, #grid-examples) .gcard:hover .plus { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .grid .gcard:hover { transform: rotate(1deg) translateY(-3px); filter: var(--ink-shadow-lift); }
+  .grid .gcard:hover .gframe { transform: none; filter: none; box-shadow: none; }
+  .grid .gcard:hover .plus { background: var(--accent); border-color: var(--accent); color: #fff; }
 }
 /* open: the + filled in coral, turned to an × */
-:is(#grid-book, #grid-examples) .gcard[aria-expanded="true"] .gframe { box-shadow: none; }
-:is(#grid-book, #grid-examples) .gcard[aria-expanded="true"] .plus { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(45deg); }
+.grid .gcard[aria-expanded="true"] .gframe { box-shadow: none; }
+.grid .gcard[aria-expanded="true"] .plus { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(45deg); }
 @media (prefers-reduced-motion: reduce) {
-  :is(#grid-book, #grid-examples) :is(.gcard, .plus) { transition: none; }
-  :is(#grid-book, #grid-examples) .gcard:hover { transform: none; }
+  .grid :is(.gcard, .plus) { transition: none; }
+  .grid .gcard:hover { transform: none; }
 }
 
 /* in the top right corner, a little smaller */
