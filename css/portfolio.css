@@ -1020,6 +1020,9 @@ body { overflow-anchor: none; }
    (css/ink.css); then the live style (.specimen, above) */
 .hero.tt-hero { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
 @media (max-width: 900px) { .hero.tt-hero { grid-template-columns: 1fr; gap: 22px; } }
+/* the live style square, like an album cover (as on 22map.html), as big as
+   fits the window's height */
+#twentytwo .specimen iframe { width: min(100%, 78vh, 760px); height: auto; aspect-ratio: 1; }
 .tt-media {
   position: relative; margin: 0; aspect-ratio: 4 / 3;
   border: 1px solid var(--stroke); background: var(--plate); box-shadow: var(--shadow-lift);
