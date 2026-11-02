@@ -1091,6 +1091,44 @@ body { overflow-anchor: none; }
    aria-current) gets a bigger, coral dot; hovering or focusing a dot shows
    the section's name beside it. Wide screens only.
    ----------------------------------------------------------------------------- */
+/* SECTION CHIP — on screens too narrow for the dots: a chip fixed at the
+   bottom, "3 / 6 · The Mesabi Trail", that opens a list of the sections
+   (js/portfolio.js builds both from the dots' links). Hidden above the first
+   section (.away) and while the page scrolls (.moving); below the panel
+   overlay. Framed in ink (css/ink.css). */
+.secnav { display: none; }
+@media (max-width: 1099px) {
+  .secnav {
+    display: block; position: fixed; z-index: 55;
+    left: 50%; bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    filter: drop-shadow(0 4px 12px rgba(34, 32, 28, .18));
+    transition: opacity .2s, transform .2s;
+  }
+  .secnav:is(.away, .moving) { opacity: 0; transform: translate(-50%, 14px); pointer-events: none; }
+  .secchip {
+    display: flex; align-items: baseline; gap: 8px; white-space: nowrap; cursor: pointer;
+    padding: 10px 18px; background-color: var(--plate); border: 1px solid var(--stroke); color: var(--ink);
+    font-family: var(--topo); text-transform: uppercase; letter-spacing: var(--track);
+    font-size: calc(var(--fs-sm) + var(--label-plus));
+  }
+  .secnum { color: var(--accent-ink); }
+  .secname::before { content: "\00B7"; margin-right: 8px; color: var(--label-ink); }
+  .seclist {
+    list-style: none; margin: 0; padding: 8px 0;
+    position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+    width: max-content; background-color: var(--plate); border: 1px solid var(--stroke);
+  }
+  .seclist[hidden] { display: none; }
+  .seclist a {
+    display: block; padding: 11px 22px; white-space: nowrap; text-decoration: none; color: var(--label-ink);
+    font-family: var(--topo); text-transform: uppercase; letter-spacing: var(--track);
+    font-size: calc(var(--fs-sm) + var(--label-plus));
+  }
+  .seclist a[aria-current] { color: var(--accent-ink); }
+  .seclist a[aria-current]::before { content: "\25CF"; margin-right: 8px; font-size: .8em; }
+}
+@media (max-width: 1099px) and (prefers-reduced-motion: reduce) { .secnav { transition: none; } }
 .dots { display: none; }
 @media (min-width: 1100px) {
   /* the page column (css/site.css, .wrap) gives up --dots-w on each side:

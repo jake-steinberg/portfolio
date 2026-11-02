@@ -718,6 +718,37 @@
      ------------------------------------------------------------------------- */
   const dotLinks = [...document.querySelectorAll('.dots a')];
   const dotTargets = dotLinks.map((a) => document.querySelector(a.getAttribute('href')));
+
+  // Narrower screens have no room for the dots: instead, a chip at the bottom
+  // ("3 / 6 · The Mesabi Trail") that opens a list of the sections, built from
+  // the same links (css/portfolio.css, "SECTION CHIP"). It slips out of the way
+  // while the page scrolls and comes back once it stops.
+  const secnav = document.createElement('nav');
+  secnav.className = 'secnav away';
+  secnav.setAttribute('aria-label', 'Jump to a section');
+  secnav.innerHTML = `
+    <ul class="seclist" id="seclist" hidden>${dotLinks.map((a) =>
+      `<li><a href="${esc(a.getAttribute('href'))}">${esc(a.textContent.trim())}</a></li>`).join('')}</ul>
+    <button class="secchip" type="button" aria-expanded="false" aria-controls="seclist">
+      <span class="secnum"></span><span class="secname"></span>
+    </button>`;
+  document.body.appendChild(secnav);
+  const chip = secnav.querySelector('.secchip');
+  const chipNum = secnav.querySelector('.secnum'), chipName = secnav.querySelector('.secname');
+  const chipList = secnav.querySelector('.seclist');
+  const chipLinks = [...chipList.querySelectorAll('a')];
+  const showList = (on) => { chipList.hidden = !on; chip.setAttribute('aria-expanded', String(on)); };
+  chip.addEventListener('click', () => showList(chipList.hidden));
+  chipList.addEventListener('click', (e) => { if (e.target.closest('a')) showList(false); });
+  document.addEventListener('click', (e) => { if (!secnav.contains(e.target)) showList(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !chipList.hidden) { showList(false); chip.focus(); } });
+  let stillTimer = null;
+  window.addEventListener('scroll', () => {
+    if (!chipList.hidden) return;                      // the open list stays put (a jump scrolls the page)
+    secnav.classList.add('moving');
+    clearTimeout(stillTimer);
+    stillTimer = setTimeout(() => secnav.classList.remove('moving'), 600);
+  }, { passive: true });
   let dotsQueued = false;
   function markDot() {
     dotsQueued = false;
@@ -726,10 +757,16 @@
     let current = -1;
     dotTargets.forEach((el, i) => { if (el && el.getBoundingClientRect().top <= line) current = i; });
     if (atEnd) current = dotTargets.length - 1;
-    dotLinks.forEach((a, i) => {
+    [dotLinks, chipLinks].forEach((links) => links.forEach((a, i) => {
       if (i === current) a.setAttribute('aria-current', 'true');
       else a.removeAttribute('aria-current');
-    });
+    }));
+    // the chip: hidden above the first section, else "3 / 6 · The Mesabi Trail"
+    secnav.classList.toggle('away', current < 0);
+    if (current >= 0) {
+      chipNum.textContent = `${current + 1} / ${dotLinks.length}`;
+      chipName.textContent = dotLinks[current].textContent.trim();
+    }
   }
   const queueDot = () => { if (!dotsQueued) { dotsQueued = true; requestAnimationFrame(markDot); } };
   if (dotLinks.length) {

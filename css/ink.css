@@ -291,7 +291,7 @@
    line. Here the strokes start at the button's outer edge (border-box), so
    the clip does too. */
 .chip, .gcard[aria-expanded="true"] .chip, .panel .close,
-.cform input:not(.trap), .cform textarea, .send, .send:hover {
+.cform input:not(.trap), .cform textarea, .send, .send:hover, .secchip, .seclist {
   border-color: transparent;
   background-image: var(--frame-strokes);
   background-repeat: var(--frame-repeat);
@@ -310,7 +310,7 @@
 /* The clip would also cut off the focus ring drawn just outside a link or
    button, so it's lifted while one has focus (keyboard focus; a form field
    shows its ring whenever you're typing in it) */
-:is(.pshots:not(.scatter) a:not(.pcap), .panel .close, .send, .cform input, .cform textarea):focus-visible {
+:is(.pshots:not(.scatter) a:not(.pcap), .panel .close, .send, .cform input, .cform textarea, .secchip):focus-visible {
   -webkit-mask: none; mask: none;
 }
 
