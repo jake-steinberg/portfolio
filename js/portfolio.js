@@ -721,10 +721,9 @@
 
   // Narrower screens have no room for the dots: instead, a chip at the bottom
   // ("3 / 6 · The Mesabi Trail") that opens a list of the sections, built from
-  // the same links (css/portfolio.css, "SECTION CHIP"). It slips out of the way
-  // while the page scrolls and comes back once it stops.
+  // the same links (css/portfolio.css, "SECTION CHIP"). It's always in view.
   const secnav = document.createElement('nav');
-  secnav.className = 'secnav away';
+  secnav.className = 'secnav';
   secnav.setAttribute('aria-label', 'Jump to a section');
   secnav.innerHTML = `
     <ul class="seclist" id="seclist" hidden>${dotLinks.map((a) =>
@@ -742,13 +741,7 @@
   chipList.addEventListener('click', (e) => { if (e.target.closest('a')) showList(false); });
   document.addEventListener('click', (e) => { if (!secnav.contains(e.target)) showList(false); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !chipList.hidden) { showList(false); chip.focus(); } });
-  let stillTimer = null;
-  window.addEventListener('scroll', () => {
-    if (!chipList.hidden) return;                      // the open list stays put (a jump scrolls the page)
-    secnav.classList.add('moving');
-    clearTimeout(stillTimer);
-    stillTimer = setTimeout(() => secnav.classList.remove('moving'), 600);
-  }, { passive: true });
+
   let dotsQueued = false;
   function markDot() {
     dotsQueued = false;
@@ -761,12 +754,10 @@
       if (i === current) a.setAttribute('aria-current', 'true');
       else a.removeAttribute('aria-current');
     }));
-    // the chip: hidden above the first section, else "3 / 6 · The Mesabi Trail"
-    secnav.classList.toggle('away', current < 0);
-    if (current >= 0) {
-      chipNum.textContent = `${current + 1} / ${dotLinks.length}`;
-      chipName.textContent = dotLinks[current].textContent.trim();
-    }
+    // the chip: "3 / 6 · The Mesabi Trail" (above the first section, the first)
+    const shown = Math.max(current, 0);
+    chipNum.textContent = `${shown + 1} / ${dotLinks.length}`;
+    chipName.textContent = dotLinks[shown].textContent.trim();
   }
   const queueDot = () => { if (!dotsQueued) { dotsQueued = true; requestAnimationFrame(markDot); } };
   if (dotLinks.length) {
