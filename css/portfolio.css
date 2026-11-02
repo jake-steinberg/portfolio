@@ -885,8 +885,8 @@ body { overflow-anchor: none; }
   font-family: var(--topo); font-weight: 700; font-size: 12px; letter-spacing: .1em; fill: var(--label-ink);
 }
 .stackdiagram .sd-item { font-family: var(--display); font-weight: 500; font-size: 13px; fill: var(--ink); }
-/* desktop, where the diagram is drawn smallest: the box text a step heavier */
-@media (min-width: 1100px) { .stackdiagram .sd-item { font-weight: 600; } }
+/* desktop, where the diagram is drawn smallest: the box text a step heavier… */
+@media (min-width: 1100px) { .stackdiagram .sd-item { font-weight: 600; letter-spacing: .03em; font-size: 12.5px; } }   /* …and opened up a little, so it isn't packed tight (a hair smaller, so OpenStreetMap keeps room in its box) */
 .stackdiagram .sd-box { fill: var(--bg); stroke: var(--stroke); stroke-width: 1; }
 .stackdiagram .sd-arrow, .stackdiagram .sd-head-arrow {
   fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
