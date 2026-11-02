@@ -940,7 +940,7 @@ const PROJECTS = [
     title:       "Best places to hike",
     slug:        "fall-hikes",
     year:        "2024–2026",
-    panelCols:   2,
+    panelCols:   3,
     tile:        "img/tiles/fall-hikes.webp",
     video:       "img/tiles/fall-hikes.mp4",
     link:        "",
