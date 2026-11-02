@@ -72,6 +72,15 @@ body { overflow-anchor: none; }
   .panel.feature .pmap { order: -1; }
 }
 .panel.feature .basemap { aspect-ratio: 3 / 2; max-height: 74vh; }
+/* phones: the style buttons right above the live map, and the chosen style's
+   name and notes under it (the text column's pieces, laid out one by one) */
+@media (max-width: 720px) {
+  .panel.feature .panel-body:has(> .pmap) { row-gap: 0; }
+  .panel.feature .panel-body:has(> .pmap) :is(.panel-main, .ptop) { display: contents; }
+  .panel.feature .panel-body:has(> .pmap) .styleswitch { order: 1; margin-top: 0; }
+  .panel.feature .panel-body:has(> .pmap) .pmap { order: 2; margin-top: 12px; }
+  .panel.feature .panel-body:has(> .pmap) .styleinfo { order: 3; }
+}
 /* a feature's pictures in one row across the whole width (feature.media in
    projects.js moves images: [] down here), and its live map */
 .pwide, .specimen { grid-column: 1 / -1; }
