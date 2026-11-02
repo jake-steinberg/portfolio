@@ -900,7 +900,7 @@ body { overflow-anchor: none; }
 .mesabi-maps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 34px); }
 .mesabi-maps img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); }
 @media (max-width: 720px) { .mesabi-maps { grid-template-columns: minmax(0, 1fr); } }
-/* its Under the hood cards: the basemaps' boxed notes, two by two; the
+/* its Under the hood cards: the basemaps' boxed notes, four across; the
    symbols and the profile sit whole in the box, the map details fill it */
 .stylenotes.mesabi-notes .card-media { aspect-ratio: 3 / 2; }
 .stylenotes.mesabi-notes .card-media.fit img { object-fit: contain; }
@@ -959,6 +959,8 @@ body { overflow-anchor: none; }
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px var(--col-gap, 34px);
 }
 .cards3.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }   /* Restless River and the Driftless */
+.cards3.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }  /* the Mesabi Trail's notes; two by two on narrower screens */
+@media (max-width: 1099px) { .cards3.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .card { min-width: 0; }
 .card-media { position: relative; display: block; aspect-ratio: 5 / 4; background: var(--bg); overflow: hidden; }
 .card-media :is(img, video) { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -970,7 +972,7 @@ body { overflow-anchor: none; }
 @media (max-width: 899px) { .cp-pair { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 720px) {
   .sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .cards3, .cards3.two { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .cards3, .cards3.two, .cards3.four { grid-template-columns: minmax(0, 1fr); gap: 40px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .tlink, .sheet img, .card-media video, .intro a { transition: none; }
