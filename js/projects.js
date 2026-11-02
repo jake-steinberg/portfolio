@@ -298,7 +298,7 @@ const PROJECTS = [
       // where the tiles exist (from the .pmtiles file): the map can't be dragged
       // or zoomed out past it, and the Minnesota button zooms out to it
       bounds:    [[-97.415, 43.44], [-89.439, 49.414]],
-      initial:   "Outdoors",                      // the style it opens with (a name below)
+      initial:   "Light",                         // the style it opens with (a name below)
       // name: the button. Shown for the chosen style: title, about, points
       // (a short list) and link (one { label, url } after them).
       // style: the MapLibre style file (until it's there, the map says so)
