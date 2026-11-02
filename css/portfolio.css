@@ -835,7 +835,7 @@ body { overflow-anchor: none; }
   margin-top: 14px;
   font-size: var(--fs-lg); color: color-mix(in srgb, var(--ink) 85%, transparent);   /* body size, near-ink: content, not footnotes */
 }
-.stylenotes .card-media { border: 0; background: var(--plate); aspect-ratio: 400 / 206; }   /* the stack diagram's shape, so all three match */
+.stylenotes .card-media { border: 1px solid var(--rule); background: var(--plate); aspect-ratio: 400 / 206; }   /* the stack diagram's shape, so all three match */
 /* wide screens: the Mesabi Trail's four pictures as tall as the basemaps'
    three (a third of the row, less its gaps, at the stack diagram's shape);
    the symbols get white space beside them, the others fill */
