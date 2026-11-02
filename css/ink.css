@@ -276,7 +276,7 @@
 @media (hover: hover) {
   .gcard:hover .gframe { box-shadow: none; filter: var(--ink-shadow-lift); }
 }
-.hero-cover img, .mesabi-map img { box-shadow: none; filter: var(--ink-shadow-lift); }
+.hero-cover img, .mesabi-map img, .relief-map img { box-shadow: none; filter: var(--ink-shadow-lift); }
 
 /* The open tile looks just like the others: same frame, same shadow (the
    coral "+" chip shows which one is open) */
@@ -314,10 +314,10 @@
   -webkit-mask: none; mask: none;
 }
 
-/* the book cover (and the Mesabi Trail map beside its text) is an <img>,
+/* the book cover (and the Mesabi Trail and Rincon maps beside their text) is an <img>,
    which can't hold a layer: its frame is drawn in a 2px band of padding
    around the picture instead */
-.hero-cover img, .mesabi-map img {
+.hero-cover img, .mesabi-map img, .relief-map img {
   border: 0; padding: 2px;
   background-image: var(--frame-strokes);
   background-repeat: var(--frame-repeat);

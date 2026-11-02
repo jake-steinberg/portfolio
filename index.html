@@ -194,7 +194,7 @@
     <a href="#book"><span>The book</span></a>
     <a href="#styles"><span>Basemap styles</span></a>
     <a href="#mesabi"><span>The Mesabi Trail</span></a>
-    <a href="#relief"><span>The world in relief</span></a>
+    <a href="#relief"><span>Landscape cartography</span></a>
     <a href="#twentytwo"><span>22, A Map</span></a>
     <a href="#work"><span>Other work</span></a>
   </nav>
@@ -334,115 +334,66 @@
     </section>
 
     <!-- ================================================================
-         THE WORLD IN RELIEF — adapted from cartography.html's #terrain
-         (its markup and the CSS in portfolio.css, "RELIEF"). Pictures are
-         lighter copies made by tools/make-page-images.py.
-         Projects: lindsey-vonns-mountains, rincon-mountains,
-         cloud-peak-wilderness; restless-river, the-driftless-area. (The
-         Cathedral is in the book's "Look inside" tiles instead.)
+         LANDSCAPE CARTOGRAPHY (css/portfolio.css, "RELIEF"): the Rincon
+         Mountains beside the intro, Lindsey Vonn's six mountains, then
+         Alaska and the Driftless side by side. Pictures are lighter copies
+         (tools/make-page-images.py; the Alaska and Driftless crops are cut
+         from img/ford.jpg and img/driftless-website.jpg).
          ================================================================ -->
     <section class="block relief" id="relief" aria-labelledby="relief-h">
-      <div class="sec-head">
-        <h2 id="relief-h">The world in relief</h2>
-      </div>
-        <!-- 2a: Cortina across the width, up to its own 2000px; never enlarged -->
-        <figure class="bleed">
-          <img src="img/cartography/vonn-cortina-1600.webp"
-               srcset="img/cartography/vonn-cortina-1200.webp 1200w, img/cartography/vonn-cortina-1600.webp 1600w, img/cartography/vonn-cortina-2000.webp 2000w"
-               sizes="(min-width: 2000px) 2000px, 100vw" width="2000" height="1333"
-               alt="Oblique terrain map of Cortina d’Ampezzo and the Tofane in the Dolomites, peaks labelled with their elevations"
-               loading="lazy" decoding="async">
-        </figure>
-
-        <!-- 2b: the story -->
-        <div>
-          <div class="prose band-text">
-            <h3 class="work-title">Lindsey Vonn’s Mountains <span class="work-meta">Star Tribune, 2026</span></h3>
-            <p>A biography of Lindsey Vonn published in the run-up to the 2026 Winter Olympics, told by the mountains that made her. Six places on two continents (Lake Louise, Whistler and Buck Hill in North America; Åre, Cortina and Schladming in Europe), drawn as oblique terrain maps that share one lettering system: peak labels on leader lines with elevations, dashed resort boundaries, and a north arrow turned to the view.</p>
-            <p><a class="tlink" href="https://www.startribune.com/five-mountains-and-one-notable-hill-that-defined-lindsey-vonns-career-and-comeback/601559700"
-                  data-project="lindsey-vonns-mountains" target="_blank" rel="noopener">Read the story&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></p>
-          </div>
-
-          <!-- 2c: all six, three by two (two by three on phones). Each opens
-               the original: a new tab on wide screens, the viewer on phones. -->
-          <ul class="sheet">
-            <li><a href="img/vonn-cortina.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-cortina.webp" srcset="img/cartography/vonn-cortina-600.webp 600w, img/tiles/vonn-cortina.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of Cortina d’Ampezzo and the Tofane in the Dolomites, peaks labelled with their elevations" loading="lazy" decoding="async"></a><span class="place">Cortina</span></li>
-            <li><a href="img/vonn-lake-louise.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-lake-louise.webp" srcset="img/cartography/vonn-lake-louise-600.webp 600w, img/tiles/vonn-lake-louise.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of the Lake Louise ski resort in Banff National Park, peaks labelled with their elevations" loading="lazy" decoding="async"></a><span class="place">Lake Louise</span></li>
-            <li><a href="img/vonn-whistler.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-whistler.webp" srcset="img/cartography/vonn-whistler-600.webp 600w, img/tiles/vonn-whistler.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of Whistler Blackcomb in the Coast Mountains, peaks labelled with their elevations" loading="lazy" decoding="async"></a><span class="place">Whistler</span></li>
-            <li><a href="img/vonn-are.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-are.webp" srcset="img/cartography/vonn-are-600.webp 600w, img/tiles/vonn-are.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of the Åre ski resort and Åreskutan in the Scandinavian Mountains" loading="lazy" decoding="async"></a><span class="place">Åre</span></li>
-            <li><a href="img/vonn-schladming.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-schladming.webp" srcset="img/cartography/vonn-schladming-600.webp 600w, img/tiles/vonn-schladming.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of the Schladming-Dachstein ski resort and the Planai in the Austrian Alps" loading="lazy" decoding="async"></a><span class="place">Schladming</span></li>
-            <li><a href="img/vonn-buck-hill.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-buck-hill.webp" srcset="img/cartography/vonn-buck-hill-600.webp 600w, img/tiles/vonn-buck-hill.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of Buck Hill beside Interstate 35 in Burnsville, with its summit and base elevations" loading="lazy" decoding="async"></a><span class="place">Buck Hill</span></li>
-          </ul>
+      <!-- the intro left, Rincon right (stacked on narrower screens) -->
+      <div class="hero relief-hero">
+        <div class="hero-text">
+          <h2 id="relief-h">Landscape Cartography</h2>
+          <p>I use Blender to build 3D worlds that depict stunning landscapes.</p>
+          <p>Opposite: morning light hits the east side of Saguaro National Park’s Rincon Mountains.</p>
         </div>
-
-        <!-- 2d: Rincon, up to 1440px. On the page it's at most the 2000px
-             copy (no picture wider than 2000px inline); it links to the 2400px
-             copy, since the original img/rincon.png is 8.5 MB, over the
-             page's 5 MB limit for linked files. -->
-        <figure class="wide-fig rincon">
+        <!-- links to the 2400px copy: the original img/rincon.png is 8.5 MB -->
+        <figure class="relief-map">
           <a href="img/cartography/rincon-2400.webp" target="_blank" rel="noopener">
             <img src="img/cartography/rincon-1600.webp"
                  srcset="img/cartography/rincon-1600.webp 1600w, img/cartography/rincon-2000.webp 2000w"
-                 sizes="(min-width: 1440px) 1440px, 100vw" width="2000" height="1192"
+                 sizes="(min-width: 1248px) 720px, (min-width: 901px) 58vw, 100vw" width="2000" height="1192"
                  alt="Golden hour terrain rendering of the Rincon Mountains in Saguaro National Park"
                  loading="lazy" decoding="async">
           </a>
-          <figcaption>
-            <h3 class="work-title">Rincon Mountains <span class="work-meta">Personal, 2024</span></h3>
-            <p>A golden hour rendering of Saguaro National Park’s Rincon Mountains made to commemorate a trip with an old friend.</p>
-          </figcaption>
         </figure>
-
-        <!-- 2e: Cloud Peak, with a detail of the lettering beside it (stacked on phones) -->
-        <div>
-          <figure class="cloudpeak">
-            <div class="cp-pair">
-              <a class="cp-main" href="img/cloud-peak-wilderness.jpg" target="_blank" rel="noopener">
-                <img src="img/cartography/cloud-peak-1600.webp" width="1600" height="1067"
-                     sizes="(min-width: 1248px) 790px, (min-width: 900px) 64vw, 100vw"
-                     alt="Perspective map of Wyoming’s Bighorn Mountains in the Cloud Peak Wilderness, peaks and lakes lettered one by one"
-                     loading="lazy" decoding="async">
-              </a>
-              <a class="cp-detail" href="img/cloud-peak-wilderness.jpg" target="_blank" rel="noopener">
-                <img src="img/cartography/cloud-peak-detail.webp" width="1200" height="800"
-                     sizes="(min-width: 1248px) 394px, (min-width: 900px) 32vw, 100vw"
-                     alt="Detail of the Cloud Peak map: the lettered peaks and lakes around Cloud Peak"
-                     loading="lazy" decoding="async">
-                <span class="place">Detail</span>
-              </a>
-            </div>
-            <figcaption>
-              <h3 class="work-title">Cloud Peak Wilderness <span class="work-meta">Personal, 2024</span></h3>
-              <p>A gift given to friends I shared a great trip with: Wyoming’s Bighorns in perspective, lettered peak by peak and lake by lake. As the map itself says, “Scale varies in this perspective.”</p>
-            </figcaption>
-          </figure>
-        </div>
-
-      <div class="substrip">
-          <h3 class="minihead">Elevation as data, seen from above</h3>
-          <ul class="cards3 two">
-            <li class="card">
-              <a class="card-media" href="img/cartography/restless-river-2400.webp" target="_blank" rel="noopener">
-                <img class="still" src="img/tiles/restless-river-tile.webp" width="1000" height="800" alt="" loading="lazy" decoding="async">
-                <video muted loop playsinline preload="none" width="1000" height="800" data-onscreen
-                       aria-label="Relative elevation renders of the Minnesota River valley, colored by height above the river">
-                  <source src="img/tiles/restless-river-loop.mp4" type="video/mp4">
-                </video>
-              </a>
-              <p><span class="card-kicker">Relative elevation · 2026</span> A 2-page spread in my book that exposes the writhing and rambling of the Minnesota River, colored by elevation above river level, from the river itself to 10&nbsp;ft.</p>
-            </li>
-            <li class="card">
-              <a class="card-media" href="img/cartography/driftless-3000.webp" target="_blank" rel="noopener">
-                <img class="still" src="img/tiles/the-driftless-area-scroll.webp" width="800" height="640" alt="" loading="lazy" decoding="async">
-                <video muted loop playsinline preload="none" width="800" height="640" data-onscreen
-                       aria-label="A slow scroll down the Driftless Area wall map: shaded relief under stylized land cover">
-                  <source src="img/tiles/the-driftless-area-scroll.mp4" type="video/mp4">
-                </video>
-              </a>
-              <p><span class="card-kicker">Shaded relief + land cover · 2023</span> Stylized land cover and elevation data for a sweeping wall map of the Driftless Area, 8,571 × 11,999 pixels at full size.</p>
-            </li>
-          </ul>
       </div>
+
+      <!-- Lindsey Vonn's Mountains: the story, then all six, three by two
+           (two by three on phones). Each opens the original: a new tab on
+           wide screens, the viewer on phones. -->
+      <div class="relief-vonn">
+        <h3 class="work-title">Lindsey Vonn’s Mountains <span class="work-meta">Minnesota Star Tribune, 2026</span></h3>
+        <div class="prose">
+          <p>A biography of Lindsey Vonn published in the run-up to the 2026 Winter Olympics, told by the mountains that made her.</p>
+          <p><a class="tlink" href="https://www.startribune.com/five-mountains-and-one-notable-hill-that-defined-lindsey-vonns-career-and-comeback/601559700"
+                data-project="lindsey-vonns-mountains" target="_blank" rel="noopener">Read the story&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></p>
+        </div>
+        <ul class="sheet">
+            <li><a href="img/vonn-buck-hill.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-buck-hill.webp" srcset="img/cartography/vonn-buck-hill-600.webp 600w, img/tiles/vonn-buck-hill.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of Buck Hill beside Interstate 35 in Burnsville, with its summit and base elevations" loading="lazy" decoding="async"></a><span class="place">Buck Hill</span></li>
+            <li><a href="img/vonn-lake-louise.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-lake-louise.webp" srcset="img/cartography/vonn-lake-louise-600.webp 600w, img/tiles/vonn-lake-louise.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of the Lake Louise ski resort in Banff National Park, peaks labelled with their elevations" loading="lazy" decoding="async"></a><span class="place">Lake Louise</span></li>
+            <li><a href="img/vonn-whistler.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-whistler.webp" srcset="img/cartography/vonn-whistler-600.webp 600w, img/tiles/vonn-whistler.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of Whistler Blackcomb in the Coast Mountains, peaks labelled with their elevations" loading="lazy" decoding="async"></a><span class="place">Whistler</span></li>
+            <li><a href="img/vonn-schladming.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-schladming.webp" srcset="img/cartography/vonn-schladming-600.webp 600w, img/tiles/vonn-schladming.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of the Schladming-Dachstein ski resort and the Planai in the Austrian Alps" loading="lazy" decoding="async"></a><span class="place">Schladming</span></li>
+            <li><a href="img/vonn-are.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-are.webp" srcset="img/cartography/vonn-are-600.webp 600w, img/tiles/vonn-are.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of the Åre ski resort and Åreskutan in the Scandinavian Mountains" loading="lazy" decoding="async"></a><span class="place">Åre</span></li>
+            <li><a href="img/vonn-cortina.jpg" target="_blank" rel="noopener"><img src="img/tiles/vonn-cortina.webp" srcset="img/cartography/vonn-cortina-600.webp 600w, img/tiles/vonn-cortina.webp 1200w" width="1200" height="800" sizes="(min-width: 1248px) 384px, (min-width: 721px) 31vw, 46vw" alt="Oblique terrain map of Cortina d’Ampezzo and the Tofane in the Dolomites, peaks labelled with their elevations" loading="lazy" decoding="async"></a><span class="place">Cortina d’Ampezzo</span></li>
+        </ul>
+      </div>
+
+      <!-- Alaska and the Driftless, side by side (stacked on phones) -->
+      <ul class="relief-pair">
+        <li>
+          <a href="img/ford.jpg" target="_blank" rel="noopener"><img src="img/cartography/alaska-winter.webp" width="900" height="720" alt="Grey shaded relief of western Alaska in winter: the Iditarod trail from Nome along Norton Sound past Unalakleet and Kaltag, with sea ice offshore" loading="lazy" decoding="async"></a>
+          <h3 class="work-title">Alaska in winter</h3>
+          <p>A map that conjures the icy Alaska faced by Minnesotan Emily Ford during the 2025 Iditarod dog sled race. Shaded relief + MODIS composite.</p>
+          <p><a class="tlink" href="https://www.startribune.com/duluths-emily-ford-faces-her-toughest-winter-adventure-yet-alaskas-famed-iditarod/601225462" target="_blank" rel="noopener">Read the story&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a></p>
+        </li>
+        <li>
+          <a href="img/cartography/driftless-3000.webp" target="_blank" rel="noopener"><img src="img/cartography/driftless-detail.webp" width="1500" height="1200" alt="Detail of the Driftless Area wall map: the Mississippi River from Winona to La Crosse between deeply cut, forested bluffs" loading="lazy" decoding="async"></a>
+          <h3 class="work-title">Glacial geomorphology</h3>
+          <p>Stylized land cover and elevation data for a sweeping wall map of the Driftless Area. Commissioned for a Restoration Cider Co., where 5% of profits go to trout stream restoration.</p>
+        </li>
+      </ul>
     </section>
 
     <!-- ================================================================
