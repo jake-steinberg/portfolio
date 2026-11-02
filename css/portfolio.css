@@ -895,6 +895,12 @@ body { overflow-anchor: none; }
    RELIEF — "The world in relief", adapted from cartography.html's #terrain
    (css/cartography.css §6), on the page's own paper rather than a dark band
    ----------------------------------------------------------------------------- */
+/* MESABI TRAIL: the town maps, two by two */
+.mesabi .sec-head { padding-top: 0; margin-bottom: clamp(20px, 2.6vw, 32px); }
+.mesabi-maps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 34px); }
+.mesabi-maps img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); }
+@media (max-width: 720px) { .mesabi-maps { grid-template-columns: minmax(0, 1fr); } }
+
 .relief .sec-head { padding-top: 0; margin-bottom: clamp(20px, 2.6vw, 32px); }
 .relief .work-title {
   font-family: var(--display); font-weight: 800; color: var(--head);
@@ -1016,7 +1022,7 @@ body { overflow-anchor: none; }
   .dots a:is(:hover, :focus-visible) span { opacity: 1; }
 }
 /* jumping to a section stops below the sticky header */
-#book, #styles, #relief, #twentytwo, #work { scroll-margin-top: var(--headH); }
+#book, #styles, #mesabi, #relief, #twentytwo, #work { scroll-margin-top: var(--headH); }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 @media (prefers-reduced-motion: reduce) {
   .dots a::before, .dots span { transition: none; }
