@@ -726,7 +726,11 @@ body { overflow-anchor: none; }
 }
 .basemap-note[hidden] { display: none; }
 .basemap-state { display: flex; align-items: center; justify-content: center; color: var(--ink); }
-.styleinfo { margin-top: 20px; }
+.styleinfo { margin-top: 20px; display: grid; }
+/* each style's text in the same grid cell, so the box is as tall as the
+   longest; only the chosen one is seen (js/basemaps.js, showInfo) */
+.styleinfo-one { grid-area: 1 / 1; visibility: hidden; }
+.styleinfo-one.on { visibility: visible; }
 .stylename {
   font-family: var(--display); font-weight: 800; font-size: var(--fs-xl); line-height: 1.25;
   letter-spacing: var(--track-tight); color: var(--head);

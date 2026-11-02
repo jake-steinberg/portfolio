@@ -55,18 +55,31 @@ const Basemaps = (function () {
     return style;
   }
 
-  // The chosen style's name, description, points and link, in the panel's text
+  // The chosen style's name, description, points and link, in the panel's
+  // text. Every style's text is written once, all in the same spot; only the
+  // chosen one shows. The spot is as tall as the longest, so choosing a style
+  // never moves the map or anything below it.
   const linkHTML = (l) =>
     `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a>`;
-  function showInfo(panel, entry) {
+  function showInfo(panel, config, i) {
     const info = panel.querySelector('.styleinfo');
     if (!info) return;
-    const points = (entry.points || []).map((t) => `<li>${esc(t)}</li>`).join('');
-    info.innerHTML = `
-      <h4 class="stylename">${esc(entry.title || entry.name)}</h4>
-      ${entry.about ? `<p class="styleabout">${esc(entry.about)}</p>` : ''}
-      ${points ? `<ul class="stylepoints">${points}</ul>` : ''}
-      ${entry.link ? `<p class="plinks stylelink">${linkHTML(entry.link)}</p>` : ''}`;
+    if (!info.children.length) {
+      info.innerHTML = config.styles.map((entry) => {
+        const points = (entry.points || []).map((t) => `<li>${esc(t)}</li>`).join('');
+        return `<div class="styleinfo-one">
+          <h4 class="stylename">${esc(entry.title || entry.name)}</h4>
+          ${entry.about ? `<p class="styleabout">${esc(entry.about)}</p>` : ''}
+          ${points ? `<ul class="stylepoints">${points}</ul>` : ''}
+          ${entry.link ? `<p class="plinks stylelink">${linkHTML(entry.link)}</p>` : ''}
+        </div>`;
+      }).join('');
+    }
+    [...info.children].forEach((el, j) => {
+      el.classList.toggle('on', j === i);
+      el.setAttribute('aria-hidden', String(j !== i));
+      el.querySelectorAll('a').forEach((a) => { a.tabIndex = j === i ? 0 : -1; });
+    });
   }
 
   // A button under + and − that zooms out to the whole state: as far as the
@@ -100,7 +113,7 @@ const Basemaps = (function () {
     const entry = config.styles[i];
     panel.querySelectorAll('.styleswitch button').forEach((b) =>
       b.setAttribute('aria-pressed', String(Number(b.dataset.style) === i)));
-    showInfo(panel, entry);
+    showInfo(panel, config, i);
     const token = (panel.basemapToken = (panel.basemapToken || 0) + 1);   // ignore slower, older loads
     let style;
     try {
@@ -136,7 +149,7 @@ const Basemaps = (function () {
       b.setAttribute('aria-pressed', String(Number(b.dataset.style) === first));
       b.addEventListener('click', () => choose(panel, config, Number(b.dataset.style)));
     });
-    showInfo(panel, config.styles[first]);
+    showInfo(panel, config, first);
     note(panel, 'Loading the map…');
     loadLibs()
       .then(() => { if (panel.isConnected) choose(panel, config, first); })
