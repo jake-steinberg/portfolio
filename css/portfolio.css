@@ -1043,9 +1043,10 @@ body { overflow-anchor: none; }
 
 /* Lindsey Vonn's six */
 .relief-vonn { margin-top: clamp(56px, 7vw, 104px); }
+.relief-vonn-text { margin-top: clamp(24px, 3vw, 36px); }   /* the story under the six, like the captions under Alaska and the Driftless */
 .sheet img, .relief-pair img { display: block; width: 100%; height: auto; border: 1px solid var(--stroke); }
 .sheet {
-  list-style: none; margin: clamp(32px, 4vw, 56px) 0 0; padding: 0;
+  list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 2.4vw, 32px) clamp(12px, 1.6vw, 20px);
 }
 .sheet a, .relief-pair a:has(img) { display: block; color: inherit; text-decoration: none; }
