@@ -275,6 +275,7 @@ const PROJECTS = [
     // js/basemaps.js. Each style's file goes in maps/ with the name below.
     // (For a tile two columns wide and two rows tall, add size: "large".)
     title:       "Minnesota Star Tribune map design system",
+    titleBreak:  "Tribune",                       // on desktop, the always-open title breaks after this word
     slug:        "strib-basemaps",
     year:        "2025–2026",
     panelCols:   3,

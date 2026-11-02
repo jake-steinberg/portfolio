@@ -265,7 +265,12 @@
               <iframe data-src="${esc(extra.specimen.src)}" title="${esc(extra.specimen.title || p.title)}" loading="lazy"></iframe>
               ${extra.specimen.caption ? `<figcaption>${extra.specimen.caption}</figcaption>` : ''}
             </figure>` : '';
-    const heading = asFeature ? `<h2 class="ptitle" id="f-${esc(p.slug)}">${esc(p.title)}</h2>` : `<h3 class="ptitle">${esc(p.title)}</h3>`;
+    // titleBreak: a word in projects.js the always-open title breaks after on
+    // desktop (.desk-br in portfolio.css)
+    const featTitle = p.titleBreak
+      ? esc(p.title).replace(`${esc(p.titleBreak)} `, `${esc(p.titleBreak)}<br class="desk-br"> `)
+      : esc(p.title);
+    const heading = asFeature ? `<h2 class="ptitle" id="f-${esc(p.slug)}">${featTitle}</h2>` : `<h3 class="ptitle">${esc(p.title)}</h3>`;
     return `
       <div class="panel${asFeature ? ' feature' : ''}" data-open="${asFeature}" data-for="${esc(p.slug)}">
         <div class="panel-in">

@@ -57,6 +57,7 @@ body { overflow-anchor: none; }
    in the page, not the overlay, with no Close button */
 .panel.feature { display: block; margin: 0; transition: none; }
 .panel.feature .ptitle { font-size: var(--fs-h2); padding-right: 0; }
+@media (max-width: 1099px) { .desk-br { display: none; } }   /* a title's line break only on desktop (titleBreak in projects.js) */
 /* no frame: the block sits on the page like the book above it */
 .panel.feature .panel-body {
   --pbody-pad: 0;
