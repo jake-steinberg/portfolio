@@ -893,6 +893,8 @@ body { overflow-anchor: none; }
   font-family: var(--topo); font-size: 12px; letter-spacing: .1em; fill: var(--label-ink);
 }
 .stackdiagram .sd-item { font-family: var(--text); font-size: 13px; fill: var(--ink); }
+/* desktop, where the diagram is drawn smallest: the box text a step heavier */
+@media (min-width: 1100px) { .stackdiagram .sd-item { font-weight: 600; } }
 .stackdiagram .sd-box { fill: var(--bg); stroke: var(--stroke); stroke-width: 1; }
 .stackdiagram .sd-arrow, .stackdiagram .sd-head-arrow {
   fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
