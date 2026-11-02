@@ -579,6 +579,23 @@ const PROJECTS = [
     ]
   },
   {
+    // PLACEHOLDER: the 2026 election results map, for the basemap Examples.
+    // Fill in the tile, description, link and pictures when it's ready.
+    title:       "2026 Election Results",
+    slug:        "2026-election-results",
+    year:        "2026",
+    panelCols:   3,
+    tile:        "",                              // none yet: the tile says "Picture to come"
+    video:       "",
+    link:        "",
+    linkType:    "story",
+    tags:        ["news", "interactive"],
+    inBook:      false,
+    description: "",                              // empty: the panel shows the placeholder line
+    images:      [],
+    awards:      []
+  },
+  {
     title:       "Election results",
     slug:        "2024-election-in-minnesota",
     year:        "2023–2026",
@@ -995,7 +1012,7 @@ const PROJECTS = [
    ----------------------------------------------------------------------------- */
 const SECTIONS = {
   book:     ["immigration", "st-paul-hills", "cathedral", "restless-river"],
-  examples: ["where-is-uptown", "fox-coyote", "fall-hikes"],
+  examples: ["where-is-uptown", "fox-coyote", "fall-hikes", "2026-election-results"],
   features: ["strib-basemaps", "22-a-map"],
   relief:   ["lindsey-vonns-mountains", "rincon-mountains", "cloud-peak-wilderness",
              "restless-river", "the-driftless-area"]

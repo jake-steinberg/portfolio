@@ -98,7 +98,10 @@
     // never a blank moment while it loads (iPhones hide a video's poster as
     // soon as it's told to play). The still loads lazily like any tile;
     // preload="none" means the video downloads nothing until it plays.
-    const media = p.video
+    // (no tile yet: tile: "" shows a placeholder box saying so)
+    const media = !p.tile
+      ? `<span class="gtodo">Picture to come</span>`
+      : p.video
       ? `<img class="still" src="${esc(p.tile)}" alt="" loading="lazy" decoding="async">
          <video muted loop playsinline preload="none" aria-label="${esc(p.title)}">
            <source src="${esc(p.video)}" type="video/mp4">
