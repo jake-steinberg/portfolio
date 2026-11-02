@@ -1008,12 +1008,9 @@ body { overflow-anchor: none; }
 .tlink:hover .ar { transform: translate(2px, -2px); }
 
 /* 22, A MAP: the loop beside the text (a .hero), framed like the tiles
-   (css/ink.css); then the live style (.specimen, above) */
+   (css/ink.css) */
 .hero.tt-hero { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
 @media (max-width: 900px) { .hero.tt-hero { grid-template-columns: 1fr; gap: 22px; } }
-/* the live style square, like an album cover (as on 22map.html), as big as
-   fits the window's height */
-#twentytwo .specimen iframe { width: min(100%, 78vh, 760px); height: auto; aspect-ratio: 1; margin-inline: auto; }   /* centred in the page */
 .tt-media {
   position: relative; margin: 0; aspect-ratio: 4 / 3;
   border: 1px solid var(--stroke); background: var(--plate); box-shadow: var(--shadow-lift);
