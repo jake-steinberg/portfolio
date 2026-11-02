@@ -53,6 +53,7 @@ const TAGS = [
                                                // "page"  — one of your own pages, e.g. "22map.html"
                                                // "file"  — a full-size image or PDF, opened in a new tab
                                                // "project" — "View the project": a client's site, in a new tab
+     linkLabel:   "",                          // optional: the button's words, in place of the linkType's
      tags:        ["print", "news"],           // any number of ids from TAGS above
      inBook:      false,                       // true: it's in the book (bigger pictures in its panel)
      onlyWhen:    null,                        // optional: ["3d", "outdoors"] keeps the tile out of
@@ -778,6 +779,7 @@ const PROJECTS = [
     video:       "",
     link:        "https://www.startribune.com/canoe-kayak-paddleboard-minnesota-twin-cities-metro-paddling-guide/601346521?utm_source=gift",
     linkType:    "story",
+    linkLabel:   "Go to the guide",
     tags:        ["print", "outdoors"],
     inBook:      false,
     description: "A guide to 13 of the best paddling routes in the Twin Cities. I scouted and " +

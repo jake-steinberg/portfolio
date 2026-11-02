@@ -151,7 +151,7 @@
     // project's own page opens in this one.
     // A project with link: "" gets no main button (e.g. one that lists several stories).
     const mainLink = !p.link ? ''
-      : `<a class="primary" href="${esc(p.link)}"${p.linkType === 'page' ? '' : ' target="_blank" rel="noopener"'}>${LINK_LABEL[p.linkType] || 'Open'}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a>`;
+      : `<a class="primary" href="${esc(p.link)}"${p.linkType === 'page' ? '' : ' target="_blank" rel="noopener"'}>${esc(p.linkLabel || LINK_LABEL[p.linkType] || 'Open')}&nbsp;<span class="ar" aria-hidden="true">&#8599;</span></a>`;
 
     // links: [{ label, url }] — a list of stories, for projects that span several.
     // When every story has an image: { label, url, image } (its sharing
