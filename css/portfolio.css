@@ -515,10 +515,8 @@ body { overflow-anchor: none; }
 .panel {
   width: min(100%, var(--pw, 1240px));
   margin-block: auto;                             /* centred top to bottom while it fits; from the top when taller */
-  transform: translateY(14px); transition: transform .25s cubic-bezier(.2,.7,.3,1);
 }
-.poverlay.on .panel { transform: none; }
-.panel.feature { width: auto; margin-block: 0; transform: none; transition: none; }   /* the always-open blocks stay in the page */
+.panel.feature { width: auto; margin-block: 0; }   /* the always-open blocks stay in the page */
 .panel > .panel-in { overflow: hidden; overflow: clip; min-height: 0; }
 /* (clip rather than hidden where browsers have it: it hides the same, but
    lets the Close button stick while you scroll on phones, below) */
@@ -955,7 +953,6 @@ body { overflow-anchor: none; }
 @media (prefers-reduced-motion: reduce) {
   .gframe, .chip, .cap .ttl, .panel, .pshots a, .btn, .pill, .intro a { transition: none; }
   .poverlay { transition: none; }
-  .panel { transform: none; }
   .gcard .cap, .gcard .tags { transition: none; }
   .gcard:hover .gframe { transform: none; box-shadow: var(--shadow-lift); }
   .btn:hover { transform: none; }
