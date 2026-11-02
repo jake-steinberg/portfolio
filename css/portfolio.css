@@ -1033,10 +1033,10 @@ body { overflow-anchor: none; }
 
 /* the intro beside Rincon (a .hero, like the book's and the Mesabi
    Trail's), framed like the book cover (css/ink.css) */
-.hero.relief-hero { grid-template-columns: minmax(0, 1fr) var(--feature-w); }   /* Rincon the book cover's width; the text takes the rest */
+.hero.relief-hero { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
 @media (max-width: 900px) { .hero.relief-hero { grid-template-columns: 1fr; gap: 22px; } }
 .relief-map { margin: 0; }
-.relief-map a { display: block; }
+.relief-map a, .relief-map picture { display: block; }
 .relief-map img { display: block; width: 100%; height: auto; }
 
 /* Lindsey Vonn's six */

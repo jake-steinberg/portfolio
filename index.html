@@ -348,13 +348,19 @@
           <p>I use Blender to build 3D worlds that depict stunning landscapes.</p>
           <p>Opposite: morning light hits the east side of Saguaro National Park’s Rincon Mountains.</p>
         </div>
-        <!-- the tile's closer crop; it links to the whole rendering, 2400px
-             (the original img/rincon.png is 8.5 MB) -->
+        <!-- the whole rendering beside the text; on narrower screens, where
+             it stacks, the tile's closer crop. It links to the whole rendering,
+             2400px (the original img/rincon.png is 8.5 MB) -->
         <figure class="relief-map">
           <a href="img/cartography/rincon-2400.webp" target="_blank" rel="noopener">
-            <img src="img/tiles/rincon-mountains.webp" width="983" height="786"
-                 alt="Golden hour terrain rendering of the Rincon Mountains in Saguaro National Park, close in on the trail from the trailhead past Happy Valley Camp to Manning Camp"
-                 loading="lazy" decoding="async">
+            <picture>
+              <source media="(max-width: 900px)" srcset="img/tiles/rincon-mountains.webp" width="983" height="786">
+              <img src="img/cartography/rincon-1600.webp"
+                   srcset="img/cartography/rincon-1600.webp 1600w, img/cartography/rincon-2000.webp 2000w"
+                   sizes="(min-width: 1248px) 720px, 58vw" width="2000" height="1192"
+                   alt="Golden hour terrain rendering of the Rincon Mountains in Saguaro National Park"
+                   loading="lazy" decoding="async">
+            </picture>
           </a>
         </figure>
       </div>
