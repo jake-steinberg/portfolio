@@ -997,6 +997,9 @@ body { overflow-anchor: none; }
    symbols and the profile sit whole in the box, the map details fill it */
 .stylenotes.mesabi-notes .card-media { aspect-ratio: 8 / 5; }   /* close to the symbols' and profile's own shape */
 .stylenotes.mesabi-notes .card-media.fit img { object-fit: contain; }
+/* the symbols: at least as much white space at their sides as above and
+   below (14% of the panel's width each side; the height follows) */
+.stylenotes.mesabi-notes .card-media.fit { padding: 0 14%; }
 
 .relief .sec-head { padding-top: 0; margin-bottom: clamp(20px, 2.6vw, 32px); }
 .relief .work-title {
