@@ -355,6 +355,63 @@ body { overflow-anchor: none; }
 /* the small grids (Look inside, Examples): no tags under the titles */
 :is(#grid-book, #grid-examples) .tags { display: none; }
 
+/* LINK CARDS — the small grids' tiles (Look inside, Examples) as one
+   object: picture and title inside one hand-drawn ink frame, on the pale
+   plate. The picture keeps its own drawn frame, whose bottom line now
+   divides it from the title; the card's top and side strokes fall exactly
+   on the picture's (same strokes, same starting points), so they read as
+   one line. The whole card takes the tiles' usual hover: a slight tilt and
+   a raised shadow. A "Details +" cue under the title (always shown, so it
+   reads on touch screens too) says the tile opens. */
+:is(#grid-book, #grid-examples) .gcard {
+  position: relative; background: var(--plate);
+  display: flex; flex-direction: column; height: 100%;   /* a row's cards all as tall as the tallest */
+  box-shadow: var(--shadow);
+  transition: transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s;
+}
+:is(#grid-book, #grid-examples) .gcard::after {
+  /* inset 1px: the picture's strokes sit inside its 1px (clear) border, so
+     the card's do too, and the two land on the same pixels */
+  content: ""; position: absolute; inset: 1px; z-index: 3; pointer-events: none;
+  background-image: var(--frame-strokes);
+  background-repeat: var(--frame-repeat);
+  background-size: var(--frame-size);
+  background-position: var(--frame-position);
+}
+:is(#grid-book, #grid-examples) .gframe { box-shadow: none; }
+:is(#grid-book, #grid-examples) .chip { display: none; }
+:is(#grid-book, #grid-examples) .cap {
+  margin: 0; padding: 12px 14px 14px; flex: 1;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto 1fr;
+  align-items: end; gap: 8px;                    /* the style and "Details" along the bottom */
+}
+:is(#grid-book, #grid-examples) .cap .ttl { grid-column: 1 / -1; align-self: start; }
+:is(#grid-book, #grid-examples) .cap .tstyle { margin: 0; }
+.cap .cta { display: none; }
+:is(#grid-book, #grid-examples) .cap .cta {
+  display: inline-flex; align-items: center; gap: 6px; grid-column: 2;
+  font-family: var(--topo); font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track);
+  text-transform: uppercase; color: var(--accent-ink);
+}
+.cta .plus {
+  display: inline-grid; place-items: center; width: 20px; height: 20px;
+  border: 1px solid currentColor;
+  font-family: var(--display); font-weight: 300; font-size: var(--fs-xl); line-height: 1;
+  transition: transform .2s, background-color .2s, color .2s, border-color .2s;
+}
+@media (hover: hover) {
+  :is(#grid-book, #grid-examples) .gcard:hover { transform: rotate(1deg) translateY(-3px); box-shadow: var(--shadow-lift); }
+  :is(#grid-book, #grid-examples) .gcard:hover .gframe { transform: none; filter: none; box-shadow: none; }
+  :is(#grid-book, #grid-examples) .gcard:hover .plus { background: var(--accent); border-color: var(--accent); color: #fff; }
+}
+/* open: the + filled in coral, turned to an × */
+:is(#grid-book, #grid-examples) .gcard[aria-expanded="true"] .gframe { box-shadow: none; }
+:is(#grid-book, #grid-examples) .gcard[aria-expanded="true"] .plus { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(45deg); }
+@media (prefers-reduced-motion: reduce) {
+  :is(#grid-book, #grid-examples) :is(.gcard, .plus) { transition: none; }
+  :is(#grid-book, #grid-examples) .gcard:hover { transform: none; }
+}
+
 /* in the top right corner, a little smaller */
 .pshots .marker {
   font-size: calc(var(--fs-xs) + var(--label-plus));
@@ -754,15 +811,24 @@ body { overflow-anchor: none; }
    the Dakota letters, the contours and the stack diagram. (.stylenotes in front, to
    win over the general card rules further down) */
 .minihead.underhood { margin-top: clamp(32px, 4vw, 56px); }   /* their label, "Under the hood": close under the map and its text */
-/* each note in a box: a thin grey frame on the pale plate, holding the
-   picture and its caption (after cartography.html's .card-plain). The
-   pictures themselves have no frame; the contours are a transparent image,
-   so the plate shows between the lines */
-.stylenotes .card {
-  border: 1px solid var(--rule); background: var(--plate);
-  padding: clamp(20px, 2.4vw, 32px);
+/* each note is a plain figure: no box, so nothing about it looks clickable
+   (the tiles that do open are framed cards: "LINK CARDS" below). Every
+   picture in a row gets the same height (each sits in a box of one shape;
+   a picture that doesn't fill it gets white space), and a thin rule sits
+   over its caption. Also the Mesabi Trail's notes (.mesabi-notes) */
+.stylenotes .card { border: 0; background: none; padding: 0; }
+.stylenotes .card p {
+  margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--rule);
+  font-size: var(--fs-sm); color: var(--muted);
 }
 .stylenotes .card-media { border: 0; background: none; aspect-ratio: 400 / 206; }   /* the stack diagram's shape, so all three match */
+/* wide screens: the Mesabi Trail's four pictures as tall as the basemaps'
+   three (a third of the row, less its gaps, at the stack diagram's shape);
+   the symbols get white space beside them, the others fill */
+@media (min-width: 1100px) {
+  .stylenotes { container-type: inline-size; }
+  .stylenotes .card-media { width: 100%; height: calc((100cqi - 2 * 34px) / 3 * 206 / 400); }
+}
 .stylenotes .card-glyphs { display: grid; place-items: center; padding: 6%; }
 /* the letters in Open Sans, as the map draws them: a 5 KB file holding just
    these characters (cut from lib/OpenSans-VariableFont_wdth,wght.ttf at
@@ -912,7 +978,6 @@ body { overflow-anchor: none; }
 @media (max-width: 900px) { .hero.mesabi-hero { grid-template-columns: 1fr; gap: 22px; } }
 /* its Under the hood cards: the basemaps' boxed notes, four across; the
    symbols and the profile sit whole in the box, the map details fill it */
-.stylenotes.mesabi-notes .card { padding: clamp(12px, 1.1vw, 16px); }   /* four across: a slimmer margin, so the pictures fill more of the box */
 .stylenotes.mesabi-notes .card-media { aspect-ratio: 8 / 5; }   /* close to the symbols' and profile's own shape */
 .stylenotes.mesabi-notes .card-media.fit img { object-fit: contain; }
 

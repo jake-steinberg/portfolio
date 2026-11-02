@@ -114,7 +114,7 @@
           ${media}
           <span class="chip" aria-hidden="true">+</span>
         </span>
-        <span class="cap"><span class="ttl">${esc(p.title)}</span>${p.basemapStyle ? `<span class="tstyle">${esc(p.basemapStyle)}</span>` : ''}</span>
+        <span class="cap"><span class="ttl">${esc(p.title)}</span>${p.basemapStyle ? `<span class="tstyle">${esc(p.basemapStyle)}</span>` : ''}<span class="cta" aria-hidden="true">Details <span class="plus">+</span></span></span>
         <span class="tags">${p.tags.map((id) => `<span class="tag">${esc(tagLabel(id))}</span>`).join('')}</span>
       </button>`;
   }
