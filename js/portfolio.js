@@ -619,6 +619,9 @@
 
     function pullPanel(panel, tile) {
       unhush();
+      // measure the tiles where they sit, not tilted and lifted by the hover
+      // the click came from (.measuring in portfolio.css)
+      gridEl.classList.add('measuring');
       const { band, bottom } = bandOf(tile);
       const body = panel.querySelector('.panel-body').getBoundingClientRect();
       const above = band.filter((t) => {                                     // the tiles over the panel
@@ -636,6 +639,7 @@
       above.forEach((t) => {
         if (t === tile || t.querySelector('.tags').getBoundingClientRect().bottom > panelTop) t.classList.add('hush');
       });
+      gridEl.classList.remove('measuring');
     }
 
     // The last tile in the band of rows the tile with this slug is in

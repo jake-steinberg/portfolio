@@ -375,6 +375,8 @@ body { overflow-anchor: none; }
 /* the pale plate, on a layer behind everything, clipped to the strokes'
    outer edge (like the pictures, css/ink.css), so none of it shows outside
    the drawn line where it thins or wanders in */
+/* while js/portfolio.js measures where to put an open panel: no hover tilt */
+.grid.measuring :is(.gcard, .gframe) { transform: none !important; transition: none !important; }
 :is(#grid-book, #grid-examples) .gcard::before {
   content: ""; position: absolute; inset: 1px; z-index: -1;
   background: var(--plate);
@@ -415,11 +417,22 @@ body { overflow-anchor: none; }
   font-family: var(--display); font-weight: 300; font-size: var(--fs-xl); line-height: 1;
   transition: transform .2s, background-color .2s, color .2s, border-color .2s;
 }
+/* a narrow card: "Details" on its own line under the style, at the right,
+   rather than crowding into a long style name (STRIB-OUTDOORS) */
+:is(#grid-book, #grid-examples) .gcard { container-type: inline-size; }
+@container (max-width: 250px) {
+  :is(#grid-book, #grid-examples) .cap { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr auto; }
+  :is(#grid-book, #grid-examples) .cap .tstyle { grid-column: 1; grid-row: 2; }
+  :is(#grid-book, #grid-examples) .cap .cta { grid-column: 1; grid-row: 3; justify-self: end; }
+}
 @media (hover: hover) {
   :is(#grid-book, #grid-examples) .gcard:hover { transform: rotate(1deg) translateY(-3px); filter: var(--ink-shadow-lift); }
   :is(#grid-book, #grid-examples) .gcard:hover .gframe { transform: none; filter: none; box-shadow: none; }
   :is(#grid-book, #grid-examples) .gcard:hover .plus { background: var(--accent); border-color: var(--accent); color: #fff; }
 }
+/* a card whose panel is open, or that the panel reaches up over, stays put
+   on hover: tilted, it would stand off the panel's top edge */
+:is(#grid-book, #grid-examples) .gcard:is([aria-expanded="true"], .hush) { transform: none; filter: none; }
 /* open: the + filled in coral, turned to an × */
 :is(#grid-book, #grid-examples) .gcard[aria-expanded="true"] .gframe { box-shadow: none; }
 :is(#grid-book, #grid-examples) .gcard[aria-expanded="true"] .plus { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(45deg); }
