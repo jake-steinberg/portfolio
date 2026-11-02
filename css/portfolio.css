@@ -900,10 +900,20 @@ body { overflow-anchor: none; }
 .mesabi-maps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 34px); }
 .mesabi-maps img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); }
 @media (max-width: 720px) { .mesabi-maps { grid-template-columns: minmax(0, 1fr); } }
-/* its Under the hood cards: the basemaps' boxed notes, four across; the
-   symbols and the profile sit whole in the box, the map details fill it */
-.stylenotes.mesabi-notes .card-media { aspect-ratio: 3 / 2; }
-.stylenotes.mesabi-notes .card-media.fit img { object-fit: contain; }
+/* its Under the hood notes: one pale panel, the four notes ruled apart by
+   thin ink lines (two by two, then stacked, on narrower screens). The
+   symbols and the profile sit whole; the map details fill their frame */
+.cards3.mesabi-notes { background: var(--plate); padding: clamp(28px, 3.4vw, 48px) 0; gap: 32px 0; }
+.mesabi-notes .card { padding-inline: clamp(20px, 2.4vw, 36px); }
+.mesabi-notes .card + .card { border-left: 1px solid var(--ink); }
+.mesabi-notes .card-media { border: 0; background: none; aspect-ratio: 3 / 2; }
+.mesabi-notes .card-media.fit img { object-fit: contain; }
+.mesabi-notes .card p { padding-inline: 6%; }
+@media (max-width: 1099px) { .mesabi-notes .card:nth-child(odd) { border-left: 0; } }
+@media (max-width: 720px) {
+  .cards3.four.mesabi-notes { gap: 0; }
+  .mesabi-notes .card + .card { border-left: 0; border-top: 1px solid var(--ink); padding-top: 28px; margin-top: 28px; }
+}
 
 .relief .sec-head { padding-top: 0; margin-bottom: clamp(20px, 2.6vw, 32px); }
 .relief .work-title {
