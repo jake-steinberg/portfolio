@@ -341,13 +341,20 @@
       </div>`;
   }
 
-  // The veil that dims the rest of the page while a panel is open
-  // (see .dimmer in portfolio.css)
-  const dimmer = document.createElement('div');
-  dimmer.className = 'dimmer';
-  dimmer.setAttribute('aria-hidden', 'true');
-  document.body.appendChild(dimmer);
-  const dim = (on) => dimmer.classList.toggle('on', on);
+  // The overlay an open panel shows in: centred on the screen over the dimmed
+  // page, scrolling on its own if the panel is taller than the screen (see
+  // PANEL OVERLAY in portfolio.css). While it's open the page behind is inert,
+  // so keyboard focus stays in the panel; the phone picture viewer, built on
+  // first use, opens above it.
+  const overlay = document.createElement('div');
+  overlay.className = 'poverlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.hidden = true;
+  document.body.appendChild(overlay);
+  const setPageInert = (on) => [...document.body.children]
+    .filter((el) => el !== overlay && !el.classList.contains('viewer'))
+    .forEach((el) => { el.inert = on; });
 
   // Give each picture in a mosaic its shape (width ÷ height) as --ar, so the
   // CSS can size them to matching heights. With top = true and 3 or more
@@ -498,37 +505,8 @@
     box.style.width = Math.floor(height * ar) + 'px';
   }
 
-  // The viewport follows the panels: scroll smoothly so the stretch from
-  // top to bottom (page positions) is on screen, below the sticky header.
-  // If it's too tall to fit, the bottom part wins: scroll down until its
-  // bottom is on screen, but never past keepTop (for a panel: its own top,
-  // so the tile scrolls away before the panel's title does). Nothing moves
-  // if it's already in view.
-  const FOLLOW_MARGIN = 16;                            // breathing room above and below, in px
-  const pageTop = (el) => el.getBoundingClientRect().top + window.scrollY;
-  const pageBottom = (el) => el.getBoundingClientRect().bottom + window.scrollY;
-
-  function reveal(top, bottom, keepTop = top) {
-    const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headH')) || 0;
-    const viewTop = window.scrollY + head + FOLLOW_MARGIN;
-    const viewBottom = window.scrollY + window.innerHeight - FOLLOW_MARGIN;
-    const toBottom = bottom - window.innerHeight + FOLLOW_MARGIN;   // bottom just on screen
-    const toTop = (y) => y - head - FOLLOW_MARGIN;                   // y just under the header
-    let target = null;
-    if (bottom - top > viewBottom - viewTop) target = Math.min(toBottom, toTop(keepTop));
-    else if (top < viewTop) target = toTop(top);
-    else if (bottom > viewBottom) target = toBottom;
-    if (target === null) return;
-    window.scrollTo({ top: Math.max(0, target), behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
-  }
-
-  // after a panel closes: bring its tile back into view if it's scrolled away
-  function followTile(tile) {
-    if (tile) reveal(pageTop(tile), pageBottom(tile));
-  }
-
   /* ---------------------------------------------------------------------------
-     3b. A grid of tiles with unfolding panels
+     3b. A grid of tiles whose panels open in the overlay
      makeGrid(element, list, onRender) runs one grid: the "Look inside" tiles
      under the book, the examples under the basemap styles, and "Other work".
      list() returns the projects to show; onRender runs after each render.
@@ -536,232 +514,82 @@
      ------------------------------------------------------------------------- */
   const grids = [];
 
+  // How wide the overlay's panel is, from panelCols in projects.js: that many
+  // of the page's tile columns. With panelCols the panel stacks its text over
+  // its pictures ([data-cols] in portfolio.css); without, it's full width and
+  // puts them side by side.
+  const PANEL_WIDTH = { 1: 520, 2: 640, 3: 900 };
+
   function makeGrid(gridEl, list, onRender) {
     let openSlug = null;          // slug of the project whose panel is open, if any
 
     function render() {
       const visible = list();
-      if (openSlug) dim(false);                          // re-rendering closes any open panel
-      openSlug = null;
-      gridEl.querySelectorAll('.panel').forEach((panel) => Basemaps.stop(panel));
+      closePanel();                                      // re-rendering closes any open panel
       gridEl.innerHTML = visible.map(tileHTML).join('');
       watchVideos();
       if (onRender) onRender(visible);
     }
 
-    // How many columns the grid has right now (changes with screen width)
-    function columnCount() {
-      const cols = getComputedStyle(gridEl).gridTemplateColumns;
-      return cols && cols !== 'none' ? cols.split(' ').filter(Boolean).length : 1;
-    }
-
-    // A project with panelCols: 1 or 2 gets a detail view that many columns
-    // wide on a desktop grid (3 columns or more): under the open tile alone, or
-    // under it and one neighbor.
-    // It still spans the whole grid row, so the rows below simply move down;
-    // it's just the visible panel (.panel-body) that's narrowed and shifted.
-    function sizePanel(panel, slug) {
-      const body = panel.querySelector('.panel-body');
-      body.style.width = ''; body.style.marginLeft = ''; delete panel.dataset.cols;
-      const project = PROJECTS.find((p) => p.slug === slug);
-      const cols = columnCount();
-      const span = project && project.panelCols;
-      if (!span || cols < 3 || span >= cols) return;
-      const grid = getComputedStyle(gridEl);
-      const tracks = grid.gridTemplateColumns.split(' ').map(parseFloat);    // each column's width
-      const gap = parseFloat(grid.columnGap);
-      const start = Math.min(columnOf(gridEl.querySelector(`.gcard[data-slug="${slug}"]`), tracks, gap),
-                             cols - span);                                  // keep it on the grid
-      const left = tracks.slice(0, start).reduce((sum, w) => sum + w + gap, 0);
-      const width = tracks.slice(start, start + span).reduce((sum, w) => sum + w, 0) + gap * (span - 1);
-      body.style.marginLeft = left + 'px';
-      body.style.width = width + 'px';
-      panel.dataset.cols = span;                         // see [data-cols] in portfolio.css
-    }
-
-    // Which grid column a tile starts in (0 = the first), from where it sits
-    function columnOf(tile, tracks, gap) {
-      const x = tile.getBoundingClientRect().left - gridEl.getBoundingClientRect().left;
-      let edge = 0;
-      for (let i = 0; i < tracks.length; i++) {
-        if (x < edge + tracks[i] / 2) return i;
-        edge += tracks[i] + gap;
-      }
-      return tracks.length - 1;
-    }
-
-    // The band of rows a tile sits in: its own row, plus any row a large tile
-    // beside it also spans (a large tile is two rows tall). The panel goes
-    // under the whole band, so nothing beside a large tile is split off.
-    function bandOf(tile) {
-      const tiles = [...gridEl.querySelectorAll('.gcard')];
-      const rect = (t) => t.getBoundingClientRect();
-      let { top, bottom } = rect(tile);
-      let band = [], grew = true;
-      while (grew) {
-        grew = false;
-        band = tiles.filter((t) => rect(t).top < bottom - 1 && rect(t).bottom > top + 1);   // overlaps the band
-        band.forEach((t) => {
-          const r = rect(t);
-          if (r.top < top - 1) { top = r.top; grew = true; }
-          if (r.bottom > bottom + 1) { bottom = r.bottom; grew = true; }
-        });
-      }
-      return { band, bottom };
-    }
-
-    // How far to pull the panel up: from the bottom of the lowest picture above
-    // it to the bottom of its band (the titles and tags it hides, and any
-    // taller captions beside them). Sets --pull, used in portfolio.css. The
-    // clicked tile, and any tile whose title the panel reaches up over, get
-    // .hush, which fades their title and tags out rather than half-covering them.
-    const unhush = () => gridEl.querySelectorAll('.gcard.hush').forEach((t) => t.classList.remove('hush'));
-
-    function pullPanel(panel, tile) {
-      unhush();
-      // measure the tiles where they sit, not tilted and lifted by the hover
-      // the click came from (.measuring in portfolio.css)
-      gridEl.classList.add('measuring');
-      const { band, bottom } = bandOf(tile);
-      const body = panel.querySelector('.panel-body').getBoundingClientRect();
-      const above = band.filter((t) => {                                     // the tiles over the panel
-        const r = t.getBoundingClientRect();
-        return r.right > body.left + 1 && r.left < body.right - 1;
-      });
-      const frameBottom = Math.max(...above.map((t) => t.querySelector('.gframe').getBoundingClientRect().bottom));
-      panel.style.setProperty('--pull', Math.max(0, Math.round(bottom - frameBottom)) + 'px');
-      // the panel's top edge sits on the bottom of the pictures above it: its
-      // drawn top line falls on their drawn bottom line, so the two read as
-      // one (each is a 3px stroke just inside a clear 1px border: css/ink.css)
-      const gap = -5;
-      panel.style.setProperty('--panel-gap', gap + 'px');
-      const panelTop = frameBottom + gap;
-      above.forEach((t) => {
-        if (t === tile || t.querySelector('.tags').getBoundingClientRect().bottom > panelTop) t.classList.add('hush');
-      });
-      gridEl.classList.remove('measuring');
-    }
-
-    // The last tile in the band of rows the tile with this slug is in
-    function rowEnd(slug) {
-      const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
-      if (!tile) return null;
-      const { band } = bandOf(tile);
-      return band[band.length - 1];
-    }
-
-    // The open panel. A panel that's still animating closed can sit in the
-    // grid for a moment alongside the new one, so skip any marked .closing.
-    const currentPanel = () => gridEl.querySelector('.panel:not(.closing)');
-
     function closePanel() {
       if (!openSlug) return;
-      const panel = currentPanel();
+      const panel = overlay.querySelector('.panel');
       const tile = gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`);
       if (tile) tile.setAttribute('aria-expanded', 'false');
       openSlug = null;
-      dim(false);
-      unhush();
+      setPageInert(false);
+      document.documentElement.classList.remove('has-overlay');
+      overlay.classList.remove('on');                    // fades out
       if (!panel) return;
-      panel.classList.add('closing');                    // so currentPanel() skips it from now on
-      panel.dataset.open = 'false';                      // starts the closing animation
-      const remove = () => { Basemaps.stop(panel); panel.remove(); };
-      if (prefersReducedMotion()) remove();
-      else { panel.addEventListener('transitionend', remove, { once: true }); setTimeout(remove, 430); }
-    }
-
-    // A panel scrolled right out of view closes itself. It's only watched
-    // once it has been on screen (it may start off screen while the page
-    // scrolls to it). Closing one that's above the screen takes it out at once
-    // and scrolls by the same amount, so what's in front of the reader doesn't
-    // jump; one below the screen just folds away out of sight.
-    let panelWatch = null;
-
-    function watchPanel(panel) {
-      if (panelWatch) panelWatch.disconnect();
-      if (!('IntersectionObserver' in window)) return;
-      const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headH')) || 0;
-      let seen = false;
-      panelWatch = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) { seen = true; return; }
-        if (!seen || panel !== currentPanel()) return;
-        panelWatch.disconnect();
-        if (panel.getBoundingClientRect().bottom > head) { closePanel(); return; }   // below the screen
-        const next = panel.nextElementSibling;             // the first tile after it
-        const before = next ? next.getBoundingClientRect().top : 0;
-        closePanel();
+      Basemaps.stop(panel);
+      const remove = () => {
+        if (!panel.isConnected) return;                  // another panel replaced it already
         panel.remove();
-        const after = next ? next.getBoundingClientRect().top : 0;
-        window.scrollBy({ top: after - before, behavior: 'instant' });
-      }, { rootMargin: `-${Math.round(head)}px 0px 0px 0px` });   // under the sticky header counts as out of view
-      panelWatch.observe(panel);
+        overlay.hidden = true;
+      };
+      if (prefersReducedMotion()) remove(); else setTimeout(remove, 250);
     }
 
     function openPanel(slug) {
       const wasOpen = openSlug;
       grids.forEach((g) => g.closePanel());              // one panel open on the page at a time
-      if (wasOpen === slug) {                            // clicking the open tile again just closes it
-        followTile(gridEl.querySelector(`.gcard[data-slug="${slug}"]`));
-        return;
-      }
+      if (wasOpen === slug) return;                      // clicking the open tile again just closes it
 
       const project = PROJECTS.find((p) => p.slug === slug);
-      const end = rowEnd(slug);
-      if (!project || !end) return;
-
-      end.insertAdjacentHTML('afterend', panelHTML(project));
-      openSlug = slug;
-      const panel = end.nextElementSibling;              // the panel just added
       const tile = gridEl.querySelector(`.gcard[data-slug="${slug}"]`);
+      if (!project || !tile) return;
+
+      overlay.innerHTML = panelHTML(project);
+      const panel = overlay.querySelector('.panel');
+      const width = PANEL_WIDTH[project.panelCols];
+      if (width) panel.dataset.cols = project.panelCols;
+      panel.style.setProperty('--pw', (width || 1240) + 'px');
+      overlay.setAttribute('aria-label', project.title);
+      openSlug = slug;
       tile.setAttribute('aria-expanded', 'true');
-      sizePanel(panel, slug);
-      pullPanel(panel, tile);
+      overlay.hidden = false;
+      overlay.scrollTop = 0;
+      setPageInert(true);
+      document.documentElement.classList.add('has-overlay');   // the page behind doesn't scroll
+
       watchVideos();                                     // so any loops in the panel play too
-      watchPanel(panel);
       if (project.basemaps) Basemaps.start(panel, project);
       panel.querySelectorAll('.pmedia img, .pmedia video').forEach((m) =>
         m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => layoutMedia(panel), { once: true }));
       layoutMedia(panel);
 
-      // Follow it: bring the tile and the whole panel into view. The panel's
-      // contents are already full height inside its unfolding frame, so its
-      // final size is known now. If a panel above is still folding shut, the
-      // page is still moving, so wait for it to finish first. Pictures still
-      // loading can make the panel taller, so once they've all arrived (within
-      // a couple of seconds), follow once more.
-      const openedAt = Date.now();
-      const follow = () => { if (openSlug === slug) {
-        const body = panel.querySelector('.panel-body');
-        reveal(pageTop(tile), pageBottom(body), pageTop(body));
-      } };
-      const closingAbove = [...document.querySelectorAll('.grid > .panel.closing')]
-        .some((old) => old.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING);
-      if (closingAbove && !prefersReducedMotion()) setTimeout(follow, 360); else follow();
-      // …and again once it has finished unfolding: near the bottom of the page
-      // there isn't room to scroll far enough until the panel has grown
-      if (!prefersReducedMotion()) setTimeout(follow, 380);
-      const loading = [...panel.querySelectorAll('.pmedia img, .pmedia video')]
-        .filter((m) => (m.tagName === 'VIDEO' ? m.readyState < 1 : !m.complete));
-      let left = loading.length;
-      loading.forEach((m) => m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => {
-        if (--left === 0 && Date.now() - openedAt < 2000) follow();
-      }, { once: true }));
-
-      // next frame: flip data-open so the CSS transition runs, and dim the rest
-      requestAnimationFrame(() => { panel.dataset.open = 'true'; dim(true); });
+      // next frame: fade the overlay in, and put focus on the Close button
+      requestAnimationFrame(() => {
+        panel.dataset.open = 'true';
+        overlay.classList.add('on');
+        const close = panel.querySelector('[data-close]');
+        if (close) close.focus({ preventScroll: true });
+      });
     }
 
-
-
-    // If the window is resized, move the open panel to its row's new end and re-fit it
+    // If the window is resized, re-fit the open panel's pictures
     function onResize() {
-      if (!openSlug) return;
-      const panel = currentPanel();
-      const end = rowEnd(openSlug);
-      if (panel && end && end.nextElementSibling !== panel) end.after(panel);
-      if (panel) sizePanel(panel, openSlug);
-      if (panel) pullPanel(panel, gridEl.querySelector(`.gcard[data-slug="${openSlug}"]`));
-      layoutMedia(panel);
+      if (openSlug) layoutMedia(overlay.querySelector('.panel'));
     }
 
     const grid = { el: gridEl, render, openPanel, closePanel, onResize,
@@ -873,9 +701,9 @@
      Clicks and keys (one listener each, for tiles and panels)
      ------------------------------------------------------------------------- */
   document.addEventListener('click', (e) => {
-    const closeBtn = e.target.closest('[data-close]');
-    if (closeBtn) {
-      const grid = grids.find((g) => g.el.contains(closeBtn));
+    // the Close button, or a click on the dimmed page around the panel
+    if (e.target.closest('[data-close]') || e.target === overlay) {
+      const grid = grids.find((g) => g.openSlug);
       if (grid) closeAndReturn(grid);
       return;
     }
@@ -888,7 +716,7 @@
   function closeAndReturn(grid) {
     const tile = grid.el.querySelector(`.gcard[data-slug="${grid.openSlug}"]`);
     grid.closePanel();
-    if (tile) { tile.focus({ preventScroll: true }); followTile(tile); }
+    if (tile) tile.focus({ preventScroll: true });
   }
 
   document.addEventListener('keydown', (e) => {

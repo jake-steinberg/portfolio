@@ -54,9 +54,8 @@ body { overflow-anchor: none; }
   color: var(--label-ink);
 }
 /* the always-open project blocks (js/portfolio.js, renderFeatures): a panel
-   that never folds, with no veil and no Close button */
+   in the page, not the overlay, with no Close button */
 .panel.feature { display: block; margin: 0; transition: none; }
-.panel.feature:not(.closing) { position: static; z-index: auto; }
 .panel.feature .ptitle { font-size: var(--fs-h2); padding-right: 0; }
 /* no frame: the block sits on the page like the book above it */
 .panel.feature .panel-body {
@@ -375,8 +374,6 @@ body { overflow-anchor: none; }
 /* the pale plate, on a layer behind everything, clipped to the strokes'
    outer edge (like the pictures, css/ink.css), so none of it shows outside
    the drawn line where it thins or wanders in */
-/* while js/portfolio.js measures where to put an open panel: no hover tilt */
-.grid.measuring :is(.gcard, .gframe) { transform: none !important; transition: none !important; }
 :is(#grid-book, #grid-examples) .gcard::before {
   content: ""; position: absolute; inset: 1px; z-index: -1;
   background: var(--plate);
@@ -430,9 +427,6 @@ body { overflow-anchor: none; }
   :is(#grid-book, #grid-examples) .gcard:hover .gframe { transform: none; filter: none; box-shadow: none; }
   :is(#grid-book, #grid-examples) .gcard:hover .plus { background: var(--accent); border-color: var(--accent); color: #fff; }
 }
-/* a card whose panel is open, or that the panel reaches up over, stays put
-   on hover: tilted, it would stand off the panel's top edge */
-:is(#grid-book, #grid-examples) .gcard:is([aria-expanded="true"], .hush) { transform: none; filter: none; }
 /* open: the + filled in coral, turned to an × */
 :is(#grid-book, #grid-examples) .gcard[aria-expanded="true"] .gframe { box-shadow: none; }
 :is(#grid-book, #grid-examples) .gcard[aria-expanded="true"] .plus { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(45deg); }
@@ -500,30 +494,33 @@ body { overflow-anchor: none; }
 
 
 /* -----------------------------------------------------------------------------
-   5. UNFOLDING PANEL
-   js/portfolio.js inserts the panel after the LAST tile in the clicked tile's
-   row, so the grid never gets a gap in the middle of a row. It animates open
-   by growing its grid row from 0fr to 1fr.
+   5. PANEL OVERLAY
+   A tile's panel opens in an overlay (js/portfolio.js): centred on the screen
+   over the dimmed page, above the sticky header (z-index 50) and below the
+   phone picture viewer (100). A panel taller than the screen scrolls inside
+   the overlay; the page behind stays put. Its width is --pw, set from
+   panelCols in projects.js. A click on the dimmed page around it closes it.
+   --dim sets how dark the page gets.
    ----------------------------------------------------------------------------- */
-.panel {
-  /* How far the panel sits below the open tile's picture: level with the top
-     of the tile's title (js/portfolio.js measures it). The open tile's title
-     and tags fade out (the panel repeats them), and the panel is pulled up
-     into their space and the row gap, which js measures as --pull. */
-  --panel-gap: 12px;
-  grid-column: 1 / -1;           /* spans the whole grid width */
-  display: grid; grid-template-rows: 0fr;
-  /* its top edge is set in its final place from the start, so only its
-     height animates: it unfolds downward, and folds back up from the bottom */
-  margin-top: calc(var(--panel-gap) - var(--row-gap) - var(--pull, 0px));
-  transition: grid-template-rows .32s cubic-bezier(.2,.7,.3,1);
+.poverlay {
+  --dim: rgba(20, 17, 14, .45);
+  position: fixed; inset: 0; z-index: 60;
+  display: grid; justify-items: center;
+  overflow-y: auto; overscroll-behavior: contain;
+  padding: clamp(16px, 5vh, 56px) clamp(16px, 3vw, 40px);
+  background: var(--dim);
+  opacity: 0; transition: opacity .25s ease;
 }
-.panel[data-open="true"] { grid-template-rows: 1fr; }
-/* while a panel is open, the title and tags fade out on the open tile and
-   on any tile in its row the panel reaches up over (js adds .hush) */
-.gcard .cap, .gcard .tags { transition: opacity .2s; }
-.gcard.hush .cap,
-.gcard.hush .tags { opacity: 0; }
+.poverlay[hidden] { display: none; }
+.poverlay.on { opacity: 1; }
+html.has-overlay { overflow: hidden; }            /* the page behind doesn't scroll */
+.panel {
+  width: min(100%, var(--pw, 1240px));
+  margin-block: auto;                             /* centred top to bottom while it fits; from the top when taller */
+  transform: translateY(14px); transition: transform .25s cubic-bezier(.2,.7,.3,1);
+}
+.poverlay.on .panel { transform: none; }
+.panel.feature { width: auto; margin-block: 0; transform: none; transition: none; }   /* the always-open blocks stay in the page */
 .panel > .panel-in { overflow: hidden; overflow: clip; min-height: 0; }
 /* (clip rather than hidden where browsers have it: it hides the same, but
    lets the Close button stick while you scroll on phones, below) */
@@ -551,7 +548,7 @@ body { overflow-anchor: none; }
 @media (max-width: 720px) {
   .panel .panel-body > .close {                  /* (more specific than the general .close rule further down) */
     order: -1;
-    position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--headH) + 10px);
+    position: sticky; top: calc(env(safe-area-inset-top, 0px) + 10px);   /* the overlay covers the header */
     justify-self: end; align-self: start;
     /* in the top right corner, where it always sat, taking no room */
     height: 30px; margin: calc(12px - var(--pbody-pad)) calc(12px - var(--pbody-pad)) -30px 0;
@@ -952,25 +949,6 @@ body { overflow-anchor: none; }
 .panel .close .x { font-family: var(--display); font-weight: 300; font-size: 1.45em; line-height: 0; vertical-align: -.1em; margin-left: 2px; }
 
 
-/* While a detail view is open the rest of the page dims a little: a veil
-   over the whole window (js/portfolio.js adds it and toggles .on), with the
-   open tile and its panel lifted above it, so the tile's picture, title and
-   tags draw at full strength (only the page behind the title is darker).
-   The sticky header (z-index 50) stays above it too. Clicks pass straight
-   through the veil.
-   --dim sets how dark it gets. */
-.dimmer {
-  --dim: rgba(20, 17, 14, .28);
-  position: fixed; inset: 0; z-index: 40;
-  background: var(--dim);
-  opacity: 0; pointer-events: none;
-  transition: opacity .3s ease;
-}
-.dimmer.on { opacity: 1; }
-.gcard[aria-expanded="true"],
-.panel:not(.closing) { position: relative; z-index: 41; }
-
-
 /* The picture viewer for phones (a panel picture, full screen) has its own
    stylesheet, css/viewer.css, so other pages can use it too. */
 
@@ -979,7 +957,8 @@ body { overflow-anchor: none; }
    ----------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .gframe, .chip, .cap .ttl, .panel, .pshots a, .btn, .pill, .intro a { transition: none; }
-  .dimmer { transition: none; }
+  .poverlay { transition: none; }
+  .panel { transform: none; }
   .gcard .cap, .gcard .tags { transition: none; }
   .gcard:hover .gframe { transform: none; box-shadow: var(--shadow-lift); }
   .btn:hover { transform: none; }
