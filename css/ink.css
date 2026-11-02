@@ -314,10 +314,11 @@
   -webkit-mask: none; mask: none;
 }
 
-/* the book cover (and the Mesabi Trail and Rincon maps beside their text) is an <img>,
+/* the book cover (and the Mesabi Trail and Rincon maps beside their text,
+   and the Landscape Cartography pictures: Vonn's six, Alaska, the Driftless) is an <img>,
    which can't hold a layer: its frame is drawn in a 2px band of padding
    around the picture instead */
-.hero-cover img, .mesabi-map img, .relief-map img {
+.hero-cover img, .mesabi-map img, .relief-map img, .sheet img, .relief-pair img {
   border: 0; padding: 2px;
   background-image: var(--frame-strokes);
   background-repeat: var(--frame-repeat);
