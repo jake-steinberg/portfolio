@@ -66,7 +66,9 @@ body { overflow-anchor: none; }
 .panel.feature .panel-body::after { content: none; }
 @media (min-width: 721px) {
   .panel.feature .pmedia { padding-block: 0; align-self: start; }   /* held at the top, so the map stays put as the style's text changes length */
-  .panel.feature .panel-body:not(.solo) { grid-template-columns: fit-content(30rem) minmax(0, 1fr); }
+  /* map left, text right, like every section's head on the page */
+  .panel.feature .panel-body:not(.solo) { grid-template-columns: minmax(0, 1fr) fit-content(30rem); }
+  .panel.feature .pmap { order: -1; }
 }
 .panel.feature .basemap { aspect-ratio: 3 / 2; max-height: 74vh; }
 /* a feature's pictures in one row across the whole width (feature.media in
@@ -1033,7 +1035,7 @@ body { overflow-anchor: none; }
 
 /* the intro beside Rincon (a .hero, like the book's and the Mesabi
    Trail's), framed like the book cover (css/ink.css) */
-.hero.relief-hero { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+.hero.relief-hero { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }   /* Rincon left, text right */
 @media (max-width: 900px) { .hero.relief-hero { grid-template-columns: 1fr; gap: 22px; } }
 .relief-map { margin: 0; }
 .relief-map a, .relief-map picture { display: block; }
