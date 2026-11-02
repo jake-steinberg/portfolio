@@ -340,7 +340,7 @@ body { overflow-anchor: none; }
   box-shadow: var(--shadow-lift), 0 0 0 2px var(--accent);
 }
 
-/* "IN THE BOOK" corner marker on a panel's picture ({ src, inBook: true } in projects.js) */
+/* "BOOK VERSION" corner marker on a panel's picture ({ src, inBook: true } in projects.js) */
 .marker {
   position: absolute; top: 0; left: 0; z-index: 2;
   font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-xs) + var(--label-plus)); letter-spacing: var(--track); text-transform: uppercase;
@@ -597,7 +597,7 @@ body { overflow-anchor: none; }
   text-transform: uppercase; color: var(--label-ink);
 }
 
-/* a panel's links: "Read the story ↗", "In the book ↗" (styled in LINKS above) */
+/* a panel's links, e.g. "Read the story ↗" (styled in LINKS above) */
 .plinks { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 26px; }
 .plinks a { font-size: var(--fs-base); line-height: 1.4; padding-block: 2px; }   /* at least 24px tall, to tap */
 

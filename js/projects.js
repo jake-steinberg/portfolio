@@ -705,9 +705,9 @@ const PROJECTS = [
       // "A Year in the Life of an Urban Coyote", converted from the CMYK print
       // original (50 Maps/Maps/Coyotes/coyote.jpg) to screen colors, white
       // margin trimmed; clicking opens it at full resolution
-      { src: "img/tiles/urban-coyote-spread.webp", full: "img/urban-coyote.jpg" }
+      { src: "img/tiles/urban-coyote-spread.webp", full: "img/urban-coyote.jpg", inBook: true }
     ],
-    links:       [                                 // "In the book" is added after these
+    links:       [
       { label: "Backyard battle for survival", url: "https://www.startribune.com/its-foxes-versus-coyotes-in-a-backyard-battle-for-survival/601504496" }
     ],
     awards:      []

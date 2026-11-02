@@ -229,7 +229,7 @@
 .pshots:not(.scatter) .pstill::after, .pvid::after, .panel-body::after {
   content: "";
   position: absolute; inset: 0;
-  z-index: 3;                                     /* above the "In the book" badge */
+  z-index: 3;                                     /* above the "Book version" badge */
   pointer-events: none;
   background-image: var(--frame-strokes);
   background-repeat: var(--frame-repeat);
@@ -254,20 +254,6 @@
   -webkit-mask-origin: padding-box;               mask-origin: padding-box;
 }
 
-/* the "In the book" badge sits in a tile's top-left corner: the frame is
-   drawn over it, and it's clipped at the top and left lines like the picture */
-.gframe > .marker {
-  -webkit-mask-image: linear-gradient(#000 0 0),
-    var(--stroke-frame-outside-top), var(--stroke-frame-outside-left);
-          mask-image: linear-gradient(#000 0 0),
-    var(--stroke-frame-outside-top), var(--stroke-frame-outside-left);
-  -webkit-mask-repeat: no-repeat, repeat-x, repeat-y;        mask-repeat: no-repeat, repeat-x, repeat-y;
-  -webkit-mask-size: 100% 100%, 400px 3px, 3px 400px;        mask-size: 100% 100%, 400px 3px, 3px 400px;
-  /* the same starting points as the frame's top and left strokes */
-  -webkit-mask-position: 0 0, 0 0, 0 -91px;                 mask-position: 0 0, 0 0, 0 -91px;
-  -webkit-mask-composite: source-out, source-over, source-over;
-          mask-composite: subtract, add, add;
-}
 .gframe { background-color: transparent; }
 .gframe > :is(img, video) { background-color: var(--plate); }
 
