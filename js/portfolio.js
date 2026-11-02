@@ -283,8 +283,6 @@
     const foot = storyLinks || mainLink;
 
     // The line under the title: the year (if set), then the tags
-    const meta = [p.year ? `<span class="tag">${esc(p.year)}</span>` : '',
-                  ...p.tags.map((id) => `<span class="tag">${esc(tagLabel(id))}</span>`)].join('');
     // The credit line under the pictures: the project's credit:, or else one
     // line gathered from the pictures' own credits, e.g. "Photo by A" on two
     // pictures and "Photo by B" on another → "Photos by A and B"
@@ -319,7 +317,6 @@
             <div class="panel-main">
               <div class="ptop">
                 ${heading}
-                ${meta ? `<div class="tags pmeta">${meta}</div>` : ''}
                 ${description}
                 ${awards}
                 ${styleButtons}
@@ -538,7 +535,6 @@
       if (tile) tile.setAttribute('aria-expanded', 'false');
       openSlug = null;
       setPageInert(false);
-      document.documentElement.classList.remove('has-overlay');
       overlay.classList.remove('on');                    // fades out
       if (!panel) return;
       Basemaps.stop(panel);
@@ -570,7 +566,6 @@
       overlay.hidden = false;
       overlay.scrollTop = 0;
       setPageInert(true);
-      document.documentElement.classList.add('has-overlay');   // the page behind doesn't scroll
 
       watchVideos();                                     // so any loops in the panel play too
       if (project.basemaps) Basemaps.start(panel, project);
@@ -578,8 +573,19 @@
         m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => layoutMedia(panel), { once: true }));
       layoutMedia(panel);
 
+      // Scrolling the page closes it: once a long panel has scrolled to its
+      // end (or straight away for one that fits), the scroll carries on to the
+      // page behind, and the panel gets out of the way
+      const y = window.scrollY;
+      const onScroll = () => {
+        if (openSlug !== slug) { window.removeEventListener('scroll', onScroll); return; }
+        if (Math.abs(window.scrollY - y) > 24) { window.removeEventListener('scroll', onScroll); closePanel(); }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+
       // next frame: fade the overlay in, and put focus on the Close button
       requestAnimationFrame(() => {
+        if (openSlug !== slug) return;                   // closed again already
         panel.dataset.open = 'true';
         overlay.classList.add('on');
         const close = panel.querySelector('[data-close]');

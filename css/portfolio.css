@@ -64,7 +64,6 @@ body { overflow-anchor: none; }
   -webkit-mask-image: none; mask-image: none;
 }
 .panel.feature .panel-body::after { content: none; }
-.panel.feature .pmeta { display: none; }           /* no year and tags line */
 @media (min-width: 721px) {
   .panel.feature .pmedia { padding-block: 0; align-self: start; }   /* held at the top, so the map stays put as the style's text changes length */
   .panel.feature .panel-body:not(.solo) { grid-template-columns: fit-content(30rem) minmax(0, 1fr); }
@@ -498,7 +497,7 @@ body { overflow-anchor: none; }
    A tile's panel opens in an overlay (js/portfolio.js): centred on the screen
    over the dimmed page, above the sticky header (z-index 50) and below the
    phone picture viewer (100). A panel taller than the screen scrolls inside
-   the overlay; the page behind stays put. Its width is --pw, set from
+   the overlay; scrolling on past its end scrolls the page and closes it. Its width is --pw, set from
    panelCols in projects.js. A click on the dimmed page around it closes it.
    --dim sets how dark the page gets.
    ----------------------------------------------------------------------------- */
@@ -506,14 +505,13 @@ body { overflow-anchor: none; }
   --dim: rgba(20, 17, 14, .45);
   position: fixed; inset: 0; z-index: 60;
   display: grid; justify-items: center;
-  overflow-y: auto; overscroll-behavior: contain;
+  overflow-y: auto;                               /* past its end, scrolling carries on to the page (which closes it) */
   padding: clamp(16px, 5vh, 56px) clamp(16px, 3vw, 40px);
   background: var(--dim);
   opacity: 0; transition: opacity .25s ease;
 }
 .poverlay[hidden] { display: none; }
 .poverlay.on { opacity: 1; }
-html.has-overlay { overflow: hidden; }            /* the page behind doesn't scroll */
 .panel {
   width: min(100%, var(--pw, 1240px));
   margin-block: auto;                             /* centred top to bottom while it fits; from the top when taller */
@@ -643,7 +641,6 @@ html.has-overlay { overflow: hidden; }            /* the page behind doesn't scr
   margin: 0 0 10px; padding-right: 70px;  /* room for the Close button */
 }
 /* year and tags under the title — the same small labels as under each tile */
-.pmeta { margin: 0 0 24px; }
 /* the description */
 .desc { font-size: var(--fs-base); line-height: 1.6; margin: 0 0 22px; max-width: var(--measure); }
 /* a link inside a description gets the same coral underline as the story links */
