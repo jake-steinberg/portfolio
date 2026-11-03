@@ -220,7 +220,7 @@ const PROJECTS = [
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
-    description: "A 2-page spread in my book that exposes the writhing and rambling of " +
+    description: "A two-page spread that exposes the writhing and rambling of " +
                  "the Minnesota River.",
     images:      [
       { src: "img/tiles/restless-river.webp", full: "img/restless-river.jpg" }   // the whole spread
@@ -241,7 +241,7 @@ const PROJECTS = [
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
-    description: "A divinely inspired GIS viewshed analysis that appears in my book.",
+    description: "A divinely inspired GIS viewshed analysis.",
     images:      [
       { src: "img/tiles/cathedral-spread.webp", full: "img/cathedral.jpg" }   // the whole spread
     ],
@@ -317,13 +317,13 @@ const PROJECTS = [
         { name: "Outdoors", title: "Strib-Outdoors", style: "maps/strib-outdoors.json",
           about: "A style for outdoor adventure that gives you everything you need to find your way.",
           points: ["10-foot elevation contour coverage for the whole state",
-                   "Optimized to render on mobile for use on trail",
-                   "Winter and fall variants for seasonal conformity"] },
+                   "Optimized to render on mobile for use on the trail",
+                   "Winter and fall variants to match the season"] },
         { name: "Elex", title: "Strib-Elex", style: "maps/strib-elex.json",
           about: "A style tailored for election maps and other data-driven displays.",
           points: ["Designed for accurate data presentation that minimizes distortions",
-                   "Data lives beneath roads and water to maintain orientation",
-                   "Works with choropleths, proportional symbols, and other data representation techniques"] },
+                   "Data lives beneath roads and water to keep readers oriented",
+                   "Works with choropleths, proportional symbols and other data representation techniques"] },
         { name: "Paisley", title: "Strib-Paisley", style: "maps/strib-paisley.json",
           about: "A one-off, purple-forward style for the 10th anniversary of Prince’s passing.",
           link:  { label: "See it here", url: "https://www.startribune.com/prince-tourist-sites-minneapolis/601587518" } }
@@ -366,8 +366,8 @@ const PROJECTS = [
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
-    description: "A 2-page spread in my book that visually compares the hills that await " +
-                 "cyclists who wish to traverse the capitol city.",
+    description: "A two-page spread that visually compares the hills that await " +
+                 "cyclists who wish to traverse the capital city.",
     images:      [
       { src: "img/tiles/st-paul-hills-spread.webp", full: "img/st-paul-hills.jpg" }   // the whole spread
     ],
@@ -384,7 +384,7 @@ const PROJECTS = [
     linkType:    "file",
     tags:        ["print", "illustrated", "outdoors"],
     inBook:      false,
-    description: "The Northwoods are as fundamental to the cultural identity of the Upper Midwest as lakes and mosquitos. I made this National Geographic-inspired poster map for GEOG 370: Intro to Cartography. It tells the story of what the Northwoods used to be, as well as what they might one day become.",
+    description: "The Northwoods are as fundamental to the cultural identity of the Upper Midwest as lakes and mosquitoes. I made this National Geographic-inspired poster map for GEOG 370: Intro to Cartography. It tells the story of what the Northwoods used to be, as well as what they might one day become.",
     images:      ["img/tiles/slivers-of-an-ancient-forest-full.webp"],   // the whole map, uncropped
     awards:      [
       "CaGIS Arthur Robinson Award for best print map, 2022",
@@ -418,7 +418,7 @@ const PROJECTS = [
     // One tile for nine WSJ maps. The video crossfades through all nine, built
     // from Jake's 5:4 crops in img/tiles/WSJ tile/. The panel shows three of
     // them as a mosaic and links every story.
-    title:       "Work for the Wall Street Journal",
+    title:       "Work for The Wall Street Journal",
     slug:        "wall-street-journal",
     year:        "2023",
     panelCols:   3,
@@ -428,7 +428,7 @@ const PROJECTS = [
     linkType:    "story",
     tags:        ["news", "scrollytelling"],
     inBook:      false,
-    description: "I designed 42 maps on deadline in collaboration with reporters and editors around the world, covering events such as the war in Ukraine, the Maui wildfires, and the Titan submersible.",
+    description: "I designed 42 maps on deadline in collaboration with reporters and editors around the world, covering events such as the war in Ukraine, the Maui wildfires and the Titan submersible.",
     images:      [
       "img/tiles/lahaina-wildfire.webp",
       // looping videos made from the original GIFs; clicking one opens its story
@@ -540,7 +540,7 @@ const PROJECTS = [
     linkType:    "story",
     tags:        ["print", "illustrated"],
     inBook:      true,
-    description: "The landscape of smells — or, smellscape — of the Minnesota State Fair, " +
+    description: "The landscape of smells—or smellscape—of the Minnesota State Fair, " +
                  "where the aroma of roasting corn is as prominent as any mountain.",
     images:      [
       // both made from the CMYK original, img/smellscape.jpg, converted to screen
@@ -579,8 +579,8 @@ const PROJECTS = [
     ],
     awards:      [
       "Awards of Excellence in Infographics; Line of Coverage; and Use of Multimedia " +
-      "and Design Elements, Society for News Design, 2026. It contributed to a " +
-      "portfolio Bronze Medal for my excellent editor, C.J. Sinner."
+      "and Design Elements, Society for News Design, 2026, and contributed to a " +
+      "portfolio Bronze Medal for my editor, C.J. Sinner."
     ]
   },
   {
@@ -767,7 +767,7 @@ const PROJECTS = [
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
-    description: "A 2-page spread in my book that tells the story of the subterranean " +
+    description: "A two-page spread that tells the story of the subterranean " +
                  "world beneath the Twin Cities.",
     images:      [
       { src: "img/tiles/geology-spread.webp", full: "img/geology.jpg" }   // the whole spread
@@ -817,8 +817,8 @@ const PROJECTS = [
     linkType:    "project",
     tags:        ["print", "climate"],
     inBook:      false,
-    description: "I designed a series of 9 maps for The Nature Conservancy and Wisconsin Sea " +
-                 "Grant to communicate about flood risk in the Green Bay area.",
+    description: "I designed a series of nine maps for The Nature Conservancy and Wisconsin Sea " +
+                 "Grant to communicate flood risk in the Green Bay area.",
     images:      [
       // a crop of the map around the flood area, the same shape as the photo so
       // the two show at the same size; clicking opens the whole map (3300px)
@@ -862,7 +862,7 @@ const PROJECTS = [
     linkType:    "story",
     tags:        ["print"],
     inBook:      true,
-    description: "A 2-page spread in my book that explores the geography of employment and " +
+    description: "A two-page spread that explores the geography of employment and " +
                  "residency across the Twin Cities.",
     images:      [
       { src: "img/tiles/live-work-spread.webp", full: "img/live-work.jpg" }   // the whole spread

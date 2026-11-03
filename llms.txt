@@ -63,7 +63,7 @@ A biography of Lindsey Vonn published in the run-up to the 2026 Winter Olympics,
 
 Tags: Print
 
-A 2-page spread in my book that exposes the writhing and rambling of the Minnesota River.
+A two-page spread that exposes the writhing and rambling of the Minnesota River.
 
 - [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
 
@@ -71,7 +71,7 @@ A 2-page spread in my book that exposes the writhing and rambling of the Minneso
 
 Tags: Print
 
-A divinely inspired GIS viewshed analysis that appears in my book.
+A divinely inspired GIS viewshed analysis.
 
 - [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
 
@@ -97,7 +97,7 @@ A golden hour rendering of Saguaro National Park’s Rincon Mountains made to co
 
 Tags: Print
 
-A 2-page spread in my book that visually compares the hills that await cyclists who wish to traverse the capitol city.
+A two-page spread that visually compares the hills that await cyclists who wish to traverse the capital city.
 
 - [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
 
@@ -105,7 +105,7 @@ A 2-page spread in my book that visually compares the hills that await cyclists 
 
 Tags: Print, Illustrated, Outdoors
 
-The Northwoods are as fundamental to the cultural identity of the Upper Midwest as lakes and mosquitos. I made this National Geographic-inspired poster map for GEOG 370: Intro to Cartography. It tells the story of what the Northwoods used to be, as well as what they might one day become.
+The Northwoods are as fundamental to the cultural identity of the Upper Midwest as lakes and mosquitoes. I made this National Geographic-inspired poster map for GEOG 370: Intro to Cartography. It tells the story of what the Northwoods used to be, as well as what they might one day become.
 
 Award: CaGIS Arthur Robinson Award for best print map, 2022
 
@@ -125,11 +125,11 @@ Dot density maps that create a mosaic of immigrant communities in the Twin Citie
 
 - [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
 
-### Work for the Wall Street Journal (2023)
+### Work for The Wall Street Journal (2023)
 
 Tags: News, Scrollytelling
 
-I designed 42 maps on deadline in collaboration with reporters and editors around the world, covering events such as the war in Ukraine, the Maui wildfires, and the Titan submersible.
+I designed 42 maps on deadline in collaboration with reporters and editors around the world, covering events such as the war in Ukraine, the Maui wildfires and the Titan submersible.
 
 - [Maui wildfires](https://www.wsj.com/articles/why-maui-wildfires-hawaii-devastating-84651f12)
 - [Ring of Fire mining conflict](https://www.wsj.com/world/americas/minerals-nickel-batteries-canada-climate-carbon-376f11fd)
@@ -168,7 +168,7 @@ A quest through time in a warming wilderness to find the oldest living tree in M
 
 Tags: Print, Illustrated
 
-The landscape of smells — or, smellscape — of the Minnesota State Fair, where the aroma of roasting corn is as prominent as any mountain.
+The landscape of smells—or smellscape—of the Minnesota State Fair, where the aroma of roasting corn is as prominent as any mountain.
 
 - [Read the story](https://www.startribune.com/smells-of-the-minnesota-state-fair-create-a-festival-for-the-nose/601443971?utm_source=gift)
 - [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
@@ -179,7 +179,7 @@ Tags: News, Interactive, Print
 
 A crowdsourced community geography story about Minneapolis’s most argued-over district. Or, neighborhood? Maybe vibe?
 
-Award: Awards of Excellence in Infographics; Line of Coverage; and Use of Multimedia and Design Elements, Society for News Design, 2026. It contributed to a portfolio Bronze Medal for my excellent editor, C.J. Sinner.
+Award: Awards of Excellence in Infographics; Line of Coverage; and Use of Multimedia and Design Elements, Society for News Design, 2026, and contributed to a portfolio Bronze Medal for my editor, C.J. Sinner.
 
 - [Where is Uptown?](https://www.startribune.com/where-is-uptown-help-us-settle-the-debate-by-drawing-your-boundaries/601438173)
 - [Uptown results](https://www.startribune.com/we-asked-where-uptown-is-and-2000-of-you-responded-heres-what-you-declared/601413699)
@@ -241,7 +241,7 @@ Stories about the people and places of the North.
 
 Tags: Print
 
-A 2-page spread in my book that tells the story of the subterranean world beneath the Twin Cities.
+A two-page spread that tells the story of the subterranean world beneath the Twin Cities.
 
 - [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
 
@@ -259,7 +259,7 @@ Award: Silver Medal for Story Page Design, Society for News Design, 2026. Primar
 
 Tags: Print, Climate
 
-I designed a series of 9 maps for The Nature Conservancy and Wisconsin Sea Grant to communicate about flood risk in the Green Bay area.
+I designed a series of nine maps for The Nature Conservancy and Wisconsin Sea Grant to communicate flood risk in the Green Bay area.
 
 - [View the project](https://east-river-collaborative.tnc.org/pages/maps-data)
 
@@ -277,7 +277,7 @@ Award: Best student map, Wisconsin Land Information Association, 2023
 
 Tags: Print
 
-A 2-page spread in my book that explores the geography of employment and residency across the Twin Cities.
+A two-page spread that explores the geography of employment and residency across the Twin Cities.
 
 - [In the book: The Twin Cities in 50 Maps](https://beltpublishing.com/products/the-twin-cities-in-50-maps)
 
