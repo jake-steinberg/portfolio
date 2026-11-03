@@ -590,8 +590,10 @@ const PROJECTS = [
     slug:        "2026-election-results",
     year:        "2026",
     panelCols:   3,
-    tile:        "",                              // none yet: the tile says "Picture to come"
-    video:       "",
+    // the loop fades through the map's three views (results, change from
+    // 2024, vote count), cropped to the map from preview screenshots
+    tile:        "img/tiles/2026-election-results.webp",
+    video:       "img/tiles/2026-election-results.mp4",
     link:        "",
     linkType:    "story",
     basemapStyle: "Strib-Elex",
