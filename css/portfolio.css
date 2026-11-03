@@ -354,8 +354,8 @@ body { overflow-anchor: none; }
   padding: 5.5px calc(7px - var(--track)) 2.5px 9px;
   border-right: 1px solid var(--stroke); border-bottom: 1px solid var(--stroke);
 }
-/* the small grids (Look inside, Examples): no tags under the titles */
-:is(#grid-book, #grid-examples) .tags { display: none; }
+/* no tags under the titles, in any grid */
+.grid .tags { display: none; }
 
 /* LINK CARDS — every grid's tiles (Look inside, Examples, Other work) as one
    object: picture and title inside one hand-drawn ink frame, on the pale
@@ -404,7 +404,7 @@ body { overflow-anchor: none; }
   align-items: end; gap: 8px;                    /* the style and "Details" along the bottom */
 }
 .grid .cap .ttl { grid-column: 1 / -1; align-self: start; }
-.grid .cap :is(.tstyle, .tags) { margin: 0; }   /* the basemap style, or (Other work) the tags, along the bottom */
+.grid .cap .tstyle { margin: 0; }   /* the basemap style along the bottom */
 .cap .cta { display: none; }
 .grid .cap .cta {
   display: inline-flex; align-items: center; gap: 6px; grid-column: 2;
