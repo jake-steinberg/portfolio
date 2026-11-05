@@ -590,17 +590,21 @@ const PROJECTS = [
     slug:        "2026-election-results",
     year:        "2026",
     panelCols:   3,
-    // the loop fades through the map's three views (results, change from
-    // 2024, vote count), cropped to the map from preview screenshots
+    // the loop is the Twin Cities senate map's four views (shaded, circles,
+    // arrows, pies), cropped from 3:2 to the 5:4 tile
     tile:        "img/tiles/2026-election-results.webp",
     video:       "img/tiles/2026-election-results.mp4",
-    link:        "",
+    link:        "https://www.startribune.com/every-precinct-vote-map-explains-amy-klobuchar-minnesota-governor-shift/601884985",
     linkType:    "story",
     basemapStyle: "Strib-Elex",
     tags:        ["news", "interactive"],
     inBook:      false,
-    description: "",                              // empty: the panel shows the placeholder line
-    images:      [],
+    description: "An extremely detailed exploration of Minnesota’s political geography " +
+                 "in a pivotal midterm election.",
+    images:      [
+      { src: "img/tiles/2026-election-mn-governor.webp",   // governor results statewide: precincts and counties
+        full: "img/2026-election-mn-governor.webp" }
+    ],
     awards:      []
   },
   {
