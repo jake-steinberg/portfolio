@@ -689,9 +689,9 @@ const PROJECTS = [
       { src: "img/tiles/illustrated-camino.webp", full: "img/camino-de-santiago.jpg",
         label: "Camino de Santiago",
         story: "https://www.startribune.com/resilience-enlightenment-and-bed-bugs-on-the-camino-de-santiago/601528801" },
-      // not published yet: the label is a plain caption until story: is added
       { src: "img/tiles/illustrated-cougars.webp", full: "img/cougars.jpg",
-        label: "Cougars return" }
+        label: "Cougars return",
+        story: "https://www.startribune.com/chasing-ghosts-the-unlikely-comeback-of-the-minnesota-cougar/601890464" }
     ],
     awards:      []
   },
