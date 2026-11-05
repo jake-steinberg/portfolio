@@ -252,8 +252,11 @@
     // basemaps: { … } — a live map (js/basemaps.js). A button per style goes
     // under the text, with the chosen style's name and description below it.
     const maps = p.basemaps;
-    const styleButtons = maps ? `<div class="styleswitch" role="group" aria-label="Map style">${maps.styles.map((st, i) =>
-                `<button class="pill" type="button" data-style="${i}" aria-pressed="false">${esc(st.name)}</button>`).join('')}</div>` : '';
+    const styleButtons = maps ? `<div class="stylepick">
+                <p class="minihead" id="pick-${esc(p.slug)}">Pick a style</p>
+                <div class="styleswitch" role="group" aria-labelledby="pick-${esc(p.slug)}">${maps.styles.map((st, i) =>
+                `<button class="pill" type="button" data-style="${i}" aria-pressed="false">${esc(st.name)}</button>`).join('')}</div>
+              </div>` : '';
     const mapHTML = maps ? `<div class="pmedia pmap">
               <div class="basemap-wrap"><div class="basemap"></div><p class="basemap-note" hidden></p></div>
             </div>` : '';
