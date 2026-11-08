@@ -192,6 +192,7 @@
        "SECTION DOTS"). Wide screens only. -->
   <nav class="dots" aria-label="Sections on this page">
     <a href="#book"><span>The book</span></a>
+    <a href="#capella3d"><span>Buildings</span></a>
     <a href="#styles"><span>Basemap styles</span></a>
     <a href="#mesabi"><span>The Mesabi Trail</span></a>
     <a href="#relief"><span>Landscape cartography</span></a>
@@ -247,6 +248,38 @@
     </div>
 
     <!-- ================================================================
+         BUILDINGS IN 3D: Capella Tower (3d/capella/index.html?embed) and Science Hall
+         (3d/science-hall/index.html?data=science&embed), live, in boxes; built in scratch/,
+         copied here by tools/publish-3d.sh. Styles: css/portfolio.css, "BUILDINGS IN 3D"
+         ================================================================ -->
+    <section class="block capella3d" id="capella3d" aria-label="Buildings">
+      <!-- two buildings side by side on desktop, each its model and its text
+           under it; stacked on narrow screens -->
+      <div class="c3d-row">
+        <figure class="c3d-item">
+          <div class="c3d-box">
+            <iframe id="c3d-frame" class="c3d-frame" src="3d/capella/index.html?embed" title="Interactive 3D model of Capella Tower's block, Minneapolis"
+              loading="lazy" allow="fullscreen"></iframe>
+          </div>
+          <figcaption class="c3d-text">
+            <h2>I work in this building</h2>
+            <address><span><b>Capella Tower</b></span><span>The Minnesota Star Tribune</span><span>Minneapolis, MN</span></address>
+          </figcaption>
+        </figure>
+        <figure class="c3d-item">
+          <div class="c3d-box">
+            <iframe class="c3d-frame" src="3d/science-hall/index.html?data=science&amp;embed" title="Interactive 3D model of Science Hall, University of Wisconsin–Madison"
+              loading="lazy" allow="fullscreen"></iframe>
+          </div>
+          <figcaption class="c3d-text">
+            <h2>I studied cartography in this building</h2>
+            <address><span><b>Science Hall</b></span><span>University of Wisconsin–Madison</span><span>Madison, WI</span></address>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================================================================
          STAR TRIBUNE BASEMAP STYLES — the project's panel, always open
          (js/portfolio.js, renderFeatures), then the stories that use them
          (SECTIONS.examples)
@@ -259,7 +292,7 @@
       <ul class="cards3 stylenotes">
         <li class="card">
           <div class="card-media card-glyphs">
-            <div class="dakota-glyphs" lang="dak" role="img" aria-label="Dakota characters: combining acute accent, á, é, í, ó, ú, ą, į, č, š, ž, ŋ, ƞ, ȟ"><span><span class="dk-mark"><span>´</span></span></span><span>á</span><span>é</span><span>í</span><span>ó</span><span>ú</span><span>ą</span><span>į</span><span>č</span><span>š</span><span>ž</span><span>ŋ</span><span>ƞ</span><span>ȟ</span></div>
+            <div class="dakota-glyphs" lang="dak" role="img" aria-label="Dakota characters: combining acute accent, á, é, í, ó, ú, ą, į, ŋ, ƞ, č, š, ž, ǧ, ȟ, ḣ, ż, ṡ, c̣, ḳ, p̣, ṭ"><span><span class="dk-mark"><span>´</span></span></span><span>á</span><span>é</span><span>í</span><span>ó</span><span>ú</span><span>ą</span><span>į</span><span>ŋ</span><span>ƞ</span><span>č</span><span>š</span><span>ž</span><span>ǧ</span><span>ȟ</span><span>ḣ</span><span>ż</span><span>ṡ</span><span>c̣</span><span>ḳ</span><span>p̣</span><span>ṭ</span></div>
           </div>
           <p>Added support for Dakota-language glyphs for Indigenous place names.</p>
         </li>
@@ -486,7 +519,7 @@
       <li>
         <h3>Minnesota Star Tribune map design system</h3>
         <p>2025–2026 · News, Interactive, Outdoors</p>
-        <p>Led the newsroom’s migration to an open-source stack built on MapLibre and Protomaps. Designed a full suite of basemap styles tailored to distinct newsroom use cases.</p>
+        <p>Led the newsroom’s migration to an open-source stack built on MapLibre and Protomaps. Designed a full suite of basemap styles grounded in the Star Tribune’s brand colors and tailored to distinct newsroom use cases.</p>
       </li>
       <li>
         <h3>Rincon Mountains</h3>

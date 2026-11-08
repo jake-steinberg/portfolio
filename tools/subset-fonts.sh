@@ -14,11 +14,16 @@
 #   sh tools/subset-fonts.sh outfit   path/to/Outfit-VariableFont_wght.ttf
 #   sh tools/subset-fonts.sh serif    "path/to/SourceSerif4[opsz,wght].ttf" "path/to/SourceSerif4-Italic[opsz,wght].ttf"
 #   sh tools/subset-fonts.sh belltopo path/to/BellTopoSans-Regular.otf path/to/BellTopoSans-Bold.otf
+#   sh tools/subset-fonts.sh dakota   path/to/NotoSans-Regular.ttf
 #
 #   outfit    keeps every weight (it stays a variable font)
 #   serif     (from github.com/google/fonts, ofl/sourceserif4) keeps weights
 #             400–600 as a variable font, with its optical size fixed for 16px
 #             text, the size the site reads at — about a quarter the size
+#   dakota    (from github.com/notofonts, NotoSans-Regular.ttf) only the Dakota
+#             letters the portfolio's "Under the hood" card shows (DAKOTA below),
+#             with c and p for c̣ p̣ (each with U+0323, the combining dot below),
+#             and the mark positioning that sets those dots; a few KB
 #   belltopo  Sarah Bell gave permission (October 2026) to serve it trimmed
 #             and converted like this; the EULA in css/fonts/belltopo/ still
 #             applies otherwise
@@ -28,6 +33,8 @@
 
 UNICODES="U+0020-007E,U+00A0-00FF,U+0131,U+0152-0153,U+02C6,U+02DC,U+2010-2027,U+2030,U+2032-2033,U+2039-203A,U+2044,U+20AC,U+2122,U+2190-2199"
 FEATURES="kern,liga,clig,calt,ccmp,locl,mark,mkmk,rlig"
+# ´ á é í ó ú ą į ŋ ƞ č š ž ǧ ȟ ḣ ż ṡ ḳ ṭ, c p, the combining acute and dot below
+DAKOTA="U+00B4,U+00E1,U+00E9,U+00ED,U+00F3,U+00FA,U+0105,U+012F,U+014B,U+019E,U+010D,U+0161,U+017E,U+01E7,U+021F,U+1E23,U+017C,U+1E61,U+1E33,U+1E6D,U+0063,U+0070,U+0301,U+0323,U+25CC"
 
 subset() {   # $1 = source font, $2 = output .woff2
   python3 -m fontTools.subset "$1" --unicodes="$UNICODES" --layout-features="$FEATURES" \
@@ -45,7 +52,10 @@ case "$1" in
   outfit)   subset "$2" css/fonts/outfit/Outfit.woff2 ;;
   serif)    serif "$2" css/fonts/sourceserif/SourceSerif4.woff2
             serif "$3" css/fonts/sourceserif/SourceSerif4-Italic.woff2 ;;
+  dakota)   python3 -m fontTools.subset "$2" --unicodes="$DAKOTA" --layout-features="ccmp,locl,mark,mkmk,kern" \
+              --flavor=woff2 --output-file=css/fonts/notosans/NotoSans-Dakota.woff2 &&
+            echo "wrote css/fonts/notosans/NotoSans-Dakota.woff2 ($(wc -c < css/fonts/notosans/NotoSans-Dakota.woff2) bytes)" ;;
   belltopo) subset "$2" css/fonts/belltopo/BellTopoSans-Regular.woff2
             subset "$3" css/fonts/belltopo/BellTopoSans-Bold.woff2 ;;
-  *)        echo "usage: sh tools/subset-fonts.sh outfit|serif|belltopo <font files>  (see the top of this file)"; exit 1 ;;
+  *)        echo "usage: sh tools/subset-fonts.sh outfit|serif|dakota|belltopo <font files>  (see the top of this file)"; exit 1 ;;
 esac

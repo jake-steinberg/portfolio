@@ -288,8 +288,8 @@ const PROJECTS = [
     tags:        ["news", "interactive", "outdoors"],
     inBook:      false,
     description: "Led the newsroom’s migration to an open-source stack built on MapLibre " +
-                 "and Protomaps. Designed a full suite of basemap styles tailored to distinct " +
-                 "newsroom use cases.",
+                 "and Protomaps. Designed a full suite of basemap styles grounded in the " +
+                 "Star Tribune’s brand colors and tailored to distinct newsroom use cases.",
     basemaps:    {
       // the vector tiles every style draws on; any style source named
       // "protomaps" is pointed here

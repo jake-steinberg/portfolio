@@ -837,6 +837,7 @@ body { overflow-anchor: none; }
    the Dakota letters, the contours and the stack diagram. (.stylenotes in front, to
    win over the general card rules further down) */
 .minihead.underhood { margin-top: clamp(32px, 4vw, 56px); }   /* their label, "Under the hood": close under the map and its text */
+@media (min-width: 900px) { #styles .minihead.underhood { margin-top: 18px; } }   /* desktop: the basemap's "Under the hood" tighter still under the map */
 /* each note is a figure: its picture on a cream panel (the link cards'
    pale plate, but no frame, shadow or "+", which belong only to the tiles
    that open: "LINK CARDS" above), its caption below, outside the panel.
@@ -857,20 +858,21 @@ body { overflow-anchor: none; }
   .stylenotes .card-media { width: 100%; height: calc((100cqi - 2 * 34px) / 3 * 206 / 400); }
 }
 .stylenotes .card-glyphs { display: grid; place-items: center; padding: 6%; }
-/* the letters in Noto Sans: a 2 KB file holding just these characters, all
-   fourteen including ƞ and ȟ (cut from Noto Sans Regular; licence in
-   css/fonts/notosans/) */
+.stylenotes .dakota-glyphs > span { flex: 0 0 12.5%; }
+/* the letters in Noto Sans: a 6 KB file holding just these characters, all
+   twenty-two including ƞ, ȟ and the dotted c̣ and p̣ (cut from Noto Sans
+   Regular by tools/subset-fonts.sh dakota; licence in css/fonts/notosans/) */
 @font-face {
   font-family: "Noto Sans Dakota";
   src: url(fonts/notosans/NotoSans-Dakota.woff2) format("woff2");
   font-weight: 400; font-display: swap;
 }
 .stylenotes .dakota-glyphs {
-  /* the fourteen characters on an even grid: seven across, two rows, each
-     centred in an equal cell */
-  display: grid; grid-template-columns: repeat(7, 1fr); width: 100%;
+  /* the twenty-two characters in equal cells, eight across: three rows
+     (8, 8, 6), the last one centred */
+  display: flex; flex-wrap: wrap; justify-content: center; width: 100%;
   font-family: "Noto Sans Dakota", "Noto Sans", system-ui, sans-serif;
-  font-size: clamp(24px, 2.4vw, 36px); line-height: 1.6;
+  font-size: clamp(20px, 2vw, 30px); line-height: 1.5;
   color: var(--ink); text-align: center;
 }
 /* the lone combining accent, on a dotted circle, the usual way to show one */
@@ -1173,3 +1175,45 @@ body { overflow-anchor: none; }
 @media (prefers-reduced-motion: reduce) {
   .dots a::before, .dots span { transition: none; }
 }
+
+/* -----------------------------------------------------------------------------
+   BUILDINGS IN 3D — the two live models side by side (index.html, #capella3d),
+   each in an iframe of its viewer (3d/), its heading and address under it
+   ----------------------------------------------------------------------------- */
+.c3d-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 3vw, 44px); }
+@media (max-width: 899px) { .c3d-row { grid-template-columns: 1fr; } }
+.c3d-item { margin: 0; }
+.c3d-frame { display: block; width: 100%; aspect-ratio: 4 / 5; border: 1px solid var(--stroke); box-shadow: var(--shadow-lift); background: #1c1f26; }
+/* the models' boxes: the site's hand-drawn frame (css/ink.css, as the live basemap's): the strokes
+   on a layer over the model (it ignores the mouse, so dragging still reaches it), the model clipped
+   to their outer edge. The shadow is a box-shadow on the box, not ink.css's drop-shadow filter: a
+   filter would trap the model's full-screen fallback (the iframe fixed over the page) inside the box */
+.c3d-box { position: relative; box-shadow: var(--shadow-lift); }
+.c3d-box .c3d-frame {
+  border-color: transparent; box-shadow: none;
+  -webkit-mask-image: var(--clip-image);         mask-image: var(--clip-image);
+  -webkit-mask-repeat: var(--clip-repeat);       mask-repeat: var(--clip-repeat);
+  -webkit-mask-size: var(--clip-size);           mask-size: var(--clip-size);
+  -webkit-mask-position: var(--clip-position);   mask-position: var(--clip-position);
+  -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over;
+          mask-composite: subtract, add, add, add, add;
+}
+.c3d-box::after {
+  content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background-image: var(--frame-strokes);
+  background-repeat: var(--frame-repeat);
+  background-size: var(--frame-size);
+  background-position: var(--frame-position);
+}
+.c3d-text { margin-top: clamp(16px, 2vw, 24px); }
+/* the headings: the site's h2 size, but never so big the longer one ("I studied cartography in
+   this building", about 19.2 em wide) wraps: at most 5cqi, a share of its column's width
+   (.c3d-item is the container). Both headings take the same rule, so they stay one size */
+.c3d-item { container-type: inline-size; }
+.c3d-text h2 { font-family: var(--display); font-weight: 800; line-height: 1.1; letter-spacing: var(--track-head);
+  color: var(--head); font-size: min(var(--fs-h2), 5cqi); margin: 0; text-wrap: balance; }
+/* the address, as the book's details (css/portfolio.css, .hero-meta): Bell Topo, small caps-height, label ink */
+.c3d-text address { font-style: normal; margin-top: 18px; display: flex; flex-direction: column; gap: 6px;
+  font-family: var(--topo); font-weight: 400; font-size: calc(var(--fs-sm) + var(--label-plus)); letter-spacing: var(--track-tight);
+  text-transform: uppercase; color: var(--label-ink); }
+.c3d-text address b { font-weight: 700; }

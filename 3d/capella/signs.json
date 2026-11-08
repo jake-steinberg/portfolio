@@ -1,0 +1,81 @@
+{
+  "_about": "Blade signs, drawn by the viewer. corner: where the sign meets the wall (x, z); dir: the way it sticks out (unit x, z: here the corner's outward bisector); out: m from the corner along dir; base, top: m up (from the lidar's returns off the sign); thick: m. panels top to bottom, each a share of the height: 'logo' (white box, red mark), 'letters' (red, stacked), 'number' (white box, black digits, red rim). Canopies (kind 'canopy'): start, a point on the wall (x, z); along, the wall's direction (unit x, z); length m along it; out m from the wall (to the outside: the left of along); base, top m up; text on the front fascia, framed in brass. Panels (kind 'panel'): a canopy's box only a few cm deep, its front painted by the viewer's drawing named in draw.",
+  "signs": [
+    {
+      "name": "WCCO RADIO",
+      "corner": [
+        15.19,
+        -45.46
+      ],
+      "dir": [
+        -0.971,
+        0.238
+      ],
+      "out": [
+        0.0,
+        1.0
+      ],
+      "base": 5.6,
+      "top": 16.6,
+      "thick": 0.35,
+      "panels": [
+        {
+          "kind": "logo",
+          "share": 0.08
+        },
+        {
+          "kind": "letters",
+          "text": "WCCO",
+          "share": 0.42,
+          "size": 1.0
+        },
+        {
+          "kind": "letters",
+          "text": "RADIO",
+          "share": 0.38,
+          "size": 0.62
+        },
+        {
+          "kind": "number",
+          "text": "8\u00b73\u00b70",
+          "share": 0.12
+        }
+      ],
+      "kind": "blade"
+    },
+    {
+      "name": "HYATT CENTRIC canopy",
+      "kind": "canopy",
+      "start": [
+        33.93,
+        -77.36
+      ],
+      "along": [
+        0.518,
+        -0.855
+      ],
+      "length": 5.8,
+      "out": 2.2,
+      "base": 3.6,
+      "top": 4.5,
+      "text": "HYATT CENTRIC"
+    },
+    {
+      "name": "Star Tribune entrance",
+      "kind": "panel",
+      "draw": "startribune",
+      "start": [
+        127.33,
+        -36.41
+      ],
+      "along": [
+        -0.5017,
+        0.8651
+      ],
+      "length": 23.9,
+      "out": 0.15,
+      "base": 0.0,
+      "top": 9.4
+    }
+  ]
+}

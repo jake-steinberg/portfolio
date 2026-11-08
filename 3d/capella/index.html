@@ -1,0 +1,1762 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Downtown Minneapolis — buildings from lidar</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1b2330; overflow: hidden; }
+  canvas { display: block; }
+  .box, .controls button {
+    font: 13px/1.35 system-ui, sans-serif; color: #e8edf3;
+    background: rgba(20, 26, 36, .78); border: 1px solid rgba(255, 255, 255, .15);
+    border-radius: 6px; padding: 6px 10px;
+  }
+  .label { position: fixed; left: 16px; bottom: 16px; max-width: 420px; }
+  .info { position: fixed; left: 16px; top: 16px; max-width: 320px; white-space: pre-line; }
+  .info:empty { display: none; }
+  .controls { position: fixed; right: 16px; bottom: 16px; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; z-index: 1; }
+  .controls button { cursor: pointer; }
+  .panel { position: fixed; right: 16px; top: 16px; width: 250px; display: grid; gap: 6px; z-index: 1; }
+  .panel h3 { margin: 4px 0 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #9fb0c3; }
+  .panel label { display: grid; grid-template-columns: 92px 1fr auto; align-items: center; gap: 6px; }
+  .panel label.check { grid-template-columns: auto 1fr; }
+  .panel input[type=range], .panel select { width: 100%; }
+  .panel output { min-width: 3.5em; text-align: right; font-variant-numeric: tabular-nums; }
+  .help { color: #9fb0c3; font-size: 12px; }
+  .help:empty { display: none; }
+  .panel button { font: 12px system-ui, sans-serif; color: #e8edf3; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); border-radius: 5px; padding: 4px 8px; cursor: pointer; }
+  .select-box { position: fixed; display: none; border: 1px dashed #ffd166; background: rgba(255, 209, 102, .1); pointer-events: none; z-index: 2; }
+/* ?embed: in a box on the portfolio. The editing panels go. Gestures are
+   cooperative, as MapLibre's: a plain scroll (or one finger) moves the page,
+   with a hint; Ctrl/⌘ + scroll, a pinch or two fingers move the model. A
+   button opens it full screen, where it scrolls freely and a guide gives the keys */
+html.embed .label, html.embed .info, html.embed .panel, html.embed .controls { display: none !important; }
+.ehint, .efull, .ekeys { display: none; }
+html.embed .ehint {
+  display: flex; position: fixed; inset: 0; align-items: center; justify-content: center; pointer-events: none;
+  background: rgba(10, 12, 16, .45); color: #fff; font: 500 17px/1.3 "Helvetica Neue", Arial, sans-serif;
+  opacity: 0; transition: opacity .25s;
+}
+html.embed .ehint.on { opacity: 1; }
+html.embed .efull {
+  display: flex; position: fixed; top: 10px; right: 10px; width: 36px; height: 36px; align-items: center; justify-content: center;
+  color: #fff; background: rgba(20, 22, 28, .6); border: 1px solid rgba(255, 255, 255, .25); border-radius: 6px; cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+html.embed .efull:hover { background: rgba(212, 116, 90, .9); border-color: transparent; }
+html.embed.full .ekeys {
+  display: block; position: fixed; left: 14px; bottom: 14px; padding: 12px 14px; max-width: 290px;
+  color: #fff; background: rgba(20, 22, 28, .6); border-radius: 8px; backdrop-filter: blur(6px);
+  font: 13px/1.45 "Helvetica Neue", Arial, sans-serif;
+}
+html.embed.full .ekeys.gone { display: none; }
+.ekeys b { display: block; margin-bottom: 6px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+.ekeys kbd { display: inline-block; min-width: 18px; padding: 1px 5px; margin: 0 1px; text-align: center; font: 600 11px/1.5 "Helvetica Neue", Arial, sans-serif;
+  border: 1px solid rgba(255, 255, 255, .45); border-bottom-width: 2px; border-radius: 4px; }
+.ekeys ul { margin: 0; padding: 0; list-style: none; }
+.ekeys li { margin: 3px 0; }
+.ekeys button { position: absolute; top: 6px; right: 8px; background: none; border: 0; color: #fff; font-size: 16px; cursor: pointer; opacity: .7; }
+</style>
+<script>if (new URLSearchParams(location.search).has('embed')) document.documentElement.classList.add('embed');</script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div class="ehint" id="ehint"></div>
+<button class="efull" id="efull" type="button" aria-label="Full screen" title="Full screen">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 5V1h4M11 1h4v4M15 11v4h-4M5 15H1v-4"/></svg>
+</button>
+<div class="ekeys" id="ekeys" role="note">
+  <button type="button" aria-label="Hide" id="ekeys-x">×</button>
+  <b>Getting around</b>
+  <ul>
+    <li><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move forward, left, back, right</li>
+    <li><kbd>Q</kbd><kbd>E</kbd> down, up · hold <kbd>Shift</kbd> to go faster</li>
+    <li>Drag to orbit · right-drag to pan · scroll to zoom</li>
+    <li>Double-click to orbit round a spot</li>
+    <li><kbd>Esc</kbd> to leave full screen</li>
+  </ul>
+</div>
+<div class="box label" id="label">Loading…</div>
+<div class="box info" id="info"></div>
+<div class="box panel">
+  <h3>Area</h3>
+  <div class="help" id="crop-link"></div>
+  <h3>Buildings</h3>
+  <label class="check"><input id="b-show" type="checkbox" checked> Show buildings</label>
+  <label class="check"><input id="b-edges" type="checkbox" checked> Show edges</label>
+  <label class="check"><input id="t-show" type="checkbox" checked> Show trees</label>
+  <label>Surface <select id="b-color"><option value="2">Photo facade</option><option value="1">Lidar intensity</option><option value="0">Height colors</option></select></label>
+  <div class="help" id="photo-credit"></div>
+  <label>Opacity <input id="b-opacity" type="range" min="0.1" max="1" step="0.05" value="1"><output id="b-opacity-out">1</output></label>
+  <h3>World</h3>
+  <label>Time (Dec 21) <input id="w-time" type="range" min="780" max="1110" step="1" value="971"><output id="w-time-out">4:11 pm</output></label>
+  <label>Sun height <input id="w-elev" type="range" min="-12" max="45" step="0.5" value="2.5"><output id="w-elev-out">2.5°</output></label>
+  <label>Sun from <input id="w-az" type="range" min="90" max="300" step="1" value="232"><output id="w-az-out">232°</output></label>
+  <label>Halo light <input id="w-halo" type="range" min="0" max="2" step="0.05" value="0.9"><output id="w-halo-out">0.9</output></label>
+  <label>Halo colour <input id="w-halo-color" type="color" value="#ebd6ff"></label>
+  <label>Street lights <input id="w-lamps" type="range" min="0" max="2" step="0.05" value="1"><output id="w-lamps-out">1</output></label>
+  <label>Exposure <input id="w-exp" type="range" min="0.2" max="1.5" step="0.05" value="1.1"><output id="w-exp-out">1.1</output></label>
+  <label>Snow cover <input id="w-snow" type="range" min="0" max="1" step="0.05" value="0.75"><output id="w-snow-out">0.75</output></label>
+  <label class="check"><input id="w-fall" type="checkbox" checked> Falling snow</label>
+  <label>Haze <input id="w-haze" type="range" min="0" max="3" step="0.05" value="0.25"><output id="w-haze-out">0.25</output></label>
+  <label>Light shafts <input id="w-shafts" type="range" min="0" max="2" step="0.05" value="2"><output id="w-shafts-out">2</output></label>
+  <label>Grade <input id="w-grade" type="range" min="0" max="2" step="0.05" value="1"><output id="w-grade-out">1</output></label>
+  <label>Vignette <input id="w-vig" type="range" min="0" max="2" step="0.05" value="1.2"><output id="w-vig-out">1.2</output></label>
+  <label>Grain <input id="w-grain" type="range" min="0" max="2" step="0.05" value="0"><output id="w-grain-out">0</output></label>
+  <label>Start distance <input id="w-dist" type="range" min="60" max="1500" step="5" value="477"><output id="w-dist-out">477 m</output></label>
+  <label>Zoom in limit <input id="w-zmin" type="range" min="2" max="400" step="1" value="200"><output id="w-zmin-out">200 m</output></label>
+  <label>Zoom out limit <input id="w-zmax" type="range" min="200" max="2500" step="10" value="1200"><output id="w-zmax-out">1200 m</output></label>
+  <label>Ambient occlusion <input id="w-ao" type="range" min="0" max="3" step="0.05" value="1.5"><output id="w-ao-out">1.5</output></label>
+  <h3>Lidar</h3>
+  <label class="check"><input id="l-show" type="checkbox"> Show lidar (4.2M points)</label>
+  <label>Color by <select id="l-color">
+    <option value="height">Height</option>
+    <option value="intensity">Intensity</option>
+    <option value="class">Classification</option>
+    <option value="solid">Solid pink</option>
+  </select><span></span></label>
+  <label>Point size <input id="l-size" type="range" min="0.1" max="3" step="0.1" value="0.6"><output id="l-size-out">0.6</output></label>
+  <h3>Height slice (both)</h3>
+  <label>Lowest <input id="s-min" type="range" min="0" max="245" step="1" value="0"><output id="s-min-out">0 m</output></label>
+  <label>Highest <input id="s-max" type="range" min="0" max="245" step="1" value="245"><output id="s-max-out">245 m</output></label>
+  <h3>Edit outlines</h3>
+  <label class="check"><input id="e-on" type="checkbox"> Edit corners</label>
+  <div style="display:flex; gap:6px"><button id="e-undo">Undo</button><button id="e-delete">Delete</button><button id="e-download">Download edits</button><button id="e-reset">Reset</button></div>
+  <div class="help" id="e-status"></div>
+  <div class="help">Edit mode: click a building to show its corners, shift-click to add buildings · click a corner, shift-click to add or remove, shift-drag a box · drag a selected corner to move them all · Delete or Backspace removes the selected corners · ⌘/Ctrl-Z undo · Esc deselects</div>
+  <div class="help">Drag to orbit · right-drag or two-finger drag to pan · scroll to zoom · double-click to orbit around a spot · W A S D move · Q E down/up · Shift faster · click a building for its heights</div>
+</div>
+<div class="controls">
+  <button data-view="capella">Capella crown</button>
+  <button data-view="rotunda">Rotunda (NE)</button><button data-view="street">Street (SE)</button><button data-view="base">Street level</button><button data-view="entrance">Entrance (NW)</button><button data-view="dblock">D-block (W)</button><button data-view="brick">Brick (SW)</button><button data-view="midblock">Midblock (S)</button><button data-view="sign">WCCO sign</button><button data-view="hyatt">Hyatt canopy</button><button data-view="lights">Street lights</button><button data-view="towerS">Tower (S)</button><button data-view="sunward">Toward the sun</button><button data-view="startribune">Star Tribune (E)</button><button data-view="skywayW">Skyway (W)</button>
+  <button data-view="skyways">Capella skyways</button>
+  <button data-view="nw">From NW</button>
+  <button data-view="ne">From NE</button>
+  <button data-view="sw">From SW</button>
+  <button data-view="se">From SE</button>
+  <button data-view="top">Top</button>
+  <button id="export-glb">Export .glb</button>
+</div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { Sky } from 'three/addons/objects/Sky.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+import { mergeGeometries, mergeVertices, toCreasedNormals } from 'three/addons/utils/BufferGeometryUtils.js';
+
+const $ = id => document.getElementById(id);
+
+// buildings.json from footprints.py: roof segments in meters, x east, z south,
+// origin at the tile center, heights from the tile's median ground.
+// towers.json from towers.py (optional): towers rebuilt slice by slice, in the
+// same frame; each one stands in for the roof segments it lists in 'replaces'
+const data = await (await fetch('buildings.json')).json();
+const towers = await fetch('towers.json').then(r => r.ok ? r.json() : { towers: [] }, () => ({ towers: [] }));
+const replaced = new Set(towers.towers.flatMap(t => t.replaces));
+// open tiers (a tower's halo) are drawn as thin glass shells with the frame;
+// glass tiers (glass.py: a glass roof, an atrium) are segments like the rest
+// but drawn in their own glass mesh
+// Capella's block and the streets round it: a rectangle on the street grid
+// (u along it, v across it, from CROP.o), each edge 5 m in from the building
+// frontage across the street (where the lidar's ground share drops: u −94.0
+// and 59.5, v −84.6 and 71.9). ?all shows the whole tile
+const CROP = new URLSearchParams(location.search).has('all') ? null : {
+  o: [100, -50], deg: 31.2, u: [-89.0, 54.5], v: [-79.6, 66.9],
+};
+const cropUV = (x, z) => {
+  const t = CROP.deg * Math.PI / 180, dx = x - CROP.o[0], dz = z - CROP.o[1];
+  return [dx * Math.cos(t) + dz * Math.sin(t), -dx * Math.sin(t) + dz * Math.cos(t)];
+};
+const inCrop = (x, z) => {
+  if (!CROP) return true;
+  const [u, v] = cropUV(x, z);
+  return u >= CROP.u[0] && u <= CROP.u[1] && v >= CROP.v[0] && v <= CROP.v[1];
+};
+// cut a ring to the crop's rectangle (Sutherland–Hodgman: the rectangle is
+// convex), so what's kept, skyways over the street, ends at its edge
+function clipToCrop(ring) {
+  if (!CROP) return ring;
+  const t = CROP.deg * Math.PI / 180, c = Math.cos(t), sn = Math.sin(t);
+  let pts = ring.map(([x, z]) => cropUV(x, z));
+  for (const [k, lim, keepAbove] of [[0, CROP.u[0], true], [0, CROP.u[1], false], [1, CROP.v[0], true], [1, CROP.v[1], false]]) {
+    const inside = p => keepAbove ? p[k] >= lim : p[k] <= lim, out = [];
+    pts.forEach((p, i) => {
+      const q = pts[(i + 1) % pts.length];
+      if (inside(p)) out.push(p);
+      if (inside(p) !== inside(q)) {
+        const f = (lim - p[k]) / (q[k] - p[k]);
+        out.push([p[0] + f * (q[0] - p[0]), p[1] + f * (q[1] - p[1])]);
+      }
+    });
+    pts = out;
+    if (pts.length < 3) return [];
+  }
+  return pts.map(([u, v]) => [CROP.o[0] + u * c - v * sn, CROP.o[1] + u * sn + v * c]);
+}
+// a segment is in when its footprint's middle is (buildings across the
+// street start at the crop's edge, so theirs are out; skyways over it are in)
+const footprintMiddle = s => {
+  const ring = s.outer ?? s.bottom ?? s.rings[0][1];
+  return ring.reduce(([a, b], [x, z]) => [a + x / ring.length, b + z / ring.length], [0, 0]);
+};
+const segments = [
+  ...data.segments.filter(s => !replaced.has(s.id)).map(s => ({ ...s, key: `seg:${s.id}` })),
+  ...towers.towers.flatMap(t => t.tiers.map((tier, i) => ({ ...tier, tower: t.name, key: `${t.name}:${i}` })).filter(tier => !tier.open)),
+].filter(s => inCrop(...footprintMiddle(s)));
+
+// hand edits to outlines: edits.json in this folder (if any), then this
+// browser's saved edits on top; each maps a segment key to its outer ring
+const EDITS_KEY = 'lidar-buildings-edits';
+const edits = {
+  ...(await fetch('edits.json').then(r => r.ok ? r.json() : {}, () => ({}))),
+  ...JSON.parse(localStorage.getItem(EDITS_KEY) || '{}'),
+};
+for (const s of segments) if (s.outer && edits[s.key]) s.outer = edits[s.key];
+
+// one prism per roof segment, colored by roof height; ExtrudeGeometry builds
+// in the shape's xy plane, so shape y is −z and the extrusion is turned up
+const ramp = [0x6b7a8f, 0xa9b4c2, 0xe3d3b4, 0xf2b880].map(c => new THREE.Color(c));
+function rampColor(t, out) {
+  t = Math.min(Math.max(t, 0), 1) * (ramp.length - 1);
+  const k = Math.min(Math.floor(t), ramp.length - 2);
+  return out.copy(ramp[k]).lerp(ramp[k + 1], t - k);
+}
+const color = new THREE.Color();
+// a loft tier: a smooth side through a stack of rings (same vertex count),
+// with flat caps on the first and last. towers.py's have a 'bottom' ring at
+// 'base' and a 'top' ring at 'roof'; glass.py's 'rings' are [y, ring] pairs
+// going up, and keep their corners sharp (creased) where the ring turns
+function loftGeometry(s) {
+  const stack = s.rings ?? [[s.base, s.bottom], [s.roof, s.top]];
+  const n = stack[0][1].length, pos = [];
+  const v = (ring, i, y) => [ring[i % n][0], y, ring[i % n][1]];
+  for (let k = 0; k + 1 < stack.length; k++) {
+    const [y0, lo] = stack[k], [y1, hi] = stack[k + 1];
+    for (let i = 0; i < n; i++) {                     // side quads, smooth-shaded below
+      const a = v(lo, i, y0), b = v(lo, i + 1, y0), c = v(hi, i + 1, y1), d = v(hi, i, y1);
+      pos.push(...a, ...c, ...b, ...a, ...d, ...c);
+    }
+  }
+  const side = new THREE.BufferGeometry();
+  side.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  let smooth;
+  if (s.rings) smooth = toCreasedNormals(side, Math.PI / 6);
+  else { smooth = mergeVertices(side); smooth.computeVertexNormals(); }
+  const caps = [];
+  const [[yb, bottom], [yt, top]] = [stack[0], stack[stack.length - 1]];
+  for (const [ring, y, up] of [[bottom, yb, false], [top, yt, true]]) {
+    const pts = ring.map(([x, z]) => new THREE.Vector2(x, z));
+    for (const [i, j, k] of THREE.ShapeUtils.triangulateShape(pts, [])) {
+      const t = [i, j, k].map(q => [ring[q][0], y, ring[q][1]]);
+      // face up for the top cap, down for the bottom
+      const cross = (t[1][2] - t[0][2]) * (t[2][0] - t[0][0]) - (t[1][0] - t[0][0]) * (t[2][2] - t[0][2]);
+      if ((cross > 0) !== up) t.reverse();
+      caps.push(...t.flat());
+    }
+  }
+  const cap = new THREE.BufferGeometry();
+  cap.setAttribute('position', new THREE.Float32BufferAttribute(caps, 3));
+  cap.computeVertexNormals();
+  return mergeGeometries([smooth.index ? smooth.toNonIndexed() : smooth, cap]);
+}
+// facade_<name>.json from facade.py: a bay-by-floor wall tile, and for each
+// tier it dresses its faces as [start, end, bay offset] in m along its
+// outline (one facade for now: Capella's). photo_facade.py adds tiles cut
+// from a photo ('photo'), a kind on each face (1 the window grid, 2 the
+// curved glass ribbon, 3 the grid below 'ribbon_from' and the ribbon
+// above, 4 the ribbon down to the street: an entrance, 5 the ribbon with a
+// light streak down the face where its fifth number says) and loft tiers dressed all round ('lofts': key: kind)
+const facadeMeta = await fetch('facade_capella.json').then(r => r.ok ? r.json() : null, () => null);
+const facadeKeys = new Set(Object.keys(facadeMeta?.tiers ?? {}));
+const facadeLofts = facadeMeta?.lofts ?? {};
+// where along a face each wall vertex sits, offset so every face's bays
+// line up with the tile: per triangle, the face its middle is on, then each
+// corner's distance along that face
+// a ring's length P, and along(x, z): the nearest point's distance along it
+// from its first corner
+function ringAlong(ring) {
+  const L = [0];
+  for (let i = 0; i < ring.length; i++) {
+    const [ax, az] = ring[i], [bx, bz] = ring[(i + 1) % ring.length];
+    L.push(L[i] + Math.hypot(bx - ax, bz - az));
+  }
+  const along = (x, z) => {
+    let best = Infinity, at = 0;
+    for (let i = 0; i < ring.length; i++) {
+      const [ax, az] = ring[i], [bx, bz] = ring[(i + 1) % ring.length];
+      const dx = bx - ax, dz = bz - az, l2 = dx * dx + dz * dz || 1;
+      const t = Math.min(1, Math.max(0, ((x - ax) * dx + (z - az) * dz) / l2));
+      const d = Math.hypot(ax + t * dx - x, az + t * dz - z);
+      if (d < best) { best = d; at = L[i] + t * (L[i + 1] - L[i]); }
+    }
+    return at;
+  };
+  return { P: L[ring.length], along };
+}
+const mod = (a, m) => ((a % m) + m) % m;
+// bands (optional): per vertex, up to two rectangles of its face that are
+// the ribbon (photo_facade.py's bands), each [from, to] in wallA and
+// [from, to] m up: band holds the first, band2 the second
+function wallCoords(geo, ring, faces, kind, bands = [], band = null, band2 = null) {
+  const { P, along } = ringAlong(ring);
+  const pos = geo.attributes.position, out = new Float32Array(pos.count);
+  for (let i = 0; i + 2 < pos.count; i += 3) {
+    const cx = (pos.getX(i) + pos.getX(i + 1) + pos.getX(i + 2)) / 3, cz = (pos.getZ(i) + pos.getZ(i + 1) + pos.getZ(i + 2)) / 3;
+    const sc = along(cx, cz);
+    const j = faces.findIndex(([a, b]) => mod(sc - a, P) <= mod(b - a, P) || b === a);
+    const [s0, , bayOff, kd = 1, streak] = faces[j] ?? [0, 0, 0];
+    const off = streak ?? bayOff;                      // a streaked face (kind 5): wallA 0 at its streak
+    const bd = bands.filter(b => b.face === j);
+    for (let k = i; k < i + 3; k++) {
+      out[k] = mod(along(pos.getX(k), pos.getZ(k)) - s0 + 0.5, P) - 0.5 - off; kind[k] = kd;
+      bd.slice(0, 2).forEach((b, q) => (q ? band2 : band)?.set([b.s[0] - off, b.s[1] - off, b.y[0], b.y[1]], 4 * k));
+    }
+  }
+  return out;
+}
+// a loft's wall coordinate: around its bottom ring's middle, in m at the
+// ring's mean radius (per triangle, so no seam where the angle wraps)
+function loftCoords(geo, ring) {
+  const cx = ring.reduce((a, p) => a + p[0], 0) / ring.length, cz = ring.reduce((a, p) => a + p[1], 0) / ring.length;
+  const r = ring.reduce((a, p) => a + Math.hypot(p[0] - cx, p[1] - cz), 0) / ring.length;
+  const pos = geo.attributes.position, out = new Float32Array(pos.count);
+  const ang = k => Math.atan2(pos.getZ(k) - cz, pos.getX(k) - cx);
+  for (let i = 0; i + 2 < pos.count; i += 3) {
+    const ac = Math.atan2((pos.getZ(i) + pos.getZ(i + 1) + pos.getZ(i + 2)) / 3 - cz, (pos.getX(i) + pos.getX(i + 1) + pos.getX(i + 2)) / 3 - cx);
+    for (let k = i; k < i + 3; k++) out[k] = (ac + Math.atan2(Math.sin(ang(k) - ac), Math.cos(ang(k) - ac))) * r;
+  }
+  return out;
+}
+// brickfacade.py's walls (facade_block.json): each tier's wall unrolled
+// whole into its own rect of facade_block.png, m along the outline from its
+// first corner by m up. Per triangle, so the wall's last face doesn't wrap
+// back to the image's start
+const blockMeta = await fetch('facade_block.json').then(r => r.ok ? r.json() : null, () => null) ?? {};
+function elevCoords(geo, ring, { rect: [u0, v0, du, dv], span, top }) {
+  const { P, along } = ringAlong(ring);
+  const pos = geo.attributes.position, out = new Float32Array(pos.count * 2);
+  for (let i = 0; i + 2 < pos.count; i += 3) {
+    const sc = along((pos.getX(i) + pos.getX(i + 1) + pos.getX(i + 2)) / 3, (pos.getZ(i) + pos.getZ(i + 1) + pos.getZ(i + 2)) / 3);
+    for (let k = i; k < i + 3; k++) {
+      const a = sc + mod(along(pos.getX(k), pos.getZ(k)) - sc + P / 2, P) - P / 2;
+      out[2 * k] = u0 + Math.min(Math.max(a, 0), P) / span * du;
+      out[2 * k + 1] = v0 + Math.min(Math.max(pos.getY(k), 0), top) / top * dv;
+    }
+  }
+  return out;
+}
+function segmentGeometry(s) {
+  let geo;
+  if (s.top || s.rings) geo = loftGeometry(s);
+  else {
+    const toVec = ring => ring.map(([x, z]) => new THREE.Vector2(x, -z));
+    const shape = new THREE.Shape(toVec(clipToCrop(s.outer)));
+    shape.holes = s.holes.map(clipToCrop).filter(h => h.length >= 3).map(h => new THREE.Path(toVec(h)));
+    geo = new THREE.ExtrudeGeometry(shape, { depth: s.roof - s.base, bevelEnabled: false });
+    geo.rotateX(-Math.PI / 2);
+    geo.translate(0, s.base, 0);
+    geo.deleteAttribute('uv');
+    geo.clearGroups();
+  }
+  rampColor(s.roof / 240, color);
+  const n = geo.attributes.position.count, colors = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) colors.set([color.r, color.g, color.b], i * 3);
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  // facade: 0 plain, else the face's kind; wallA: m along the face
+  const kind = new Float32Array(n);
+  let wallA = new Float32Array(n);
+  const band = new Float32Array(n * 4).fill(-1e4), band2 = new Float32Array(n * 4).fill(-1e4);
+  if (!geo.index && facadeKeys.has(s.key)) wallA = wallCoords(geo, s.outer ?? s.bottom, facadeMeta.tiers[s.key], kind, (facadeMeta.photo?.bands ?? []).filter(b => b.key === s.key), band, band2);
+  else if (!geo.index && facadeLofts[s.key] && s.bottom) { wallA = loftCoords(geo, s.bottom); kind.fill(facadeLofts[s.key]); }
+  // kind 6: the brick walls, their own image
+  let elevUV = new Float32Array(n * 2);
+  const elevScale = new Float32Array(n);                    // image v per m up (the ledge snow looks a little above)
+  if (!geo.index && blockMeta[s.key] && s.outer) { elevUV = elevCoords(geo, s.outer, blockMeta[s.key]); kind.fill(6); elevScale.fill(blockMeta[s.key].rect[3] / blockMeta[s.key].top); }
+  geo.setAttribute('facade', new THREE.BufferAttribute(kind, 1));
+  geo.setAttribute('wallA', new THREE.BufferAttribute(wallA, 1));
+  geo.setAttribute('elevUV', new THREE.BufferAttribute(elevUV, 2));
+  geo.setAttribute('elevScale', new THREE.BufferAttribute(elevScale, 1));
+  geo.setAttribute('band', new THREE.BufferAttribute(band, 4));
+  geo.setAttribute('band2', new THREE.BufferAttribute(band2, 4));
+  return geo;
+}
+const geos = segments.map(segmentGeometry);
+// a merged mesh's geometry from some segments; userData.idx and .starts map
+// a vertex back to its segment (segmentAt)
+const solidIdx = segments.flatMap((s, i) => s.glass ? [] : [i]);
+const glassIdx = segments.flatMap((s, i) => s.glass ? [i] : []);
+function mergeInto(mesh) {
+  const { idx } = mesh.userData, starts = []; let count = 0;
+  for (const i of idx) { starts.push(count); count += geos[i].attributes.position.count; }
+  mesh.userData.starts = starts;
+  mesh.geometry.dispose();
+  mesh.geometry = idx.length ? mergeGeometries(idx.map(i => geos[i])) : new THREE.BufferGeometry();
+}
+// the height slice clips buildings and lidar alike
+const sliceLow = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+const sliceHigh = new THREE.Plane(new THREE.Vector3(0, -1, 0), 245);
+const clippingPlanes = [sliceLow, sliceHigh];
+const buildingMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85, clippingPlanes, side: THREE.DoubleSide });
+
+// lidar intensity as surface texture (roofmap.py: a top-down image, so it
+// goes on what faces up: roofs and the ground); walls get a plain tone.
+// texMode 0 keeps the height colors
+const roofMeta = await fetch('roof_intensity.json').then(r => r.ok ? r.json() : null, () => null);
+// texMode 2: walls from the photo tiles (photo_facade.py), roofs as in 1
+const photo = facadeMeta?.photo;
+const surface = { texMode: { value: roofMeta ? (photo ? 2 : 1) : 0 }, facMap: { value: null }, facBay: { value: 1 }, facFloor: { value: 1 },
+  facGrid: { value: null }, facRibbon: { value: null }, facAnchor: { value: 0 }, gridFloors: { value: 1 }, ribbonFrom: { value: 0 },
+  facBase: { value: null }, baseTop: { value: -1 }, baseBays: { value: 1 }, facElev: { value: null },
+  snow: { value: 0.75 }, daylight: { value: 1 },
+  // the glass reflects the scene (reflections: a snapshot of it); walls take
+  // only a little of it, as they did of the sky (envDiffuse, envStone),
+  // glass much more (envGlass), near mirror-smooth; less painted colour then
+  glassRough: { value: 0.06 }, glassPaint: { value: 0.2 }, envDiffuse: { value: 0.25 }, envStone: { value: 0.25 }, envGlass: { value: 6.0 },   // coated glass: ~25% head on
+  // the plowed streets are wet: smooth and reflective (the street lights streak on them)
+  wetRough: { value: 0.24 }, envWet: { value: 1.4 },
+  // up to STRIPES maroon stripes (photo_facade.py): each a point and the wall's direction (x, z, ex, ez), and width, reach, top
+  stripeLine: { value: Array.from({ length: 4 }, () => new THREE.Vector4(0, 0, 1, 0)) }, stripeSize: { value: Array.from({ length: 4 }, () => new THREE.Vector3()) }, stripeCount: { value: 0 } };
+const loadTile = async (url, colorSpace) => {
+  const tex = await new THREE.TextureLoader().loadAsync(url);
+  tex.colorSpace = colorSpace; tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.anisotropy = 8;
+  return tex;
+};
+if (facadeMeta) {
+  surface.facMap.value = await loadTile('facade_capella.png', THREE.NoColorSpace);
+  surface.facBay.value = facadeMeta.bay; surface.facFloor.value = facadeMeta.floor;
+}
+if (Object.keys(blockMeta).length) {
+  surface.facElev.value = await loadTile('facade_block.png', THREE.SRGBColorSpace);
+  surface.facElev.value.wrapS = surface.facElev.value.wrapT = THREE.ClampToEdgeWrapping;
+}
+if (photo) {
+  surface.facGrid.value = await loadTile(photo.tiles.grid.png, THREE.SRGBColorSpace);
+  surface.facRibbon.value = await loadTile(photo.tiles.ribbon.png, THREE.SRGBColorSpace);
+  if (photo.tiles.base) {
+    surface.facBase.value = await loadTile(photo.tiles.base.png, THREE.SRGBColorSpace);
+    surface.baseTop.value = photo.tiles.base.top; surface.baseBays.value = photo.tiles.base.bays;
+  }
+  (photo.stripes ?? []).slice(0, 4).forEach((st, i) => {
+    surface.stripeLine.value[i].set(st.p[0], st.p[1], st.along[0], st.along[1]);
+    surface.stripeSize.value[i].set(st.width, st.near, st.top ?? 1e4);
+    surface.stripeCount.value = i + 1;
+  });
+  surface.facAnchor.value = photo.anchor; surface.gridFloors.value = photo.tiles.grid.floors; surface.ribbonFrom.value = photo.ribbon_from ?? 0;
+  $('photo-credit').textContent = `Facade photo: ${photo.credit}`;
+} else $('b-color').querySelector('option[value="2"]').remove();
+$('b-color').value = String(surface.texMode.value);
+if (roofMeta) {
+  const tex = await new THREE.TextureLoader().loadAsync('roof_intensity.png');
+  tex.colorSpace = THREE.NoColorSpace;
+  tex.anisotropy = 8;
+  Object.assign(surface, {
+    roofMap: { value: tex },
+    roofOrigin: { value: new THREE.Vector2(roofMeta.x0, roofMeta.z0) },
+    roofSize: { value: new THREE.Vector2(roofMeta.width * roofMeta.res, roofMeta.height * roofMeta.res) },
+  });
+  // streetmask.py (optional): the streets, plowed, take no snow; on roofmap's grid
+  const streets = await new THREE.TextureLoader().loadAsync('street_mask.png').catch(() => null);
+  if (streets) streets.colorSpace = THREE.NoColorSpace;
+  surface.streetMap = { value: streets };
+  surface.hasStreets = { value: streets ? 1 : 0 };
+}
+function withSurface(mat, wallTone) {
+  if (!roofMeta) return mat;
+  mat.onBeforeCompile = sh => {
+    Object.assign(sh.uniforms, surface);
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vWPos;\nvarying vec3 vWNormal;\nvarying float vFacade;\nvarying float vWallA;\nvarying vec2 vElevUV;\nvarying float vElevScale;\nvarying vec4 vBand;\nvarying vec4 vBand2;\n#ifdef HAS_FACADE\nattribute float facade;\nattribute float wallA;\nattribute vec2 elevUV;\nattribute float elevScale;\nattribute vec4 band;\nattribute vec4 band2;\n#endif')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvWPos = (modelMatrix * vec4(transformed, 1.0)).xyz;\nvWNormal = normalize(mat3(modelMatrix) * objectNormal);\n#ifdef HAS_FACADE\nvFacade = facade;\nvWallA = wallA;\nvElevUV = elevUV;\nvElevScale = elevScale;\nvBand = band;\nvBand2 = band2;\n#else\nvFacade = 0.0;\nvWallA = 0.0;\nvElevUV = vec2(0.0);\nvElevScale = 0.0;\nvBand = vec4(-1e4);\nvBand2 = vec4(-1e4);\n#endif');
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', `#include <common>
+varying vec3 vWPos;
+varying vec3 vWNormal;
+varying float vFacade;
+varying float vWallA;
+varying vec2 vElevUV;
+varying float vElevScale;
+varying vec4 vBand;
+varying vec4 vBand2;
+uniform sampler2D roofMap, facMap, facGrid, facRibbon, facBase, facElev;
+uniform float facBay, facFloor, facAnchor, gridFloors, ribbonFrom, baseTop, baseBays;
+uniform vec4 stripeLine[4];
+uniform vec3 stripeSize[4];
+uniform int stripeCount;
+uniform vec2 roofOrigin, roofSize;
+uniform sampler2D streetMap;
+uniform float hasStreets;
+uniform float texMode;
+uniform float snow, glassRough, glassPaint, envDiffuse, envStone, envGlass, wetRough, envWet, daylight;`)
+      .replace('#include <color_fragment>', `#include <color_fragment>
+float glassAmt = 0.0, wet = 0.0, reflAmt = 0.0;     // reflAmt: how much of the glass reflection a fragment takes
+vec3 glassCol = vec3(0.0), stoneLift = vec3(0.0);
+if (texMode > 0.5) {
+  vec3 tone = vec3(${wallTone.toFixed(3)});
+  if (vWNormal.y > 0.7) {
+    vec2 uv = (vWPos.xz - roofOrigin) / roofSize;
+    float i = texture2D(roofMap, vec2(uv.x, 1.0 - uv.y)).r;
+    tone = vec3(mix(0.05, 0.75, i * i));
+    // snow: what faces up goes white, the lidar's intensity left as a little shading
+    // the streets are plowed: wet asphalt, a little darker, and no snow
+    float street = hasStreets > 0.5 && vWPos.y < 1.5 ? texture2D(streetMap, vec2(uv.x, 1.0 - uv.y)).r : 0.0;
+    tone *= 1.0 - 0.4 * street;                        // wet asphalt reads darker
+    // and glossy, wettest (puddles) where the lidar saw the asphalt darkest
+    wet = street * mix(0.55, 1.0, smoothstep(0.55, 0.2, i));
+    tone = mix(tone, vec3(0.80, 0.84, 0.90) * mix(0.82, 1.0, i), snow * (1.0 - street) * smoothstep(0.7, 0.9, vWNormal.y));
+  } else if (texMode > 1.5 && vFacade > 0.5 && abs(vWNormal.y) < 0.3) {
+    // the photo's tiles: the window grid (bands every gridFloors floors from
+    // facAnchor) or, on curved faces, the glass ribbon (kind 3: only above
+    // ribbonFrom). A is glass, coloured as the photo shows it (photo_facade
+    // regions' medians): near black low down, where it reflects the street
+    // and trees, a steady blue from about 36 m (the sky), a little deeper
+    // near the top. Mostly reflection, so mostly emissive: shaded faces stay
+    // blue, as in the photo. Each window a little lighter or darker
+    float u = vWallA / facBay, h = (vWPos.y - facAnchor) / facFloor;
+    float kind = floor(vFacade + 0.5);
+    // a band: a rectangle of the face that is the ribbon, base or not
+    bool inBand = (vWallA > vBand.x && vWallA < vBand.y && vWPos.y > vBand.z && vWPos.y < vBand.w)
+      || (vWallA > vBand2.x && vWallA < vBand2.y && vWPos.y > vBand2.z && vWPos.y < vBand2.w);
+    bool ribbon = inBand || kind == 2.0 || kind >= 4.0 || (kind == 3.0 && vWPos.y > ribbonFrom);
+    vec4 fr = texture2D(facRibbon, vec2(u, h)), fg = texture2D(facGrid, vec2(u, h / gridFloors));   // both: mip lookups stay out of branches
+    vec4 fb = texture2D(facBase, vec2(u / baseBays, vWPos.y / baseTop));
+    // below baseTop, every wall is the street-level granite base but an
+    // entrance's (kind 4), whose glass runs down to the street
+    vec4 fe = texture2D(facElev, vElevUV);
+    bool base = vWPos.y < baseTop && kind != 4.0 && kind != 6.0 && !inBand;
+    vec4 f = kind == 6.0 ? fe : base ? fb : ribbon ? fr : fg;
+    // snow on the ledges: where the facade is stone with glass just above
+    // (LEDGE m up), it's the top of a sill, a band or a ledge, and snow sits there
+    const float LEDGE = 0.12;
+    vec4 above = kind == 6.0 ? texture2D(facElev, vElevUV + vec2(0.0, LEDGE * vElevScale))
+      : base ? texture2D(facBase, vec2(u / baseBays, (vWPos.y + LEDGE) / baseTop))
+      : ribbon ? texture2D(facRibbon, vec2(u, h + LEDGE / facFloor)) : texture2D(facGrid, vec2(u, (h + LEDGE / facFloor) / gridFloors));
+    float ledgeSnow = snow * (1.0 - f.a) * smoothstep(0.4, 0.8, above.a) * smoothstep(0.3, -0.1, vWNormal.y);
+    f.rgb = mix(f.rgb, vec3(0.82, 0.85, 0.9), 0.9 * ledgeSnow);
+    glassAmt = f.a;
+    reflAmt = glassAmt * (kind == 6.0 ? 0.35 : 1.0);   // old brick buildings' windows: set back, plain glass
+    glassCol = mix(pow(vec3(27.0, 25.0, 32.0) / 255.0, vec3(2.2)), pow(vec3(45.0, 95.0, 148.0) / 255.0, vec3(2.2)), smoothstep(22.0, 40.0, vWPos.y));
+    glassCol = mix(glassCol, pow(vec3(38.0, 74.0, 126.0) / 255.0, vec3(2.2)), smoothstep(80.0, 170.0, vWPos.y));
+    vec2 cell = floor(vec2(ribbon && !base ? u * 2.0 : u, h));   // a ribbon pane is half a bay
+    glassCol *= 0.85 + 0.3 * fract(sin(dot(cell, vec2(12.9898, 78.233))) * 43758.5453);
+    if (kind == 6.0) glassCol = mix(pow(vec3(27.0, 25.0, 32.0) / 255.0, vec3(2.2)), glassCol, 0.25);   // the brick buildings' windows are set back: dark, as the photos show
+    // stripes, the colour of the tower's plain ledges (the 216 m ring: the
+    // walls' plain tone): walls within reach of a stripe's wall, facing out
+    // from it, within half its width of its line, up to its top
+    bool striped = false;
+    for (int s = 0; s < 4; s++) {
+      if (s >= stripeCount) break;
+      vec2 sp = stripeLine[s].xy, se = stripeLine[s].zw, sn = vec2(-se.y, se.x), dp = vWPos.xz - sp;
+      if (abs(dot(dp, se)) < stripeSize[s].x / 2.0 && abs(dot(dp, sn)) < stripeSize[s].y && vWPos.y < stripeSize[s].z
+          && dot(normalize(vWNormal.xz + 1e-6), sn) > 0.3) {
+        f = vec4(vec3(${wallTone.toFixed(3)}), 0.0); glassAmt = 0.0; reflAmt = 0.0; striped = true;
+      }
+    }
+    // kind 5: one light streak, 1.2 m wide, down the face at wallA 0
+    if (kind == 5.0 && !base && abs(vWallA) < 0.6) { f = vec4(pow(vec3(205.0, 203.0, 196.0) / 255.0, vec3(2.2)), 0.0); glassAmt = 0.0; }
+    tone = mix(f.rgb, glassCol * 0.2, glassAmt);
+    stoneLift = striped ? vec3(0.0) : f.rgb * (1.0 - glassAmt) * 0.25;   // sky light on the cream granite, so shaded faces aren't grey (stripes lit as the ledges are)
+  } else if (vFacade > 0.5 && vFacade < 5.5 && abs(vWNormal.y) < 0.3) {
+    // the wall tile (Capella's: not the brick walls, kind 6), along the face (vWallA: m from its first bay) and up
+    vec4 f = texture2D(facMap, vec2(vWallA / facBay, vWPos.y / facFloor));
+    tone = mix(vec3(0.06, 0.08, 0.1), vec3(mix(0.18, 0.72, f.r * f.r)), f.g);
+  }
+  diffuseColor.rgb = tone;
+}`)
+      .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor = mix(mix(roughnessFactor, glassRough, glassAmt), wetRough, wet);')
+      .replace('#include <lights_fragment_maps>', '#include <lights_fragment_maps>\niblIrradiance *= envDiffuse;\nradiance *= mix(mix(envStone, envGlass, reflAmt), envWet, wet);')
+      .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += (glassCol * glassPaint * glassAmt + stoneLift) * daylight;   // the painted sky light goes with the day');
+  };
+  return mat;
+}
+buildingMat.defines = { HAS_FACADE: '' };
+withSurface(buildingMat, 0.32);
+const buildings = new THREE.Mesh(new THREE.BufferGeometry(), buildingMat);
+buildings.userData.idx = solidIdx; mergeInto(buildings);
+buildings.name = 'buildings';
+buildings.castShadow = buildings.receiveShadow = true;
+const edges = new THREE.LineSegments(new THREE.EdgesGeometry(buildings.geometry, 20),
+  // hairlines: WebGL lines are one device pixel wide (half a CSS pixel on a
+  // retina screen), at 0.7 opacity
+  new THREE.LineBasicMaterial({ color: 0x0d1117, transparent: true, opacity: 0.7, depthWrite: false, clippingPlanes }));
+edges.visible = true;                                   // on by default (the Show edges box starts ticked)
+
+// an open halo's shell (towers.py 'shell'): a strip of lines up the cone,
+// each [bottom x, y, z, top x, y, z], in order around the round part; it
+// stays open across the tower's flat side
+function shellGeometry(lines) {
+  const pos = [];
+  for (let i = 0; i + 1 < lines.length; i++) {
+    const [a, b] = [lines[i], lines[i + 1]];
+    pos.push(...a.slice(0, 3), ...b.slice(3), ...b.slice(0, 3), ...a.slice(0, 3), ...a.slice(3), ...b.slice(3));
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  const smooth = mergeVertices(geo); smooth.computeVertexNormals();
+  return smooth;
+}
+
+// tower frames (towers.py 'frame'): open halo shells in clear glass, and the
+// straight steel members (ribs, rims, and the struts under the halo) as thin bars
+const MEMBER_WIDTH = { rib: 0.35, rim: 0.45, strut: 0.4, brace: 0.3 };
+const frame = new THREE.Group();
+frame.name = 'frames';
+const glassMat = new THREE.MeshStandardMaterial({ color: 0xc4e4ea, metalness: 0.2, roughness: 0.15, transparent: true,
+  opacity: 0.7, side: THREE.DoubleSide, depthWrite: false, clippingPlanes });
+const steelMat = new THREE.MeshStandardMaterial({ color: 0xdfe4e8, metalness: 0.6, roughness: 0.35, clippingPlanes });
+// the halo lit, as it is at dusk: its glass glows, the light filling it
+// (lit from within: nearly opaque when on), the steel only catching a
+// little of it. The World panel's Halo light sets how bright (haloLit), its
+// colour picker the colour (the real one changes: white, gold, green, pink)
+const HALO = { center: new THREE.Vector3(76.36, 233.5, -97.48), color: new THREE.Color(0xebd6ff), reach: 28 };
+glassMat.emissive = HALO.color; steelMat.emissive = HALO.color;
+const haloLit = level => {
+  glassMat.emissiveIntensity = 2.2 * level;
+  glassMat.opacity = 0.7 + 0.25 * Math.min(level, 1);
+  steelMat.emissiveIntensity = 0.15 * level;
+};
+haloLit(1);
+const bars = [], dir = new THREE.Vector3(), mid = new THREE.Vector3(), turn = new THREE.Quaternion(), zAxis = new THREE.Vector3(0, 0, 1);
+for (const t of towers.towers) {
+  for (const tier of t.tiers.filter(x => x.open)) frame.add(new THREE.Mesh(shellGeometry(tier.shell), glassMat));
+  for (const [kind, ax, ay, az, bx, by, bz] of t.frame?.members ?? []) {
+    const a = new THREE.Vector3(ax, ay, az), b = new THREE.Vector3(bx, by, bz);
+    dir.subVectors(b, a); const len = dir.length();
+    if (len < 0.05) continue;
+    const w = MEMBER_WIDTH[kind] ?? 0.25;
+    const bar = new THREE.BoxGeometry(w, w, len);
+    bar.applyQuaternion(turn.setFromUnitVectors(zAxis, dir.normalize()));
+    bar.translate(...mid.addVectors(a, b).multiplyScalar(0.5).toArray());
+    bar.deleteAttribute('uv');
+    bars.push(bar);
+  }
+}
+// glass tiers (glass roofs, atria): frosted, mostly opaque, not the halo's clear glass
+const glassTierMat = new THREE.MeshStandardMaterial({ color: 0xb4cdd4, metalness: 0, roughness: 0.7, transparent: true,
+  opacity: 0.88, side: THREE.DoubleSide, depthWrite: false, clippingPlanes });
+const glassSolid = new THREE.Mesh(new THREE.BufferGeometry(), glassTierMat);
+glassSolid.userData.idx = glassIdx; mergeInto(glassSolid);
+glassSolid.renderOrder = 1;
+frame.add(glassSolid);
+if (bars.length) {
+  const steel = new THREE.Mesh(mergeGeometries(bars), steelMat);
+  steel.castShadow = true;
+  frame.add(steel);
+}
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+// the pixel density: up to 2, but at most BOX_DPR in the portfolio's box (?embed: it's small there,
+// and every effect costs per pixel); FULL_DPR again when it goes full screen (setBoxQuality)
+const FULL_DPR = Math.min(devicePixelRatio, 2), BOX_DPR = Math.min(devicePixelRatio, 1.25);
+renderer.setPixelRatio(document.documentElement.classList.contains('embed') ? BOX_DPR : FULL_DPR);
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.localClippingEnabled = true;
+document.body.prepend(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.add(buildings, edges, frame);
+
+// trees.json from trees.py (optional): a trunk up to each crown's base and
+// a rounded crown from there to the top
+const treeData = (await fetch('trees.json').then(r => r.ok ? r.json() : { trees: [] }, () => ({ trees: [] }))).trees
+  .filter(t => inCrop(t.x, t.z));
+const trees = new THREE.Group();
+if (treeData.length) {
+  const crowns = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 2),
+    new THREE.MeshStandardMaterial({ color: 0x6d6258, roughness: 0.95, flatShading: true, transparent: true, opacity: 0.55, depthWrite: false, clippingPlanes }), treeData.length);   // winter: bare branches, see-through
+  const trunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.22, 0.3, 1, 8),
+    new THREE.MeshStandardMaterial({ color: 0x5b4a3a, roughness: 0.9, clippingPlanes }), treeData.length);
+  const m = new THREE.Matrix4(), q = new THREE.Quaternion(), p = new THREE.Vector3(), sc = new THREE.Vector3();
+  treeData.forEach((t, i) => {
+    const h = t.top - t.crown_base;
+    crowns.setMatrixAt(i, m.compose(p.set(t.x, t.crown_base + h / 2, t.z), q, sc.set(t.r, h / 2, t.r)));
+    const th = t.crown_base - t.ground + h * 0.3;      // into the crown a little
+    trunks.setMatrixAt(i, m.compose(p.set(t.x, t.ground + th / 2, t.z), q, sc.set(1, th, 1)));
+  });
+  crowns.castShadow = crowns.receiveShadow = trunks.castShadow = true;
+  trees.add(crowns, trunks);
+}
+scene.add(trees);
+
+// signs.json (optional): canopies over doors, and blade signs, their lettering drawn on a canvas,
+// the same on both broad faces (a box's back face already reads right from outside)
+const signData = (await fetch('signs.json').then(r => r.ok ? r.json() : { signs: [] }, () => ({ signs: [] }))).signs;
+const signs = new THREE.Group();
+function signCanvas(sign, h) {
+  const W = 128, H = Math.round(W * h / (sign.out[1] - sign.out[0])), c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const g = c.getContext('2d'), RED = '#c81e23';
+  g.fillStyle = '#e8dfca'; g.fillRect(0, 0, W, H);
+  let y = 0;
+  for (const p of sign.panels) {
+    const ph = p.share * H, m = W * 0.1;
+    if (p.kind === 'logo') {
+      g.fillStyle = RED; g.fillRect(m, y + m * 0.6, W - 2 * m, ph - m * 1.2);
+      g.fillStyle = '#fff'; g.fillRect(m * 1.5, y + m, W - 3 * m, ph - m * 2);
+      g.fillStyle = '#ef4b23'; g.beginPath(); g.moveTo(W / 2, y + m * 1.3); g.lineTo(W / 2 + m * 1.3, y + ph - m * 1.3); g.lineTo(W / 2 - m * 1.3, y + ph - m * 1.3); g.fill();
+    } else if (p.kind === 'letters') {
+      const n = p.text.length, step = ph / n, size = Math.min(step * 0.95, W * 0.95) * p.size;
+      g.fillStyle = RED; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.font = `900 ${size}px "Arial Black", "Helvetica Neue", Arial, sans-serif`;
+      [...p.text].forEach((ch, i) => g.fillText(ch, W / 2, y + step * (i + 0.5)));
+    } else if (p.kind === 'number') {
+      g.fillStyle = RED; g.fillRect(m * 0.5, y + m * 0.5, W - m, ph - m);
+      g.fillStyle = '#fff'; g.fillRect(m, y + m, W - 2 * m, ph - 2 * m);
+      g.fillStyle = '#111'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.font = `900 ${Math.min(ph * 0.55, W * 0.32)}px "Arial Black", Arial, sans-serif`;
+      g.fillText(p.text, W / 2, y + ph / 2);
+    }
+    y += ph;
+  }
+  return c;
+}
+// a canopy's front fascia: a dark panel framed in brass, its text in white
+function canopyCanvas(sign) {
+  const W = 512, H = Math.round(W * (sign.top - sign.base) / sign.length), c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const g = c.getContext('2d'), m = H * 0.14;
+  g.fillStyle = '#b8913a'; g.fillRect(0, 0, W, H);
+  g.fillStyle = '#d9b75c'; g.fillRect(0, 0, W, m * 0.5);
+  g.fillStyle = '#2b2826'; g.fillRect(m * 1.6, m, W - m * 3.2, H - 2 * m);
+  g.fillStyle = '#f4f1ea'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = `500 ${H * 0.36}px "Helvetica Neue", Arial, sans-serif`;
+  g.fillText(sign.text, W / 2, H / 2, W - m * 5);
+  return c;
+}
+// a painted panel: the Star Tribune's entrance on the podium's east face
+// (too intricate to build: a curved curtain wall, two grey columns, the
+// glass vestibule, its canopy bar and the star), 40 px a m
+const starImg = await new Promise(ok => { const im = new Image(); im.onload = () => ok(im); im.onerror = () => ok(null); im.src = 'startribune-star-cut.png'; });
+const PANELS = {
+  startribune(sign) {
+    // in m from the panel's ends: the entry (its columns, vestibule, canopy
+    // bar and star) at the end it starts from, the curved curtain wall the rest
+    const PX = 40, L = sign.length, W = Math.round(L * PX), H = Math.round((sign.top - sign.base) * PX), c = document.createElement('canvas');
+    c.width = W; c.height = H;
+    const g = c.getContext('2d'), y = m => H - m * PX, x = m => (L - m) * PX;    // x(m): m from the start end (drawn on the right)
+    const wall = 6.6;                                                              // the curtain wall runs from here on
+    const sky = g.createLinearGradient(0, 0, 0, H); sky.addColorStop(0, '#4d6275'); sky.addColorStop(1, '#2a333c');
+    g.fillStyle = sky; g.fillRect(0, 0, W, H);
+    g.strokeStyle = '#aeb7bd'; g.lineWidth = 2;                       // the curtain wall's mullions
+    for (let m = wall + 1.4; m < L; m += 1.4) { g.beginPath(); g.moveTo(x(m), 0); g.lineTo(x(m), H); g.stroke(); }
+    for (const m of [2.1, 3.9, 5.6, 7.4]) { g.beginPath(); g.moveTo(0, y(m)); g.lineTo(x(wall), y(m)); g.stroke(); }
+    g.lineWidth = 4; g.beginPath(); g.moveTo(0, y(8.8)); g.quadraticCurveTo(x(wall + (L - wall) * 0.45), y(8.5), x(wall), y(5.9)); g.stroke();   // its sweeping curve
+    g.fillStyle = '#5c6f7e'; g.fillRect(x(5.8), y(6.6), x(0.75) - x(5.8), y(0) - y(6.6));                                 // the vestibule
+    g.strokeStyle = '#c9cfd3'; g.lineWidth = 3;
+    for (const m of [5.8, 4.55, 3.3, 2.0, 0.75]) { g.beginPath(); g.moveTo(x(m), y(3.1)); g.lineTo(x(m), y(0)); g.stroke(); }
+    g.strokeRect(x(5.8), y(6.6), x(0.75) - x(5.8), y(3.1) - y(6.6));
+    g.fillStyle = '#f2f2f2'; g.font = `600 ${0.9 * PX}px "Helvetica Neue", Arial, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText('650', x(2.0), y(4.3));
+    for (const [m0, m1] of [[6.55, 5.8], [0.75, 0.0]]) {                                                                    // the grey columns
+      const col = g.createLinearGradient(x(m0), 0, x(m1), 0); col.addColorStop(0, '#5f6468'); col.addColorStop(0.45, '#a3a8ac'); col.addColorStop(1, '#55595d');
+      g.fillStyle = col; g.fillRect(x(m0), 0, x(m1) - x(m0), H);
+      g.fillStyle = '#e6e6e2'; for (const m of [5.5, 8.0]) g.fillRect(x(m0), y(m + 0.12), x(m1) - x(m0), 0.12 * PX);
+    }
+    g.fillStyle = '#7d8388'; g.fillRect(x(7.2), y(6.75), x(0) - x(7.2), 0.25 * PX);                                        // the canopy bar
+    g.fillStyle = '#b3a196'; g.fillRect(0, y(0.35), W, 0.35 * PX);                                                         // the granite plinth
+    return c;
+  },
+};
+// the Star Tribune's star, lit: its own sign on the canopy bar, STAR.out m
+// in front of the panel, STAR.at m along it from its start, centred
+// STAR.y m up, glowing (bright enough for the bloom; brighter toward dusk,
+// as the street lights: applyDusk sets starMat.emissiveIntensity)
+const STAR = { at: 3.3, y: 6.4, size: 2.6, out: 0.35, glow: 1.3 };
+const starTex = starImg ? new THREE.Texture(starImg) : null;
+if (starTex) { starTex.colorSpace = THREE.SRGBColorSpace; starTex.needsUpdate = true; }
+const starMat = new THREE.MeshStandardMaterial({ map: starTex, emissive: 0xffffff, emissiveMap: starTex, emissiveIntensity: STAR.glow,
+  transparent: true, alphaTest: 0.3, side: THREE.DoubleSide, roughness: 0.5, clippingPlanes });
+function starSign(sign) {
+  const [ex, ez] = sign.along, [nx, nz] = [ez, -ex];
+  const star = new THREE.Mesh(new THREE.PlaneGeometry(STAR.size, STAR.size), starMat);
+  star.position.set(sign.start[0] + ex * STAR.at + nx * STAR.out, STAR.y, sign.start[1] + ez * STAR.at + nz * STAR.out);
+  star.lookAt(star.position.x + nx, STAR.y, star.position.z + nz);              // facing out from the wall
+  return star;
+}
+function canopyMesh(sign) {
+  const h = sign.top - sign.base, [ex, ez] = sign.along, [nx, nz] = [ez, -ex];      // out: the left of along
+  const front = new THREE.CanvasTexture(sign.kind === 'panel' ? PANELS[sign.draw](sign) : canopyCanvas(sign));
+  front.colorSpace = THREE.SRGBColorSpace; front.anisotropy = 8;
+  const brass = new THREE.MeshStandardMaterial({ color: 0xb8913a, metalness: 0.6, roughness: 0.4, clippingPlanes });
+  const under = new THREE.MeshStandardMaterial({ color: 0xf0e2b8, emissive: 0xf0e2b8, emissiveIntensity: 0.4, roughness: 0.8, clippingPlanes });   // lit from below
+  const fascia = new THREE.MeshStandardMaterial({ map: front, roughness: 0.5, emissive: 0xffffff, emissiveMap: front, emissiveIntensity: 0.15, clippingPlanes });
+  // box: x along the wall, y up, z into the wall (so its -z face is the front)
+  const box = new THREE.Mesh(new THREE.BoxGeometry(sign.length, h, sign.out), [brass, brass, brass, under, brass, fascia]);
+  box.position.set(sign.start[0] + ex * sign.length / 2 + nx * sign.out / 2, sign.base + h / 2, sign.start[1] + ez * sign.length / 2 + nz * sign.out / 2);
+  box.rotation.y = -Math.atan2(ez, ex);
+  box.castShadow = true;
+  return box;
+}
+for (const sign of signData.filter(t => inCrop(...(t.corner ?? t.start)))) {
+  if (sign.kind === 'canopy' || sign.kind === 'panel') {
+    signs.add(canopyMesh(sign));
+    if (sign.draw === 'startribune' && starImg) signs.add(starSign(sign));
+    continue;
+  }
+  const h = sign.top - sign.base, len = sign.out[1] - sign.out[0];
+  const front = new THREE.CanvasTexture(signCanvas(sign, h));
+  front.colorSpace = THREE.SRGBColorSpace; front.anisotropy = 8;
+  const face = map => new THREE.MeshStandardMaterial({ map, roughness: 0.6, emissive: 0xffffff, emissiveMap: map, emissiveIntensity: 0.15, clippingPlanes });
+  const edge = new THREE.MeshStandardMaterial({ color: 0xe8dfca, roughness: 0.7, clippingPlanes });
+  // box: x out from the wall, y up, z across (its broad faces)
+  const box = new THREE.Mesh(new THREE.BoxGeometry(len, h, sign.thick), [edge, edge, edge, edge, face(front), face(front)]);
+  const [dx, dz] = sign.dir, mid = (sign.out[0] + sign.out[1]) / 2;
+  box.position.set(sign.corner[0] + dx * mid, sign.base + h / 2, sign.corner[1] + dz * mid);
+  box.rotation.y = -Math.atan2(dz, dx);
+  box.castShadow = true;
+  signs.add(box);
+}
+scene.add(signs);
+
+// streetlights.json (optional, streetlights.py): poles along the sidewalks,
+// an arm over the street and a lit head; each head a real light shining
+// down in a wide, soft cone, so its light spreads over the street, the
+// snow and the walls near it as light does. The World panel's Street lights
+// sets how bright (lampLevel); snow falling near a head catches its light
+// too (the snowfall's shader). The poles cast the sun's shadows
+const LAMP = { pole: 8.5, arm: 1.8, color: new THREE.Color(1.0, 0.74, 0.45), power: 450, reach: 40, cone: 1.15 };
+const lampData = (await fetch('streetlights.json').then(r => r.ok ? r.json() : { lights: [] }, () => ({ lights: [] }))).lights
+  .filter(l => inCrop(l.x, l.z));
+const lamps = new THREE.Group();
+const lampHeads = lampData.map(l => new THREE.Vector3(l.x + l.dx * LAMP.arm, LAMP.pole - 0.25, l.z + l.dz * LAMP.arm));
+const headMat = new THREE.MeshStandardMaterial({ color: 0x2a2a2a, emissive: LAMP.color, emissiveIntensity: 3, clippingPlanes });
+const lampLights = [];
+if (lampData.length) {
+  const dark = new THREE.MeshStandardMaterial({ color: 0x1d1f22, roughness: 0.6, metalness: 0.4, clippingPlanes });
+  const n = lampData.length, m = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0);
+  const poles = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.09, 0.14, LAMP.pole, 8), dark, n);
+  const arms = new THREE.InstancedMesh(new THREE.BoxGeometry(LAMP.arm, 0.1, 0.1), dark, n);
+  const heads = new THREE.InstancedMesh(new THREE.BoxGeometry(0.7, 0.16, 0.32), headMat, n);
+  lampData.forEach((l, i) => {
+    q.setFromAxisAngle(up, -Math.atan2(l.dz, l.dx));                     // x along the arm
+    poles.setMatrixAt(i, m.compose(new THREE.Vector3(l.x, LAMP.pole / 2, l.z), new THREE.Quaternion(), new THREE.Vector3(1, 1, 1)));
+    arms.setMatrixAt(i, m.compose(new THREE.Vector3(l.x + l.dx * LAMP.arm / 2, LAMP.pole - 0.1, l.z + l.dz * LAMP.arm / 2), q, new THREE.Vector3(1, 1, 1)));
+    heads.setMatrixAt(i, m.compose(lampHeads[i], q, new THREE.Vector3(1, 1, 1)));
+    // its light: straight down, a little out over the street, wide and soft-edged
+    const spot = new THREE.SpotLight(LAMP.color, LAMP.power, LAMP.reach, LAMP.cone, 0.9, 2);
+    spot.position.copy(lampHeads[i]).y -= 0.15;
+    spot.target.position.set(lampHeads[i].x + l.dx * 2, 0, lampHeads[i].z + l.dz * 2);
+    lamps.add(spot, spot.target);
+    lampLights.push(spot);
+  });
+  poles.castShadow = arms.castShadow = heads.castShadow = true;
+  poles.receiveShadow = arms.receiveShadow = true;
+  lamps.add(poles, arms, heads);
+}
+scene.add(lamps);
+const lampLevel = level => { headMat.emissiveIntensity = 3 * level; for (const l of lampLights) l.intensity = LAMP.power * level; };
+// the ground: the whole tile, or the crop's rectangle turned onto the grid
+const groundGeo = CROP ? new THREE.PlaneGeometry(CROP.u[1] - CROP.u[0], CROP.v[1] - CROP.v[0]) : new THREE.PlaneGeometry(500, 500);
+groundGeo.rotateX(-Math.PI / 2);
+if (CROP) {
+  const t = CROP.deg * Math.PI / 180, uc = (CROP.u[0] + CROP.u[1]) / 2, vc = (CROP.v[0] + CROP.v[1]) / 2;
+  groundGeo.rotateY(-t);
+  groundGeo.translate(CROP.o[0] + uc * Math.cos(t) - vc * Math.sin(t), 0, CROP.o[1] + uc * Math.sin(t) + vc * Math.cos(t));
+}
+const ground = new THREE.Mesh(groundGeo, withSurface(new THREE.MeshStandardMaterial({ color: 0x2c3442, roughness: 0.95 }), 0.1));
+ground.receiveShadow = true;
+scene.add(ground);
+// ---------- world: a winter golden hour ----------
+// a physical sky with the sun low in the southwest; the same sky lights the
+// scene's reflections (the glass picks it up). The sun is given as a compass
+// bearing (from north, -z, round to east, +x) and a height above the horizon
+const fill = new THREE.HemisphereLight(0xa8b4cc, 0x6b5546, 0.5);
+scene.add(fill);
+const sun = new THREE.DirectionalLight(0xffb27a, 3.0);
+sun.castShadow = true;
+// in the portfolio's box (?embed) 2048; 4096 in full screen and the editor (setBoxQuality)
+const BOXED = document.documentElement.classList.contains('embed');
+sun.shadow.mapSize.set(BOXED ? 2048 : 4096, BOXED ? 2048 : 4096);
+sun.shadow.bias = -0.0004;
+// fitted to the crop (about 230 m across), so a texel is ~6 cm: thin
+// things like the light poles cast shadows too
+Object.assign(sun.shadow.camera, CROP ? { left: -125, right: 125, top: 125, bottom: -125, near: 1, far: 2000 } : { left: -260, right: 260, top: 260, bottom: -260, near: 1, far: 2000 });
+sun.shadow.normalBias = 0.04;
+sun.shadow.camera.updateProjectionMatrix();          // the box above only takes once this is called
+scene.add(sun, sun.target);
+const sky = new Sky();
+sky.scale.setScalar(4500);
+sky.material.uniforms.turbidity.value = 5;
+sky.material.uniforms.rayleigh.value = 2.2;
+sky.material.uniforms.mieCoefficient.value = 0.006;
+sky.material.uniforms.mieDirectionalG.value = 0.86;
+scene.add(sky);
+const envSky = new THREE.Mesh(sky.geometry, sky.material);      // the sky again, alone, for the reflections
+envSky.scale.setScalar(4500);
+const envScene = new THREE.Scene();
+envScene.add(envSky);
+const pmrem = new THREE.PMREMGenerator(renderer);
+let envRT = null;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.85;
+const world = { elevation: 2.5, azimuth: 232 };
+let onSunMove = null, sunSide = null;        // the embed's sunlit arc follows the sun (set below)
+// the sun at a time on Dec 21 in Minneapolis (NOAA's solar position, local
+// standard time): its height above the horizon and compass bearing, degrees
+const SOLAR = { lat: 44.977, lon: -93.265, tz: -6, day: 355 };
+function sunAt(minutes) {
+  const g = 2 * Math.PI / 365 * (SOLAR.day - 1 + (minutes / 60 - 12) / 24);
+  const eot = 229.18 * (0.000075 + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g) - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+  const dec = 0.006918 - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g) - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g) - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g);
+  const ha = THREE.MathUtils.degToRad((minutes + eot + 4 * SOLAR.lon - 60 * SOLAR.tz) / 4 - 180), lat = THREE.MathUtils.degToRad(SOLAR.lat);
+  const el = 90 - THREE.MathUtils.radToDeg(Math.acos(Math.sin(lat) * Math.sin(dec) + Math.cos(lat) * Math.cos(dec) * Math.cos(ha)));
+  const az = THREE.MathUtils.radToDeg(Math.atan2(Math.sin(ha), Math.cos(ha) * Math.sin(lat) - Math.tan(dec) * Math.cos(lat))) + 180;
+  return { el, az };
+}
+// as dusk comes on the exposure opens up, and the street lights and the halo
+// brighten; the panel's Exposure, Street lights and Halo light set the levels
+// these scale (each scale 1 at 4:11 pm, the 2.5° sun these were set for)
+const levels = { exposure: 1.1, lamps: 1, halo: 0.9 };
+let applyDusk = null;
+function updateWorld() {
+  const el = THREE.MathUtils.degToRad(world.elevation), az = THREE.MathUtils.degToRad(world.azimuth);
+  const dir = new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), -Math.cos(az) * Math.cos(el));
+  sky.material.uniforms.sunPosition.value.copy(dir);
+  sun.target.position.set(VIEW_CENTER[0], 0, VIEW_CENTER[2]);
+  sun.position.copy(sun.target.position).addScaledVector(dir, 900);
+  // low sun: orange and weaker; higher: whiter
+  const t = THREE.MathUtils.smoothstep(world.elevation, 2, 30);
+  sun.color.setRGB(1, 0.58 + 0.37 * t, 0.30 + 0.60 * t);
+  // below the horizon the sun's light goes, the sky's fill dims and turns
+  // blue (dusk: 0 by day, 1 at night)
+  const dusk = 1 - THREE.MathUtils.smoothstep(world.elevation, -6, 1);
+  sun.intensity = (5.0 - 1.8 * t) * THREE.MathUtils.smoothstep(world.elevation, -1.5, 1.0);   // a low sun's light is weaker, but it rakes the walls: kept strong so they glow
+  fill.intensity = (0.4 + 0.6 * t) * (1 - 0.7 * dusk);
+  fill.color.setRGB(0.66 - 0.3 * dusk, 0.71 - 0.27 * dusk, 0.8 - 0.14 * dusk, THREE.SRGBColorSpace);   // by day the 0xa8b4cc it was
+  surface.daylight.value = THREE.MathUtils.lerp(0.1, 1, THREE.MathUtils.smoothstep(world.elevation, -6, 2.5));
+  applyDusk?.();
+  onSunMove?.();
+  envRT?.dispose();
+  envRT = pmrem.fromScene(envScene);
+  scene.environment = envRT.texture;
+}
+// the sky is far brighter than the sun's share of the light it gives walls:
+// only a little of it, so the sun shapes the block and its shadows show
+scene.environmentIntensity = 0.25;
+
+const camera = new THREE.PerspectiveCamera(35, innerWidth / innerHeight, 0.5, 5000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.minDistance = 2;
+controls.maxDistance = 2500;
+controls.maxPolarAngle = Math.PI / 2 - 0.02;
+controls.screenSpacePanning = true;
+
+// Capella's crown: the cylinder's center (from the lidar fit) sits at
+// x 76.3, z −97.4 in this frame; the halo is about 215–237 m up
+const VIEWS = {
+  capella: { pos: [150, 290, -10], target: [76, 222, -97] },
+  rotunda: { pos: [215, 175, -170], target: [118, 35, -70] },
+  street: { pos: [215, 3, 165], target: [85, 95, -60] },     // about where the facade photo was taken
+  base: { pos: [165, 4, 30], target: [110, 9, -25] },          // the street-level granite base
+  entrance: { pos: [40, 3, -178], target: [67, 14, -114] },     // the NW entrance: glass to the street, the awning
+  dblock: { pos: [-10, 95, -95], target: [90, 45, -30] },        // the D-block's west face
+  brick: { pos: [-35, 12, 25], target: [40, 22, -45] },         // the older brick buildings, from the SW corner
+  midblock: { pos: [44, 5, 24], target: [67, 7, -14] },          // the midblock buff-brick building's street face
+  sign: { pos: [-12, 3, -20], target: [14, 11, -45] },             // the WCCO RADIO sign on the SW corner
+  skywayW: { pos: [30, 2, -93], target: [42, 8, -112] },          // the west skyway from the street under it
+  hyatt: { pos: [14, 2.5, -103], target: [34.5, 5, -80] },            // the Hyatt Centric canopy on the tan tower's west face
+  lights: { pos: [157, 7, -62], target: [115, 3, 6] },               // street lights along the east street
+  towerS: { pos: [-40, 190, 105], target: [70, 170, -88] },          // the tower's south face, its stripe
+  sunward: { pos: [162, 4, -71], target: [105, 14, 23] },            // down the east street toward the low sun: haze and shafts
+  startribune: { pos: [185, 12, 15], target: [121, 18, -26] },     // the podium's east face: the Star Tribune entrance and the glass over it
+  skyways: { pos: [80, 170, 20], target: [85, 8, -60] },
+  nw: { pos: [-500, 450, -500] }, ne: { pos: [500, 450, -500] },
+  sw: { pos: [-500, 450, 500] }, se: { pos: [500, 450, 500] },
+  top: { pos: [0, 900, 0.01] },
+};
+// cropped, the compass views close in on the crop's middle
+const VIEW_CENTER = CROP ? (() => {
+  const t = CROP.deg * Math.PI / 180, uc = (CROP.u[0] + CROP.u[1]) / 2, vc = (CROP.v[0] + CROP.v[1]) / 2;
+  return [CROP.o[0] + uc * Math.cos(t) - vc * Math.sin(t), 40, CROP.o[1] + uc * Math.sin(t) + vc * Math.cos(t)];
+})() : [0, 40, 0];
+function setView(name) {
+  const v = VIEWS[name];
+  if (v.target) camera.position.set(...v.pos);
+  else camera.position.set(...v.pos.map((p, i) => VIEW_CENTER[i] + (CROP ? 0.5 : 1) * p));
+  controls.target.set(...(v.target ?? VIEW_CENTER));
+  controls.update();
+}
+document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+setView('se');
+// embedded: a slow orbit round the block until someone takes the controls
+const EMBED = document.documentElement.classList.contains('embed');
+// zoom: the camera's distance from what it orbits. Start distance is the
+// embed's opening view (Overview), along the same line; the limits are the
+// controls' (OrbitControls keeps the camera between them)
+const ZOOM = { start: +$('w-dist').value, min: +$('w-zmin').value, max: +$('w-zmax').value };
+const OVERVIEW_DIR = new THREE.Vector3(310, 80, 310).normalize();            // from the target: southeast, a little above
+function placeOverview() {
+  const target = new THREE.Vector3(VIEW_CENTER[0], 110, VIEW_CENTER[2]);
+  const pos = target.clone().addScaledVector(OVERVIEW_DIR, ZOOM.start);
+  VIEWS.overview = { pos: pos.toArray(), target: target.toArray() };
+}
+controls.minDistance = ZOOM.min; controls.maxDistance = ZOOM.max;
+if (EMBED) {
+  // its opening view: further back than the panel's, so the crown fits the box
+  placeOverview();
+  setView('overview');
+  controls.autoRotate = true; controls.autoRotateSpeed = 0.35;
+  // keep to the sunlit side: looking toward a low sun from behind the tower
+  // is a wall of glare. The camera may swing SUN_ARC either side of where
+  // the sun shines from (OrbitControls' azimuth: atan2 of the camera's x, z
+  // from its target), and the slow orbit swings back and forth inside that
+  const SUN_ARC = THREE.MathUtils.degToRad(110);
+  const wrap = a => Math.atan2(Math.sin(a), Math.cos(a));
+  onSunMove = () => {
+    const az = THREE.MathUtils.degToRad(world.azimuth);
+    sunSide = Math.atan2(Math.sin(az), -Math.cos(az));
+    controls.minAzimuthAngle = wrap(sunSide - SUN_ARC);
+    controls.maxAzimuthAngle = wrap(sunSide + SUN_ARC);
+  };
+  onSunMove();
+  controls.update();
+  const stopSpin = () => { controls.autoRotate = false; };
+  renderer.domElement.addEventListener('pointerdown', stopSpin);
+  addEventListener('keydown', stopSpin);
+  // cooperative gestures (not full screen): the wheel zooms only with Ctrl or
+  // ⌘ held (a trackpad pinch arrives as a Ctrl wheel); a plain scroll goes on
+  // to the page, and a hint says how. Set before OrbitControls sees the event
+  const mac = /Mac|iPhone|iPad/.test(navigator.platform);
+  const hint = $('ehint');
+  let hintTimer = 0;
+  const showHint = text => {
+    hint.textContent = text; hint.classList.add('on');
+    clearTimeout(hintTimer); hintTimer = setTimeout(() => hint.classList.remove('on'), 1200);
+  };
+  // full screen: the browser's own, or (where it's refused, as in some
+  // embedded browsers) the box grown over the whole window: its iframe, on
+  // the same site, fixed over the page
+  let pseudo = false;
+  const full = () => document.fullscreenElement != null || pseudo;
+  const host = (() => { try { return window.frameElement; } catch { return null; } })();
+  const setPseudo = on => {
+    pseudo = on;
+    if (host) Object.assign(host.style, on ? { position: 'fixed', inset: '0', width: '100vw', height: '100vh', zIndex: '9999', margin: '0' }
+      : { position: '', inset: '', width: '', height: '', zIndex: '', margin: '' });
+    onFull();
+  };
+  renderer.domElement.addEventListener('wheel', e => {
+    controls.enableZoom = full() || e.ctrlKey || e.metaKey;
+    if (!controls.enableZoom) showHint(`Use ${mac ? '⌘' : 'Ctrl'} + scroll to zoom`);
+  }, { capture: true, passive: true });
+  // touch: one finger scrolls the page, two move the model
+  const coop = () => {
+    const f = full();
+    renderer.domElement.style.touchAction = f ? 'none' : 'pan-x pan-y';
+    controls.touches.ONE = f ? THREE.TOUCH.ROTATE : null;
+  };
+  coop();
+  let touches = 0;
+  renderer.domElement.addEventListener('touchstart', e => { touches = e.touches.length; if (touches === 1 && !full()) showHint('Use two fingers to move the model'); }, { passive: true });
+  // full screen: the button, and the keys' guide while it's open
+  $('efull').addEventListener('click', () => {
+    if (pseudo) return setPseudo(false);
+    if (document.fullscreenElement) return document.exitFullscreen();
+    const go = document.documentElement.requestFullscreen?.();
+    (go ?? Promise.reject()).catch(() => setPseudo(true));
+    setTimeout(() => { if (!document.fullscreenElement && !pseudo) setPseudo(true); }, 500);   // asked but ignored: grow the box instead
+  });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && pseudo) setPseudo(false); });
+  $('ekeys-x').addEventListener('click', () => $('ekeys').classList.add('gone'));
+  function onFull() {
+    document.documentElement.classList.toggle('full', full());
+    window.setBoxQuality?.(!full());
+    $('ekeys').classList.remove('gone');
+    $('efull').setAttribute('aria-label', full() ? 'Leave full screen' : 'Full screen');
+    coop();
+    if (full()) renderer.domElement.focus?.();
+  }
+  addEventListener('fullscreenchange', onFull);
+}
+updateWorld();
+// reflections: a 360° snapshot of the scene from above the block's roofs
+// (REFLECT.at m up over the crop's middle), the buildings' environment, so
+// the glass (and the wet streets) show the sky, the other buildings and the street lights. One
+// snapshot for all of them, so what a far face shows is only roughly right.
+// Retaken when the sun moves (captureReflections); while it's taken, the
+// buildings don't use it (a texture can't be drawn into and read at once)
+const REFLECT = { at: 95, size: 512 };
+const reflectRT = new THREE.WebGLCubeRenderTarget(REFLECT.size, { type: THREE.HalfFloatType });
+const reflectCam = new THREE.CubeCamera(1, 4000, reflectRT);
+reflectCam.position.set(VIEW_CENTER[0], REFLECT.at, VIEW_CENTER[2]);
+scene.add(reflectCam);
+function captureReflections() {
+  const hide = [snowfall, edges].filter(o => o?.visible);
+  hide.forEach(o => { o.visible = false; });
+  for (const m of [buildingMat, ground.material]) { m.envMap = null; m.needsUpdate = true; }
+  reflectCam.update(renderer, scene);
+  reflectRT.texture.needsPMREMUpdate = true;
+  for (const m of [buildingMat, ground.material]) { m.envMap = reflectRT.texture; m.envMapIntensity = 1; m.needsUpdate = true; }   // the wet streets reflect it too
+  hide.forEach(o => { o.visible = true; });
+}
+// falling snow, everywhere you look: flakes in a box round the point the
+// view orbits, as wide and tall as twice the camera's distance from it
+// (SNOW.span at least), flakes a little bigger in a bigger box so the
+// snowfall still shows from far off, none over SNOW.maxPx on screen. They drift down and sideways on a light wind; the
+// shader moves them (no per-flake updates) and wraps them round the box in
+// world space, so they stay put as the box follows the view. Flakes too
+// small to see fade out
+const SNOW = { n: 90000, span: 260, max: 1600, size: 0.22, maxPx: 5 };
+const pointScale = () => innerHeight * renderer.getPixelRatio() / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2));
+// heightmap.json (heightmap.py): how tall the block stands, cell by cell, so
+// a flake can tell whether a building stands between it and the sun
+const hmMeta = await fetch('heightmap.json').then(r => r.ok ? r.json() : null, () => null);
+const hmTex = hmMeta ? await new THREE.TextureLoader().loadAsync('heightmap.png') : null;
+if (hmTex) { hmTex.colorSpace = THREE.NoColorSpace; hmTex.minFilter = hmTex.magFilter = THREE.NearestFilter; hmTex.generateMipmaps = false; }
+const snowfall = (() => {
+  const pos = new Float32Array(SNOW.n * 3), rnd = new Float32Array(SNOW.n);
+  for (let i = 0; i < SNOW.n; i++) {
+    pos.set([Math.random(), Math.random(), Math.random()], 3 * i);                // in the box, as shares of it
+    rnd[i] = Math.random();
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute('rnd', new THREE.BufferAttribute(rnd, 1));
+  const mat = new THREE.ShaderMaterial({
+    uniforms: { time: { value: 0 }, scale: { value: pointScale() }, center: { value: new THREE.Vector3(VIEW_CENTER[0], 0, VIEW_CENTER[2]) },
+      box: { value: SNOW.span }, size: { value: SNOW.size },
+      haloPos: { value: HALO.center }, haloReach: { value: HALO.reach }, haloGlow: { value: 1 }, haloColor: { value: HALO.color },
+      lamps: { value: Array.from({ length: 64 }, (_, i) => lampHeads[i] ?? new THREE.Vector3(0, -1e4, 0)) }, lampCount: { value: Math.min(lampHeads.length, 64) },
+      lampGlow: { value: 1 }, lampColor: { value: LAMP.color },
+      // sunlight and shadow: a flake in the sun is lit warm (and glows looking
+      // toward the sun, light scattering forward through it); one a building
+      // shades from the sun (traced across the height map) is dim and cool
+      sunDir: { value: sky.material.uniforms.sunPosition.value }, sunColor: { value: sun.color },
+      heightMap: { value: hmTex }, hmOrigin: { value: new THREE.Vector2(hmMeta?.x0 ?? 0, hmMeta?.z0 ?? 0) },
+      hmSize: { value: new THREE.Vector2((hmMeta?.width ?? 1) * (hmMeta?.res ?? 1), (hmMeta?.height ?? 1) * (hmMeta?.res ?? 1)) }, hmOn: { value: hmTex ? 1 : 0 } },
+    vertexShader: `uniform float time, scale, size, haloReach, haloGlow, box, lampGlow, hmOn; uniform vec3 center, haloPos, sunDir; uniform vec3 lamps[64]; uniform int lampCount;
+      uniform sampler2D heightMap; uniform vec2 hmOrigin, hmSize;
+      attribute float rnd; varying float vFade, vLit, vLamp, vSun, vSoft, vToSun;
+      void main() {
+        // where the flake is in the world (a tile of flakes SNOW.max wide,
+        // repeating), falling 1-1.7 m/s on a light wind with some sway
+        vec3 w = position * ${SNOW.max.toFixed(1)};
+        w.y -= time * (1.0 + 0.7 * rnd);
+        w.x += time * 0.6 + 1.5 * sin(time * 0.5 + rnd * 40.0);
+        w.z += time * 0.3 + 1.2 * cos(time * 0.4 + rnd * 31.0);
+        // its copy in the box round center: the same in the world as the box moves
+        vec3 p = center + mod(w - center + box / 2.0, box) - box / 2.0;
+        p.y = max(p.y, center.y - box / 2.0);
+        vec4 mv = modelViewMatrix * vec4(p, 1.0);
+        // near the halo the flakes catch its light (falling off with distance)
+        float hd = distance(p, haloPos) / haloReach;
+        vLit = haloGlow / (1.0 + hd * hd * hd);
+        // and near a street light, its light
+        vLamp = 0.0;
+        for (int i = 0; i < 64; i++) {
+          if (i >= lampCount) break;
+          float ld = distance(p, lamps[i]) / 5.0;
+          vLamp += 1.0 / (1.0 + ld * ld * ld);
+        }
+        vLamp *= lampGlow;
+        vLit += vLamp;
+        // in the sun? step toward it over the height map: a roof higher than
+        // the ray to the sun means a building is in the way
+        vSun = 1.0;
+        if (hmOn > 0.5 && sunDir.y > 0.0) {
+          vec2 sxz = normalize(sunDir.xz); float rise = sunDir.y / max(length(sunDir.xz), 1e-3);
+          for (int i = 1; i <= 24; i++) {
+            float t = float(i) * 8.0;
+            vec2 uv = (p.xz + sxz * t - hmOrigin) / hmSize;
+            if (uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0) break;
+            if (texture2D(heightMap, vec2(uv.x, 1.0 - uv.y)).r * 255.0 > p.y + rise * t) { vSun = 0.0; break; }
+          }
+        } else if (sunDir.y <= 0.0) vSun = 0.0;
+        vToSun = pow(max(dot(normalize(p - cameraPosition), normalize(sunDir)), 0.0), 8.0);
+        // flakes right by the lens: big, soft, faint (out of focus)
+        vSoft = 1.0 - smoothstep(3.0, 12.0, -mv.z);
+        float px = size * (0.6 + 0.8 * rnd) * (1.0 + 0.6 * vLit) * (1.0 + 2.0 * vSoft) * scale / -mv.z;
+        gl_PointSize = clamp(px, 1.0, mix(${SNOW.maxPx.toFixed(1)}, 34.0, vSoft));    // far: a flake stays a flake; near: a blur
+        vFade = clamp(px, 0.0, 1.0) * mix(1.0, 0.3, vSoft);                     // under a pixel: fade, don't speckle
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader: `uniform vec3 haloColor, lampColor, sunColor; varying float vFade, vLit, vLamp, vSun, vSoft, vToSun;
+      void main() {
+        float d = length(gl_PointCoord - 0.5);
+        if (d > 0.5) discard;
+        vec3 lit = mix(haloColor, lampColor, clamp(vLamp / max(vLit, 1e-4), 0.0, 1.0));
+        // daylight: still white, tinted warm in the sun (brightest looking toward it), a touch cool in shade
+        vec3 day = mix(vec3(0.84, 0.87, 0.93), mix(vec3(1.0), sunColor, 0.35) * (1.0 + 2.5 * vToSun), vSun);   // white, a little cooler in shade, a little warmer in the sun
+        vec3 c = mix(day, lit * 2.2, clamp(vLit, 0.0, 1.0));     // lit flakes bright enough to bloom
+        float edge = mix(smoothstep(0.5, 0.15, d), smoothstep(0.5, 0.3, d) * 0.6, vSoft);   // a blur's flatter disc
+        gl_FragColor = vec4(c, clamp(0.85 * vFade * edge * (1.0 + 2.0 * vLit + 1.5 * vToSun * vSun), 0.0, 1.0));
+      }`,
+    transparent: true, depthWrite: false,
+  });
+  const pts = new THREE.Points(geo, mat);
+  pts.frustumCulled = false;
+  return pts;
+})();
+scene.add(snowfall);
+// bloom: only what's brighter than the daylight scene (the lit halo, the
+// flakes in its light) glows; tone mapping moves to the output pass
+// 4× multisampled buffers: the scene goes through the passes below rather
+// than straight to the screen, so the renderer's own antialias doesn't
+// reach it; these smooth the hairline edges and the buildings' outlines
+const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(
+  innerWidth * renderer.getPixelRatio(), innerHeight * renderer.getPixelRatio(), { type: THREE.HalfFloatType, samples: 4 }));
+composer.addPass(new RenderPass(scene, camera));
+// ambient occlusion: soft darkening where surfaces meet (a building's foot,
+// inside corners, under canopies and skyways, round rooftop plant), in m at
+// the city's scale; the pass leaves out points and lines (the snowfall, the
+// edges). The World panel's Ambient occlusion sets how strong (blendIntensity)
+const ao = new GTAOPass(scene, camera, innerWidth, innerHeight);
+// (the box: half the samples, AO_BOX_SAMPLES; it's small there; setBoxQuality)
+const AO_SAMPLES = 16, AO_BOX_SAMPLES = 8;
+ao.updateGtaoMaterial({ radius: 4, distanceExponent: 1.5, thickness: 3, scale: 1.2, samples: BOXED ? AO_BOX_SAMPLES : AO_SAMPLES });
+ao.updatePdMaterial({ lumaPhi: 10, depthPhi: 2, normalPhi: 3, radius: 6, rings: 2, samples: BOXED ? AO_BOX_SAMPLES : AO_SAMPLES });
+ao.blendIntensity = 1.5;                 // over 1 it deepens past the pass's own estimate (mix(1, ao, k)); past ~3 corners go flat black
+composer.addPass(ao);
+// the portfolio's box (box true) or full screen (false): the shadow map and the AO's samples.
+// Called by the embed's full-screen switch (onFull)
+window.setBoxQuality = box => {
+  const n = box ? 2048 : 4096, k = box ? AO_BOX_SAMPLES : AO_SAMPLES;
+  if (sun.shadow.mapSize.x !== n) { sun.shadow.mapSize.set(n, n); sun.shadow.map?.dispose(); sun.shadow.map = null; }
+  ao.updateGtaoMaterial({ samples: k }); ao.updatePdMaterial({ samples: k });
+  const pr = box ? BOX_DPR : FULL_DPR;
+  if (renderer.getPixelRatio() !== pr) { renderer.setPixelRatio(pr); composer.setPixelRatio(pr); dispatchEvent(new Event('resize')); }
+};
+// haze and light shafts, from the scene's depth (the AO pass's): haze
+// thickest at the ground and thinning with height (HAZE.falloff m), warm
+// looking toward the sun and cool looking away; and sun shafts, sky light
+// streaked from the sun across the screen, so the low sun beams down the
+// streets between the buildings. The World panel's Haze and Light shafts
+const HAZE = { density: 0.0016, falloff: 70, shafts: 0.35 };
+const hazePass = new ShaderPass({
+  uniforms: {
+    tDiffuse: { value: null }, tDepth: { value: ao.depthTexture },
+    projInv: { value: new THREE.Matrix4() }, viewInv: { value: new THREE.Matrix4() }, camPos: { value: new THREE.Vector3() },
+    sunDir: { value: new THREE.Vector3(0, 1, 0) }, sunUv: { value: new THREE.Vector2(0.5, 0.5) }, sunOn: { value: 1 },
+    warm: { value: new THREE.Color(1.0, 0.72, 0.5) }, cool: { value: new THREE.Color(0.62, 0.68, 0.8) },
+    density: { value: HAZE.density * 0.25 }, falloff: { value: HAZE.falloff }, shafts: { value: HAZE.shafts * 2 },   // the panel's defaults
+  },
+  vertexShader: `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+  fragmentShader: `
+    uniform sampler2D tDiffuse, tDepth; uniform mat4 projInv, viewInv; uniform vec3 camPos, sunDir, warm, cool;
+    uniform vec2 sunUv; uniform float sunOn, density, falloff, shafts; varying vec2 vUv;
+    vec3 worldAt(vec2 uv, float d) {
+      vec4 v = projInv * vec4(uv * 2.0 - 1.0, d * 2.0 - 1.0, 1.0);
+      return (viewInv * vec4(v.xyz / v.w, 1.0)).xyz;
+    }
+    void main() {
+      vec4 c = texture2D(tDiffuse, vUv);
+      float d = texture2D(tDepth, vUv).x;
+      bool sky = d >= 0.9999;
+      vec3 p = worldAt(vUv, sky ? 0.9999 : d);
+      vec3 ray = p - camPos; float dist = length(ray); vec3 dir = ray / dist;
+      // haze along the ray through air whose density falls off with height
+      float h0 = max(camPos.y, 0.0), h1 = max(p.y, 0.0), dh = h1 - h0;
+      float column = abs(dh) < 0.5 ? exp(-h0 / falloff) : falloff * (exp(-h0 / falloff) - exp(-h1 / falloff)) / dh;
+      float haze = sky ? 0.0 : 1.0 - exp(-density * dist * column);
+      float toSun = pow(max(dot(dir, sunDir), 0.0), 6.0);
+      vec3 hazeCol = mix(cool, warm, 0.25 + 0.75 * toSun);
+      c.rgb = mix(c.rgb, hazeCol, haze);
+      // shafts: march toward the sun, gathering the sky that's open there
+      vec2 step = (sunUv - vUv) / 40.0; vec2 q = vUv; float lit = 0.0, w = 1.0;
+      for (int i = 0; i < 40; i++) {
+        q += step;
+        if (q.x < 0.0 || q.y < 0.0 || q.x > 1.0 || q.y > 1.0) break;
+        lit += (texture2D(tDepth, q).x >= 0.9999 ? 1.0 : 0.0) * w;
+        w *= 0.965;
+      }
+      float facing = pow(max(dot(dir, sunDir), 0.0), 2.0);
+      c.rgb += warm * shafts * sunOn * facing * lit / 40.0;
+      gl_FragColor = c;
+    }`,
+});
+composer.addPass(hazePass);
+const sunScratch = new THREE.Vector3();
+function updateHaze() {
+  const u = hazePass.uniforms;
+  u.projInv.value.copy(camera.projectionMatrixInverse); u.viewInv.value.copy(camera.matrixWorld); u.camPos.value.copy(camera.position);
+  u.sunDir.value.copy(surface.sunDir?.value ?? sky.material.uniforms.sunPosition.value).normalize();
+  sunScratch.copy(camera.position).addScaledVector(u.sunDir.value, 1000).project(camera);
+  u.sunOn.value = sunScratch.z < 1 ? 1 : 0;                          // the sun behind the camera: no shafts
+  u.sunUv.value.set(sunScratch.x * 0.5 + 0.5, sunScratch.y * 0.5 + 0.5);
+}
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.45, 0.4, 0.95);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+// the finish, on the image as it'll be seen (after tone mapping): a colour
+// grade (a split tone: shadows toward teal, highlights toward amber, a
+// touch more saturation), a vignette and a fine moving film grain. The World
+// panel's Grade, Vignette and Grain
+const finishPass = new ShaderPass({
+  uniforms: { tDiffuse: { value: null }, grade: { value: 1 }, vignette: { value: 1.2 }, grain: { value: 0 }, time: { value: 0 }, res: { value: new THREE.Vector2(innerWidth, innerHeight) } },
+  vertexShader: `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+  fragmentShader: `
+    uniform sampler2D tDiffuse; uniform float grade, vignette, grain, time; uniform vec2 res; varying vec2 vUv;
+    void main() {
+      vec3 c = texture2D(tDiffuse, vUv).rgb;
+      float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
+      c += grade * (vec3(-0.02, 0.012, 0.035) * (1.0 - smoothstep(0.0, 0.5, l)) + vec3(0.035, 0.012, -0.03) * smoothstep(0.45, 1.0, l));
+      c = mix(vec3(l), c, 1.0 + 0.08 * grade);
+      float r = length((vUv - 0.5) * vec2(res.x / res.y, 1.0));
+      c *= 1.0 - vignette * 0.35 * smoothstep(0.35, 1.05, r);
+      float n = fract(sin(dot(floor(vUv * res) + fract(time * 7.13) * 91.7, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
+      c += grain * 0.035 * n * (1.0 - 0.6 * l);
+      gl_FragColor = vec4(clamp(c, 0.0, 1.0), 1.0);
+    }`,
+});
+composer.addPass(finishPass);
+const setHalo = level => { haloLit(level); snowfall.material.uniforms.haloGlow.value = level; };
+applyDusk = () => {
+  const el = world.elevation;
+  renderer.toneMappingExposure = levels.exposure * (1 + 1.4 * (1 - THREE.MathUtils.smoothstep(el, -8, 1)) - 0.6 * THREE.MathUtils.smoothstep(el, 2.5, 16));
+  // bloom works on the scene before exposure: keep its threshold where the
+  // exposure puts white, so a bright midday sky doesn't halo everything
+  bloom.threshold = 0.8 / renderer.toneMappingExposure;
+  // the haze is lit by the sky: dimmer at dusk, dark at night
+  const day = surface.daylight.value;
+  hazePass.uniforms.warm.value.setRGB(1.0 * day, 0.72 * day, 0.5 * day);
+  hazePass.uniforms.cool.value.setRGB(0.62 * day + 0.03, 0.68 * day + 0.04, 0.8 * day + 0.07);
+  const lamp = levels.lamps * THREE.MathUtils.clamp((8 - el) / 5.5, 0.3, 1.6);
+  lampLevel(lamp); snowfall.material.uniforms.lampGlow.value = lamp;
+  setHalo(levels.halo * THREE.MathUtils.clamp((10 - el) / 7.5, 0.4, 1.5));
+  starMat.emissiveIntensity = STAR.glow * THREE.MathUtils.clamp((8 - el) / 5.5, 0.5, 1.6);
+};
+applyDusk();
+captureReflections();
+const out = (id, v) => { $(id + '-out').value = v; };
+let recapture = 0;
+const reflectSoon = () => { clearTimeout(recapture); recapture = setTimeout(captureReflections, 150); };   // once the slider rests
+$('w-time').addEventListener('input', e => {
+  const m = +e.target.value, { el, az } = sunAt(m);
+  world.elevation = el; world.azimuth = az;
+  $('w-elev').value = el; out('w-elev', el.toFixed(1) + '°'); $('w-az').value = az; out('w-az', Math.round(az) + '°');
+  out('w-time', `${(Math.floor(m / 60) - 1) % 12 + 1}:${String(m % 60).padStart(2, '0')} ${m < 720 ? 'am' : 'pm'}`);
+  updateWorld(); reflectSoon();
+});
+$('w-elev').addEventListener('input', e => { world.elevation = +e.target.value; out('w-elev', world.elevation + '°'); updateWorld(); reflectSoon(); });
+$('w-az').addEventListener('input', e => { world.azimuth = +e.target.value; out('w-az', world.azimuth + '°'); updateWorld(); reflectSoon(); });
+$('w-exp').addEventListener('input', e => { levels.exposure = +e.target.value; applyDusk(); out('w-exp', e.target.value); });
+$('w-snow').addEventListener('input', e => { surface.snow.value = +e.target.value; out('w-snow', e.target.value); });
+$('w-fall').addEventListener('change', e => { snowfall.visible = e.target.checked; });
+// moving a zoom slider moves the camera to suit: Start distance to that far
+// out on the current line of sight, a limit by clamping the camera to it
+const setDistance = d => {
+  const off = camera.position.clone().sub(controls.target);
+  camera.position.copy(controls.target).addScaledVector(off.normalize(), d);
+  controls.update();
+};
+$('w-dist').addEventListener('input', e => { ZOOM.start = +e.target.value; placeOverview(); setDistance(ZOOM.start); out('w-dist', e.target.value + ' m'); });
+$('w-zmin').addEventListener('input', e => { ZOOM.min = controls.minDistance = Math.min(+e.target.value, ZOOM.max); controls.update(); out('w-zmin', e.target.value + ' m'); });
+$('w-zmax').addEventListener('input', e => { ZOOM.max = controls.maxDistance = Math.max(+e.target.value, ZOOM.min); controls.update(); out('w-zmax', e.target.value + ' m'); });
+for (const [id, k] of [['w-grade', 'grade'], ['w-vig', 'vignette'], ['w-grain', 'grain']])
+  $(id).addEventListener('input', e => { finishPass.uniforms[k].value = +e.target.value; out(id, e.target.value); });
+$('w-haze').addEventListener('input', e => { hazePass.uniforms.density.value = HAZE.density * e.target.value; out('w-haze', e.target.value); });
+$('w-shafts').addEventListener('input', e => { hazePass.uniforms.shafts.value = HAZE.shafts * e.target.value; out('w-shafts', e.target.value); });
+$('w-ao').addEventListener('input', e => { ao.blendIntensity = +e.target.value; out('w-ao', e.target.value); });   // the pass keeps running at 0: its depth feeds the haze
+$('w-halo').addEventListener('input', e => { levels.halo = +e.target.value; applyDusk(); out('w-halo', e.target.value); });
+$('w-lamps').addEventListener('input', e => { levels.lamps = +e.target.value; applyDusk(); out('w-lamps', e.target.value); });
+$('w-halo-color').addEventListener('input', e => { HALO.color.set(e.target.value); });      // the glass, steel and snow share HALO.color
+
+// ---------- building controls ----------
+$('b-show').addEventListener('change', e => { buildings.visible = frame.visible = signs.visible = lamps.visible = e.target.checked; edges.visible = e.target.checked && $('b-edges').checked; });
+$('b-color').addEventListener('change', e => { surface.texMode.value = +e.target.value; });
+$('t-show').addEventListener('change', e => { trees.visible = e.target.checked; });
+$('b-edges').addEventListener('change', e => { edges.visible = e.target.checked && buildings.visible; });
+$('b-opacity').addEventListener('input', e => {
+  const o = +e.target.value;
+  buildingMat.opacity = o;
+  buildingMat.transparent = o < 1;
+  buildingMat.depthWrite = o === 1;
+  buildingMat.needsUpdate = true;
+  $('b-opacity-out').value = o;
+});
+
+// ---------- lidar ----------
+// points.bin from points.py: uint32 n, n × float32 xyz, n × uint8 intensity,
+// n × uint8 ASPRS class, in this same frame
+let lidar, lidarPos, lidarInt, lidarCls;
+const lidarMat = new THREE.PointsMaterial({ size: 0.6, vertexColors: true, clippingPlanes });
+const CLASS_COLORS = { 1: 0xb8c2cf, 2: 0x9a7b52, 18: 0x5fb3ff };
+function colorLidar(mode) {
+  const n = lidarPos.length / 3, col = lidar.geometry.attributes.color.array, c = new THREE.Color();
+  for (let i = 0; i < n; i++) {
+    if (mode === 'height') rampColor(lidarPos[i * 3 + 1] / 240, c);
+    else if (mode === 'intensity') c.setScalar(0.06 + 0.94 * lidarInt[i] / 255);
+    else if (mode === 'class') c.setHex(CLASS_COLORS[lidarCls[i]] ?? 0xff00ff);
+    else c.setHex(0xff3d7f);
+    col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
+  }
+  lidar.geometry.attributes.color.needsUpdate = true;
+}
+async function loadLidar() {
+  $('label').textContent = 'Loading lidar…';
+  const buf = await (await fetch('points.bin')).arrayBuffer();
+  const all = new Uint32Array(buf, 0, 1)[0];
+  const pos = new Float32Array(buf, 4, all * 3), int = new Uint8Array(buf, 4 + all * 12, all), cls = new Uint8Array(buf, 4 + all * 13, all);
+  const keep = [];
+  for (let i = 0; i < all; i++) if (inCrop(pos[i * 3], pos[i * 3 + 2])) keep.push(i);
+  const n = keep.length;
+  lidarPos = new Float32Array(n * 3); lidarInt = new Uint8Array(n); lidarCls = new Uint8Array(n);
+  keep.forEach((k, i) => { lidarPos.set(pos.subarray(k * 3, k * 3 + 3), i * 3); lidarInt[i] = int[k]; lidarCls[i] = cls[k]; });
+  $('l-show').parentElement.lastChild.textContent = ` Show lidar (${(n / 1e6).toFixed(1)}M points)`;
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(lidarPos, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
+  lidar = new THREE.Points(geo, lidarMat);
+  colorLidar($('l-color').value);
+  scene.add(lidar);
+  setLabel();
+}
+$('l-show').addEventListener('change', async e => {
+  if (e.target.checked && !lidar) await loadLidar();
+  if (lidar) lidar.visible = e.target.checked;
+});
+$('l-color').addEventListener('change', e => { if (lidar) colorLidar(e.target.value); });
+$('l-size').addEventListener('input', e => { lidarMat.size = +e.target.value; $('l-size-out').value = e.target.value; });
+
+// ---------- height slice ----------
+function setSlice() {
+  let lo = +$('s-min').value, hi = +$('s-max').value;
+  if (lo > hi) [lo, hi] = [hi, lo];
+  sliceLow.constant = -lo; sliceHigh.constant = hi;
+  $('s-min-out').value = `${lo} m`; $('s-max-out').value = `${hi} m`;
+}
+$('s-min').addEventListener('input', setSlice);
+$('s-max').addEventListener('input', setSlice);
+
+// ---------- picking ----------
+const raycaster = new THREE.Raycaster();
+raycaster.params.Points.threshold = 0.5;
+const pointer = new THREE.Vector2();
+const inSlice = p => p.y >= -sliceLow.constant && p.y <= sliceHigh.constant;
+function pick(e) {
+  pointer.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+  raycaster.setFromCamera(pointer, camera);
+  const targets = [];
+  if (buildings.visible) targets.push(buildings, glassSolid);
+  if (lidar?.visible) targets.push(lidar);
+  return raycaster.intersectObjects(targets, false).find(h => inSlice(h.point));
+}
+function segmentAt(hit) {
+  const { idx, starts } = hit.object.userData, vertex = hit.face.a;
+  let lo = 0, hi = starts.length - 1;
+  while (lo < hi) { const mid = (lo + hi + 1) >> 1; if (starts[mid] <= vertex) lo = mid; else hi = mid - 1; }
+  return segments[idx[lo]];
+}
+// a click (not a drag) reports what's under the pointer
+let downAt;
+renderer.domElement.addEventListener('pointerdown', e => { downAt = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener('pointerup', e => {
+  if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 4) return;
+  if (editing.on) { if (!handleAt(e)) editClick(e); return; }
+  const hit = pick(e);
+  if (!hit) { $('info').textContent = ''; return; }
+  const p = hit.point, at = `x ${p.x.toFixed(1)}, z ${p.z.toFixed(1)}, ${p.y.toFixed(1)} m up`;
+  if (hit.object === buildings || hit.object === glassSolid) {
+    const s = segmentAt(hit);
+    const what = s.glass ? `${s.tower} glass` : s.tower
+      ? `${s.tower} tier (${s.r ? `profile fit, r ${s.r[0].toFixed(1)} → ${s.r[1].toFixed(1)} m` : 'slice-fit'})`
+      : `Roof segment ${s.id}`;
+    $('info').textContent = `${what}\ntop ${s.roof.toFixed(1)} m · base ${s.base.toFixed(1)} m\nclicked ${at}`;
+  } else {
+    const i = hit.index;
+    $('info').textContent = `Lidar point · class ${lidarCls[i]} · intensity ${lidarInt[i]}\n${at}`;
+  }
+});
+// double-click: orbit around that spot from here on
+renderer.domElement.addEventListener('dblclick', e => {
+  const hit = pick(e);
+  if (!hit) return;
+  const shift = hit.point.clone().sub(controls.target);
+  controls.target.add(shift); camera.position.add(shift);
+  controls.update();
+});
+
+// ---------- editing outlines ----------
+// Edit mode: click a building to show its corners (shift-click adds more
+// buildings). Click a corner to select it, shift-click to add or remove one,
+// or shift-drag a box to select every corner inside it. Drag a selected
+// corner to move all selected corners across the ground plane. Smooth fitted
+// tiers (the round lofts) have no corner outline and can't be edited here.
+const editing = { on: false, segs: [], selected: new Set(), drag: null, box: null, undo: [] };
+const handleMat = new THREE.PointsMaterial({ size: 9, sizeAttenuation: false, vertexColors: true, depthTest: false, transparent: true });
+const handles = new THREE.Points(new THREE.BufferGeometry(), handleMat);
+handles.renderOrder = 10;
+const outlineMat = new THREE.LineBasicMaterial({ color: 0xffd166, depthTest: false, transparent: true });
+const outlines = new THREE.Group();
+outlines.renderOrder = 9;
+scene.add(handles, outlines);
+const boxDiv = Object.assign(document.createElement('div'), { className: 'select-box' });
+document.body.append(boxDiv);
+let handleList = [];                     // [{ s: segment index, v: vertex index }]
+
+function refreshHandles() {
+  handleList = editing.segs.flatMap(si => segments[si].outer.map((_, v) => ({ s: si, v })));
+  const pos = new Float32Array(handleList.length * 3), col = new Float32Array(handleList.length * 3);
+  handleList.forEach(({ s, v }, i) => {
+    const [x, z] = segments[s].outer[v];
+    pos.set([x, segments[s].roof + 0.05, z], i * 3);
+    col.set(editing.selected.has(`${s}:${v}`) ? [1, 0.82, 0.4] : [1, 1, 1], i * 3);
+  });
+  handles.geometry.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  handles.geometry.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  handles.geometry.computeBoundingSphere();
+  outlines.clear();
+  for (const si of editing.segs) {
+    const s = segments[si];
+    const pts = s.outer.map(([x, z]) => new THREE.Vector3(x, s.roof + 0.05, z));
+    outlines.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts), outlineMat));
+  }
+  handles.visible = outlines.visible = editing.on;
+  $('e-status').textContent = editing.on
+    ? `${editing.segs.length} building${editing.segs.length === 1 ? '' : 's'}, ${editing.selected.size} of ${handleList.length} corners selected`
+    : '';
+}
+
+// rebuild one segment's mesh (and the merged mesh, edges) after an edit
+function rebuildSegments(indices) {
+  for (const i of indices) { geos[i].dispose(); geos[i] = segmentGeometry(segments[i]); }
+  mergeInto(buildings); mergeInto(glassSolid);
+  edges.geometry.dispose(); edges.geometry = new THREE.EdgesGeometry(buildings.geometry, 20);
+}
+function saveEdits() { localStorage.setItem(EDITS_KEY, JSON.stringify(edits)); }
+
+const screenOf = (x, y, z) => {
+  const p = new THREE.Vector3(x, y, z).project(camera);
+  return [(p.x + 1) / 2 * innerWidth, (1 - p.y) / 2 * innerHeight, p.z];
+};
+function handleAt(e) {
+  let best = null, bestD = 9;
+  handleList.forEach((h, i) => {
+    const [x, z] = segments[h.s].outer[h.v];
+    const [sx, sy, sz] = screenOf(x, segments[h.s].roof, z);
+    const d_ = Math.hypot(sx - e.clientX, sy - e.clientY);
+    if (sz < 1 && d_ < bestD) { bestD = d_; best = h; }
+  });
+  return best;
+}
+function groundPointAt(e, y) {
+  pointer.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+  raycaster.setFromCamera(pointer, camera);
+  return raycaster.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), -y), new THREE.Vector3());
+}
+
+// capture phase on the canvas: runs before the orbit controls' own handler,
+// so a corner drag or box select can turn orbiting off first
+renderer.domElement.addEventListener('pointerdown', e => {
+  if (!editing.on || e.button !== 0) return;
+  const h = handleAt(e);
+  if (h) {
+    const key = `${h.s}:${h.v}`;
+    if (e.shiftKey || e.metaKey || e.ctrlKey) {
+      if (editing.selected.has(key)) editing.selected.delete(key); else editing.selected.add(key);
+    } else if (!editing.selected.has(key)) {
+      editing.selected = new Set([key]);
+    }
+    refreshHandles();
+    if (editing.selected.has(key)) {
+      const y = segments[h.s].roof;
+      const start = groundPointAt(e, y);
+      if (start) {
+        const moving = [...editing.selected].map(k => k.split(':').map(Number));
+        editing.drag = { start, y, moving, orig: moving.map(([s, v]) => [...segments[s].outer[v]]),
+                         before: Object.fromEntries([...new Set(moving.map(([s]) => s))].map(s => [s, segments[s].outer.map(p => [...p])])) };
+      }
+    }
+    controls.enabled = false;
+    e.stopPropagation();
+  } else if (e.shiftKey) {
+    editing.box = { x0: e.clientX, y0: e.clientY };
+    controls.enabled = false;
+    e.stopPropagation();
+  }
+}, { capture: true });
+
+addEventListener('pointermove', e => {
+  if (editing.drag) {
+    const p = groundPointAt(e, editing.drag.y);
+    if (!p) return;
+    const dx = p.x - editing.drag.start.x, dz = p.z - editing.drag.start.z;
+    editing.drag.moved = Math.hypot(dx, dz) > 0.01;
+    editing.drag.moving.forEach(([s, v], i) => {
+      segments[s].outer[v] = [+(editing.drag.orig[i][0] + dx).toFixed(2), +(editing.drag.orig[i][1] + dz).toFixed(2)];
+    });
+    refreshHandles();
+  } else if (editing.box) {
+    const b = editing.box; b.x1 = e.clientX; b.y1 = e.clientY;
+    Object.assign(boxDiv.style, { display: 'block', left: `${Math.min(b.x0, b.x1)}px`, top: `${Math.min(b.y0, b.y1)}px`,
+      width: `${Math.abs(b.x1 - b.x0)}px`, height: `${Math.abs(b.y1 - b.y0)}px` });
+  }
+});
+
+addEventListener('pointerup', () => {
+  if (editing.drag) {
+    const d_ = editing.drag; editing.drag = null;
+    if (d_.moved) {
+      editing.undo.push(d_.before);
+      const changed = Object.keys(d_.before).map(Number);
+      for (const s of changed) edits[segments[s].key] = segments[s].outer;
+      saveEdits();
+      rebuildSegments(changed);
+    }
+  }
+  if (editing.box) {
+    const b = editing.box; editing.box = null; boxDiv.style.display = 'none';
+    if (b.x1 !== undefined) {
+      const [x0, x1] = [Math.min(b.x0, b.x1), Math.max(b.x0, b.x1)], [y0, y1] = [Math.min(b.y0, b.y1), Math.max(b.y0, b.y1)];
+      for (const h of handleList) {
+        const [x, z] = segments[h.s].outer[h.v];
+        const [sx, sy, sz] = screenOf(x, segments[h.s].roof, z);
+        if (sz < 1 && sx >= x0 && sx <= x1 && sy >= y0 && sy <= y1) editing.selected.add(`${h.s}:${h.v}`);
+      }
+      refreshHandles();
+    }
+  }
+  controls.enabled = true;
+});
+
+// in edit mode a plain click on a building picks it for editing
+function editClick(e) {
+  pointer.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+  raycaster.setFromCamera(pointer, camera);
+  const hit = raycaster.intersectObjects([buildings, glassSolid], false).find(h => inSlice(h.point));
+  if (!hit) return;
+  const si = segments.indexOf(segmentAt(hit)), s = segments[si];
+  if (!s.outer) { $('info').textContent = `${s.tower} tier: a smooth fitted shape, with no corners to edit`; return; }
+  if (e.shiftKey) { if (!editing.segs.includes(si)) editing.segs.push(si); }
+  else if (!(editing.segs.length === 1 && editing.segs[0] === si)) { editing.segs = [si]; editing.selected.clear(); }
+  $('info').textContent = `${s.tower ? `${s.tower} tier` : `Roof segment ${s.id}`} · ${s.outer.length} corners · top ${s.roof.toFixed(1)} m`;
+  refreshHandles();
+}
+
+function undoEdit() {
+  const before = editing.undo.pop();
+  if (!before) return;
+  const changed = Object.keys(before).map(Number);
+  for (const s of changed) { segments[s].outer = before[s]; edits[segments[s].key] = before[s]; }
+  saveEdits(); rebuildSegments(changed); refreshHandles();
+}
+// delete the selected corners; a building keeps at least three
+function deleteSelected() {
+  const bySeg = new Map();
+  for (const k of editing.selected) { const [s, v] = k.split(':').map(Number); bySeg.set(s, [...(bySeg.get(s) ?? []), v]); }
+  const before = {}, changed = [];
+  for (const [s, vs] of bySeg) {
+    const keep = segments[s].outer.filter((_, v) => !vs.includes(v));
+    if (keep.length < 3) { $('info').textContent = 'A building needs at least three corners'; continue; }
+    before[s] = segments[s].outer.map(p => [...p]);
+    segments[s].outer = keep; edits[segments[s].key] = keep; changed.push(s);
+  }
+  if (!changed.length) return;
+  editing.undo.push(before);
+  editing.selected.clear();
+  saveEdits(); rebuildSegments(changed); refreshHandles();
+}
+addEventListener('keydown', e => {
+  if (!editing.on) return;
+  if ((e.key === 'Delete' || e.key === 'Backspace') && editing.selected.size
+      && !(e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement)) { e.preventDefault(); deleteSelected(); }
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); undoEdit(); }
+  if (e.key === 'Escape') { editing.selected.clear(); refreshHandles(); }
+});
+$('e-on').addEventListener('change', e => { editing.on = e.target.checked; refreshHandles(); });
+$('e-undo').addEventListener('click', undoEdit);
+$('e-delete').addEventListener('click', deleteSelected);
+$('e-reset').addEventListener('click', () => {
+  if (!confirm('Discard all saved outline edits in this browser and reload?')) return;
+  localStorage.removeItem(EDITS_KEY); location.reload();
+});
+$('e-download').addEventListener('click', () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(edits, null, 1)], { type: 'application/json' }));
+  a.download = 'edits.json'; a.click(); URL.revokeObjectURL(a.href);
+});
+
+// ---------- keyboard moves: W/S forward/back, A/D sideways, Q/E down/up ----------
+const keys = new Set();
+addEventListener('keydown', e => { if (!(e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement)) keys.add(e.key.toLowerCase()); });
+addEventListener('keyup', e => keys.delete(e.key.toLowerCase()));
+addEventListener('blur', () => keys.clear());
+const clock = new THREE.Clock(), fwd = new THREE.Vector3(), side = new THREE.Vector3(), move = new THREE.Vector3();
+function keyMove(dt) {
+  if (!keys.size) return;
+  camera.getWorldDirection(fwd); fwd.y = 0; fwd.normalize();
+  side.crossVectors(fwd, camera.up).normalize();
+  move.set(0, 0, 0);
+  if (keys.has('w')) move.add(fwd);
+  if (keys.has('s')) move.sub(fwd);
+  if (keys.has('d')) move.add(side);
+  if (keys.has('a')) move.sub(side);
+  if (keys.has('e')) move.y += 1;
+  if (keys.has('q')) move.y -= 1;
+  if (!move.lengthSq()) return;
+  // speed scales with distance to the target, so close-ups stay controllable
+  const speed = Math.max(controls.getDistance(), 10) * 0.6 * (keys.has('shift') ? 3 : 1);
+  move.normalize().multiplyScalar(speed * dt);
+  camera.position.add(move); controls.target.add(move);
+}
+
+// binary glTF of the buildings and tower frames, in meters, y up
+$('export-glb').addEventListener('click', async () => {
+  const glb = await new GLTFExporter().parseAsync([buildings, frame], { binary: true });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([glb], { type: 'model/gltf-binary' }));
+  a.download = 'downtown-buildings.glb';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+const setLabel = () => { $('label').textContent =
+  `Downtown Minneapolis — ${segments.length} roof segments and tower tiers extracted from USGS 3DEP lidar (${CROP ? "Capella's block and its streets" : '500 m tile'})`; };
+setLabel();
+$('crop-link').innerHTML = CROP ? `Capella's block · <a href="?all" style="color:#9cc3ff">show the whole tile</a>`
+  : `Whole tile · <a href="./" style="color:#9cc3ff">crop to Capella's block</a>`;
+
+addEventListener('resize', () => {
+  snowfall.material.uniforms.scale.value = pointScale();
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+  composer.setSize(innerWidth, innerHeight);
+  // the AO pass's depth texture keeps its old size when its target resizes
+  // (three r170): build the depth buffer anew, and give the haze the new one
+  ao.normalRenderTarget.dispose(); ao.depthTexture.dispose();
+  ao.setGBuffer();
+  hazePass.uniforms.tDepth.value = ao.depthTexture;
+  finishPass.uniforms.res.value.set(innerWidth, innerHeight);
+});
+// in the portfolio's box: nothing drawn while the box is off the screen (scrolled past), as
+// the page's own viewport sees it (an iframe's IntersectionObserver with no root watches it
+// against the top-level page's), unless it's full screen
+let onScreen = true;
+if (EMBED) new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }).observe(document.documentElement);
+renderer.setAnimationLoop(() => {
+  if (EMBED && !onScreen && !document.documentElement.classList.contains('full')) { clock.getDelta(); return; }
+  keyMove(Math.min(clock.getDelta(), 0.1));
+  controls.update();
+  const su = snowfall.material.uniforms;
+  su.time.value = clock.elapsedTime;
+  // the embed's orbit turns back short of the edge of the sunlit arc
+  if (EMBED && controls.autoRotate && sunSide != null) {
+    const a = controls.getAzimuthalAngle() - sunSide, off = Math.atan2(Math.sin(a), Math.cos(a));
+    const edge = THREE.MathUtils.degToRad(100);
+    if (off > edge) controls.autoRotateSpeed = Math.abs(controls.autoRotateSpeed);      // a positive speed turns the azimuth down
+    if (off < -edge) controls.autoRotateSpeed = -Math.abs(controls.autoRotateSpeed);
+  }
+  su.box.value = THREE.MathUtils.clamp(2 * camera.position.distanceTo(controls.target), SNOW.span, SNOW.max);
+  su.size.value = SNOW.size * Math.pow(su.box.value / SNOW.span, 0.75);
+  su.center.value.copy(controls.target);
+  updateHaze();
+  finishPass.uniforms.time.value = clock.elapsedTime;
+  composer.render();
+});
+</script>
+</body>
+</html>

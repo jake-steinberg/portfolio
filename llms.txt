@@ -85,7 +85,7 @@ Mapping the causes and consequences of Minnesota’s worst wildfire season in a 
 
 Tags: News, Interactive, Outdoors
 
-Led the newsroom’s migration to an open-source stack built on MapLibre and Protomaps. Designed a full suite of basemap styles tailored to distinct newsroom use cases.
+Led the newsroom’s migration to an open-source stack built on MapLibre and Protomaps. Designed a full suite of basemap styles grounded in the Star Tribune’s brand colors and tailored to distinct newsroom use cases.
 
 ### Rincon Mountains (2024)
 
