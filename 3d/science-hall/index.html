@@ -168,7 +168,10 @@ import { Sky } from 'three/addons/objects/Sky.js';
 const $ = id => document.getElementById(id);
 // ?data=<name>: which survey (points.py's <name>.bin and .json; both in the
 // 2017 tile's frame, so views line up)
-const DATA = new URLSearchParams(location.search).get('data') || 'points';
+// only the surveys this folder holds: the name becomes a file path, so nothing from the address
+// (another site's URL, a path out of the folder) is fetched or shown
+const SURVEYS = ['points', 'madison', 'science'];
+const DATA = SURVEYS.includes(new URLSearchParams(location.search).get('data')) ? new URLSearchParams(location.search).get('data') : 'points';
 const meta = await fetch(`${DATA}.json`).then(r => r.json());
 const buf = await fetch(`${DATA}.bin`).then(r => r.arrayBuffer());
 const n = new Uint32Array(buf, 0, 1)[0];
@@ -1120,7 +1123,8 @@ for (const [k, [name, hex]] of Object.entries(CLASSES)) {
 $('data').value = DATA;
 $('data').addEventListener('change', e => { const u = new URL(location); u.searchParams.set('data', e.target.value); location = u; });
 const src = DATA === 'points' ? 'USGS 3DEP, Wisconsin 4-County 2017' : meta.source;
-$('label').innerHTML = `<b>UW–Madison campus and the Lake Mendota shore</b>${(n / 1e6).toFixed(1)} million lidar points · ${meta.size_m[0].toFixed(0)} × ${meta.size_m[1].toFixed(0)} m · ${src}`;
+{ const b = document.createElement('b'); b.textContent = 'UW–Madison campus and the Lake Mendota shore';   // as text: the source is the data file's
+  $('label').replaceChildren(b, `${(n / 1e6).toFixed(1)} million lidar points · ${(+meta.size_m[0]).toFixed(0)} × ${(+meta.size_m[1]).toFixed(0)} m · ${src}`); }
 
 // ---------- the inspector and notes (the Science Hall model) ----------
 // Click (don't drag) a part of the model: its name and measurements, the part outlined,
