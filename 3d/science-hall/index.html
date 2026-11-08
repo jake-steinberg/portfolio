@@ -1557,7 +1557,18 @@ window.setBoxQuality = box => {
 };
 // for looking into the render from the console (or a tool): viewer.gtao etc.
 window.viewer = { scene, camera, renderer, controls, get composer() { return composer; }, get gtao() { return gtao; } };
-addEventListener('resize', () => { if (grade) grade.uniforms.aspect.value = innerWidth / innerHeight; if (composer) { composer.setSize(innerWidth, innerHeight); shafts.uniforms.tDepth.value = gtao.depthTexture; } });
+addEventListener('resize', () => {
+  if (grade) grade.uniforms.aspect.value = innerWidth / innerHeight;
+  if (!composer) return;
+  composer.setSize(innerWidth, innerHeight);
+  // the AO pass's depth texture keeps its old size on the GPU when its target resizes (three r170):
+  // its framebuffer goes incomplete and the last frame's depth stays, burned in (the shafts read it
+  // as where the sky is). Build the depth buffer anew, as Capella's viewer does, and give the
+  // shafts the new one
+  gtao.normalRenderTarget.dispose(); gtao.depthTexture.dispose();
+  gtao.setGBuffer();
+  shafts.uniforms.tDepth.value = gtao.depthTexture;
+});
 // drawn only while something changes: for ACTIVE s after any input (the camera moving, a key,
 // a click, a slider, a resize), then the frame is left as it is (the leaves' sway and the grain
 // pause with it) until the next. viewer.invalidate() asks for frames from code
