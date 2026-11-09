@@ -714,10 +714,9 @@ const PROJECTS = [
     description: "Stories about backyard foxes and coyotes eking out a life in the margins of the metro.",
     mediaFull:   true,                            // the whole spread across the panel
     images:      [
-      // "A Year in the Life of an Urban Coyote", converted from the CMYK print
-      // original (50 Maps/Maps/Coyotes/coyote.jpg) to screen colors, white
-      // margin trimmed; clicking opens it at full resolution
-      { src: "img/tiles/urban-coyote-spread.webp", full: "img/urban-coyote.jpg", inBook: true }
+      // "A Year in the Life of an Urban Coyote", the book spread (p. 37);
+      // clicking opens the 1807px original
+      { src: "img/tiles/urban-coyote-spread.webp", full: "img/urban-coyote.webp", inBook: true }
     ],
     links:       [
       { label: "Backyard battle for survival", url: "https://www.startribune.com/its-foxes-versus-coyotes-in-a-backyard-battle-for-survival/601504496" }
