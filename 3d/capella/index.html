@@ -1020,16 +1020,17 @@ if (EMBED) {
   // keep to the sunlit side: looking toward a low sun from behind the tower
   // is a wall of glare. The camera may swing SUN_ARC either side of where
   // the sun shines from (OrbitControls' azimuth: atan2 of the camera's x, z
-  // from its target), and the slow orbit swings back and forth inside that
+  // from its target), and the slow orbit swings back and forth inside that.
+  // Not on the page of its own (?page): there it turns all the way round
   const SUN_ARC = THREE.MathUtils.degToRad(110);
   const wrap = a => Math.atan2(Math.sin(a), Math.cos(a));
-  onSunMove = () => {
+  if (!PAGE) onSunMove = () => {
     const az = THREE.MathUtils.degToRad(world.azimuth);
     sunSide = Math.atan2(Math.sin(az), -Math.cos(az));
     controls.minAzimuthAngle = wrap(sunSide - SUN_ARC);
     controls.maxAzimuthAngle = wrap(sunSide + SUN_ARC);
   };
-  onSunMove();
+  onSunMove?.();
   controls.update();
   const stopSpin = () => { controls.autoRotate = false; };
   renderer.domElement.addEventListener('pointerdown', stopSpin);
