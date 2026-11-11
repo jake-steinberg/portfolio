@@ -51,6 +51,7 @@ html.embed.full .ekeys {
   font: 13px/1.45 "Helvetica Neue", Arial, sans-serif;
 }
 html.embed.full .ekeys.gone { display: none; }
+html.page .efull, html.page .ekeys .esc { display: none !important; }
 .ekeys b { display: block; margin-bottom: 6px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
 .ekeys kbd { display: inline-block; min-width: 18px; padding: 1px 5px; margin: 0 1px; text-align: center; font: 600 11px/1.5 "Helvetica Neue", Arial, sans-serif;
   border: 1px solid rgba(255, 255, 255, .45); border-bottom-width: 2px; border-radius: 4px; }
@@ -58,7 +59,13 @@ html.embed.full .ekeys.gone { display: none; }
 .ekeys li { margin: 3px 0; }
 .ekeys button { position: absolute; top: 6px; right: 8px; background: none; border: 0; color: #fff; font-size: 16px; cursor: pointer; opacity: .7; }
 </style>
-<script>if (new URLSearchParams(location.search).has('embed')) document.documentElement.classList.add('embed');</script>
+<script>
+  // ?embed: the portfolio's box. ?page: the embed's full-screen view as a page of its own
+  // (the unlisted /capella/), full screen from the start and with no way out
+  { const q = new URLSearchParams(location.search), c = document.documentElement.classList;
+    if (q.has('embed')) c.add('embed');
+    if (q.has('page')) c.add('embed', 'full', 'page'); }
+</script>
 <script type="importmap">
 { "imports": {
   "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
@@ -79,7 +86,7 @@ html.embed.full .ekeys.gone { display: none; }
     <li><kbd>Q</kbd><kbd>E</kbd> down, up · hold <kbd>Shift</kbd> to go faster</li>
     <li>Drag to orbit · right-drag to pan · scroll to zoom</li>
     <li>Double-click to orbit round a spot</li>
-    <li><kbd>Esc</kbd> to leave full screen</li>
+    <li class="esc"><kbd>Esc</kbd> to leave full screen</li>
   </ul>
 </div>
 <div class="box label" id="label">Loading…</div>
@@ -659,7 +666,8 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 // the pixel density: up to 2, but at most BOX_DPR in the portfolio's box (?embed: it's small there,
 // and every effect costs per pixel); FULL_DPR again when it goes full screen (setBoxQuality)
 const FULL_DPR = Math.min(devicePixelRatio, 2), BOX_DPR = Math.min(devicePixelRatio, 1.25);
-renderer.setPixelRatio(document.documentElement.classList.contains('embed') ? BOX_DPR : FULL_DPR);
+const PAGE = document.documentElement.classList.contains('page');
+renderer.setPixelRatio(document.documentElement.classList.contains('embed') && !PAGE ? BOX_DPR : FULL_DPR);
 renderer.setSize(innerWidth, innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.localClippingEnabled = true;
@@ -877,7 +885,7 @@ scene.add(fill);
 const sun = new THREE.DirectionalLight(0xffb27a, 3.0);
 sun.castShadow = true;
 // in the portfolio's box (?embed) 2048; 4096 in full screen and the editor (setBoxQuality)
-const BOXED = document.documentElement.classList.contains('embed');
+const BOXED = document.documentElement.classList.contains('embed') && !PAGE;
 sun.shadow.mapSize.set(BOXED ? 2048 : 4096, BOXED ? 2048 : 4096);
 sun.shadow.bias = -0.0004;
 // fitted to the crop (about 230 m across), so a texel is ~6 cm: thin
@@ -1040,7 +1048,7 @@ if (EMBED) {
   // embedded browsers) the box grown over the whole window: its iframe, on
   // the same site, fixed over the page
   let pseudo = false;
-  const full = () => document.fullscreenElement != null || pseudo;
+  const full = () => PAGE || document.fullscreenElement != null || pseudo;
   const host = (() => { try { return window.frameElement; } catch { return null; } })();
   const setPseudo = on => {
     pseudo = on;
@@ -1080,6 +1088,7 @@ if (EMBED) {
     if (full()) renderer.domElement.focus?.();
   }
   addEventListener('fullscreenchange', onFull);
+  if (PAGE) renderer.domElement.focus?.();
 }
 updateWorld();
 // reflections: a 360° snapshot of the scene from above the block's roofs
